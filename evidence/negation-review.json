@@ -1,5 +1,5 @@
 {
-  "project_version": "0.18.1",
+  "project_version": "0.19.0",
   "before_commit": "0308c77b71ede2daaf16202c383be30eb43d8bce",
   "inputs_sha256": "ebffd995d485b210370680ba09e34a693979a6b8b1511a460cd6d13305c21a04",
   "boundary": "Twenty AI-assisted developer-authored probes inspected while building this rule. Not held out, independently labelled or a general accuracy estimate. No model inference.",
@@ -13,12 +13,12 @@
     "denial_zh_alt",
     "negative_blank_zh",
     "denied_plus_callback",
-    "denied_plus_callback_zh"
+    "denied_plus_callback_zh",
+    "callback_denial"
   ],
   "remaining_mismatches": [
     "qualified_negation",
-    "quoted_topic",
-    "callback_denial"
+    "quoted_topic"
   ],
   "cases": [
     {
@@ -819,26 +819,25 @@
         "reward_callback"
       ],
       "after": [
-        "reward_callback"
+        "unknown"
       ],
       "after_result": {
         "integration_id": null,
         "candidates": [
           {
-            "category": "reward_callback",
-            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
-            "checks": [
-              "callback_verified"
-            ],
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
             "questions": [
-              "Which currency mode is configured?",
-              "Share the callback time window, HTTP status and redacted logs.",
-              "Provide a redacted transaction example and endpoint method."
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
             ]
           }
         ],
-        "notes": [],
-        "route": "collect_evidence",
+        "notes": [
+          "Explicitly denied callback/reward wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
         "route_policy": "project_policy; not an official Unity routing matrix",
         "root_cause": "unconfirmed",
         "method": "bilingual lexical retrieval baseline",

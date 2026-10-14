@@ -1090,6 +1090,69 @@
           }
         ]
       }
+    },
+    {
+      "tool": "triage_issue",
+      "arguments": {
+        "issue_text": "The reward callback is not our problem. Please explain invoicing."
+      },
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied callback/reward wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "tool": "triage_issue",
+      "arguments": {
+        "issue_text": "不是奖励回调的问题，广告墙空白。"
+      },
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied callback/reward wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
     }
   ]
 }

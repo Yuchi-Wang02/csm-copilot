@@ -19,7 +19,9 @@ BEFORE = json.loads((ROOT / "evidence/negation-before.json").read_text(encoding=
 def test_denied_mentions_do_not_erase_separate_positive_signals(case):
     result = Copilot().triage_issue(case["text"])
     categories = [c["category"] for c in result["candidates"]]
-    if case["kind"] == "known_limit":
+    # Keep frozen labels intact: callback_denial was a known limit when recorded,
+    # and is now covered by the separately preserved callback-denial repair.
+    if case["kind"] == "known_limit" and case["id"] != "callback_denial":
         previous = next(c["result"] for c in BEFORE["cases"] if c["id"] == case["id"])
         assert result == previous
         assert categories != case["expected"]

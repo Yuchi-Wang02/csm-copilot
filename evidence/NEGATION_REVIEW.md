@@ -33,15 +33,15 @@ Original code commit: `0308c77b71ede2daaf16202c383be30eb43d8bce`. [Frozen output
 | ordinary\_two\_zh | 没有广告，奖励回调也失败。 | no\_offers, reward\_callback | no\_offers, reward\_callback | no\_offers, reward\_callback |
 | qualified\_negation | The offerwall isn't exactly blank. We need billing information. | unknown | no\_offers | no\_offers |
 | quoted\_topic | Please search for 'no offers' in the documentation index. | unknown | no\_offers | no\_offers |
-| callback\_denial | The reward callback is not our problem. Please explain invoicing. | unknown | reward\_callback | reward\_callback |
+| callback\_denial | The reward callback is not our problem. Please explain invoicing. | unknown | reward\_callback | unknown |
 
-Categories change on 10 selected probes. 3 selected counterexamples still fail. Twelve regression checks failed before the repair: ten message cases and two handoff variants. The complete 24-check regression suite also preserves separate positive signals, the frozen inputs, and the known failures.
+Categories change on 11 selected probes. 2 selected counterexamples still fail. Twelve regression checks failed before the repair: ten message cases and two handoff variants. The 24-check regression suite retains the frozen inputs and separate positive signals. The originally recorded callback-denial failure is now repaired by the separately documented callback rule.
 
 ## What the score cannot establish
 
 The original 30-message diagnostic is unchanged, but its negation cases informed this rule. Its earlier 14/18 family-separated result is preserved in the frozen record. The current 16/18 is a replay after adaptation on inspected cases, not an independent improvement estimate. The remaining English and Chinese indirect-inventory cases still fail. No model run or human customer review was added by this change.
 
-Qualified negation (`isn't exactly blank`), quoted search topics and callback denial remain counterexamples. Nested denial, reported speech, temporal scope and multilingual nuance require semantic review; this pattern list does not solve negation generally. A standalone `blank` may also describe something unrelated to Offerwall.
+Qualified negation (`isn't exactly blank`) and quoted search topics remain counterexamples here. The [callback-denial review](CALLBACK_DENIAL.md) preserves the original callback failure, its bounded repair and three remaining callback counterexamples. Nested denial, reported speech, temporal scope and multilingual nuance require semantic review; this pattern list does not solve negation generally. A standalone `blank` may also describe something unrelated to Offerwall.
 
 ## Workflow consequence
 

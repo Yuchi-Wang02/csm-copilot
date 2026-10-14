@@ -146,3 +146,9 @@ Write a short customer follow-up that requests only the missing details. Trace e
 In the handoff's original-record disclosure, find the source type and recorded timestamp. Explain what additional context you would want if the same symptom came from a test record instead of a customer report. A label identifies the declared origin; it does not prove reproducibility or current customer impact.
 
 Inspect `test_export_identifies_issue_source_kind_and_uses_the_original_record` in `tests/test_case_brief.py`. Predict which wording should appear when a copied handoff field disagrees with the original source, then run that focused test. Explain why preserving source identity is necessary but insufficient for verifying the source's claims. Record your own reasoning; completion is not assumed.
+
+## Explain a bounded triage repair and its remaining failures
+
+Read the [callback-denial comparison](../evidence/CALLBACK_DENIAL.md). Predict the routes for a denied callback alone, a denied callback plus a blank Offerwall, and a denied iOS callback plus a positive Android callback. Trace the signal occurrences that the rule excludes and retains, then compare your predictions with the frozen and current outputs.
+
+Choose one remaining failure and explain why it falls outside the implemented pattern. Describe what a CSM should clarify instead of claiming that the system understands the sentence. Run `python -m pytest tests/test_callback_denial.py -q` and distinguish a passing regression suite from a general accuracy estimate. This is an exercise for your own reasoning; no personal completion is recorded.

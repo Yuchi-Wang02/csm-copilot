@@ -34,6 +34,11 @@ async def run(server_command: Path | None = None):
         ("triage_issue", {"issue_text": "No offers is not our problem. Please explain invoicing."}),
         ("triage_issue", {"issue_text": "不是没有广告的问题，奖励回调返回405。"}),
         ("list_accounts", {"as_of": "2026-10-17T09:00:00Z"}),
+        (
+            "triage_issue",
+            {"issue_text": "The reward callback is not our problem. Please explain invoicing."},
+        ),
+        ("triage_issue", {"issue_text": "不是奖励回调的问题，广告墙空白。"}),
     ]
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
@@ -75,6 +80,8 @@ async def run(server_command: Path | None = None):
             assert results[14]["result"]["time_basis"] == "recalculated_from_snapshot"
             assert results[14]["result"]["records_refreshed"] is False
             assert results[14]["result"]["dataset_as_of"] == results[0]["result"]["dataset_as_of"]
+            assert results[15]["result"]["route"] == "clarify_scope"
+            assert [c["category"] for c in results[16]["result"]["candidates"]] == ["no_offers"]
             empty_date = await session.call_tool("list_accounts", {"as_of": ""})
             assert empty_date.isError
             invalid = await session.call_tool("check_readiness", {"integration_id": "missing"})

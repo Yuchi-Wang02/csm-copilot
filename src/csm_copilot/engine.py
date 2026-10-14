@@ -10,7 +10,7 @@ from typing import Literal
 from .communication import compose_followup
 from .friction import build_friction_digest
 from .models import Dataset
-from .triage_signals import offerwall_signal
+from .triage_signals import callback_signal, offerwall_signal
 
 RULE_VERSION = "2026-10-14.1"
 FAQ = "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq"
@@ -184,7 +184,8 @@ class Copilot:
                     ],
                 }
             )
-        if re.search(r"callback|reward|回调|奖励|到账|发币", text):
+        has_callback_signal, denied_callback_signal = callback_signal(text)
+        if has_callback_signal:
             candidates.append(
                 {
                     "category": "reward_callback",
@@ -213,6 +214,10 @@ class Copilot:
         if denied_offerwall_signal:
             notes.append(
                 "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+            )
+        if denied_callback_signal:
+            notes.append(
+                "Explicitly denied callback/reward wording was excluded; other mentions were evaluated separately."
             )
         if any(c["category"] == "reward_callback" for c in candidates) and re.search(
             r"\b405\b", text

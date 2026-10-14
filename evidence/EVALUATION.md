@@ -20,7 +20,7 @@ The earlier 14/18 result and its four failures are preserved in [the pre-change 
 | paraphrase_inventory_en | no_offers | unknown |
 | paraphrase_inventory_zh | no_offers | unknown |
 
-The current baseline still misses indirect wording. A bounded exclusion handles selected explicit denials; qualified negation, quoted topics and callback denial remain counterexamples in the [development probes](NEGATION_REVIEW.md). Independent cases and human review remain necessary before general quality claims.
+The current baseline still misses indirect wording. A bounded exclusion handles selected explicit denials; qualified negation, quoted topics and unsupported callback-denial forms remain counterexamples in the [development probes](NEGATION_REVIEW.md). Independent cases and human review remain necessary before general quality claims.
 
 ## Workflow and promise checks
 

@@ -1,13 +1,14 @@
 # Verification record
 
-Verified through the v0.18.1 reflection-export iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.19 callback-denial iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 33 passed locally | Thirteen practice, eight routing and twelve scoped rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 231 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
-| Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and three known counterexamples retained |
+| Python behavior tests | 251 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
+| Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and two remaining counterexamples retained; frozen inputs unchanged |
+| Callback denial | 11 failed-before checks now pass; 20 checks total | Seven repaired messages and four handoff variants; six positive controls and three preserved limitations; developer-authored probes |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |
 | Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original outputs preserved; subsequent explicit-denial adaptation documented |
 | Selected-platform briefs | Eight generated exports match the isolated installed CLI | Four queued integrations in two languages; tests check scope exclusion, multiple handoffs and non-mutation |
@@ -124,3 +125,5 @@ The v0.17.1 source checks reproduced seven pre-change failures and now pass. UI 
 The v0.18 browser check selected the fourth callback decision, chose the redundant-request option, entered explicitly QA-only initial reasoning and a later reflection, and followed its source link to Harbor's handoff. Returning to Practice preserved both notes and the reviewed state. The actual UTF-8 download matched the exporter byte-for-byte (4,050 bytes), with one reviewed decision and three unreviewed decisions; English and Chinese QA text were retained. Reset announced 0 / 4, cleared notes and disabled download. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels; the fourth decision was visually inspected and the browser error log was empty. These actions verify application behavior, not personal work by Yuchi or a learning outcome.
 
 The v0.18.1 exporter probes failed before the change for evidence labels, values and source IDs, then passed after literal-text escaping. They check raw HTML, Markdown links/emphasis, carriage returns, forged headings, the four-decision structure and non-mutation. A real browser download containing an unreviewed QA-only English/Chinese note matched the UTF-8 exporter output exactly (3,681 bytes), with escaped evidence IDs and no revealed guidance. This is a controlled formatting check, not a third-party renderer audit or a personal reflection by Yuchi.
+
+The v0.19 callback repair preserves sixteen pre-change tool outputs and the prior twenty-probe file. Eleven new checks failed before the change; all twenty focused checks now pass, including assertions that three unsupported forms still fail. The full Python suite includes unchanged historical-model comparisons. Two additional real stdio MCP calls verify denial-only clarification and retention of a separate Chinese no-offers symptom. The original thirty-message diagnostic remains 16/18 after prior adaptation. Both rebuilt PDF pages were visually inspected. These are development regressions and protocol checks, not independent model-quality or customer-usefulness evidence.
