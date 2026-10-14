@@ -1,10 +1,10 @@
 # Verification record
 
-Verified through the v0.15.1 review-route iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.15.2 practice-export iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 20 passed locally | Five practice, eight routing and seven scoped rendering checks; not learning outcomes |
+| JavaScript browser-logic tests | 23 passed locally | Eight practice, eight routing and seven scoped rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 208 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and three known counterexamples retained |
@@ -108,3 +108,5 @@ The first v0.15 CI attempt caught a package/module version mismatch during isola
 The subsequent regenerated-artifact check also identified two diagnostic reports whose version stamps still said 0.14.0. Rebuilding both reports changed only `project_version` to 0.15.0; case inputs, predictions and metrics were unchanged.
 
 The v0.15.1 browser check opened the Android evidence-request draft, fresh-test comparison, original four-call recording and constrained recording from the new route. Case and recording links focused their target section. A test-only practice note remained intact after visiting both recordings; return links opened the route. At a 360-pixel viewport the cards stacked in one column, and document/scroll widths both measured 345 CSS pixels. Desktop and mobile screenshots were visually inspected; the browser error log was empty. This verifies navigation and rendering, not the suggested three-minute timing or interviewer usefulness.
+
+The v0.15.2 browser check downloaded a note-only session before any guidance was revealed, including English and Chinese text. The resulting UTF-8 file exactly matched the exporter output, with three unreviewed decisions. A second actual download also matched a mixed session containing an original reviewed choice, later reflection and an unfinished second decision. Blank input disabled download; a choice alone enabled it; reset disabled it again. The model exercise opened `qwen4-constrained` in-page. At a 360-pixel viewport document and scroll widths both measured 345 CSS pixels, and the renamed download button fit within the page. No browser error was recorded. All entered notes were explicitly test-only, not personal work by Yuchi.

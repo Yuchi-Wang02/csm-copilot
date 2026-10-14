@@ -20,7 +20,7 @@ The displayed evidence comes from the same artifacts used by the case explorer a
 2. Select **Compare with the evidence**. Your original choice and note become read-only within this session. The application explains the selected option and the project policy.
 3. Write what you would change, what you would ask the customer, or what you would investigate next in the separate reflection field.
 4. Switch between decisions using the selector. Your notes remain available while the page stays open. The evidence links open the relevant platform or updated comparison within the page; returning to Practice retains your notes.
-5. Download the Markdown reflection. It separates original reasoning, published guidance, and notes written after guidance. Unreviewed decisions are labeled as such.
+5. Download the Markdown notes at any stage after choosing an option or entering a note. Unreviewed choices and reasoning are saved as editable drafts with no option comparison or guidance included for those decisions. Reviewed decisions retain the original response, published guidance and later reflection separately. The file is a readable record; it cannot restore the browser session.
 
 The original choice is preserved to make a change in reasoning discussable. This is a convenience for reflection, not tamper-proof evidence: users can reset, reload, inspect the answer in public source, or edit a downloaded file. There is no identity check or claim that the work was completed unaided.
 
@@ -40,4 +40,10 @@ Practice notes are held only in page memory. There is no note upload, model call
 
 The interface uses native radio inputs and labeled text areas. Revealing guidance moves keyboard focus to the feedback. The downloadable report quotes and escapes user-authored notes so they cannot inject active HTML or report headings.
 
-Run `node --test tests-js/practice.test.cjs` with Node 24. The five checks cover fixture grounding, valid choices and preserved initial work, report labeling, note escaping, and a clean reset. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
+Run `node --test tests-js/practice.test.cjs` with Node 24. The eight checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished report content, note escaping, a clean reset, pre-guidance export availability, and the exact model-recording link. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
+
+## Save unfinished work
+
+You do not have to reveal guidance to save your reasoning. A choice without a note, a note without a choice, or a mix of reviewed and unfinished decisions can be downloaded. Blank sessions keep the download disabled. Saving does not reveal an answer, mark an item reviewed, freeze an unfinished draft or claim a completed exercise. Reload still starts a new browser session; keep the Markdown file if you want to return to your reasoning later.
+
+The model exercise links directly to `qwen4-constrained`, the recording its evidence describes. It does not depend on which model attempt was most recently added to the portfolio.

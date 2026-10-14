@@ -16,6 +16,42 @@ const cases = api.buildCases(
   context.window.CSM_DATA,
   context.window.CSM_MODEL_RUNS,
 );
+
+test("notes can be saved before any guidance is revealed", () => {
+  const session = api.createSession(cases);
+  assert.equal(api.hasWork(session), false);
+  session[0].reasoning = "   ";
+  assert.equal(api.hasWork(session), false);
+  session[0].reasoning = "My first hypothesis";
+  assert.equal(api.hasWork(session), true);
+  session[0].reasoning = "";
+  session[1].choice = "review";
+  assert.equal(api.hasWork(session), true);
+});
+
+test("unfinished choices and notes survive export without implying review", () => {
+  const session = api.createSession(cases);
+  session[0].choice = "approve";
+  session[1].reasoning = "我的初步想法\n# My heading\n<script>test</script>";
+  const before = JSON.stringify(session);
+  const out = api.exportReflection(cases, session, "2026-10-14");
+  assert.match(out, /Confirm Friday/);
+  assert.match(out, /我的初步想法/);
+  assert.match(out, /Draft choice \(not compared with guidance\)/);
+  assert.match(out, /Draft reasoning \(guidance not revealed\)/);
+  assert.ok(!out.includes("\n# My heading"));
+  assert.ok(!out.includes("<script>"));
+  assert.ok(!out.includes("Project guidance:"));
+  assert.ok(!out.includes("Option comparison:"));
+  assert.equal((out.match(/Status: not reviewed/g) || []).length, 3);
+  assert.equal(JSON.stringify(session), before);
+});
+
+test("AI practice evidence opens the specific recording used by the exercise", () => {
+  const source = new URL(cases[2].source, "https://yuchi-wang02.github.io/csm-copilot/");
+  assert.equal(source.searchParams.get("run"), "qwen4-constrained");
+  assert.equal(source.hash, "#model-runs");
+});
 test("practice decisions remain supported by the published evidence", () => {
   const states = Object.fromEntries(
     cases[0].evidence.map((e) => [e.label, e.value]),
@@ -52,12 +88,14 @@ test("export distinguishes initial work, later reflection and unreviewed decisio
   session[0].reasoning = "Retest the failed device.";
   session[0] = api.reveal(session[0], cases[0]);
   session[0].reflection = "I also need callback evidence.";
+  session[1].reasoning = "An unfinished second decision";
   const out = api.exportReflection(cases, session, "2026-10-14");
   assert.match(out, /Reasoning captured before guidance/);
   assert.match(out, /Reflection written after guidance/);
   assert.equal((out.match(/Status: not reviewed/g) || []).length, 2);
   assert.match(out, /Written reasoning remains ungraded/);
   assert.match(out, /lantern_android_device_verified/);
+  assert.match(out, /An unfinished second decision/);
   assert.equal(session[1].reviewed, false);
 });
 test("user notes cannot inject HTML, headings or active Markdown links into the report", () => {

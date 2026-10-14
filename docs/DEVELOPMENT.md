@@ -219,3 +219,9 @@ The synthetic branch explicitly replaces the two check references; this is not a
 The hero previously sent visitors to a long GitHub document for the three-minute walkthrough. An on-page route now presents three questions: what the CSM should ask next, whether correct tool calls produced a faithful answer, and how to explain a decision before seeing guidance. Each card points to an existing case or exact recorded attempt. It reuses the in-page navigation that preserves practice notes, with return links beside the relevant sections.
 
 The route makes the project's evidence easier to inspect without adding a new model result or claiming personal mastery. Its suggested timing has not been measured with interviewers. Desktop and mobile inspection verify presentation and navigation only; audience usefulness remains unvalidated.
+
+## v0.15.2 — keep unfinished reasoning in the download
+
+Inspection found that the download was disabled until a decision had been reviewed, and the exporter omitted reasoning from unreviewed decisions. That encouraged revealing guidance merely to save work and lost draft notes in a mixed-session export. The download now becomes available after a choice or nonblank note, and preserves unfinished choices and reasoning under explicit draft labels. It does not reveal guidance or change review state.
+
+The AI exercise's evidence link also pointed to the model section's default (latest) attempt despite using the constrained recording. It now opens that exact recording. Four focused regression checks failed before the repair and pass afterward, covering early download availability, unfinished and mixed-session exports, and the recording target. User text remains escaped; saving does not certify authorship or mastery and does not create a resumable browser-session file.

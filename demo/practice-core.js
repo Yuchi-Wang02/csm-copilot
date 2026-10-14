@@ -134,8 +134,8 @@
           },
         ],
         expected: "separate",
-        source: "#model-runs",
-        sourceLabel: "Inspect the actual model attempts",
+        source: "?run=qwen4-constrained#model-runs",
+        sourceLabel: "Inspect the constrained recording used in this exercise",
         explanation:
           "Valid structure, agreement with recorded tools, and a faithful explanation are different properties. No general model-quality score follows from this example.",
         prompt:
@@ -162,6 +162,9 @@
       initial: { choice: item.choice, reasoning: item.reasoning },
     };
   }
+  function hasWork(session) {
+    return session.some((item) => item.reviewed || item.choice || item.reasoning.trim());
+  }
   function line(value) {
     // Quote every user-authored line so it cannot become report structure or active HTML.
     return String(value || "[No note entered]")
@@ -185,6 +188,8 @@
       `Synthetic evidence snapshot: ${asOf}.`,
       "",
       "Self-directed practice, not an assessment or verified personal mastery. Option comparisons use this project's published policy. Written reasoning is not graded. Guidance is available in the public source; this is not a blinded test.",
+      "",
+      "Unreviewed choices and notes are drafts captured without revealing guidance in this session. They remain editable in the page. This download is a readable record, not a file that can restore the browser session.",
       "",
     ];
     cases.forEach((c, index) => {
@@ -213,6 +218,16 @@
           line(item.reflection),
           "",
         );
+      } else if (item.choice || item.reasoning.trim()) {
+        const chosen = c.options.find((o) => o.id === item.choice);
+        lines.push(
+          "Draft choice (not compared with guidance):",
+          line(chosen ? chosen.text : "[No option selected]"),
+          "",
+          "Draft reasoning (guidance not revealed):",
+          line(item.reasoning),
+          "",
+        );
       }
       lines.push(
         "Evidence available for this decision:",
@@ -227,7 +242,7 @@
     });
     return lines.join("\n");
   }
-  const api = { buildCases, createSession, reveal, exportReflection };
+  const api = { buildCases, createSession, reveal, hasWork, exportReflection };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_PRACTICE = api;
 })(typeof window !== "undefined" ? window : this);

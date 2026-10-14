@@ -20,12 +20,15 @@
   get("practice-select").innerHTML = cases
     .map((c, i) => `<option value="${i}">${i + 1}. ${escape(c.title)}</option>`)
     .join("");
+  function updateExportAvailability() {
+    get("practice-export").disabled = !api.hasWork(session);
+  }
   function render() {
     const c = cases[current],
       item = session[current];
     get("practice-progress").textContent =
       `${session.filter((s) => s.reviewed).length} / ${cases.length} decisions reviewed · written reasoning is not graded`;
-    get("practice-export").disabled = !session.some((s) => s.reviewed);
+    updateExportAvailability();
     get("practice-case").innerHTML =
       `<h3>${escape(c.title)}</h3><p>${escape(c.situation)}</p><div class="practice-evidence"><h4>Evidence available to you</h4><ul>${c.evidence.map((e) => `<li><b>${escape(e.label)}</b>: ${escape(e.value)}<small>${escape(e.sources.join(", ") || "No applicable record")}</small></li>`).join("")}</ul></div><fieldset ${item.reviewed ? "disabled" : ""}><legend>Choose the next action</legend>${c.options.map((o) => `<label class="practice-option"><input type="radio" name="practice-choice" value="${escape(o.id)}" ${item.choice === o.id ? "checked" : ""}><span>${escape(o.text)}</span></label>`).join("")}</fieldset><label class="practice-note" for="practice-reasoning">Your reasoning before guidance <span>(optional)</span></label><textarea id="practice-reasoning" maxlength="4000" rows="3" ${item.reviewed ? "readonly" : ""} placeholder="Which evidence supports your choice? What remains uncertain?">${escape(item.reasoning)}</textarea>${item.reviewed ? "" : `<button class="button primary" id="practice-reveal" ${item.choice ? "" : "disabled"}>Compare with the evidence</button>`}<div id="practice-feedback" ${item.reviewed ? 'tabindex="-1"' : ""}></div>`;
     get("practice-case")
@@ -34,10 +37,12 @@
         input.addEventListener("change", () => {
           item.choice = input.value;
           get("practice-reveal").disabled = false;
+          updateExportAvailability();
         }),
       );
     get("practice-reasoning").addEventListener("input", (e) => {
       if (!item.reviewed) item.reasoning = e.target.value;
+      updateExportAvailability();
     });
     if (!item.reviewed) {
       get("practice-reveal").addEventListener("click", () => {
@@ -81,7 +86,7 @@
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     get("practice-progress").textContent =
-      "Reflection download requested. Original choices and post-guidance notes are labeled separately.";
+      "Notes download requested. Unreviewed drafts, original responses and later reflections are labeled separately. Reloading still clears this page's notes.";
   });
   render();
 })();
