@@ -18,20 +18,26 @@ Sources: [official Python SDK](https://github.com/modelcontextprotocol/python-sd
 
 ## Suggested live prompt
 
-> At the bundled snapshot, which accounts are more than three days past their last actual contact? Inspect their integrations separately. Draft English follow-ups, a Chinese version for Lantern Games, and technical handoffs for recorded issues. Cite evidence IDs and public source URLs. Preserve unknowns. Do not send anything or claim launch approval.
+> Use the three-day contact queue at the bundled snapshot, including accounts whose contact history is unknown. Keep those unknowns distinct from confirmed stale contacts. State the review date and dataset date. Inspect each app/platform separately. Use the returned follow-up intent to prepare English drafts, Chinese versions for Lantern Games, and technical handoffs for recorded issues. Cite evidence IDs and public source URLs. Distinguish missing evidence from recorded unmet checks. Do not send anything or claim launch approval.
 
 The exposed `morning_review` prompt contains a more detailed version. A good host run should retrieve the queue, inspect contexts, check integrations and prepare drafts. Tool call order can vary. A correct result matters more than an exact sequence.
+
+The [scripted MCP transcript](../evidence/mcp-transcript.json) records the initialization instructions and both retrieved prompt responses alongside tool results. These are the guidance delivered by this server over stdio, not evidence that a model followed it. Historical model recordings retain the instructions and results from their original runs; they were not rerun after this guidance changed.
 
 ## What to inspect in the host output
 
 - Are `acc_014`, `acc_018` and `acc_006` selected at the default snapshot?
+- If a dataset has unknown contact history, is it reviewed without inventing a contact date or claiming it exceeded the threshold?
+- Are the review date and dataset date explicit, with no implication that advancing the review clock refreshes evidence?
 - Does Android remain blocked even though iOS passes its scoped checklist?
+- Does the iOS follow-up retain its launch-plan-review intent rather than disappear because the checklist is complete?
 - Does the host preserve “unknown” currency approval rather than claiming it was rejected?
 - Does it treat HTTP 405 as a diagnostic clue, not proof of one cause?
 - Does it retain missing ticket fields without inventing SDK versions or logs?
 - Does it avoid guaranteed approval, launch, fill and resolution time?
 - Does it say drafts were prepared, with no claim that messages were sent?
 - Does every factual assertion have an appropriate source?
+- Are proposed owners distinguished from confirmed assignments and labeled as project policy?
 
 ## Three different forms of evidence
 

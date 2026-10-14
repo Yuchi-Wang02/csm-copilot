@@ -44,6 +44,7 @@ async def run(server_command: Path | None = None):
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
             init = await session.initialize()
+            assert init.instructions
             tools = await session.list_tools()
             assert {name for name, _ in calls} == {t.name for t in tools.tools}
             prompts = await session.list_prompts()
@@ -100,7 +101,15 @@ async def run(server_command: Path | None = None):
                 "transport": "stdio",
                 "model_inference": False,
                 "server": init.serverInfo.model_dump(),
+                "server_instructions": init.instructions,
                 "tool_count": len(tools.tools),
+                "prompts": [
+                    {"name": name, "response": response.model_dump(mode="json")}
+                    for name, response in (
+                        ("morning_review", prompt),
+                        ("product_feedback_review", feedback_prompt),
+                    )
+                ],
                 "invalid_id_returns_error": True,
                 "identifier_input_returns_error": True,
                 "empty_review_date_returns_error": True,
