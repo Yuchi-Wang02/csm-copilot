@@ -8,12 +8,12 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.12.0" />
-    <script defer src="data.js?v=0.8.0"></script>
-    <script defer src="model-runs.js?v=0.12.0"></script>
-    <script defer src="review-links.js?v=0.12.0"></script>
-    <script defer src="case-review.js?v=0.12.0"></script>
-    <script defer src="app.js?v=0.12.0"></script>
+    <link rel="stylesheet" href="style.css?v=0.13.0" />
+    <script defer src="data.js?v=0.13.0"></script>
+    <script defer src="model-runs.js?v=0.13.0"></script>
+    <script defer src="review-links.js?v=0.13.0"></script>
+    <script defer src="case-review.js?v=0.13.0"></script>
+    <script defer src="app.js?v=0.13.0"></script>
     <script defer src="practice-core.js?v=0.8.0"></script>
     <script defer src="practice.js?v=0.8.0"></script>
   </head>
@@ -26,7 +26,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.12.0</span>
+      <span class="version">PORTFOLIO / V0.13.0</span>
     </header>
     <main>
       <section class="hero">
@@ -321,23 +321,26 @@
         </div>
         <div class="eval-grid">
           <div class="score-card">
-            <span class="small-label">FAMILY-DISJOINT DIAGNOSTIC SPLIT</span>
+            <span class="small-label">REPLAY AFTER RULE ADAPTATION</span>
             <div id="score"></div>
             <p>
-              Exact category-set matches on 18 synthetic messages. Cases and
-              code were developed in the same session; this is not an
-              independent test.
+              Exact category-set matches on 18 reused synthetic messages.
+              The earlier result was 14/18. Inspected negation failures informed
+              the new rule; this is not a fresh holdout or independent improvement estimate.
             </p>
           </div>
           <div class="failure-card">
-            <h3>Where the baseline breaks</h3>
+            <h3>Where lexical triage still fails</h3>
             <div id="failures"></div>
             <p class="disclosure">
               A later repair stops “blanket invoice” from matching “blank.”
               <a
                 href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/TRIAGE_BOUNDARIES.md"
                 >Inspect the before/after probes ↗</a
-              >. The two failures above remain unresolved.
+              >. Indirect wording still fails. A later
+              <a href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/NEGATION_REVIEW.md">explicit-denial repair ↗</a>
+              excludes selected denied symptoms while preserving a separate positive issue.
+              Qualified negation, quoted topics and callback denial remain counterexamples.
             </p>
             <p class="disclosure">
               The triage baseline uses lexical retrieval. A real MCP host

@@ -1,0 +1,849 @@
+{
+  "project_version": "0.13.0",
+  "before_commit": "0308c77b71ede2daaf16202c383be30eb43d8bce",
+  "inputs_sha256": "ebffd995d485b210370680ba09e34a693979a6b8b1511a460cd6d13305c21a04",
+  "boundary": "Twenty AI-assisted developer-authored probes inspected while building this rule. Not held out, independently labelled or a general accuracy estimate. No model inference.",
+  "changed_cases": [
+    "denial_en",
+    "denial_plural",
+    "denial_contraction",
+    "negative_blank",
+    "negative_blank_contraction",
+    "denial_zh",
+    "denial_zh_alt",
+    "negative_blank_zh",
+    "denied_plus_callback",
+    "denied_plus_callback_zh"
+  ],
+  "remaining_mismatches": [
+    "qualified_negation",
+    "quoted_topic",
+    "callback_denial"
+  ],
+  "cases": [
+    {
+      "id": "denial_en",
+      "kind": "repair",
+      "text": "No offers is not our problem. Please explain invoicing.",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "unknown"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "denial_plural",
+      "kind": "repair",
+      "text": "No ads are not the issue. We need an invoice.",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "unknown"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "denial_contraction",
+      "kind": "repair",
+      "text": "No offers isn't our problem. Please explain the annual plan.",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "unknown"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "negative_blank",
+      "kind": "repair",
+      "text": "The offerwall is not blank. We need billing information.",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "unknown"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "negative_blank_contraction",
+      "kind": "repair",
+      "text": "The offerwall isn't blank. Please clarify invoicing.",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "unknown"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "denial_zh",
+      "kind": "repair",
+      "text": "不是没有广告的问题，请解释发票。",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "unknown"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "denial_zh_alt",
+      "kind": "repair",
+      "text": "并非空白的问题，请解释账单。",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "unknown"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "negative_blank_zh",
+      "kind": "repair",
+      "text": "页面并不空白，我们想问续费。",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "unknown"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "denied_plus_callback",
+      "kind": "preserve",
+      "text": "No offers is not our problem. The reward callback returns 405.",
+      "expected": [
+        "reward_callback"
+      ],
+      "before": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "after": [
+        "reward_callback"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately.",
+          "HTTP 405 makes an endpoint method mismatch worth checking; it is not a confirmed cause."
+        ],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "denied_plus_callback_zh",
+      "kind": "preserve",
+      "text": "不是没有广告的问题，奖励回调返回405。",
+      "expected": [
+        "reward_callback"
+      ],
+      "before": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "after": [
+        "reward_callback"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "positive_after_denial",
+      "kind": "preserve",
+      "text": "No offers is not our problem on iOS. Android has no offers.",
+      "expected": [
+        "no_offers"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "no_offers"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "positive_after_denial_zh",
+      "kind": "preserve",
+      "text": "不是没有广告的问题，但另一台Android没有广告。",
+      "expected": [
+        "no_offers"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "no_offers"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "not_only",
+      "kind": "preserve",
+      "text": "The offerwall is not only blank but the reward callback also fails.",
+      "expected": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "before": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "after": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          },
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "not_only_problem",
+      "kind": "preserve",
+      "text": "No offers is not our only problem. The callback fails too.",
+      "expected": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "before": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "after": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          },
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "cannot_fix",
+      "kind": "preserve",
+      "text": "We cannot fix the blank offerwall.",
+      "expected": [
+        "no_offers"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "no_offers"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "ordinary_negative_signal",
+      "kind": "preserve",
+      "text": "There are no ads in this region.",
+      "expected": [
+        "no_offers"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "no_offers"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "ordinary_two_zh",
+      "kind": "preserve",
+      "text": "没有广告，奖励回调也失败。",
+      "expected": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "before": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "after": [
+        "no_offers",
+        "reward_callback"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          },
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "qualified_negation",
+      "kind": "known_limit",
+      "text": "The offerwall isn't exactly blank. We need billing information.",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "no_offers"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "quoted_topic",
+      "kind": "known_limit",
+      "text": "Please search for 'no offers' in the documentation index.",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "no_offers"
+      ],
+      "after": [
+        "no_offers"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "callback_denial",
+      "kind": "known_limit",
+      "text": "The reward callback is not our problem. Please explain invoicing.",
+      "expected": [
+        "unknown"
+      ],
+      "before": [
+        "reward_callback"
+      ],
+      "after": [
+        "reward_callback"
+      ],
+      "after_result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    }
+  ]
+}

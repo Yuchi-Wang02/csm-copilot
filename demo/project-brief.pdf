@@ -111,7 +111,7 @@ q
 n 48 42 m 564 42 l S
 .372549 .439216 .419608 rg
 BT /F1 7.5 Tf 9 TL ET
-BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence a63892fb9c80) Tj T* ET
+BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence 7d902d933eee) Tj T* ET
 BT 1 0 0 1 549.405 29 Tm (1 / 2) Tj T* ET
 Q
 q
@@ -358,7 +358,7 @@ endstream
 endobj
 17 0 obj
 <<
-/Length 5983
+/Length 6005
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -367,7 +367,7 @@ q
 n 48 42 m 564 42 l S
 .372549 .439216 .419608 rg
 BT /F1 7.5 Tf 9 TL ET
-BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence a63892fb9c80) Tj T* ET
+BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence 7d902d933eee) Tj T* ET
 BT 1 0 0 1 549.405 29 Tm (2 / 2) Tj T* ET
 Q
 q
@@ -533,7 +533,7 @@ q
 1 0 0 1 54 290 cm
 q
 .098039 .172549 .168627 rg
-BT 1 0 0 1 0 32 Tm /F1 10 Tf 14 TL (Real MCP transport, repeatable workflow outputs and tested evidence boundaries. The lexical triage diagnostic) Tj T* (matched 14/18 family-separated synthetic messages; the same development effort authored the cases. No) Tj T* (production adoption, measured time savings or general reliability is claimed.) Tj T* ET
+BT 1 0 0 1 0 32 Tm /F1 10 Tf 14 TL (Real MCP transport, repeatable workflow outputs and tested evidence boundaries. The lexical triage diagnostic) Tj T* -0.127857 Tw (matched 16/18 reused synthetic messages after adapting rules to inspected failures \(earlier: 14/18\). No production) Tj T* 0 Tw (adoption, measured time savings or general reliability is claimed.) Tj T* ET
 Q
 Q
 q
@@ -617,5 +617,5 @@ trailer
 /Size 18
 >>
 startxref
-14663
+14685
 %%EOF

@@ -955,6 +955,65 @@
         "method": "bilingual lexical retrieval baseline",
         "limitations": "Can miss paraphrases and misread negation; a host or human must review."
       }
+    },
+    {
+      "tool": "triage_issue",
+      "arguments": {
+        "issue_text": "No offers is not our problem. Please explain invoicing."
+      },
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "tool": "triage_issue",
+      "arguments": {
+        "issue_text": "不是没有广告的问题，奖励回调返回405。"
+      },
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
     }
   ]
 }

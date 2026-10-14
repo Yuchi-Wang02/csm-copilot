@@ -1685,7 +1685,25 @@ window.CSM_DATA = {
   "evaluation": {
     "dataset": "30 synthetic messages / 15 families; English and Chinese",
     "authorship": "Cases and implementation were AI-assisted in the same development session.",
-    "holdout_boundary": "Family-disjoint diagnostic partition; not a blinded independent test.",
+    "holdout_boundary": "Reused family-disjoint diagnostic partition. Its inspected negation failures informed a later rule; current results are a replay after adaptation, not held-out validation.",
+    "before_adaptation": {
+      "commit": "0308c77b71ede2daaf16202c383be30eb43d8bce",
+      "metrics": {
+        "dev": {
+          "correct": 12,
+          "total": 12,
+          "exact_set_accuracy": 1.0,
+          "families": 6
+        },
+        "holdout": {
+          "correct": 14,
+          "total": 18,
+          "exact_set_accuracy": 0.7778,
+          "families": 9
+        }
+      },
+      "record": "evidence/negation-before.json"
+    },
     "cases_sha256": "11b7d27421f4fe7a21b65ab56bbac182079e94cca836fc4504fc324a56b0534d",
     "model_inference": false,
     "method": "lexical retrieval baseline + deterministic workflow",
@@ -1697,9 +1715,9 @@ window.CSM_DATA = {
         "families": 6
       },
       "holdout": {
-        "correct": 14,
+        "correct": 16,
         "total": 18,
-        "exact_set_accuracy": 0.7778,
+        "exact_set_accuracy": 0.8889,
         "families": 9
       }
     },
@@ -2072,9 +2090,9 @@ window.CSM_DATA = {
           "unknown"
         ],
         "predicted": [
-          "no_offers"
+          "unknown"
         ],
-        "correct": false
+        "correct": true
       },
       {
         "id": "negated_symptom_zh",
@@ -2086,9 +2104,9 @@ window.CSM_DATA = {
           "unknown"
         ],
         "predicted": [
-          "no_offers"
+          "unknown"
         ],
-        "correct": false
+        "correct": true
       },
       {
         "id": "injection_in_message_en",

@@ -1,26 +1,27 @@
 # Verification record
 
-Verified through the v0.12 recording-link iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.13 explicit-denial triage iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 18 passed locally | Five practice, eight routing and five scoped issue-rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 174 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
+| Python behavior tests | 198 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
+| Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and three known counterexamples retained |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |
-| Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original 14/18 diagnostic and its failures unchanged |
+| Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original outputs preserved; subsequent explicit-denial adaptation documented |
 | Selected-platform briefs | Eight generated exports match the isolated installed CLI | Four queued integrations in two languages; tests check scope exclusion, multiple handoffs and non-mutation |
 | Unrecognized handoff scope | Four regression checks failed before the fix and passed afterward | English/Chinese summaries with complete/incomplete generic fields remain with the CSM for clarification |
 | Snapshot isolation regressions | Four failed before the fix and passed after it | Returned readiness/digest lists, constructor input ownership and revalidation of mutated input |
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
 | Ruff lint and format | Passed | Python source checks |
 | Package build | Source distribution and wheel built | Includes packaged JSON fixtures |
-| Installed wheel | Fresh environment outside the checkout; CLI and MCP results match published artifacts | Installed module location checked; a disposable wheel missing its account fixture was rejected locally |
+| Installed wheel | Fresh local installation and CLI exports passed; this release's MCP executable launch was blocked by Windows Application Control | No policy bypass attempted. Clean-runner installed MCP verification is in the linked CI result; earlier releases passed the local console-entry check |
 | Real MCP stdio client | Eight tools, three follow-up intents, both prompts and invalid-ID error passed | Scripted client, no model inference |
 | Local model attempts | Ten recordings retained across three tasks; newest run completed two exact-message triage calls with no assigned identity, extra calls, errors or corrections | Invoice questions no longer assume a technical symptom but remain broad; AI-assisted review, not independent customer validation |
 | Portable morning review | English and Chinese-draft Markdown generated and checked for consistency | Same workflow packet as the browser; draft-only |
 | Product feedback digest | Ten targeted tests cover counts, applicability, deduplication, empty cohorts, sources, ordering and export | Fixed synthetic snapshot; no measured Product outcome |
-| Synthetic diagnostics | 12/12 dev; 14/18 family-separated cases | Same-session authored, not independently validated |
+| Synthetic diagnostics | 12/12 dev; 16/18 reused family-separated cases; earlier 14/18 preserved | Inspected negation failures informed the change; not a fresh holdout or independent validation |
 | Initial GitHub Actions verification | Windows / Python 3.13 and Ubuntu / Python 3.11 passed | Clean runner installation and regenerated-artifact consistency |
 | GitHub Pages deployment | Published successfully | Public static replay |
 
@@ -66,6 +67,8 @@ The v0.11.1 local browser check switched between the original inbound-message re
 
 The v0.12 local browser check opened the older four-call recording directly, retained a changed selection on reload, and restored both recordings with Back/Forward. The clipboard contained the exact public recording-only URL. Changing the account preserved the selected run; Back restored the prior account. A duplicated run parameter displayed the latest-attempt notice. Callback comparison buttons updated the URL, and a temporary verification note survived navigation before being cleared. At a 360-pixel viewport with the link details expanded, document and scroll widths were both 345 CSS pixels, with no browser errors. Both PDF pages were visually reviewed and the correction link was checked against its annotation target. [Recording-link screenshot](assets/demo-recording-link.png).
 
+The v0.13 local browser check showed 16/18 as a replay after rule adaptation, with the earlier 14/18 explicitly identified and the remaining indirect-wording failure visible. The development-probe link exposes three further counterexamples. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels, with no browser errors. Both PDF pages were visually checked with the same qualification. The added original-diagnostic regression confirms that only the two inspected negation cases change category; all ten model recordings remain unchanged.
+
 ## Reproduction
 
 Public-download follow-up: the initial Harbor file differed only by CRLF/LF line endings. After explicit LF generation, its local SHA-256 matched the public download: `B0CB3FE295A1452372E3EE9F086D36FBEEEFA6086BA86E9969786918AB5D29DF`. The stronger byte comparison failed before regeneration and passed afterward; installed platform exports are now compared as bytes as well.
@@ -78,6 +81,7 @@ python -m ruff check .
 python -m ruff format --check .
 python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
 python scripts/build_demo.py
+python evaluation/negation.py
 python scripts/build_model_replay.py
 python scripts/build_project_brief.py
 git diff --exit-code -- demo/project-brief.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/product-feedback.md evidence

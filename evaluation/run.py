@@ -13,6 +13,12 @@ def evaluate():
     case_file = ROOT / "evaluation/cases.json"
     cases = json.loads(case_file.read_text(encoding="utf-8"))
     engine = Copilot()
+    before = json.loads((ROOT / "evidence/negation-before.json").read_text(encoding="utf-8"))
+    original = before["original_diagnostic"]
+    assert (
+        original["cases_sha256"]
+        == hashlib.sha256(case_file.read_text(encoding="utf-8").encode()).hexdigest()
+    )
     rows = []
     families = {s: {c["family"] for c in cases if c["split"] == s} for s in ("dev", "holdout")}
     assert not families["dev"] & families["holdout"]
@@ -56,7 +62,12 @@ def evaluate():
     report = {
         "dataset": "30 synthetic messages / 15 families; English and Chinese",
         "authorship": "Cases and implementation were AI-assisted in the same development session.",
-        "holdout_boundary": "Family-disjoint diagnostic partition; not a blinded independent test.",
+        "holdout_boundary": "Reused family-disjoint diagnostic partition. Its inspected negation failures informed a later rule; current results are a replay after adaptation, not held-out validation.",
+        "before_adaptation": {
+            "commit": before["commit"],
+            "metrics": original["metrics"],
+            "record": "evidence/negation-before.json",
+        },
         "cases_sha256": hashlib.sha256(case_file.read_text(encoding="utf-8").encode()).hexdigest(),
         "model_inference": False,
         "method": "lexical retrieval baseline + deterministic workflow",
@@ -96,12 +107,14 @@ def evaluate():
     ]
     for split, metric in metrics.items():
         lines.append(
-            f"| {split} | {metric['correct']}/{metric['total']} | {metric['exact_set_accuracy']:.1%} | {metric['families']} |"
+            f"| {'holdout (reused)' if split == 'holdout' else split} | {metric['correct']}/{metric['total']} | {metric['exact_set_accuracy']:.1%} | {metric['families']} |"
         )
     lines += [
         "",
         "Bilingual pairs stay in the same partition. The holdout name describes the split, not a blinded evaluation. "
-        "Cases were created alongside the implementation, so these results cannot establish generalization.",
+        "Cases were created alongside the implementation and inspected failures later informed the denial rule. The current result is a replay after adaptation, so it cannot establish generalization.",
+        "",
+        "The earlier 14/18 result and its four failures are preserved in [the pre-change record](negation-before.json). Current 16/18 resolves the two inspected negation examples. This is not a new holdout or an independent improvement estimate; inputs and labels are unchanged.",
         "",
         "## Failure cases",
         "",
@@ -116,8 +129,7 @@ def evaluate():
     lint = report["promise_lint"]
     lines += [
         "",
-        "The baseline misses indirect wording and retrieves negated symptoms. Keep these visible; "
-        "do not add the exact holdout phrases to inflate the score. A next iteration should use independently written cases and compare semantic retrieval on the same inputs.",
+        "The current baseline still misses indirect wording. A bounded exclusion handles selected explicit denials; qualified negation, quoted topics and callback denial remain counterexamples in the [development probes](NEGATION_REVIEW.md). Independent cases and human review remain necessary before general quality claims.",
         "",
         "## Workflow and promise checks",
         "",
@@ -129,7 +141,7 @@ def evaluate():
         "",
         "## A separate lexical repair",
         "",
-        "The [phrase-boundary review](TRIAGE_BOUNDARIES.md) preserves actual pre-change outputs and compares them with current calls on 12 development probes. It removes four selected substring collisions while retaining two known semantic failures. The original 30-message inputs and the results above are unchanged. The new probes are not an independent holdout.",
+        "The [phrase-boundary review](TRIAGE_BOUNDARIES.md) preserves actual pre-change outputs and compares them with current calls on 12 development probes. Four substring collisions were repaired first; the later [explicit-denial check](NEGATION_REVIEW.md) addresses one of its two original semantic failures. The original 30-message inputs and labels remain unchanged. All new probes are development cases, not an independent holdout.",
         "",
         "## Reproduction",
         "",

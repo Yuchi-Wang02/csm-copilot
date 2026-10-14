@@ -1,5 +1,5 @@
 {
-  "project_version": "0.12.0",
+  "project_version": "0.13.0",
   "before_commit": "a3ddd2997b014830b5da5ef7fbedae0977735a05",
   "inputs_sha256": "ce8661580659989974d2b95e91b72f662ee99ab944e7918eb18386843ffd13bd",
   "boundary": "AI-assisted development probes authored for this repair, including two known failures reused from the original diagnostic set. Not an independent test or a general accuracy estimate.",
@@ -8,10 +8,10 @@
     "blanket_invoice",
     "casino_offers",
     "adserver_invoice",
-    "mixed_invoice"
+    "mixed_invoice",
+    "negated_symptom"
   ],
   "remaining_mismatches": [
-    "negated_symptom",
     "indirect_inventory"
   ],
   "cases": [
@@ -443,32 +443,27 @@
         "no_offers"
       ],
       "after_categories": [
-        "no_offers"
+        "unknown"
       ],
       "before_correct": false,
-      "after_correct": false,
+      "after_correct": true,
       "after_result": {
         "integration_id": null,
         "candidates": [
           {
-            "category": "no_offers",
-            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
-            "checks": [
-              "currency_approved",
-              "test_only_off",
-              "placement_linked",
-              "sdk_connected",
-              "device_verified"
-            ],
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
             "questions": [
-              "Confirm the affected app and platform.",
-              "Share currency approval and Test Only settings for that platform.",
-              "Compare a test device with a non-test device; include region and time."
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
             ]
           }
         ],
-        "notes": [],
-        "route": "collect_evidence",
+        "notes": [
+          "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
         "route_policy": "project_policy; not an official Unity routing matrix",
         "root_cause": "unconfirmed",
         "method": "bilingual lexical retrieval baseline",

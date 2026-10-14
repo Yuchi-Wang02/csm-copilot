@@ -281,7 +281,7 @@ def build():
         para(
             "Real MCP transport, repeatable workflow outputs and tested evidence boundaries. "
             f"The lexical triage diagnostic matched {holdout['correct']}/{holdout['total']} "
-            "family-separated synthetic messages; the same development effort authored the cases. "
+            "reused synthetic messages after adapting rules to inspected failures (earlier: 14/18). "
             "No production adoption, measured time savings or general reliability is claimed."
         ),
         para("How to demonstrate the learning", "heading"),

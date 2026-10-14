@@ -1,0 +1,165 @@
+[
+  {
+    "id": "denial_en",
+    "kind": "repair",
+    "text": "No offers is not our problem. Please explain invoicing.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "denial_plural",
+    "kind": "repair",
+    "text": "No ads are not the issue. We need an invoice.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "denial_contraction",
+    "kind": "repair",
+    "text": "No offers isn't our problem. Please explain the annual plan.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "negative_blank",
+    "kind": "repair",
+    "text": "The offerwall is not blank. We need billing information.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "negative_blank_contraction",
+    "kind": "repair",
+    "text": "The offerwall isn't blank. Please clarify invoicing.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "denial_zh",
+    "kind": "repair",
+    "text": "不是没有广告的问题，请解释发票。",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "denial_zh_alt",
+    "kind": "repair",
+    "text": "并非空白的问题，请解释账单。",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "negative_blank_zh",
+    "kind": "repair",
+    "text": "页面并不空白，我们想问续费。",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "denied_plus_callback",
+    "kind": "preserve",
+    "text": "No offers is not our problem. The reward callback returns 405.",
+    "expected": [
+      "reward_callback"
+    ]
+  },
+  {
+    "id": "denied_plus_callback_zh",
+    "kind": "preserve",
+    "text": "不是没有广告的问题，奖励回调返回405。",
+    "expected": [
+      "reward_callback"
+    ]
+  },
+  {
+    "id": "positive_after_denial",
+    "kind": "preserve",
+    "text": "No offers is not our problem on iOS. Android has no offers.",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "positive_after_denial_zh",
+    "kind": "preserve",
+    "text": "不是没有广告的问题，但另一台Android没有广告。",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "not_only",
+    "kind": "preserve",
+    "text": "The offerwall is not only blank but the reward callback also fails.",
+    "expected": [
+      "no_offers",
+      "reward_callback"
+    ]
+  },
+  {
+    "id": "not_only_problem",
+    "kind": "preserve",
+    "text": "No offers is not our only problem. The callback fails too.",
+    "expected": [
+      "no_offers",
+      "reward_callback"
+    ]
+  },
+  {
+    "id": "cannot_fix",
+    "kind": "preserve",
+    "text": "We cannot fix the blank offerwall.",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "ordinary_negative_signal",
+    "kind": "preserve",
+    "text": "There are no ads in this region.",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "ordinary_two_zh",
+    "kind": "preserve",
+    "text": "没有广告，奖励回调也失败。",
+    "expected": [
+      "no_offers",
+      "reward_callback"
+    ]
+  },
+  {
+    "id": "qualified_negation",
+    "kind": "known_limit",
+    "text": "The offerwall isn't exactly blank. We need billing information.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "quoted_topic",
+    "kind": "known_limit",
+    "text": "Please search for 'no offers' in the documentation index.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "callback_denial",
+    "kind": "known_limit",
+    "text": "The reward callback is not our problem. Please explain invoicing.",
+    "expected": [
+      "unknown"
+    ]
+  }
+]

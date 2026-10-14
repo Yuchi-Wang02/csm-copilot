@@ -6,7 +6,7 @@ AI-assisted development probes authored for this repair, including two known fai
 
 The earlier lexical pattern matched `blank` inside `blanket`, `no offers` inside `casino offers`, and `no ads` inside `no adservers`. An unrelated invoice request could therefore receive Offerwall checks and a proposed technical handoff.
 
-The English no-offers phrases now have Latin-letter boundaries. Common forms such as blanking and empty offerwalls remain supported, and Chinese characters can sit directly beside an English signal. Chinese signals and reward/callback retrieval are unchanged. This is a narrow lexical repair, not semantic classification or a general tokenizer.
+The English no-offers phrases now have Latin-letter boundaries. Common forms such as blanking and empty offerwalls remain supported, and Chinese characters can sit directly beside an English signal. Reward/callback retrieval is unchanged. A later explicit-denial check also excludes selected English and Chinese no-offers mentions; see the negation review. These are bounded lexical repairs, not semantic classification or a general tokenizer.
 
 [Pre-change code](https://github.com/Yuchi-Wang02/csm-copilot/blob/a3ddd2997b014830b5da5ef7fbedae0977735a05/src/csm_copilot/engine.py) · [Recorded pre-change engine outputs](triage-boundary-before.json) · [Current outputs](triage-boundary-review.json)
 
@@ -24,20 +24,20 @@ The English no-offers phrases now have Latin-letter boundaries. Common forms suc
 | mixed\_blank | Android页面blank，请协助排查。 | no\_offers | no\_offers | no\_offers |
 | mixed\_two\_issues | 页面空白，reward callback返回405。 | no\_offers, reward\_callback | no\_offers, reward\_callback | no\_offers, reward\_callback |
 | hyphenated\_screen | We have a blank-screen issue with no ads. | no\_offers | no\_offers | no\_offers |
-| negated\_symptom | No offers is not our problem. Please explain invoicing. | unknown | no\_offers | no\_offers |
+| negated\_symptom | No offers is not our problem. Please explain invoicing. | unknown | no\_offers | unknown |
 | indirect\_inventory | The opportunity list contains zero items. | no\_offers | unknown | unknown |
 
-Changed categories on 4 of these 12 development probes. 2 known semantic failures remain. These counts describe this selected set only.
+Changed categories on 5 of these 12 development probes. 1 known semantic failures remain. These counts describe this selected set only.
 
 ## Workflow consequence
 
 The blanket-invoice example now returns `clarify_scope`. A ticket based on that message stays with the CSM to clarify the problem, even when generic SDK/log fields are present. It does not classify billing or choose a Finance owner; those capabilities are outside this prototype.
 
-Six regression checks failed before the repair and passed afterward: four substring collisions and two handoff variants with complete/incomplete generic fields. Six positive-message probes retain their expected categories. The two known semantic failures are intentionally still failures.
+Six regression checks failed before the repair and passed afterward: four substring collisions and two handoff variants with complete/incomplete generic fields. Six positive-message probes retain their expected categories. At the phrase-boundary release, both semantic failures remained. The later explicit-denial check now addresses the negated-symptom case; indirect wording still fails.
 
 ## Limits and reproduction
 
-The original 30-message diagnostic inputs are unchanged. Its 14/18 family-separated result remains unchanged: negation and indirect wording still fail. The new probes were authored during this repair and are not held out. No independent human labeling, model run, customer outcome or productivity measurement was performed.
+The original 30-message diagnostic inputs are unchanged. The original 14/18 result is preserved in `negation-before.json`. After using inspected negation failures to develop the later rule, the current replay is 16/18; indirect wording still fails. This is a reused-case result, not independent validation. The new probes were authored during this repair and are not held out. No independent human labeling, model run, customer outcome or productivity measurement was performed.
 A standalone term such as blank can still describe an invoice or another unrelated object. Phrase boundaries do not determine whether the sentence reports an Offerwall problem.
 
 ```sh

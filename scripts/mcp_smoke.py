@@ -31,6 +31,8 @@ async def run(server_command: Path | None = None):
         ("friction_digest", {}),
         ("triage_issue", {"issue_text": "Please send the blanket invoice for our annual plan."}),
         ("triage_issue", {"issue_text": "Android页面blank，请协助排查。"}),
+        ("triage_issue", {"issue_text": "No offers is not our problem. Please explain invoicing."}),
+        ("triage_issue", {"issue_text": "不是没有广告的问题，奖励回调返回405。"}),
     ]
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
@@ -64,6 +66,10 @@ async def run(server_command: Path | None = None):
             assert results[10]["result"]["route"] == "clarify_scope"
             assert results[10]["result"]["candidates"][0]["category"] == "unknown"
             assert results[11]["result"]["candidates"][0]["category"] == "no_offers"
+            assert results[12]["result"]["route"] == "clarify_scope"
+            assert [c["category"] for c in results[13]["result"]["candidates"]] == [
+                "reward_callback"
+            ]
             invalid = await session.call_tool("check_readiness", {"integration_id": "missing"})
             assert invalid.isError
             identifier = await session.call_tool("triage_issue", {"issue_text": "issue_callback"})

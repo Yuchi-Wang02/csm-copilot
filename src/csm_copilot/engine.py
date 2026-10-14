@@ -10,6 +10,7 @@ from typing import Literal
 from .communication import compose_followup
 from .friction import build_friction_digest
 from .models import Dataset
+from .triage_signals import offerwall_signal
 
 RULE_VERSION = "2026-10-14.1"
 FAQ = "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq"
@@ -147,13 +148,8 @@ class Copilot:
             self._lookup(self.integrations, integration_id, "integration")
         text = issue_text.casefold()
         candidates = []
-        # Latin-letter boundaries stop substrings such as "blanket" and "casino offers".
-        # ASCII boundaries preserve mixed text such as "页面blank"; this is not negation parsing.
-        if re.search(
-            r"(?<![a-z])(?:blank(?:s|ed|ing|ness)?|no offers|no ads|empty offerwalls?)(?![a-z])"
-            r"|空白|没广告|没有广告|无广告|不展示",
-            text,
-        ):
+        has_offerwall_signal, denied_offerwall_signal = offerwall_signal(text)
+        if has_offerwall_signal:
             candidates.append(
                 {
                     "category": "no_offers",
@@ -198,6 +194,10 @@ class Copilot:
                 }
             )
         notes = []
+        if denied_offerwall_signal:
+            notes.append(
+                "Explicitly denied no-offers wording was excluded; other mentions were evaluated separately."
+            )
         if any(c["category"] == "reward_callback" for c in candidates) and re.search(
             r"\b405\b", text
         ):

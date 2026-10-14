@@ -21,7 +21,11 @@ def test_phrase_boundaries_remove_collisions_without_claiming_semantic_understan
     result = Copilot().triage_issue(case["text"])
     predicted = [item["category"] for item in result["candidates"]]
     previous = next(row["result"] for row in BEFORE["cases"] if row["id"] == case["id"])
-    if case["kind"] == "known_limit":
+    if case["id"] == "negated_symptom":
+        assert previous["candidates"][0]["category"] == "no_offers"
+        assert predicted == case["expected"]
+        assert result["route"] == "clarify_scope"
+    elif case["kind"] == "known_limit":
         comparable = deepcopy(result)
         # v0.11.1 changes unknown-scope questions, not these historical category errors.
         if predicted == ["unknown"]:
