@@ -32,15 +32,7 @@ Every draft remains unsent. Drafting does not update contact history. Review dat
 
 ## Where AI fits
 
-```mermaid
-flowchart LR
-    U[CSM request] --> H[MCP host + language model]
-    H --> T[CSM Copilot tools]
-    T --> E[Scoped evidence + rules]
-    E --> D[Findings + draft templates]
-    D --> H
-    H --> R[Human review of claims and next actions]
-```
+**CSM request → AI host → scoped tools → results returned to the AI host → human review**
 
 An AI host can choose tools and rewrite drafts. The Python server handles dates, platform scope, checklist states and source references deterministically. Its default drafts are templates, so the workflow can run without a model or API key.
 

@@ -4,6 +4,8 @@ Install the Python workflow, export a review, or connect an MCP host. The bundle
 
 [Back to the project overview](../README.md)
 
+## Install and view the demo
+
 Python **3.11–3.13**; verified locally on Windows / Python 3.13. GitHub Actions tests Windows and Ubuntu.
 
 ```sh
@@ -37,6 +39,8 @@ python -m http.server 8000 --directory demo
 
 Open `http://localhost:8000`. Browser verification uses HTTP; direct-file opening of `demo/index.html` remains unverified in this environment. The optional Google Fonts request falls back to local system fonts when offline. No account data leaves the page.
 
+## Check the installed package
+
 To check the distributable package as well as the editable checkout:
 
 ```sh
@@ -45,6 +49,8 @@ python scripts/verify_wheel.py
 ```
 
 This creates a temporary clean environment, installs the built wheel and its dependencies, and runs both installed commands outside the repository. It checks the JSON workflow, English and Chinese exports, and real MCP results against the published artifacts. Dependency installation requires package-index access; no model or API key is needed. Both CI operating systems run this check. See [verification details](VERIFICATION.md#installed-package-check).
+
+## Export review briefs
 
 For a first terminal walkthrough, run `csm-demo --format summary`. It prints the original queue, each platform's decision, unknown/failed check IDs, next actions and handoff missing fields in English. [Preview the generated summary](../evidence/morning-summary.txt). No model or API key is required; the snapshot is fixed and nothing is sent. Use `--output morning-summary.txt` to save it. Summary format covers the full queue; platform selection and Chinese customer drafts use Markdown.
 
@@ -67,7 +73,7 @@ csm-demo --format markdown --integration lantern_ios --lang zh --output ios-revi
 
 An unknown or unqueued integration produces an error before writing the output. `--integration` requires Markdown format; JSON continues to export the complete workflow. See [export scope and examples](REVIEW_BRIEF.md#export-one-platform).
 
-### Connect an MCP host
+## Connect an MCP host
 
 After installation, configure a stdio server with the **absolute Python path inside the environment**:
 
