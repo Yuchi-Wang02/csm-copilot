@@ -65,3 +65,7 @@ Avoid adding production adoption, customer impact, measured efficiency gains or 
 Open the latest recorded attempt. Explain the initial source-role error and repeated platform entries, then show the two correction requests and final matching fields. Expand the system-rendered evidence summary. Identify why it is different from the model explanation, and find the missing inline citations and nothing-sent sentence in that explanation. [Response-review design](RESPONSE_REVIEW.md).
 
 Describe the work as an AI-assisted development experiment with inspectable failures. Personal mastery is demonstrated when you can trace a rejection to its source, predict a new failure case, and explain or implement a small change yourself; it is not established by the number of tests or iterations in the repository.
+
+## Optional audience interaction
+
+Open [Practice](https://yuchi-wang02.github.io/csm-copilot/#practice) and invite the interviewer to choose a next action for the Android update. Explain the distinction between a failed check and an unknown check before showing the guidance. For an AI-focused discussion, use the third decision and identify the remaining omissions in the model explanation. This is a short conversation aid with published answers, not a quiz score to present as professional qualification.

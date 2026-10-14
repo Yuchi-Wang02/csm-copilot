@@ -6,7 +6,7 @@
 
 A working MCP server and interactive case explorer for a customer-success morning review: find accounts needing attention, inspect app/platform evidence, draft bilingual follow-ups, and prepare technical handoffs.
 
-**[Explore the interactive demo](https://yuchi-wang02.github.io/csm-copilot/)** · **[Three-minute interview walkthrough](docs/INTERVIEW.md)** · **[Evaluation results](evidence/EVALUATION.md)** · **[Learning path](docs/LEARNING.md)**
+**[Explore the interactive demo](https://yuchi-wang02.github.io/csm-copilot/)** · **[Three-minute interview walkthrough](docs/INTERVIEW.md)** · **[Evaluation results](evidence/EVALUATION.md)** · **[Learning path](docs/LEARNING.md)** · **[Practice the decisions](https://yuchi-wang02.github.io/csm-copilot/#practice)**
 
 ![CSM Copilot case explorer](docs/assets/demo-case.png)
 
@@ -19,9 +19,11 @@ A publisher wants to launch on Friday. Sales says integration is nearly complete
 
 A fluent message is easy to generate. A useful message must preserve the difference between **confirmed failure**, **missing evidence**, and **a possible explanation**. This project makes that distinction visible all the way from source records to the customer follow-up.
 
-The v0.6 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, a portfolio feedback review, and recorded local model attempts. It does not reproduce a production CRM or Unity's internal process.
+The v0.7 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, a portfolio feedback review, and recorded local model attempts. It does not reproduce a production CRM or Unity's internal process.
 
-**New in v0.6: checked fields, visible corrections.** A local Qwen3-4B run reached matching structured fields after two recorded correction requests. The host checks platform scope, unknowns, failures and readiness source IDs against actual MCP results, then renders a separate evidence summary. The model explanation stays unverified. Inspect [six recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including failures, and [the response-review design](docs/RESPONSE_REVIEW.md). All 109 behavior tests pass locally.
+**New in v0.7: practice the judgment.** Try [three evidence-based decisions](https://yuchi-wang02.github.io/csm-copilot/#practice), record your reasoning before guidance, and download a reflection that separates your original answer from later learning. The exercise uses actual workflow outputs and the recorded AI attempt. Written reasoning is ungraded; completing the interface does not certify mastery. Read [the practice guide](docs/PRACTICE.md).
+
+**Response checks from v0.6: checked fields, visible corrections.** A local Qwen3-4B run reached matching structured fields after two recorded correction requests. The host checks platform scope, unknowns, failures and readiness source IDs against actual MCP results, then renders a separate evidence summary. The model explanation stays unverified. Inspect [six recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including failures, and [the response-review design](docs/RESPONSE_REVIEW.md). All 109 behavior tests pass locally.
 
 **Initial model experiment in v0.5: real model choices, visible answer failures.** A local Qwen3-4B run executed all four requested MCP calls but produced an explanation that needs revision. Inspect [the initial three recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including the rejected outputs, [source-based review](evidence/MODEL_RUNS.md), and [reproduction instructions](docs/LOCAL_MODEL.md). Tool coverage is not answer correctness. That release had 90 behavior tests.
 

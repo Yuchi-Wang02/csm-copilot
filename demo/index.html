@@ -8,10 +8,12 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.6.0" />
-    <script defer src="data.js?v=0.6.0"></script>
-    <script defer src="model-runs.js?v=0.6.0"></script>
-    <script defer src="app.js?v=0.6.0"></script>
+    <link rel="stylesheet" href="style.css?v=0.7.0" />
+    <script defer src="data.js?v=0.7.0"></script>
+    <script defer src="model-runs.js?v=0.7.0"></script>
+    <script defer src="app.js?v=0.7.0"></script>
+    <script defer src="practice-core.js?v=0.7.0"></script>
+    <script defer src="practice.js?v=0.7.0"></script>
   </head>
   <body>
     <a class="skip" href="#workspace">Skip to case explorer</a>
@@ -19,11 +21,10 @@
       <a class="brand" href="#"><span class="mark">c/</span> CSM Copilot</a>
       <nav aria-label="Main">
         <a href="#workspace">Case explorer</a><a href="#model-runs">AI trace</a
-        ><a href="#feedback">Product feedback</a
-        ><a href="#evaluation">Evaluation</a
+        ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.6</span>
+      <span class="version">PORTFOLIO / V0.7</span>
     </header>
     <main>
       <section class="hero">
@@ -289,9 +290,46 @@
           </div>
         </div>
       </section>
+      <section id="practice" class="practice-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">07 / PRACTICE THE JUDGMENT</p>
+            <h2>What would you do next?</h2>
+          </div>
+          <a
+            class="text-link"
+            href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/docs/PRACTICE.md"
+            >How this exercise works ↗</a
+          >
+        </div>
+        <p class="integrity-intro">
+          Try three decisions from the actual demo evidence. Choose an action,
+          explain your reasoning, then compare it with the project policy. Keep
+          a reflection you can discuss in an interview.
+        </p>
+        <p class="disclosure">
+          Self-directed practice, not an assessment. Written reasoning is not
+          graded. Notes stay in this page's memory until you download them;
+          reloading clears them. No notes are sent to a server. Guidance is
+          available in the public source.
+        </p>
+        <div class="integrity-controls">
+          <label for="practice-select">Choose a practice decision</label
+          ><select id="practice-select"></select>
+        </div>
+        <p id="practice-progress" role="status"></p>
+        <div id="practice-case"></div>
+        <div class="practice-actions">
+          <button class="button primary" id="practice-export" disabled>
+            Download my reflection ↓</button
+          ><button class="button" id="practice-reset">
+            Reset all practice and clear notes
+          </button>
+        </div>
+      </section>
       <section class="learning">
         <div>
-          <p class="eyebrow">07 / BUILT TO BE EXPLAINED</p>
+          <p class="eyebrow">08 / BUILT TO BE EXPLAINED</p>
           <h2>A portfolio of decisions,<br />not just a screen.</h2>
         </div>
         <div>

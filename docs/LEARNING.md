@@ -88,3 +88,7 @@ What remains uncertain:
 Open the latest recorded attempt. Explain the initial source-role error and repeated platform entries, then show the two correction requests and final matching fields. Expand the system-rendered evidence summary. Identify why it is different from the model explanation, and find the missing inline citations and nothing-sent sentence in that explanation. [Response-review design](RESPONSE_REVIEW.md).
 
 Describe the work as an AI-assisted development experiment with inspectable failures. Personal mastery is demonstrated when you can trace a rejection to its source, predict a new failure case, and explain or implement a small change yourself; it is not established by the number of tests or iterations in the repository.
+
+## v0.7: keep a before-and-after reflection
+
+Use [the interactive practice](PRACTICE.md) to choose an action and explain your reasoning before revealing guidance. The download keeps that original response separate from your later reflection. These are your notes, not an automated evaluation. Complete the exercise yourself before describing it as personal learning evidence. The public site and repository contain no claimed completion by Yuchi.

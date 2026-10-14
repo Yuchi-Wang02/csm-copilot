@@ -3,4 +3,5 @@ graft docs
 graft evaluation
 graft evidence
 graft scripts
+graft tests-js
 global-exclude *.py[cod]
