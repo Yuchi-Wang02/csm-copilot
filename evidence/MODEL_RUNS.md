@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Nine exploratory attempts across three prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Ten exploratory attempts across three prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -173,6 +173,28 @@ Observed requested tool actions: 2/2. Final response present: True.
 ### Unedited model response — needs review
 
 > For Message A: The triage identified 'unknown' category, requiring clarification on the affected app/platform. Next action: Request details on the app and platform. Clarification questions: What app and platform is this for? What was expected vs. what happened? For Message B: The triage identified 'no\_offers' category, suggesting potential issues with currency approval or placement. Next action: Collect evidence on currency settings and device comparison. Clarification questions: Confirm the affected app and platform. Share currency approval and Test Only settings for that platform. Nothing was sent.
+
+Narrow promise lint flags: []. No flags does not establish fidelity.
+
+## Qwen3-4B · neutral scope questions
+
+**Review verdict:** Technical assumption removed; invoice follow-up still broad.
+The same task and initial prompt produce the same two tool calls. With neutral unknown-scope questions in the tool result, the answer asks about account/product context and the requested information. Both routes remain correct, and nothing was sent. This one development pair does not establish general improvement.
+
+**Task:** Review two unrelated synthetic inbound messages. No account or integration ID has been provided. Message A: Please send the blanket invoice for our annual plan. Message B: The offerwall is blank on Android. Use triage\_issue on each exact original message separately, without assigning an integration. Then explain in at most 200 words one proposed next action and two customer clarification questions for each message. Distinguish a retrieved candidate from a confirmed diagnosis. Refer to the tool's route for each message. Do not invent account IDs, evidence IDs, company procedures or a confirmed owner outside the tool results. State that nothing was sent.
+
+Observed requested tool actions: 2/2. Final response present: True.
+[Complete trace](model-runs/qwen4-triage-neutral-questions.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+- **supported: Same initial prompt, task, runtime settings and tool actions.** The initial messages and their SHA-256 match the preceding inbound-message recording. Model revision, recorded runtime configuration and initial two-call batch also match. Both calls succeed with exact original messages and integration\_id=null; there are no extra calls, tool errors or host corrections.
+- **changed: Only the unknown-candidate questions differ in returned tool data.** The invoice tool result now asks for account/product context and requested information or outcome. All other invoice-result fields match the previous recording, and the complete blank-Offerwall result is unchanged. The historical recording retains its original app/platform question.
+- **needs review: Invoice questions no longer assume a technical symptom.** The final answer repeats the two neutral questions rather than asking about app/platform failure. They are still broad: the request already identifies an invoice, and a CSM should tailor the follow-up to relevant account details instead of treating the fallback as a verified billing workflow. This customer-fit assessment is AI-assisted editorial review, not independent validation.
+- **qualification: Candidate wording is clearer, but source limits are not fully explained.** The answer calls both outputs candidates, proposes clarification versus evidence collection, and states that nothing was sent. It does not explicitly explain lexical retrieval, repeat root\_cause=unconfirmed or cite the Offerwall source URL. Its actions reflect the tool routes without quoting route codes. Human review remains necessary.
+- **boundary: One fresh local attempt, with all earlier recordings retained.** This is the tenth exploratory recording across three prescribed tasks. The invoice message is a published development probe. A matched prompt and sampling configuration do not make a single generated pair a general reliability estimate, a blinded test or independent human review.
+
+### Unedited model response — needs review
+
+> For Message A: The candidate is 'unknown' and requires clarification on the account or product involved. Next action: Request details about the account or product. Questions: 'Which account or product does this request concern?', 'What specific information or outcome do you need, and which relevant details should we review?' For Message B: The candidate is 'no\_offers' with sources. Next action: Collect evidence on currency approval, Test Only settings, placement, SDK connection, and device verification. Questions: 'Confirm the affected app and platform.', 'Share currency approval and Test Only settings for that platform.' Nothing was sent.
 
 Narrow promise lint flags: []. No flags does not establish fidelity.
 

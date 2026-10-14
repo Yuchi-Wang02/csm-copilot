@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -25,6 +26,7 @@ DIRECTORY = Path(__file__).resolve().parents[1] / "evidence/model-runs"
         "qwen4-callback-handoff",
         "qwen4-callback-input-guard",
         "qwen4-triage-scope",
+        "qwen4-triage-neutral-questions",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):
@@ -68,10 +70,60 @@ def test_inbound_scope_recording_preserves_inputs_routes_and_unedited_prose():
         assert call["action"]["tool"] == "triage_issue"
         assert call["action"]["arguments"]["integration_id"] is None
         assert not call["tool_error"]
-        assert call["tool_result"] == engine.triage_issue(**call["action"]["arguments"])
+        expected = deepcopy(call["tool_result"])
+        if expected["candidates"][0]["category"] == "unknown":
+            assert expected["candidates"][0]["questions"] == [
+                "What happened, what was expected, and which app/platform is affected?"
+            ]
+            expected["candidates"][0]["questions"] = [
+                "Which account or product does this request concern?",
+                "What specific information or outcome do you need, and which relevant details should we review?",
+            ]
+        assert expected == engine.triage_issue(**call["action"]["arguments"])
     assert [c["tool_result"]["route"] for c in calls] == ["clarify_scope", "collect_evidence"]
     assert not any("correction_feedback" in s for s in trace["steps"])
     assert json.loads(trace["steps"][-1]["model_response"]["text"])["final"] == trace["final"]
+
+
+def test_neutral_question_pair_preserves_controls_and_limits_the_tool_result_change():
+    before = json.loads((DIRECTORY / "qwen4-triage-scope.json").read_text(encoding="utf-8"))
+    after = json.loads(
+        (DIRECTORY / "qwen4-triage-neutral-questions.json").read_text(encoding="utf-8")
+    )
+    assert after["project_version"] == "0.11.1"
+    for key in (
+        "task",
+        "task_id",
+        "initial_messages",
+        "prompt_sha256",
+        "runtime",
+        "model_id",
+        "revision",
+    ):
+        assert before[key] == after[key]
+    assert before["steps"][0]["actions"] == after["steps"][0]["actions"]
+    old_calls = [c for s in before["steps"] for c in s.get("tool_calls", [])]
+    new_calls = [c for s in after["steps"] for c in s.get("tool_calls", [])]
+    assert len(old_calls) == len(new_calls) == 2
+    assert after["coverage"]["observed"] == after["coverage"]["required"] == 2
+    engine = Copilot()
+    for old, new in zip(old_calls, new_calls, strict=True):
+        assert old["action"] == new["action"]
+        assert not new["tool_error"]
+        assert new["tool_result"] == engine.triage_issue(**new["action"]["arguments"])
+        expected = deepcopy(old["tool_result"])
+        if expected["candidates"][0]["category"] == "unknown":
+            assert (
+                expected["candidates"][0]["questions"]
+                != new["tool_result"]["candidates"][0]["questions"]
+            )
+            expected["candidates"][0]["questions"] = new["tool_result"]["candidates"][0][
+                "questions"
+            ]
+        assert expected == new["tool_result"]
+    assert after["repair_budget"] == 0
+    assert not any("correction_feedback" in step for step in after["steps"])
+    assert json.loads(after["steps"][-1]["model_response"]["text"])["final"] == after["final"]
 
 
 def test_recorded_corrections_and_field_reviews_are_reproducible():

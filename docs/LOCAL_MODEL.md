@@ -1,8 +1,8 @@
 # An actual model run, including the failures
 
-The project contains nine exploratory local model attempts across three synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
+The project contains ten exploratory local model attempts across three synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
 
-The newest attempt triages two inbound messages without a supplied account ID. Both exact-message calls succeed, and the answer distinguishes clarification from evidence collection. Its invoice questions still copy a generic technical fallback. This adds a customer-fit question alongside the earlier evidence-fidelity failures; it is not a general model-quality result.
+The newest attempt repeats the inbound-message task after neutralizing the unknown-scope questions. Both exact-message calls succeed, and the invoice follow-up now asks about account/product context rather than an app failure. It still copies broad fallback questions. The original and revised answers remain available; this is an observed development pair, not a general model-quality result.
 
 **The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
@@ -100,3 +100,22 @@ Run this task with `--task triage_scope --protocol batch --max-steps 4 --max-new
 **Answer review:** the response gives different next actions, two prompts per message and an explicit nothing-sent sentence. It does not invent IDs or a confirmed internal owner. The invoice prompts ask for an app/platform and expected versus actual behavior, following the tool's generic unknown-scope fallback but offering limited help with the invoice request. The phrase potential issues is tentative; the answer could more clearly distinguish lexical candidates from a confirmed diagnosis. Its actions reflect the two routes without quoting the route codes.
 
 That customer-fit assessment is AI-assisted editorial review, not independent validation. A result can follow tool output and still ask a poorly matched question. [Unedited recording](../evidence/model-runs/qwen4-triage-scope.json) · [Published review](../evidence/MODEL_RUNS.md).
+
+## v0.11.1: neutral questions for an unknown request
+
+The tenth recording repeats that exact task after changing the tool's unknown-scope fallback. The old question assumed something happened to an app or platform. The new questions ask which account/product the request concerns and what information or outcome is needed. Unknown handoffs also ask the CSM to establish that scope before choosing an owner. This introduces no invoice category or billing procedure.
+
+| Inspectable comparison | Earlier recording | Neutral-question recording |
+|---|---|---|
+| Project version | 0.11.0 | 0.11.1 |
+| Initial prompt, task and recorded runtime settings | Same | Same |
+| Initial action batch | Two exact-message triage calls, no integration identity | Same |
+| Invoice route | `clarify_scope` | Same |
+| Invoice tool questions | App/platform and expected versus actual behavior | Account/product context and requested information/outcome |
+| Entire Offerwall tool result | `no_offers / collect_evidence` | Identical |
+| Final invoice follow-up | Asks about an app/platform | Repeats the neutral account/product questions |
+| Extra calls, tool errors, host corrections | None | None |
+
+The final answer uses candidate language and explicitly says nothing was sent. Its invoice questions remain broad, and it does not explain lexical retrieval or cite the Offerwall URL. One matched development pair supports this observation, not a general quality estimate. A regression check compares the controls and verifies that the only returned-data difference is the unknown candidate's question list. It does not score the usefulness of the answer.
+
+[Earlier raw trace](../evidence/model-runs/qwen4-triage-scope.json) · [New raw trace](../evidence/model-runs/qwen4-triage-neutral-questions.json) · [Integrity checks](../tests/test_recorded_model_runs.py)

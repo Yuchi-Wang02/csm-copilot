@@ -109,6 +109,8 @@ test("unrecognized scope takes precedence over generic field completeness in eac
       "unused",
     );
     assert.match(html, /Clarify the request first/);
+    assert.match(html, /request, desired outcome and relevant account or product/);
+    assert.doesNotMatch(html, /Confirm what happened and what was expected/);
     assert.doesNotMatch(
       html,
       /Ready for handoff review|Request before technical review/,

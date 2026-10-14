@@ -206,9 +206,43 @@
           "assessment": "The invoice message reuses a published development probe. One local generation used the batch protocol, a four-step cap and 768-token output cap with no host corrections. This is a third prescribed task, not a held-out evaluation or a controlled estimate of model improvement."
         }
       ]
+    },
+    {
+      "id": "qwen4-triage-neutral-questions",
+      "label": "Qwen3-4B · neutral scope questions",
+      "protocol": "batch",
+      "verdict": "Technical assumption removed; invoice follow-up still broad",
+      "summary": "The same task and initial prompt produce the same two tool calls. With neutral unknown-scope questions in the tool result, the answer asks about account/product context and the requested information. Both routes remain correct, and nothing was sent. This one development pair does not establish general improvement.",
+      "findings": [
+        {
+          "kind": "supported",
+          "claim": "Same initial prompt, task, runtime settings and tool actions",
+          "assessment": "The initial messages and their SHA-256 match the preceding inbound-message recording. Model revision, recorded runtime configuration and initial two-call batch also match. Both calls succeed with exact original messages and integration_id=null; there are no extra calls, tool errors or host corrections."
+        },
+        {
+          "kind": "changed",
+          "claim": "Only the unknown-candidate questions differ in returned tool data",
+          "assessment": "The invoice tool result now asks for account/product context and requested information or outcome. All other invoice-result fields match the previous recording, and the complete blank-Offerwall result is unchanged. The historical recording retains its original app/platform question."
+        },
+        {
+          "kind": "needs review",
+          "claim": "Invoice questions no longer assume a technical symptom",
+          "assessment": "The final answer repeats the two neutral questions rather than asking about app/platform failure. They are still broad: the request already identifies an invoice, and a CSM should tailor the follow-up to relevant account details instead of treating the fallback as a verified billing workflow. This customer-fit assessment is AI-assisted editorial review, not independent validation."
+        },
+        {
+          "kind": "qualification",
+          "claim": "Candidate wording is clearer, but source limits are not fully explained",
+          "assessment": "The answer calls both outputs candidates, proposes clarification versus evidence collection, and states that nothing was sent. It does not explicitly explain lexical retrieval, repeat root_cause=unconfirmed or cite the Offerwall source URL. Its actions reflect the tool routes without quoting route codes. Human review remains necessary."
+        },
+        {
+          "kind": "boundary",
+          "claim": "One fresh local attempt, with all earlier recordings retained",
+          "assessment": "This is the tenth exploratory recording across three prescribed tasks. The invoice message is a published development probe. A matched prompt and sampling configuration do not make a single generated pair a general reliability estimate, a blinded test or independent human review."
+        }
+      ]
     }
   ],
-  "boundary": "Nine exploratory attempts across three prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Ten exploratory attempts across three prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

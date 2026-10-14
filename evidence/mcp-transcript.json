@@ -910,7 +910,8 @@
             "source_url": null,
             "checks": [],
             "questions": [
-              "What happened, what was expected, and which app/platform is affected?"
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
             ]
           }
         ],

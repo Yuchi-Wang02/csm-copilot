@@ -95,7 +95,9 @@ def test_unrecognized_issue_needs_scope_before_technical_handoff(summary, comple
     assert result["triage"]["route"] == "clarify_scope"
     assert result["handoff_state"] == "needs_scope"
     assert result["suggested_owner"] == "CSM to clarify issue scope (project policy)"
-    assert result["next_action"].startswith("Clarify what happened and what was expected")
+    assert result["next_action"].startswith(
+        "Clarify the request, desired outcome and relevant account or product"
+    )
     assert bool(result["missing_fields"]) is not complete_fields
     assert result["sent"] is False
     assert engine.data.model_dump(mode="json") == before

@@ -182,7 +182,7 @@ def build():
         box(
             [
                 para(
-                    "<b>Prioritize accounts &gt; inspect evidence &gt; draft &gt; prepare handoff &gt; review</b>"
+                    "<b>Prioritize &gt; inspect evidence &gt; draft &gt; hand off &gt; review</b>"
                 ),
                 para(
                     "The MCP server supplies scoped findings and drafts. A model-enabled host can choose "

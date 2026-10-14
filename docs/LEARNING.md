@@ -2,6 +2,8 @@
 
 The project is a starting point for demonstrated understanding. These exercises are **not marked complete**. Keep personal notes and small commits as you work through them; that is stronger evidence of learning than an oversized feature list.
 
+**A small current exercise:** compare the two [inbound-message recordings](LOCAL_MODEL.md#v0111-neutral-questions-for-an-unknown-request). Before reading the annotations, explain why a correct `unknown` category can still produce a poor invoice follow-up. Propose one more specific customer question without inventing billing policy. Then trace the changed question through the engine, tool result and unedited model response. Record your reasoning separately from the AI-assisted review.
+
 ## Session 1 — Trace one account (30–45 minutes)
 
 - Find `acc_014` in `src/csm_copilot/data/accounts.json`.

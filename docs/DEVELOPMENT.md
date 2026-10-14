@@ -178,4 +178,12 @@ The invoice questions follow the tool's generic app/platform and expected-versus
 
 The original eight traces remain unchanged. The new task, actual calls, unedited response and review are visible in the replay. The PDF count updates to nine attempts, and the interview/learning guides ask the reader to assess the invoice questions before reading the annotations.
 
+## v0.11.1 — let an unknown request remain nontechnical
+
+The ninth model attempt exposed a tool-design problem: the invoice was correctly classified as unknown, but the fallback still asked about an affected app/platform. Three unknown-intent cases and four handoff variants failed their new scope-question expectations against the prior implementation (7 failed, 8 passed in the focused pre-change check). The engine and handoff view now ask for request, outcome and account/product context. Recognized Offerwall questions and the original diagnostic classifications remain unchanged.
+
+A fresh local Qwen3-4B attempt repeated the same task, initial messages, runtime settings and first action batch. Only the invoice question list differs in the tool results. The final answer now repeats the neutral questions and calls the outputs candidates. It still needs customer-specific editing and does not fully explain the retrieval limitation. The old nine recordings were preserved; the tenth records what the model actually generated, with no host corrections.
+
+The lesson is concrete: an assistant can faithfully copy an inappropriate tool suggestion. Review the questions a tool supplies as carefully as its category and route. This is an AI-assisted development observation, not a claim that Yuchi independently performed or mastered the exercise. [Paired evidence](LOCAL_MODEL.md#v0111-neutral-questions-for-an-unknown-request).
+
 **Lesson:** a model can follow tool output and still ask a poorly matched question. Review tool execution, factual support and customer usefulness separately. Fixing the lexical input boundary did not establish that every downstream question is useful.

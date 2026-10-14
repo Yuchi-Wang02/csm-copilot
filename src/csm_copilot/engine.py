@@ -192,7 +192,8 @@ class Copilot:
                     "source_url": None,
                     "checks": [],
                     "questions": [
-                        "What happened, what was expected, and which app/platform is affected?"
+                        "Which account or product does this request concern?",
+                        "What specific information or outcome do you need, and which relevant details should we review?",
                     ],
                 }
             )
@@ -256,7 +257,7 @@ class Copilot:
             "suggested_owner": "CSM to clarify issue scope (project policy)"
             if needs_scope
             else "Technical support after CSM evidence review (project policy)",
-            "next_action": "Clarify what happened and what was expected before choosing a technical owner; no ticket was submitted."
+            "next_action": "Clarify the request, desired outcome and relevant account or product before choosing an owner; no ticket was submitted."
             if needs_scope
             else "Request missing evidence, then review the handoff; no ticket was submitted."
             if missing

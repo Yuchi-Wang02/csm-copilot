@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -21,7 +22,11 @@ def test_phrase_boundaries_remove_collisions_without_claiming_semantic_understan
     predicted = [item["category"] for item in result["candidates"]]
     previous = next(row["result"] for row in BEFORE["cases"] if row["id"] == case["id"])
     if case["kind"] == "known_limit":
-        assert result == previous
+        comparable = deepcopy(result)
+        # v0.11.1 changes unknown-scope questions, not these historical category errors.
+        if predicted == ["unknown"]:
+            comparable["candidates"][0]["questions"] = previous["candidates"][0]["questions"]
+        assert comparable == previous
         assert predicted != case["expected"]
     else:
         assert predicted == case["expected"]

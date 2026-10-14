@@ -102,7 +102,7 @@ endobj
 endobj
 16 0 obj
 <<
-/Length 5888
+/Length 5873
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -111,7 +111,7 @@ q
 n 48 42 m 564 42 l S
 .372549 .439216 .419608 rg
 BT /F1 7.5 Tf 9 TL ET
-BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence 3bb5c0715399) Tj T* ET
+BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence a63892fb9c80) Tj T* ET
 BT 1 0 0 1 549.405 29 Tm (1 / 2) Tj T* ET
 Q
 q
@@ -151,7 +151,7 @@ BT /F1 10 Tf 12 TL ET
 q
 1 0 0 1 13 26 cm
 q
-BT 1 0 0 1 0 4 Tm 14 TL /F2 10 Tf .098039 .172549 .168627 rg (5 synthetic accounts) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (8 MCP tools) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (9 recorded model attempts) Tj T* ET
+BT 1 0 0 1 0 4 Tm 14 TL /F2 10 Tf .098039 .172549 .168627 rg (5 synthetic accounts) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (8 MCP tools) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (10 recorded model attempts) Tj T* ET
 Q
 Q
 q
@@ -196,7 +196,7 @@ BT /F1 10 Tf 12 TL ET
 q
 1 0 0 1 13 37 cm
 q
-BT 1 0 0 1 0 4 Tm 14 TL /F2 10 Tf .098039 .172549 .168627 rg (Prioritize accounts > inspect evidence > draft > prepare handoff > review) Tj T* ET
+BT 1 0 0 1 0 4 Tm 14 TL /F2 10 Tf .098039 .172549 .168627 rg (Prioritize > inspect evidence > draft > hand off > review) Tj T* ET
 Q
 Q
 q
@@ -367,7 +367,7 @@ q
 n 48 42 m 564 42 l S
 .372549 .439216 .419608 rg
 BT /F1 7.5 Tf 9 TL ET
-BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence 3bb5c0715399) Tj T* ET
+BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence a63892fb9c80) Tj T* ET
 BT 1 0 0 1 549.405 29 Tm (2 / 2) Tj T* ET
 Q
 q
@@ -605,7 +605,7 @@ xref
 0000002283 00000 n 
 0000002635 00000 n 
 0000002702 00000 n 
-0000008642 00000 n 
+0000008627 00000 n 
 trailer
 <<
 /ID 
@@ -617,5 +617,5 @@ trailer
 /Size 18
 >>
 startxref
-14679
+14664
 %%EOF

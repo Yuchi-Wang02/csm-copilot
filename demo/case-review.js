@@ -52,7 +52,7 @@
       return `<article class="issue-review"><h3>${esc(issue.summary)}</h3><p class="boundary">Handoff draft unavailable for ${esc(issue.id)}. The issue is recorded; review its source before preparing a draft.</p></article>`;
     const fieldStatus =
       t.handoff_state === "needs_scope"
-        ? "<strong>Clarify the request first</strong>Generic field completeness does not establish issue scope. Confirm what happened and what was expected before choosing an owner or requesting technical details."
+        ? "<strong>Clarify the request first</strong>Generic field completeness does not establish issue scope. Confirm the request, desired outcome and relevant account or product before choosing an owner or requesting technical details."
         : `<strong>${t.missing_fields.length ? "Request before technical review" : "Ready for handoff review"}</strong>${t.missing_fields.length ? t.missing_fields.map((f) => `<code>${esc(f)}</code>`).join(" ") : "All scoped required fields are present. Confirm their content and the appropriate owner before submission."}`;
     return (
       `<article class="issue-review"><h3>${esc(t.title)}</h3><div class="decision">${badge(t.handoff_state)}<strong>Root cause: ${esc(t.root_cause)}</strong></div>` +
