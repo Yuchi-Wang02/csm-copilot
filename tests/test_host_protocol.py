@@ -204,3 +204,29 @@ def test_morning_expectations_match_the_actual_fixed_queue_without_prompt_identi
     ]["morning_review"]
     for identifier in ("acc_014", "lantern_android", "lantern_ios", "issue_blank", "Lantern"):
         assert identifier not in task
+
+
+def test_dependency_guidance_is_explicit_and_does_not_change_default_prompts():
+    import runpy
+    from pathlib import Path
+
+    host = runpy.run_path(str(Path(__file__).resolve().parents[1] / "scripts/run_local_host.py"))
+    for protocol, name in [
+        ("single", "SINGLE_SYSTEM"),
+        ("batch", "SYSTEM"),
+        ("grounded", "GROUNDED_SYSTEM"),
+    ]:
+        assert host["system_prompt"](protocol) == host[name]
+    guided = host["system_prompt"]("batch", True)
+    assert guided.replace("\n" + host["DEPENDENCY_GUIDANCE"], "", 1) == host["SYSTEM"]
+    assert guided.count(host["DEPENDENCY_GUIDANCE"]) == 1
+    assert guided.endswith("\nAvailable tools:\n")
+    for identifier in (
+        "acc_014",
+        "lantern_android",
+        "lantern_ios",
+        "issue_blank",
+        "12345",
+        "67890",
+    ):
+        assert identifier not in guided

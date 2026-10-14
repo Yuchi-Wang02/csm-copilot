@@ -93,6 +93,23 @@ GROUNDED_SYSTEM = SYSTEM.replace(
     "in that integration's readiness checks, not issue-only sources from follow-up results. "
     "Do not omit, invent or duplicate IDs. explanation is free prose and still needs review. ",
 )
+DEPENDENCY_GUIDANCE = (
+    "Plan dependent work across turns. For morning review, first call list_accounts alone and "
+    "wait for its result. Then use the returned first account ID to get_account_context and "
+    "wait for that result. Use only account, integration and issue IDs already present in "
+    "preceding tool results; never invent IDs or use placeholders. Do not place a call and "
+    "another call that depends on its result in the same response. Once IDs are available, "
+    "batch only independent calls, with at most four actions per response."
+)
+
+
+def system_prompt(protocol, sequence_dependencies=False):
+    prompt = {"single": SINGLE_SYSTEM, "batch": SYSTEM, "grounded": GROUNDED_SYSTEM}[protocol]
+    if sequence_dependencies:
+        prompt = prompt.replace(
+            "\nAvailable tools:\n", "\n" + DEPENDENCY_GUIDANCE + "\nAvailable tools:\n"
+        )
+    return prompt
 
 
 async def readline(process, timeout):
@@ -141,6 +158,7 @@ async def run(args):
         "max_steps": args.max_steps,
         "repair_budget": args.repair_attempts,
         "constrain_final": args.constrain_final,
+        "sequence_dependencies": args.sequence_dependencies,
         "steps": [],
         "status": "initializing",
         "final": None,
@@ -192,11 +210,7 @@ async def run(args):
                 messages = [
                     {
                         "role": "system",
-                        "content": {
-                            "single": SINGLE_SYSTEM,
-                            "batch": SYSTEM,
-                            "grounded": GROUNDED_SYSTEM,
-                        }[args.protocol]
+                        "content": system_prompt(args.protocol, args.sequence_dependencies)
                         + json.dumps(tools, ensure_ascii=False),
                     },
                     {"role": "user", "content": task},
@@ -300,6 +314,11 @@ def main():
     parser.add_argument("--max-steps", type=int, default=8)
     parser.add_argument("--repair-attempts", type=int, choices=(0, 1, 2), default=0)
     parser.add_argument(
+        "--sequence-dependencies",
+        action="store_true",
+        help="Add explicit queue/context dependency guidance for the morning_review batch task; not a runtime ID guard",
+    )
+    parser.add_argument(
         "--constrain-final",
         action="store_true",
         help="Require optional lm-format-enforcer in the model environment; constrain final JSON after tool coverage is complete",
@@ -307,6 +326,8 @@ def main():
     parser.add_argument("--max-new-tokens", type=int, default=768)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.sequence_dependencies and (args.task != "morning_review" or args.protocol != "batch"):
+        parser.error("--sequence-dependencies requires --task morning_review --protocol batch")
     if args.task != "platform_followups" and args.protocol == "grounded":
         parser.error("The grounded final contract currently supports only platform_followups")
     if args.constrain_final and args.protocol != "grounded":
