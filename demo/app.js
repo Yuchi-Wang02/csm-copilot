@@ -223,6 +223,47 @@ function renderModelRun() {
 $("model-run").addEventListener("change", renderModelRun);
 renderModelRun();
 
+function renderHandoffComparison() {
+  const comparison = modelRuns.handoff_comparison;
+  const [before, after] = comparison.attempts;
+  const observations = [
+    ["Requested actions observed", "required_actions"],
+    ["Total attempted calls", "attempted_calls"],
+    ["Tool errors", "tool_errors"],
+    ["Triage input", "triage_input"],
+    ["Triage result", "triage_result"],
+  ];
+  const table = (caption, rows) =>
+    `<table><caption>${esc(caption)}</caption><thead><tr><th scope="col">Review point</th><th scope="col">Earlier run</th><th scope="col">With identifier check</th></tr></thead><tbody>${rows.map(([label, first, second]) => `<tr><th scope="row">${esc(label)}</th><td>${esc(first)}</td><td>${esc(second)}</td></tr>`).join("")}</tbody></table>`;
+  $("model-comparison").innerHTML =
+    `<p class="boundary">${esc(comparison.boundary)}</p><ul class="comparison-controls">${Object.entries(
+      comparison.controls,
+    )
+      .map(
+        ([label, same]) =>
+          `<li><b>${esc(label)}:</b> ${same ? "same" : "different"}</li>`,
+      )
+      .join("")}</ul>` +
+    table(
+      "Recorded tool observations",
+      observations.map(([label, key]) => [label, before[key], after[key]]),
+    ) +
+    table(
+      "Explanation review · AI-assisted, not independent human validation",
+      comparison.review_rows.map((row) => [row.label, row.before, row.after]),
+    ) +
+    `<p class="boundary">The newer answer handles some distinctions more clearly but loses the earlier evidence citation. Neither answer satisfies the complete task.</p><div class="comparison-actions"><button class="copy" data-compare-run="${esc(before.id)}">Inspect earlier recording</button><button class="copy" data-compare-run="${esc(after.id)}">Inspect recording with identifier check</button></div>`;
+  document.querySelectorAll("[data-compare-run]").forEach((button) => {
+    button.addEventListener("click", () => {
+      $("model-run").value = button.dataset.compareRun;
+      renderModelRun();
+      $("model-result").focus({ preventScroll: true });
+      $("model-result").scrollIntoView({ block: "start" });
+    });
+  });
+}
+renderHandoffComparison();
+
 function renderResponseReview(run) {
   const review = run.trace.response_review;
   const corrections = run.trace.steps.filter((s) => s.correction_feedback);

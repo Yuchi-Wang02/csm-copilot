@@ -137,3 +137,11 @@ Three rejection tests reproduced the issue-ID-as-prose problem; three acceptance
 A fresh local run repeated the same four-call batch. The extra triage call was rejected while the required context and ticket calls succeeded. The answer distinguished the failed check from causal uncertainty and included a nothing-sent statement, but still omitted evidence IDs, owner and the specific hypothesis. The historical trace remains unchanged; a regression check explicitly preserves its formerly accepted result while expecting rejection from the new engine. New traces record the project version.
 
 **Lesson:** an observed failure can justify a narrow, explainable input check. That check's success does not certify the rest of the model response, and historical evidence must not be rewritten to match newer behavior.
+
+## v0.9.2: compare the evidence without implying a clean win
+
+Switching between two long recordings made the changes hard to assess. The replay now provides a paired comparison. Task text, model revision, sampling settings and the initial action batch are compared directly from the raw traces; the changed system message is also visible. Required-action coverage, all attempted calls and tool errors are separate rows. Explanation judgments remain explicitly AI-assisted annotations.
+
+The comparison exposes a tradeoff: the newer answer preserves the failed-check/cause distinction and says nothing was sent, but loses the earlier source citation. Both answers omit the proposed owner and specific hypothesis. Buttons open either full recording and move keyboard focus to it. Three Python checks cover the recorded counts, changed controls and missing-record handling; the full suite has 132 checks. No new inference was run for this presentation change.
+
+**Lesson:** a useful portfolio comparison should let a reviewer challenge an improvement claim. Show unchanged conditions, changed conditions, gains, losses and remaining gaps rather than reducing the two answers to a winner label.

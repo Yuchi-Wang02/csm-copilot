@@ -1343,3 +1343,53 @@ button:disabled {
   padding-top: 24px;
   border-top: 1px solid #dce2d8;
 }
+
+.model-comparison {
+  margin: 20px 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f5f7f1;
+}
+.model-comparison table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 22px 0;
+  font-size: 14px;
+}
+.model-comparison caption {
+  text-align: left;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.model-comparison th,
+.model-comparison td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--line);
+}
+.model-comparison thead {
+  background: #e9efdf;
+}
+.comparison-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+@media (max-width: 700px) {
+  .model-comparison {
+    padding: 12px;
+  }
+  .model-comparison th,
+  .model-comparison td {
+    padding: 8px 5px;
+    font-size: 12px;
+  }
+  .comparison-controls {
+    padding-left: 20px;
+    font-size: 13px;
+  }
+}

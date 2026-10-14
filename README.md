@@ -34,6 +34,8 @@ The current scope is deliberately bounded: Offerwall publisher onboarding, two i
 
 A [two-page project brief](demo/project-brief.pdf) provides a portable introduction to the workflow, recorded AI failure and improvement, contribution boundaries, and evidence links. The website also supports shareable review selections and restores them with browser Back/Forward. Practice evidence links open the relevant platform while retaining in-page notes. See [development notes](docs/DEVELOPMENT.md) for the iteration history and [verification](docs/VERIFICATION.md) for the checks and their limits.
 
+In the AI trace section, expand **Compare the two callback handoff attempts** to inspect the same action batch before and after the identifier check. The comparison separates recorded tool behavior from AI-assisted explanation review, including the citation lost in the newer answer. A [portable comparison](evidence/MODEL_RUNS.md#compare-the-callback-handoff-attempts) links both raw traces.
+
 ## Start with one case
 
 1. Open **Lantern Games** in the [demo](https://yuchi-wang02.github.io/csm-copilot/).

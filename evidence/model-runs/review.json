@@ -174,5 +174,30 @@
       ]
     }
   ],
-  "boundary": "Eight exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use."
+  "boundary": "Eight exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "handoff_comparison": {
+    "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
+    "review_rows": [
+      {
+        "label": "Failed check versus cause",
+        "before": "Calls callback_verified unconfirmed.",
+        "after": "Preserves not_met separately from an unconfirmed root cause."
+      },
+      {
+        "label": "Evidence citations",
+        "before": "Cites msg_issue_callback.",
+        "after": "Names account, issue and draft IDs, but omits source evidence IDs."
+      },
+      {
+        "label": "Owner and specific hypothesis",
+        "before": "Both omitted.",
+        "after": "Both still omitted."
+      },
+      {
+        "label": "Nothing-sent statement",
+        "before": "Says no ticket was submitted.",
+        "after": "Explicitly says nothing was sent."
+      }
+    ]
+  }
 }

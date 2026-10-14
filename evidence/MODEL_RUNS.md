@@ -153,3 +153,32 @@ Observed requested tool actions: 2/2. Final response present: True.
 > Harbor Studio \(acc\_006\) has a recorded issue \(issue\_callback\) with Android's reward callback returning HTTP 405. The issue was observed in Japan with SDK synthetic-version-1 between 08:30–09:00 UTC on 2026-10-10. Evidence shows callback\_verified is not\_met, but other checks like currency\_approved, device\_verified, and sdk\_connected are met. The root cause remains unconfirmed, and missing fields include reproduction\_steps and redacted\_logs. A draft ticket \(ticket-issue\_callback\) was prepared but not sent. Next action: request missing evidence and review the handoff before submitting a ticket. Nothing was sent.
 
 Narrow promise lint flags: []. No flags does not establish fidelity.
+
+## Compare the callback handoff attempts
+
+Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.
+
+- Task text: same.
+- Model and revision: same.
+- Recorded sampling settings: same.
+- Initial action batch: same.
+- System message including tool descriptions: different.
+
+| Recorded observation | Earlier run | With identifier check |
+|---|---|---|
+| Requested actions observed | 2 / 2 | 2 / 2 |
+| Total attempted calls | 4 | 4 |
+| Tool errors | 0 | 1 |
+| Triage input | issue\_callback | issue\_callback |
+| Triage result | Accepted | Rejected |
+
+### Source comparison — AI-assisted
+
+| Review point | Earlier answer | Newer answer |
+|---|---|---|
+| Failed check versus cause | Calls callback\_verified unconfirmed. | Preserves not\_met separately from an unconfirmed root cause. |
+| Evidence citations | Cites msg\_issue\_callback. | Names account, issue and draft IDs, but omits source evidence IDs. |
+| Owner and specific hypothesis | Both omitted. | Both still omitted. |
+| Nothing-sent statement | Says no ticket was submitted. | Explicitly says nothing was sent. |
+
+[Earlier trace](model-runs/qwen4-callback-handoff.json) · [Newer trace](model-runs/qwen4-callback-input-guard.json)

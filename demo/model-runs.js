@@ -4359,5 +4359,57 @@ window.CSM_MODEL_RUNS = {
     }
   ],
   "review_method": "AI-assisted comparison with recorded tool results; not independent human review",
-  "boundary": "Eight exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use."
+  "boundary": "Eight exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "handoff_comparison": {
+    "controls": {
+      "Task text": true,
+      "Model and revision": true,
+      "Recorded sampling settings": true,
+      "Initial action batch": true,
+      "System message including tool descriptions": false
+    },
+    "attempts": [
+      {
+        "id": "qwen4-callback-handoff",
+        "label": "Qwen3-4B · callback handoff task",
+        "required_actions": "2 / 2",
+        "attempted_calls": 4,
+        "tool_errors": 0,
+        "triage_input": "issue_callback",
+        "triage_result": "Accepted"
+      },
+      {
+        "id": "qwen4-callback-input-guard",
+        "label": "Qwen3-4B · handoff with identifier check",
+        "required_actions": "2 / 2",
+        "attempted_calls": 4,
+        "tool_errors": 1,
+        "triage_input": "issue_callback",
+        "triage_result": "Rejected"
+      }
+    ],
+    "review_rows": [
+      {
+        "label": "Failed check versus cause",
+        "before": "Calls callback_verified unconfirmed.",
+        "after": "Preserves not_met separately from an unconfirmed root cause."
+      },
+      {
+        "label": "Evidence citations",
+        "before": "Cites msg_issue_callback.",
+        "after": "Names account, issue and draft IDs, but omits source evidence IDs."
+      },
+      {
+        "label": "Owner and specific hypothesis",
+        "before": "Both omitted.",
+        "after": "Both still omitted."
+      },
+      {
+        "label": "Nothing-sent statement",
+        "before": "Says no ticket was submitted.",
+        "after": "Explicitly says nothing was sent."
+      }
+    ],
+    "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review."
+  }
 };
