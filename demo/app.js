@@ -1,11 +1,9 @@
 /* A transparent replay of Python outputs. No API, hidden AI, or simulated typing. */
 "use strict";
 const { workflow, evaluation: report, integrity, friction } = window.CSM_DATA;
-let selected = 0,
-  integration = 0,
-  activeTab = "evidence",
-  language = "en",
-  updated = false;
+const reviewLinks = window.CSM_REVIEW_LINKS;
+let { selected, integration, activeTab, language, updated, invalid } =
+  reviewLinks.read(location.search, workflow);
 const $ = (id) => document.getElementById(id);
 const esc = (value) =>
   String(value ?? "").replace(
@@ -28,6 +26,7 @@ function renderQueue() {
     button.addEventListener("click", () => {
       selected = Number(button.dataset.account);
       integration = 0;
+      syncReviewUrl();
       renderQueue();
       renderCase();
     }),
@@ -37,6 +36,7 @@ function checksTable(r) {
   return `<div class="decision">${badge(r.decision)}<strong>${esc(r.platform)} · scoped checklist</strong></div><table class="checks"><thead><tr><th>CHECK / SOURCE</th><th>STATE</th><th>EVIDENCE</th></tr></thead><tbody>${r.checks.map((c) => `<tr><td>${esc(c.label)}<a class="check-source" href="${esc(c.source_url)}" target="_blank" rel="noreferrer">${c.authority === "project_policy" ? "Project policy · related docs" : "Official documentation"} ↗</a></td><td>${badge(c.status)}</td><td>${c.evidence_ids.length ? c.evidence_ids.map((id) => `<span class="evidence-link">${esc(id)}</span>`).join("") : '<span class="evidence-link">No applicable record</span>'}</td></tr>`).join("")}</tbody></table><p class="boundary">${esc(r.boundary)}</p>`;
 }
 function renderCase() {
+  renderShareLink();
   const p = workflow.packets[selected],
     item = p.integrations[integration],
     r = item.readiness;
@@ -44,6 +44,7 @@ function renderCase() {
     `<div><h3>${esc(p.selection.name)}</h3><p>${esc(r.app)} · ${esc(p.selection.stage)} · ${esc(p.selection.account_id)}</p></div><label><span class="small-label">PLATFORM </span><select id="platform-select" aria-label="Integration platform">${p.integrations.map((it, n) => `<option value="${n}" ${n === integration ? "selected" : ""}>${esc(it.readiness.platform)}</option>`).join("")}</select></label>`;
   $("platform-select").addEventListener("change", (e) => {
     integration = Number(e.target.value);
+    syncReviewUrl();
     renderCase();
   });
   document.querySelectorAll("[data-tab]").forEach((b) => {
@@ -78,6 +79,7 @@ function renderCase() {
       `<div class="toolbar"><label for="language-select">Client language</label><select id="language-select"><option value="en" ${language === "en" ? "selected" : ""}>English</option><option value="zh" ${language === "zh" ? "selected" : ""}>中文</option></select><button class="copy" id="copy-draft">Copy draft</button></div><div class="draft-purpose"><strong>Purpose: ${esc(draft.intent.replaceAll("_", " "))}</strong><p>${esc(draft.next_action)}</p></div><pre class="draft" lang="${language === "zh" ? "zh-CN" : "en"}">${esc(draft.body)}</pre><div class="notice"><b>DRAFT · NOT SENT</b> — Contact history is unchanged. Deterministic template; a host model may rewrite it with evidence-bound review.</div><details><summary>Inspect draft provenance and review limits</summary><pre>${esc(JSON.stringify({ evidence_ids: draft.evidence_ids, issue_ids: draft.issue_ids, review: draft.review, requests: draft.requests }, null, 2))}</pre></details>`;
     $("language-select").addEventListener("change", (e) => {
       language = e.target.value;
+      syncReviewUrl();
       renderCase();
     });
     $("copy-draft").addEventListener("click", async () => {
@@ -97,7 +99,7 @@ function renderCase() {
       : null;
     if (!t) {
       $("panel").innerHTML =
-        '<div class="empty"><h3>No issue to escalate yet.</h3><p>Request missing evidence in the follow-up. A readiness unknown does not automatically become a support ticket.</p></div>';
+        `<div class="empty"><h3>No recorded issue to escalate.</h3><p>${esc(item.followup_en.next_action)}</p><p class="boundary">A readiness unknown does not automatically become a support ticket.</p></div>`;
       return;
     }
     $("panel").innerHTML =
@@ -116,6 +118,7 @@ function renderCase() {
 document.querySelectorAll("[data-tab]").forEach((b, n, buttons) => {
   b.addEventListener("click", () => {
     activeTab = b.dataset.tab;
+    syncReviewUrl();
     renderCase();
   });
   b.addEventListener("keydown", (event) => {
@@ -155,6 +158,8 @@ function renderCounter() {
 }
 $("update-toggle").addEventListener("click", () => {
   updated = !updated;
+  syncReviewUrl();
+  renderShareLink();
   renderCounter();
 });
 const m = report.metrics.holdout;
@@ -248,3 +253,81 @@ function renderResponseReview(run) {
   html += `<div class="structured-review"><h3>Structured field review</h3><strong>${esc(review.status.replaceAll("_", " "))}</strong><p>Free-form explanation: not semantically verified. Human review remains required.</p>${review.issues.length ? `<ul>${review.issues.map((i) => `<li>${esc(i.field)}: ${esc(i.code)}</li>`).join("")}</ul>` : "<p>The declared states and readiness source IDs match the observed tool outputs.</p>"}${review.checked_summary ? `<details><summary>Inspect system-rendered checked summary</summary><pre class="checked-summary">${esc(review.checked_summary)}</pre></details>` : ""}<p class="boundary">${esc(review.boundary)}</p></div>`;
   return html;
 }
+
+function reviewState() {
+  return { selected, integration, activeTab, language, updated };
+}
+function renderShareLink() {
+  $("share-review-url").value = reviewLinks.share(reviewState(), workflow);
+  $("copy-review-link").textContent = "Copy this review link";
+  $("route-notice").textContent = invalid.length
+    ? "Some review settings in this link were invalid or ambiguous. Default values are shown for those settings."
+    : "";
+}
+function syncReviewUrl() {
+  invalid = [];
+  const target =
+    location.pathname +
+    reviewLinks.query(reviewState(), workflow) +
+    (location.hash || "#workspace");
+  if (target !== location.pathname + location.search + location.hash) {
+    try {
+      history.pushState(null, "", target);
+    } catch {
+      /* File URLs can restrict history; the share link still works. */
+    }
+  }
+}
+function restoreReview(search = location.search) {
+  ({ selected, integration, activeTab, language, updated, invalid } =
+    reviewLinks.read(search, workflow));
+  renderQueue();
+  renderCase();
+  renderCounter();
+}
+window.addEventListener("popstate", () => restoreReview());
+// In-page evidence links preserve practice notes instead of reloading the document.
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("a[data-review-link]");
+  if (
+    !link ||
+    event.button !== 0 ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey
+  )
+    return;
+  if (!link.getAttribute("href").startsWith("?")) return;
+  const target = new URL(link.href, location.href);
+  if (
+    target.origin !== location.origin ||
+    target.pathname !== location.pathname
+  )
+    return;
+  event.preventDefault();
+  try {
+    history.pushState(null, "", target.pathname + target.search + target.hash);
+  } catch {
+    /* File URLs may restrict history. */
+  }
+  restoreReview(target.search);
+  const anchor = document.getElementById(target.hash.slice(1));
+  if (anchor) {
+    anchor.tabIndex = -1;
+    anchor.focus({ preventScroll: true });
+    anchor.scrollIntoView();
+  }
+});
+$("copy-review-link").addEventListener("click", async () => {
+  const url = reviewLinks.share(reviewState(), workflow);
+  try {
+    await navigator.clipboard.writeText(url);
+    $("copy-review-link").textContent = "Review link copied";
+  } catch {
+    $("review-link-details").open = true;
+    $("share-review-url").focus();
+    $("share-review-url").select();
+    $("copy-review-link").textContent = "Select the link to copy";
+  }
+});

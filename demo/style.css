@@ -1295,3 +1295,45 @@ button:disabled {
     margin: 0;
   }
 }
+
+.review-sharing {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 12px 0 18px;
+}
+.review-sharing details {
+  flex: 1;
+  min-width: 0;
+}
+.review-sharing label {
+  display: block;
+  font-size: 12px;
+  margin: 14px 0 6px;
+}
+.review-sharing input {
+  width: 100%;
+  font: inherit;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.review-sharing .disclosure {
+  margin: 10px 0 0;
+}
+#route-notice:empty {
+  display: none;
+}
+#route-notice {
+  background: #f4e8dc;
+  padding: 12px;
+  border-radius: 8px;
+}
+@media (max-width: 700px) {
+  .review-sharing {
+    flex-direction: column;
+  }
+  .review-sharing details {
+    width: 100%;
+  }
+}

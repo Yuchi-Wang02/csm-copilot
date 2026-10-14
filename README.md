@@ -19,19 +19,20 @@ A publisher wants to launch on Friday. Sales says integration is nearly complete
 
 A fluent message is easy to generate. A useful message must preserve the difference between **confirmed failure**, **missing evidence**, and **a possible explanation**. This project makes that distinction visible all the way from source records to the customer follow-up.
 
-The v0.7 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, a portfolio feedback review, and recorded local model attempts. It does not reproduce a production CRM or Unity's internal process.
+The current scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, a portfolio feedback review, and recorded local model attempts. It does not reproduce a production CRM or Unity's internal process.
 
-**New in v0.7: practice the judgment.** Try [three evidence-based decisions](https://yuchi-wang02.github.io/csm-copilot/#practice), record your reasoning before guidance, and download a reflection that separates your original answer from later learning. The exercise uses actual workflow outputs and the recorded AI attempt. Written reasoning is ungraded; completing the interface does not certify mastery. Read [the practice guide](docs/PRACTICE.md).
+## Choose what to inspect
 
-**Response checks from v0.6: checked fields, visible corrections.** A local Qwen3-4B run reached matching structured fields after two recorded correction requests. The host checks platform scope, unknowns, failures and readiness source IDs against actual MCP results, then renders a separate evidence summary. The model explanation stays unverified. Inspect [six recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including failures, and [the response-review design](docs/RESPONSE_REVIEW.md). All 109 behavior tests pass locally.
+| Portfolio question | Open this artifact |
+|---|---|
+| Can the workflow turn evidence into a useful next action? | [Android case](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace), [Chinese iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace), and [technical handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) |
+| What did the AI actually do, and where did it fail? | [Six recorded local attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs) and [structured-response review](docs/RESPONSE_REVIEW.md) |
+| Can a reviewer trace decisions to the right source? | [Eight evidence-boundary probes](https://yuchi-wang02.github.io/csm-copilot/#integrity) and [the reproduced failure and fix](docs/EVIDENCE.md) |
+| How could a CSM frame recurring friction for Product? | [Source-linked feedback review](evidence/product-feedback.md) and [counting method](docs/PRODUCT_FEEDBACK.md) |
+| How can I explain the judgment myself? | [Three interactive practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice), a downloadable reflection, and [the learning path](docs/LEARNING.md) |
+| Can I share a specific example or take it away? | [Direct review links](docs/SHARING.md), [English morning brief](evidence/morning-review-en.md), and [brief with Chinese drafts](evidence/morning-review-zh.md) |
 
-**Initial model experiment in v0.5: real model choices, visible answer failures.** A local Qwen3-4B run executed all four requested MCP calls but produced an explanation that needs revision. Inspect [the initial three recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including the rejected outputs, [source-based review](evidence/MODEL_RUNS.md), and [reproduction instructions](docs/LOCAL_MODEL.md). Tool coverage is not answer correctness. That release had 90 behavior tests.
-
-**Product feedback from v0.4:** explore [recurring checklist friction](https://yuchi-wang02.github.io/csm-copilot/#feedback) and download a [Product feedback review](evidence/product-feedback.md). The eighth MCP tool counts affected accounts separately from integrations, distinguishes missing evidence from failures, and proposes questions to validate with Product. Read the [method and interview exercise](docs/PRODUCT_FEEDBACK.md).
-
-**Portable reviews from v0.3:** take away a readable [English morning-review brief](evidence/morning-review-en.md) or a [brief with Chinese drafts](evidence/morning-review-zh.md). Follow-ups distinguish missing evidence, a recorded issue needing a status check, launch-plan review and a live-account check-in. See [the export and next-action policy](docs/REVIEW_BRIEF.md).
-
-**Evidence controls from v0.2:** source ownership and structured-claim agreement are enforced before tools use the data. A valid iOS evidence ID cannot certify Android; another customer's contact cannot reset this account's clock; ticket details cannot overwrite the affected app/platform. Explore the [eight-case evidence-boundary replay](https://yuchi-wang02.github.io/csm-copilot/#integrity) or read [the reproduced failure and fix](docs/EVIDENCE.md).
+The latest release adds shareable review selections and restores them with browser Back/Forward. Practice evidence links open the relevant platform while retaining in-page notes. See [development notes](docs/DEVELOPMENT.md) for the iteration history and [verification](docs/VERIFICATION.md) for the checks and their limits.
 
 ## Start with one case
 

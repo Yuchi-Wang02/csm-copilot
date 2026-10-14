@@ -8,12 +8,13 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.7.0" />
-    <script defer src="data.js?v=0.7.0"></script>
-    <script defer src="model-runs.js?v=0.7.0"></script>
-    <script defer src="app.js?v=0.7.0"></script>
-    <script defer src="practice-core.js?v=0.7.0"></script>
-    <script defer src="practice.js?v=0.7.0"></script>
+    <link rel="stylesheet" href="style.css?v=0.8.0" />
+    <script defer src="data.js?v=0.8.0"></script>
+    <script defer src="model-runs.js?v=0.8.0"></script>
+    <script defer src="review-links.js?v=0.8.0"></script>
+    <script defer src="app.js?v=0.8.0"></script>
+    <script defer src="practice-core.js?v=0.8.0"></script>
+    <script defer src="practice.js?v=0.8.0"></script>
   </head>
   <body>
     <a class="skip" href="#workspace">Skip to case explorer</a>
@@ -24,7 +25,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.7</span>
+      <span class="version">PORTFOLIO / V0.8</span>
     </header>
     <main>
       <section class="hero">
@@ -112,6 +113,24 @@
           </aside>
           <article class="case-panel">
             <div id="account-heading"></div>
+            <div class="review-sharing">
+              <button class="copy" id="copy-review-link">
+                Copy this review link
+              </button>
+              <details id="review-link-details">
+                <summary>View share link</summary>
+                <label for="share-review-url"
+                  >Public link to this synthetic review</label
+                ><input id="share-review-url" type="text" readonly />
+                <p class="disclosure">
+                  Includes platform, review step, language and the comparison
+                  toggle. Practice notes are excluded. The case panel always
+                  uses the original snapshot; the toggle changes only the
+                  separate comparison below.
+                </p>
+              </details>
+            </div>
+            <p id="route-notice" role="status"></p>
             <div class="case-nav" role="tablist" aria-label="Review steps">
               <button
                 role="tab"
@@ -141,13 +160,14 @@
             </div>
             <div
               id="panel"
+              tabindex="-1"
               role="tabpanel"
               aria-labelledby="tab-evidence"
             ></div>
           </article>
         </div>
       </section>
-      <section class="counter-section">
+      <section id="customer-update" class="counter-section">
         <div>
           <p class="eyebrow">02 / WHAT CHANGES WHEN EVIDENCE CHANGES?</p>
           <h2>Two confirmations.<br />Still one failed device check.</h2>

@@ -1,10 +1,10 @@
 # Verification record
 
-Verified through the v0.7 practice experience on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.8 shareable reviews on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript practice tests | 5 passed locally | Fixture grounding, preserved initial work, report labels, escaping and reset; not learning outcomes |
+| JavaScript browser-logic tests | 10 passed locally | Five practice checks plus five routing checks; not learning outcomes |
 | Python behavior tests | 109 passed locally | Workflow, source scope, next-action selection, readable exports and UTF-8 output |
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
 | Ruff lint and format | Passed | Python source checks |
@@ -39,12 +39,14 @@ The v0.6 browser check opened the system-rendered summary, selected the correcti
 
 The v0.7 browser check exercised all three decisions, both matching and differing options, preserved notes on return, reset, and a downloaded reflection. The actual downloaded file retained the original choice and note separately from later reflection. Revealing guidance focused the feedback panel. Mobile document and scroll widths both measured 360 CSS pixels, including the longer AI case; no browser errors were recorded. [Practice screenshot](assets/demo-practice.png). Test notes were created only for verification and do not represent Yuchi's work.
 
+The v0.8 browser check opened a Chinese iOS follow-up and Harbor handoff directly, verified the exact public URL in the clipboard, restored the previous view with Back, and confirmed invalid-setting fallback notices. Practice evidence links retained a test note while opening the appropriate iOS follow-up or Android comparison. The original Android panel stayed unchanged when the comparison toggle was active. The complete iOS empty-handoff view now proposes launch-plan review. Mobile document and scroll widths both measured 360 CSS pixels with the share-link controls expanded, and no browser errors were recorded. [Review-link screenshot](assets/demo-review-link.png).
+
 ## Reproduction
 
 ```sh
 python -m pip install -e ".[dev]"
 python -m pytest -q
-node --test tests-js/practice.test.cjs
+node --test tests-js/practice.test.cjs tests-js/review-links.test.cjs
 python -m ruff check .
 python -m ruff format --check .
 python scripts/mcp_smoke.py --output evidence/mcp-transcript.json

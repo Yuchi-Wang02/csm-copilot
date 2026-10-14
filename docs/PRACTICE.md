@@ -19,7 +19,7 @@ The displayed evidence comes from the same artifacts used by the case explorer a
 1. Read the evidence and choose a next action. Write a short reason in your own words before revealing the guidance.
 2. Select **Compare with the evidence**. Your original choice and note become read-only within this session. The application explains the selected option and the project policy.
 3. Write what you would change, what you would ask the customer, or what you would investigate next in the separate reflection field.
-4. Switch between decisions using the selector. Your notes remain available while the page stays open.
+4. Switch between decisions using the selector. Your notes remain available while the page stays open. The evidence links open the relevant platform or updated comparison within the page; returning to Practice retains your notes.
 5. Download the Markdown reflection. It separates original reasoning, published guidance, and notes written after guidance. Unreviewed decisions are labeled as such.
 
 The original choice is preserved to make a change in reasoning discussable. This is a convenience for reflection, not tamper-proof evidence: users can reset, reload, inspect the answer in public source, or edit a downloaded file. There is no identity check or claim that the work was completed unaided.

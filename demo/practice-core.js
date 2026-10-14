@@ -39,7 +39,8 @@
           },
         ],
         expected: "retest",
-        source: "#workspace",
+        source:
+          "?case=lantern_android&view=evidence&lang=en&update=1#customer-update",
         sourceLabel: "Inspect the case explorer and customer update",
         explanation:
           "Keep a recorded failure separate from an unknown state. Ask for new evidence without claiming the issue is resolved.",
@@ -76,7 +77,7 @@
           },
         ],
         expected: "review",
-        source: "#workspace",
+        source: "?case=lantern_ios&view=followup&lang=en#workspace",
         sourceLabel: "Inspect Lantern's iOS evidence and follow-up",
         explanation:
           "A complete scoped checklist changes the follow-up from evidence collection to launch-plan review. It does not establish launch approval, full compliance or ad availability.",

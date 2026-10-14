@@ -2,6 +2,8 @@
 
 This is a suggested presentation, not a claim that the exercises or interview have already happened.
 
+For a targeted demonstration, use [direct links to the Android evidence, Chinese iOS follow-up, and Harbor handoff](SHARING.md). The selected platform and review step are preserved, so the audience opens the example you intend.
+
 ## 0:00–0:30 — Explain the customer problem
 
 “I wanted to explore how AI could support customer onboarding while keeping the CSM accountable for the next step. In this example, a publisher wants to launch on Friday. iOS looks ready, but Android shows a blank offerwall. The challenge is to turn incomplete information into a useful follow-up without overpromising.”
