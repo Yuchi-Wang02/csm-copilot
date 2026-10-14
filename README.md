@@ -8,9 +8,9 @@ A customer-success portfolio by **Yuchi Wang**: a working Model Context Protocol
 
 **[Start the three-minute review](https://yuchi-wang02.github.io/csm-copilot/#start)** · **[Project brief (PDF)](demo/project-brief.pdf)** · **[Interview walkthrough](docs/INTERVIEW.md)** · **[Run locally](docs/LOCAL_SETUP.md)**
 
-[![Morning review with three queued accounts and an Android follow-up requesting missing confirmations, a fresh device check, and callback evidence. The draft is explicitly unsent.](docs/assets/demo-workflow-current.png)](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=followup&lang=en#workspace)
+[![Morning review with three queued accounts and an Android follow-up requesting missing confirmations, a fresh device check, and callback evidence. The draft is explicitly unsent.](docs/assets/workflow-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=followup&lang=en#workspace)
 
-Screenshot from v0.27.1. The website replays Python workflow outputs and saved model attempts; it does not run a live AI chat or send messages.
+Workflow screenshot from [source revision 0ea4b88](https://github.com/Yuchi-Wang02/csm-copilot/commit/0ea4b88a0d4a1a4c1a4ea364440960563ddf39b6). The website replays Python workflow outputs and saved model attempts; it does not run a live AI chat or send messages.
 
 [![Verify workflow](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml)
 [![Publish case explorer](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml/badge.svg)](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml)
@@ -39,6 +39,10 @@ An AI host can choose tools and rewrite drafts. The Python server handles dates,
 The repository preserves **ten local Qwen attempts across three prescribed tasks**. In one, four tool calls succeeded but the explanation described iOS as having “full compliance.” Later host-assisted corrections brought structured fields into agreement with tool results; free prose still required review. These are exploratory attempts with changing prompts and settings, not an independent benchmark.
 
 [Inspect the original AI mistake](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) · [Follow the recorded corrections](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs) · [Read the raw-run review](evidence/MODEL_RUNS.md)
+
+[![Two saved model claims compared with recorded tool results: iOS full compliance overstates a scoped checklist, and Android missing evidence omits a recorded unmet device check.](docs/assets/ai-claim-review-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs)
+
+Comparison screenshot from the same source revision. The assessment is an AI-assisted review of a saved attempt; open the replay to locate each field in its raw trace.
 
 ## Choose what to inspect
 
