@@ -119,30 +119,35 @@
     return `<section class="handoff-candidate"><h4>${candidate.category === "unknown" ? "Clarify the request" : `Candidate: ${esc(candidate.category.replaceAll("_", " "))}`}</h4><ul>${candidate.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ul>${link}</section>`;
   }
 
-  function fieldSourcesHTML({ issue, ticket, context }) {
+  function resolveFieldSource({ issue, ticket, context }, key) {
     const integration = context?.account?.id && one(context.integrations,
       (i) => i.id === issue.integration_id && i.account_id === context.account.id);
+    const source = ticket.field_sources?.[key];
+    if (integration && source?.source_kind === "integration_record" &&
+        source.source_id === integration.id && ["app", "platform"].includes(key) &&
+        Object.hasOwn(integration, key) && integration[key] != null) {
+      return { available: true, recorded: integration[key],
+        label: `Integration record · ${integration.id}. No per-field observation date is recorded; this is the bundled configuration.` };
+    }
+    if (integration && source?.source_kind === "issue_evidence" && source.source_id === issue.evidence_id) {
+      const originalIssue = one(context.issues, (i) => i.id === issue.id && i.integration_id === integration.id && i.evidence_id === source.source_id);
+      const record = one(context.evidence, (r) => r.id === source.source_id && r.account_id === context.account.id && r.integration_id === integration.id);
+      if (record && originalIssue && Object.hasOwn(originalIssue.details || {}, key) && originalIssue.details[key] != null) {
+        return { available: true, recorded: originalIssue.details[key],
+          label: `${sourceLabel(record.kind)} · ${record.id} · ${record.at}` };
+      }
+    }
+    return { available: false };
+  }
+
+  function fieldSourcesHTML({ issue, ticket, context }) {
     return `<details class="handoff-sources"><summary>Trace each handoff field to its record · ${esc(issue.id)}</summary><p class="boundary">Compare copied values with the structured records. Issue details are attributed to the original issue record shown above; this is not automatic extraction from its wording or independent verification. Missing fields remain in the intake review.</p>` +
       Object.entries(ticket.fields).map(([key, value]) => {
         const source = ticket.field_sources?.[key];
-        let recorded, label, available = false;
-        if (integration && source?.source_kind === "integration_record" &&
-            source.source_id === integration.id && ["app", "platform"].includes(key)) {
-          recorded = integration[key];
-          label = `Integration record · ${esc(integration.id)}. No per-field observation date is recorded; this is the bundled configuration.`;
-          available = true;
-        } else if (integration && source?.source_kind === "issue_evidence" && source.source_id === issue.evidence_id) {
-          const originalIssue = one(context.issues, (i) => i.id === issue.id && i.integration_id === integration.id && i.evidence_id === source.source_id);
-          const record = one(context.evidence, (r) => r.id === source.source_id && r.account_id === context.account.id && r.integration_id === integration.id);
-          if (record && originalIssue && Object.hasOwn(originalIssue.details || {}, key) && originalIssue.details[key] !== null) {
-            recorded = originalIssue.details[key];
-            label = `${sourceLabel(record.kind)} · ${esc(record.id)} · ${esc(record.at)}`;
-            available = true;
-          }
-        }
+        const {recorded, label, available} = resolveFieldSource({issue, ticket, context}, key);
         return `<details class="handoff-field"><summary>${esc(key.replaceAll("_", " "))} · ${source?.source_kind === "integration_record" ? "Integration record" : source?.source_kind === "issue_evidence" ? "Issue evidence" : "Source unavailable"}</summary>` +
           `<p><strong>Handoff value:</strong> ${esc(value)}</p>` +
-          (available ? `<p><strong>Recorded value:</strong> ${esc(recorded)}</p><p class="boundary">${label}</p>` +
+          (available ? `<p><strong>Recorded value:</strong> ${esc(recorded)}</p><p class="boundary">${esc(label)}</p>` +
             (value !== recorded ? '<p class="notice">The handoff value differs from the recorded value. Review before using this field.</p>' : '') :
             `<p class="notice">Scoped field source unavailable: ${esc(source?.source_id || "no source ID")}. Do not substitute another issue, account or platform's record.</p>`) + '</details>';
       }).join('') + `<details><summary>Inspect raw field-source map</summary><pre>${esc(JSON.stringify(ticket.field_sources, null, 2))}</pre></details></details>`;
@@ -168,6 +173,15 @@
     for (const [key, value] of Object.entries(t.fields)) {
       const source = t.field_sources?.[key];
       lines.push(`${key}:`, quoted(value), `  Source reference: ${source?.source_kind || "unavailable"} / ${source?.source_id || "unavailable"}`);
+      const resolved = resolveFieldSource({issue, ticket: t, context}, key);
+      if (resolved.available) {
+        lines.push("  Recorded value:", quoted(resolved.recorded), `  ${resolved.label}`,
+          value === resolved.recorded
+            ? "  Comparison: matches the scoped structured record; source truth is not independently verified."
+            : "  WARNING: Handoff value differs from the recorded value. Review before using this field.");
+      } else {
+        lines.push("  WARNING: Scoped field source unavailable. Missing, ambiguous or mis-scoped records require review; do not substitute another issue, account or platform's value.");
+      }
     }
     lines.push("Verify field values and source references in the handoff's source view before use.", "");
     if (t.handoff_state === "needs_scope") {

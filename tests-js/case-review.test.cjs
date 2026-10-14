@@ -143,6 +143,46 @@ test("copyable Harbor handoff retains supplied facts, focused requests and revie
   assert.equal(JSON.stringify(data), before);
 });
 
+test("portable handoff carries a changed field beside its recorded value", () => {
+  const p = readinessFixture();
+  p.tickets[0].fields.region = "CHANGED REGION";
+  p.context.issues[0].details.region = "RECORDED REGION\nSource text, not a heading";
+  const before = JSON.stringify(p);
+  const text = api.handoffText(api.issuesFor(p, "lantern_android")[0], "snapshot");
+  assert.match(text, /region:\n  \| CHANGED REGION/);
+  assert.match(text, /Recorded value:\n  \| RECORDED REGION\n  \| Source text, not a heading/);
+  assert.match(text, /WARNING: Handoff value differs from the recorded value/);
+  assert.equal(JSON.stringify(p), before);
+});
+
+test("portable handoff flags unavailable and ambiguous field sources without borrowing values", () => {
+  for (const change of [
+    (p) => { p.context.evidence.find(r => r.id === 'msg_issue_blank').account_id = 'other'; },
+    (p) => { p.context.evidence.push(structuredClone(p.context.evidence.find(r => r.id === 'msg_issue_blank'))); },
+    (p) => { p.context.issues.push(structuredClone(p.context.issues[0])); },
+    (p) => { p.tickets[0].field_sources.region.source_id = 'unrelated'; },
+    (p) => { delete p.context.issues[0].details.region; },
+  ]) {
+    const p = readinessFixture();
+    p.context.issues[0].details.region = "SOURCE VALUE MUST BE WITHHELD";
+    change(p);
+    const text = api.handoffText(api.issuesFor(p, "lantern_android")[0], "snapshot");
+    const region = text.split("region:\n")[1].split("reproduction_steps:\n")[0];
+    assert.match(region, /WARNING: Scoped field source unavailable/);
+    assert.doesNotMatch(region, /SOURCE VALUE MUST BE WITHHELD|Recorded value:/);
+  }
+});
+
+test("portable handoff attributes matching fields without claiming external verification", () => {
+  const p = structuredClone(require("../evidence/workflow.json").packets.find(p => p.context.account.id === "acc_006"));
+  const text = api.handoffText(api.issuesFor(p, "harbor_android")[0], "snapshot");
+  assert.match(text, /Recorded value:\n  \| Pocket Harbor/);
+  assert.match(text, /Integration record · harbor_android. No per-field observation date/);
+  assert.match(text, /Customer report · msg_issue_callback · 2026-10-10T09:00:00Z/);
+  assert.match(text, /matches the scoped structured record; source truth is not independently verified/);
+  assert.doesNotMatch(text, /WARNING:/);
+});
+
 test("each copy stays with its own issue and unavailable sources are not reconstructed", () => {
   const data = packet();
   const records = api.issuesFor(data, "android");

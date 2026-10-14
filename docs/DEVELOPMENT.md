@@ -1,5 +1,11 @@
 # Development notes
 
+## Keep field-source warnings in portable handoffs
+
+The on-screen handoff source view displayed a mismatch when a draft field differed from its scoped record. The plain-text copy previously retained the draft value and a source ID, but omitted that specific warning and the recorded value. Three new tests failed against that exporter before the repair: changed values, unavailable or ambiguous sources, and matching attributed fields.
+
+Both views now use one scoped lookup. The portable handoff includes the recorded value and its source description when uniquely available, a disagreement warning when values differ, and an unavailable-source warning otherwise. It retains the draft value for comparison rather than silently correcting it. Multiline recorded values stay quoted as source text. These checks establish agreement with structured records, not source truth, semantic extraction or customer outcomes. The synthetic fixture and saved model attempts are unchanged.
+
 ## v0.27.1: keep delayed copy feedback with its original selection
 
 A controlled replay of the previous draft click handler reproduced two asynchronous failures: resolving a copy after replacing the draft button marked the replacement as copied, and resolving after leaving the draft tab threw a `TypeError` while accessing the missing button. Share-link buttons could similarly show a late result after their selection changed.
