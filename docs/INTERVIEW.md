@@ -26,6 +26,8 @@ Select Lantern Games. Show Android's unknown currency approval and failed device
 
 Open a source link or evidence record. Explain the difference between a documented product condition and a project operating policy.
 
+Expand **Trace checklist decisions to source records**, then **Non-test device verification**. Read the original synthetic record and its date alongside the recorded claim. Compare it with **Platform currency approval**, which has no cited record and asks for confirmation. Switch to iOS and inspect its own device record. Explain why a readable source trail establishes provenance, not independent truth or current readiness. The raw JSON remains available for deeper inspection.
+
 ## 1:10–1:50 — Move the work forward
 
 Open Follow-up, switch to Chinese, then open Handoff.

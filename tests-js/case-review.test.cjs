@@ -2,6 +2,67 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const api = require("../demo/case-review.js");
 
+function readinessFixture() {
+  const workflow = require("../evidence/workflow.json");
+  return structuredClone(workflow.packets[0]);
+}
+
+test("readable readiness records retain check claims, full dates and platform scope", () => {
+  const data = readinessFixture();
+  const readiness = data.integrations[0].readiness;
+  const original = JSON.stringify(data);
+  const html = api.readinessSourcesHTML(readiness, data.context);
+  assert.match(html, /Non-test device verification · not met/);
+  assert.match(html, /Synthetic Android test record: Non-test device verification = not_met\./);
+  assert.match(html, /2026-10-09T09:00:00Z/);
+  assert.match(html, /Recorded claim for this check:<\/strong> not met/);
+  assert.match(html, /Requested evidence:<\/strong> Share a fresh non-test-device check/);
+  assert.match(html, /No supporting record is cited/);
+  assert.doesNotMatch(html, /lantern_ios|contact_acc_014|msg_issue_blank/);
+  assert.equal(JSON.stringify(data), original);
+});
+
+test("missing, wrong-account and wrong-platform readiness sources are not substituted", () => {
+  for (const change of [
+    (r) => { r.account_id = "other"; },
+    (r) => { r.integration_id = "lantern_ios"; },
+    (r) => { r.id = "different"; },
+  ]) {
+    const data = readinessFixture();
+    const source = data.context.evidence.find((r) => r.id === "lantern_android_device_verified");
+    source.text = "THIS SOURCE MUST NOT APPEAR";
+    change(source);
+    const html = api.readinessSourcesHTML(data.integrations[0].readiness, data.context);
+    assert.match(html, /Scoped source unavailable: lantern_android_device_verified/);
+    assert.doesNotMatch(html, /THIS SOURCE MUST NOT APPEAR/);
+  }
+});
+
+test("readable sources expose missing and conflicting claims without rewriting decisions", () => {
+  const data = readinessFixture();
+  const source = data.context.evidence.find((r) => r.id === "lantern_android_device_verified");
+  source.claims = {};
+  let html = api.readinessSourcesHTML(data.integrations[0].readiness, data.context);
+  assert.match(html, /No structured claim recorded/);
+  source.claims.device_verified = "met";
+  html = api.readinessSourcesHTML(data.integrations[0].readiness, data.context);
+  assert.match(html, /recorded claim differs from the displayed state/);
+  assert.match(html, /Non-test device verification · not met/);
+});
+
+test("readable readiness text is inert and not-applicable checks do not imply a passed test", () => {
+  const data = readinessFixture();
+  const r = data.integrations[0].readiness;
+  data.context.evidence.find((e) => e.id === "lantern_android_device_verified").text = '<img src=x onerror="run()">';
+  r.checks[0].status = "not_applicable";
+  r.checks[1].request = "<script>run()</script>";
+  const html = api.readinessSourcesHTML(r, data.context);
+  assert.match(html, /&lt;img src=x/);
+  assert.match(html, /&lt;script&gt;/);
+  assert.match(html, /absent citation does not establish a passed test/);
+  assert.doesNotMatch(html, /<img|<script/);
+});
+
 test("focused requests precede optional broader questions and escape all text", () => {
   const data = packet();
   const ticket = data.tickets[0];

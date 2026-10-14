@@ -86,6 +86,7 @@ function renderCase() {
       issueCount +
       caseReview.evidenceHTML(records) +
       checksTable(r) +
+      caseReview.readinessSourcesHTML(r, p.context) +
       caseReview.timingHTML(item.evidence_timing) +
       `<details><summary>Inspect the supporting evidence records</summary><pre>${esc(
         JSON.stringify(

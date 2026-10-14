@@ -107,7 +107,27 @@
       (timing.unavailable_ids.length ? `<p class="notice">Unavailable scoped sources: ${esc(timing.unavailable_ids.join(", "))}</p>` : "") +
       `<p class="boundary">${esc(timing.boundary)}</p></details>`;
   }
-  const api = { issuesFor, evidenceHTML, handoffHTML, timingHTML };
+  function readinessSourcesHTML(readiness, context) {
+    return `<details class="readiness-sources"><summary>Trace checklist decisions to source records</summary>` +
+      `<p class="boundary">${esc(readiness.app)} / ${esc(readiness.platform)} · snapshot ${esc(readiness.as_of)}. These synthetic records explain the displayed checks; they do not independently verify source truth or current readiness.</p>` +
+      readiness.checks.map((check) => {
+        const sources = check.evidence_ids.map((id) => {
+          const record = context.evidence.find((r) => r.id === id && r.account_id === context.account.id && r.integration_id === readiness.integration_id);
+          if (!record) return `<p class="notice">Scoped source unavailable: ${esc(id)}. Do not substitute another account or platform's record.</p>`;
+          const claim = record.claims?.[check.id];
+          return `<article class="readiness-source"><h4>${esc(record.id)}</h4><p class="boundary">${esc((record.kind || "source type unavailable").replaceAll("_", " "))} · ${esc(record.at)}<br>Account: ${esc(record.account_id)} · Integration: ${esc(record.integration_id)}</p>` +
+            `<blockquote lang="${record.language === "zh" ? "zh-CN" : "en"}">${esc(record.text)}</blockquote>` +
+            `<p><strong>Recorded claim for this check:</strong> ${claim === undefined ? "No structured claim recorded." : esc(claim.replaceAll("_", " "))}</p>` +
+            (claim !== undefined && claim !== check.status ? '<p class="notice">The recorded claim differs from the displayed state. Review the raw records and decision rule before relying on this check.</p>' : "") +
+            `</article>`;
+        }).join("");
+        return `<details class="readiness-check"><summary>${esc(check.label)} · ${esc(check.status.replaceAll("_", " "))}</summary>` +
+          (sources || `<p>No supporting record is cited for this check. ${check.status === "not_applicable" ? "The displayed state is not applicable; an absent citation does not establish a passed test." : "An absent citation does not establish success or failure."}</p>`) +
+          (["unknown", "not_met"].includes(check.status) ? `<p class="source-next"><strong>Requested evidence:</strong> ${esc(check.request)}</p>` : "") +
+          `</details>`;
+      }).join("") + `</details>`;
+  }
+  const api = { issuesFor, evidenceHTML, handoffHTML, timingHTML, readinessSourcesHTML };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_CASE_REVIEW = api;
 })(typeof window !== "undefined" ? window : this);

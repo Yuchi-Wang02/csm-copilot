@@ -3352,7 +3352,7 @@ window.CSM_DATA = {
     "boundary": "This is a snapshot of recorded states, not a weekly trend, prevalence estimate, confirmed root cause or product priority score. Proposed questions and owners are unvalidated project suggestions. Nothing was sent to Product."
   },
   "callback_denial": {
-    "project_version": "0.26.1",
+    "project_version": "0.27.0",
     "before_commit": "b1a7ca2059a4fea529bb3c433ceb8b7e1f33db8c",
     "before_sha256": "0d7cfaeb79ba470713aed8594022439e7d7c33608a5a4bd31101b271974547f5",
     "boundary": "AI-assisted developer-authored probes. Captured before the callback-denial change; not held out or independently labelled. No model inference.",

@@ -47,6 +47,7 @@ Each recording also has **How this recorded AI run unfolded**: expand a turn to 
 
 1. Open **Lantern Games** in the [demo](https://yuchi-wang02.github.io/csm-copilot/).
 2. Inspect Android: currency approval and Test Only are **unknown**; a device check is **not met**.
+   Expand **Trace checklist decisions to source records** to read the device record, its full timestamp and structured claim. Compare the unknown approval check's missing citation and evidence request. Raw records remain inspectable separately.
 3. Switch to iOS. Its evidence is separate and its scoped checklist is complete.
 4. Open **Follow-up** and switch between English and Chinese. iOS prompts a launch-plan review. Switch back to Android to see its specific evidence requests.
 5. On Android, open **Handoff**. Known fields carry an evidence reference; missing SDK version, time window and logs stay missing.

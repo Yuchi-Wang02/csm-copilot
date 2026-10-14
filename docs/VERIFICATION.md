@@ -1,12 +1,14 @@
 # Verification record
 
-Local checks recorded through the v0.26.1 keyboard-focus repair on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.27 readable-checklist-source view on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+
+The v0.27 local browser check expanded Android's failed device record and uncited currency approval, then switched to iOS and verified that its device claim and source ID were separate. The expanded source view fit a 360-pixel viewport with document/scroll widths both 345 CSS pixels; the screenshot was visually reviewed, and the browser error log was empty. Four added JavaScript checks cover account/platform scoping, missing and conflicting claims, uncited not-applicable checks, and inert source text. These are rendering/provenance checks, not source-truth validation.
 
 The v0.26.1 Edge browser check reproduced focus on `BODY` after changing platform and language on the published v0.26.0 page. Locally, the repair retained focus on each rebuilt select, Tab from language reached Copy draft, account activation retained the selected button and subsequent Tab reached the next account. ArrowRight and Home selected and focused the expected review tab. Browser error logs were empty. The 284 Python and 60 JavaScript checks also passed. Focus behavior was checked in the browser, not established by those unit-test counts; screen-reader behavior and other browser engines remain unverified.
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 60 passed locally | Fifteen practice, six checkpoint, fourteen routing, fourteen scoped rendering, four triage-replay and seven recorded-conversation checks; not learning outcomes |
+| JavaScript browser-logic tests | 64 passed locally | Fifteen practice, six checkpoint, fourteen routing, eighteen scoped rendering, four triage-replay and seven recorded-conversation checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 284 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
 | Focused intake requests | Seven Python and two added JavaScript checks pass | Per-issue missing fields, unknown-scope precedence, populated-but-unverified values, free-text limitations, export and browser rendering; no customer-efficiency measurement |

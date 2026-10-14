@@ -551,6 +551,12 @@ select {
   border-collapse: collapse;
   font-size: 12px;
 }
+.readiness-check { margin: 12px 0; border-left: 2px solid var(--line); padding-left: 14px; }
+.readiness-check > summary { font-weight: 600; }
+.readiness-source { margin: 16px 0; overflow-wrap: anywhere; }
+.readiness-source h4 { margin: 0 0 8px; font-size: 13px; }
+.readiness-source blockquote { margin: 10px 0; padding: 12px; background: var(--soft); border-left: 3px solid #b6cf99; }
+.readiness-check .source-next { margin-top: 12px; }
 .checks td,
 .checks th {
   padding: 11px 7px;

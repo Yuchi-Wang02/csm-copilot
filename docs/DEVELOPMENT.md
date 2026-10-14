@@ -1,5 +1,11 @@
 # Development notes
 
+## v0.27: read the record behind a checklist state
+
+The evidence table exposed source IDs, while the supporting records were available only as JSON. A new **Trace checklist decisions to source records** disclosure lets a reviewer open a check and read its cited text, full timestamp, source kind, account/platform scope and structured claim. Unknown and failed checks include the existing evidence request; uncited checks do not acquire invented evidence. Raw records remain available separately.
+
+The view joins only on the cited ID plus the selected account and integration. Missing or incorrectly scoped records produce an explicit unavailable-source notice. Missing claims and disagreements with the displayed state remain visible; the UI never recalculates or silently repairs the engine decision. Four new JavaScript checks cover those boundaries and escaped text. This makes provenance easier to inspect without claiming independent source verification or improved AI accuracy.
+
 ## v0.26.1: keep the presenter in the case workflow
 
 Keyboard inspection of the published v0.26.0 explorer reproduced focus loss: changing the platform or client language rebuilt the focused select, leaving `document.activeElement` on `BODY`. Selecting an account also rebuilt its button. A keyboard presenter could lose their place while comparing the very cases the interview route recommends.

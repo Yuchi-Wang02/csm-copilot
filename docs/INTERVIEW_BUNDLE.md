@@ -2,7 +2,7 @@
 
 The [v0.25.0 prerelease](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.25.0) includes focused handoff intake requests, local practice save/resume, five practice decisions, text/action-boundary probes, preserved callback failures and repairs, and the two-page PDF brief. It is pinned to commit `6404d70e38c5231ef78bd7f8527372b9f21181e3`.
 
-The hosted v0.26 view additionally presents each recorded model conversation turn by turn. The fixed v0.25.0 package below retains its original raw-trace presentation and is not overwritten when the site advances.
+The hosted v0.27 view additionally presents readable checklist source records, each recorded model conversation turn by turn, and the keyboard-focus repair. The fixed v0.25.0 package below retains its original presentation and is not overwritten when the site advances.
 
 ## Choose the right take-away
 
