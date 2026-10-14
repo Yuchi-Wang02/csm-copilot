@@ -6,6 +6,7 @@ permissions:
   contents: read
 jobs:
   test:
+    timeout-minutes: 15
     strategy:
       matrix:
         include:
@@ -28,6 +29,7 @@ jobs:
       - run: python -m ruff format --check .
       - run: python -m pytest -q
       - run: python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
+        timeout-minutes: 3
       - run: python scripts/build_demo.py
       - run: python -m pytest tests/test_review_brief.py -k generated_morning_briefs -q
       - run: python evaluation/triage_boundaries.py
@@ -38,6 +40,7 @@ jobs:
       - run: git diff --exit-code -- demo/project-brief.pdf demo/publisher-teaching-example.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/case-briefs demo/product-feedback.md evidence
       - run: python -m build
       - run: python scripts/verify_wheel.py
+        timeout-minutes: 7
       - run: python scripts/build_interview_demo.py --output dist/interview-demo.zip
       - uses: actions/upload-artifact@v4
         with:

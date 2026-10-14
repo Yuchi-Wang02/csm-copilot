@@ -24,6 +24,16 @@ The exposed `morning_review` prompt contains a more detailed version. A good hos
 
 The [scripted MCP transcript](../evidence/mcp-transcript.json) records the initialization instructions and both retrieved prompt responses alongside tool results. These are the guidance delivered by this server over stdio, not evidence that a model followed it. Historical model recordings retain the instructions and results from their original runs; they were not rerun after this guidance changed.
 
+## When a verification request stops responding
+
+`scripts/mcp_smoke.py` gives the SDK 30 seconds to receive each request's response, including initialization. An unresponsive peer raises a protocol timeout instead of waiting indefinitely for that response. This setting belongs to the scripted verification client; it is not a customer-service promise, a model latency measurement or a timeout configured for every external MCP host.
+
+The output transcript is written only after the full check succeeds. If a run fails, an existing output file remains an older artifact; its presence does not prove that the failed run completed. Inspect the command's exit status and error before treating a transcript as fresh evidence.
+
+CI adds separate limits: three minutes for the smoke step, seven minutes for installed-wheel verification and fifteen minutes for each full Windows/Linux job. Those bounds cover cases outside the response wait, such as process startup or cleanup. They use GitHub's [step and job timeout controls](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepstimeout-minutes). A timeout should prompt investigation, not automatic acceptance or a claim that a customer issue was resolved.
+
+The [unresponsive-peer regression](../tests/test_mcp_smoke_timeout.py) uses the real SDK session over in-memory streams and a shortened timeout. It verifies the error and stream cleanup; it does not test operating-system process termination. Normal stdio and isolated installed-entry-point checks remain separate.
+
 ## What to inspect in the host output
 
 - Are `acc_014`, `acc_018` and `acc_006` selected at the default snapshot?

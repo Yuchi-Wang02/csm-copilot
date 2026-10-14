@@ -1,5 +1,11 @@
 # Development notes
 
+## Bound verification waits without changing workflow results
+
+The scripted MCP smoke client left its response timeout unset. A test peer that accepted the initialization request but never replied reached the test's outer watchdog instead of producing a protocol timeout. The client now configures the SDK's 30-second response timeout. The regression test shortens that setting to 50 ms, uses the real SDK session over in-memory streams, and verifies the timeout error and stream cleanup. This does not simulate an operating-system process hang or prove process-tree cleanup.
+
+A fresh real stdio run completed and its JSON matched the published transcript. CI also sets a three-minute limit on the smoke step, seven minutes on isolated-wheel verification, and fifteen minutes on the full matrix job. These are failure bounds, not performance targets or measured speed improvements. GitHub's step/job cancellation remains separate from the SDK's response deadline. No test coverage was skipped and the recorded model attempts remain unchanged.
+
 ## Rehearse the evidence decisions with a small experiment
 
 The interview guide now connects queue selection, field-source agreement and unavailable handoffs to specific review actions. An optional learning exercise asks for predictions before exposing runnable code that varies one, zero or two drafts for Lantern's recorded Android issue. Documentation QA executed the exact snippet in all three modes: the normal case retained the field comparison, the altered cases reported zero/two matches, the original packet remained equal to a fresh generated packet, and the source fixture's SHA-256 was unchanged. This verifies the teaching material; it is not a personal reflection or completed practice by Yuchi. The guide explicitly requires current source after the repair because v0.29.6 predates that export behavior.

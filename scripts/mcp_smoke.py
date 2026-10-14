@@ -4,10 +4,13 @@ import argparse
 import asyncio
 import json
 import sys
+from datetime import timedelta
 from pathlib import Path
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
+
+REQUEST_TIMEOUT_SECONDS = 30
 
 
 async def run(server_command: Path | None = None):
@@ -42,7 +45,9 @@ async def run(server_command: Path | None = None):
         ("triage_issue", {"issue_text": "Callbacks are not failing. Please explain invoicing."}),
     ]
     async with stdio_client(params) as (read, write):
-        async with ClientSession(read, write) as session:
+        async with ClientSession(
+            read, write, read_timeout_seconds=timedelta(seconds=REQUEST_TIMEOUT_SECONDS)
+        ) as session:
             init = await session.initialize()
             assert init.instructions
             tools = await session.list_tools()
