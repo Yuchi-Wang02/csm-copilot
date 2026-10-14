@@ -2,6 +2,7 @@
 "use strict";
 const { workflow, evaluation: report, integrity, friction } = window.CSM_DATA;
 const reviewLinks = window.CSM_REVIEW_LINKS;
+const caseReview = window.CSM_CASE_REVIEW;
 let { selected, integration, activeTab, language, updated, invalid } =
   reviewLinks.read(location.search, workflow);
 const $ = (id) => document.getElementById(id);
@@ -40,6 +41,11 @@ function renderCase() {
   const p = workflow.packets[selected],
     item = p.integrations[integration],
     r = item.readiness;
+  const records = caseReview.issuesFor(p, r.integration_id);
+  const issueCount =
+    records.length > 1
+      ? `<p class="small-label">${records.length} recorded issues on this platform</p>`
+      : "";
   $("account-heading").innerHTML =
     `<div><h3>${esc(p.selection.name)}</h3><p>${esc(r.app)} · ${esc(p.selection.stage)} · ${esc(p.selection.account_id)}</p></div><label><span class="small-label">PLATFORM </span><select id="platform-select" aria-label="Integration platform">${p.integrations.map((it, n) => `<option value="${n}" ${n === integration ? "selected" : ""}>${esc(it.readiness.platform)}</option>`).join("")}</select></label>`;
   $("platform-select").addEventListener("change", (e) => {
@@ -53,16 +59,9 @@ function renderCase() {
   });
   $("panel").setAttribute("aria-labelledby", `tab-${activeTab}`);
   if (activeTab === "evidence") {
-    const issue = p.context.issues.find(
-      (i) => i.integration_id === r.integration_id,
-    );
-    const e = issue
-      ? p.context.evidence.find((e) => e.id === issue.evidence_id)
-      : null;
     $("panel").innerHTML =
-      (e
-        ? `<div class="quote"><p>${esc(issue.summary)}</p><details><summary>Read original customer message</summary><p lang="${e.language === "zh" ? "zh-CN" : "en"}">${esc(e.text)}</p></details><small>CUSTOMER REPORT · ${esc(e.id)} · ${esc(e.at.slice(0, 10))}</small></div>`
-        : '<div class="quote"><p>No issue message recorded for this integration. Readiness still depends on its own evidence.</p></div>') +
+      issueCount +
+      caseReview.evidenceHTML(records) +
       checksTable(r) +
       `<details><summary>Inspect the supporting evidence records</summary><pre>${esc(
         JSON.stringify(
@@ -91,28 +90,9 @@ function renderCase() {
       }
     });
   } else {
-    const issue = p.context.issues.find(
-      (i) => i.integration_id === r.integration_id,
-    );
-    const t = issue
-      ? p.tickets.find((t) => t.draft_id === `ticket-${issue.id}`)
-      : null;
-    if (!t) {
-      $("panel").innerHTML =
-        `<div class="empty"><h3>No recorded issue to escalate.</h3><p>${esc(item.followup_en.next_action)}</p><p class="boundary">A readiness unknown does not automatically become a support ticket.</p></div>`;
-      return;
-    }
     $("panel").innerHTML =
-      `<h3>${esc(t.title)}</h3><div class="decision">${badge(t.handoff_state)}<strong>Root cause: ${esc(t.root_cause)}</strong></div><dl class="ticket-fields">${Object.entries(
-        t.fields,
-      )
-        .map(
-          ([k, v]) =>
-            `<dt>${esc(k.replaceAll("_", " "))}</dt><dd>${esc(v)}</dd>`,
-        )
-        .join(
-          "",
-        )}<dt>Evidence</dt><dd>${esc(t.evidence_ids.join(", "))}</dd><dt>Suggested owner</dt><dd>${esc(t.suggested_owner)}</dd></dl><div class="missing">${t.handoff_state === "needs_scope" ? "<strong>Clarify the request first</strong>Generic field completeness does not establish issue scope. Confirm what happened and what was expected before choosing an owner or requesting technical details." : `<strong>${t.missing_fields.length ? "Request before technical review" : "Ready for handoff review"}</strong>${t.missing_fields.length ? t.missing_fields.map((f) => `<code>${esc(f)}</code>`).join(" ") : "All scoped required fields are present. Confirm their content and the appropriate owner before submission."}`}</div><p class="boundary">${esc(t.next_action)}</p>${t.triage.notes.map((n) => `<p class="boundary">${esc(n)}</p>`).join("")}<details><summary>Inspect candidate checks and source URLs</summary><pre>${esc(JSON.stringify(t.triage, null, 2))}</pre></details><details><summary>Trace each handoff field to its record</summary><pre>${esc(JSON.stringify(t.field_sources, null, 2))}</pre></details>`;
+      issueCount +
+      caseReview.handoffHTML(records, item.followup_en.next_action);
   }
 }
 document.querySelectorAll("[data-tab]").forEach((b, n, buttons) => {

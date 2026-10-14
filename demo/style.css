@@ -1337,3 +1337,9 @@ button:disabled {
     width: 100%;
   }
 }
+
+.issue-review + .issue-review {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #dce2d8;
+}

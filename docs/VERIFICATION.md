@@ -1,10 +1,10 @@
 # Verification record
 
-Verified through the v0.8.2 handoff scope fix on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.8.3 multiple-issue display fix on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 10 passed locally | Five practice checks plus five routing checks; not learning outcomes |
+| JavaScript browser-logic tests | 15 passed locally | Five practice, five routing and five scoped issue-rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 117 passed locally | Workflow, source scope, next-action selection, readable exports, UTF-8 output and caller isolation |
 | Unrecognized handoff scope | Four regression checks failed before the fix and passed afterward | English/Chinese summaries with complete/incomplete generic fields remain with the CSM for clarification |
@@ -54,7 +54,7 @@ The v0.8.2 browser check used two clearly labeled local regression cases derived
 ```sh
 python -m pip install -e ".[dev,brief]"
 python -m pytest -q
-node --test tests-js/practice.test.cjs tests-js/review-links.test.cjs
+node --test tests-js/practice.test.cjs tests-js/review-links.test.cjs tests-js/case-review.test.cjs
 python -m ruff check .
 python -m ruff format --check .
 python scripts/mcp_smoke.py --output evidence/mcp-transcript.json

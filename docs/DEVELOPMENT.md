@@ -111,3 +111,13 @@ The triage baseline returned `clarify_scope` for unrecognized requests, but tick
 Ticket drafting now preserves `needs_scope` and proposes CSM clarification first. The UI uses the same state instead of deriving readiness solely from the missing-field count. The structured result retains field missingness for inspection. All 117 Python tests pass, and both scope cases were inspected in a local browser preview. The original fixture outputs and historical model recordings remain unchanged.
 
 **Lesson:** field completeness is not problem understanding. An unrecognized issue may be technical, but the lexical baseline has not established that; the next action should collect enough context for a person to decide.
+
+## v0.8.3: make every scoped issue reviewable
+
+The backend and Markdown export supported multiple recorded issues, but the browser used the first matching issue in both Evidence and Handoff. A local fixture with two Android issues and a separate iOS issue reproduced the omission: only the first Android handoff appeared.
+
+The browser now renders every issue for the selected integration, pairing each summary with its own source and draft. Missing sources or drafts get explicit unavailable messages instead of implying that no issue exists. Five JavaScript checks cover multiple records, platform scope, missing records, escaped customer content and scope-first handoff wording. The complete JavaScript suite contains 15 checks.
+
+The local browser preview displayed both Android reports and drafts, while switching to iOS showed only its own report. The inspected 360-pixel viewport had equal document and scroll widths of 345 CSS pixels, and no browser errors were recorded. [Local regression screenshot](assets/demo-multiple-issues-probe.png). The additional records are clearly labeled local test cases; the public five-account fixture and historical model recordings remain unchanged.
+
+**Lesson:** correct backend output does not guarantee a complete customer review. When the data allows multiple records, inspect whether the interface preserves them rather than silently selecting one.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "csm-copilot"
-version = "0.8.2"
+version = "0.8.3"
 description = "Evidence-grounded customer onboarding tools for MCP hosts"
 readme = "README.md"
 requires-python = ">=3.11"
