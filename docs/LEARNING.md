@@ -2,7 +2,19 @@
 
 The project is a starting point for demonstrated understanding. These exercises are **not marked complete**. Keep personal notes and small commits as you work through them; that is stronger evidence of learning than an oversized feature list.
 
-**A small current exercise:** compare the two [inbound-message recordings](LOCAL_MODEL.md#v0111-neutral-questions-for-an-unknown-request). Before reading the annotations, explain why a correct `unknown` category can still produce a poor invoice follow-up. Propose one more specific customer question without inventing billing policy. Then trace the changed question through the engine, tool result and unedited model response. Record your reasoning separately from the AI-assisted review.
+## Start here: three things to explain
+
+Use this route before the longer exercises. The time estimates are planning suggestions, not measured completion times. The first two steps work in the hosted portfolio without installing Python or connecting a model.
+
+| Step | What to do | Keep from your own work |
+|---|---|---|
+| 1. Explain a customer decision (about 15 minutes) | Open [Android evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace). Expand **Trace checklist decisions to source records**. Compare the failed device check with unknown currency approval, then inspect iOS separately. | Five sentences explaining the next customer question, its source, and what would change your decision. |
+| 2. Explain an AI mistake (about 15 minutes) | Open [the four-call recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs). Read its unedited explanation before the review. Compare one claim with the tool result, then inspect [the corrected attempt](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs). | One claim-to-evidence comparison and an explanation of the help supplied by the host. |
+| 3. Make and explain one experiment (about 30–45 minutes after setup) | Complete **Session 2** below on a copied dataset. Predict first, run it, then vary one input and explain the result. | Your prediction, observed output, one change you made, and what you learned. |
+
+For an interview, choose one customer decision and one AI failure you can explain without reading this guide. Use the [three-minute walkthrough](INTERVIEW.md) to organize them. A useful stopping point for this preparation pass is being able to point to the exact supporting record, explain a limitation, and describe the next action. It is not a certification or a requirement to finish every extension below.
+
+Save your first reasoning in [Practice](https://yuchi-wang02.github.io/csm-copilot/?practice=android_update#practice) before revealing guidance. Download readable notes for discussion; use **Save progress file** if you want to resume later. Guidance, model review and AI-suggested wording should remain distinguishable from your own initial answer.
 
 ## First run — read the decision before the full packet
 
@@ -34,11 +46,48 @@ Evidence to keep: a short note linking the exact record and rule you explained.
 
 ## Session 2 — Change one rule input (30–45 minutes)
 
-- In a local experiment, remove Meadow's device evidence. Predict the result before running.
-- In a separate experiment, make the device check `not_met` with a valid evidence reference.
-- Explain why the overall decision changes from `needs_evidence` to `blocked`.
-- Find the test that prevents iOS evidence from being applied to Android.
-- Revert the experiments or keep them in a clearly named test fixture.
+Meadow's device check already has status `unknown` and no evidence references. There is no recorded device evidence to remove. Start by inspecting that fact in [the bundled dataset](../src/csm_copilot/data/accounts.json).
+
+Write a prediction for each experiment before running it:
+
+1. Leave the original dataset unchanged.
+2. Add a new synthetic failed-device observation to a deep copy and cite it from Meadow's device fact.
+3. In a fresh copy, make that observation and its fact both `met`.
+4. In another fresh copy, give the new record a different integration ID while keeping Meadow's reference to it. Predict whether input validation should accept it.
+
+After the README's environment setup, save the following as `readiness_experiment.py` in your local checkout and run `python readiness_experiment.py`. It demonstrates experiment 2. It reads the bundled fixture and changes only an in-memory copy; it does not save customer records or modify the published demo.
+
+```python
+from csm_copilot.engine import Copilot
+from csm_copilot.models import Evidence, Fact
+
+original = Copilot()
+copied = original.data.model_copy(deep=True)
+integration = next(i for i in copied.integrations if i.id == "meadow_ios")
+record_id = "practice_meadow_device"
+observed_state = "not_met"
+
+copied.evidence.append(Evidence(
+    id=record_id,
+    account_id=integration.account_id,
+    integration_id=integration.id,
+    at=copied.as_of,
+    kind="test_record",
+    text=f"Practice-only synthetic device observation: {observed_state}.",
+    claims={"device_verified": observed_state},
+))
+integration.facts["device_verified"] = Fact(
+    status=observed_state, evidence_ids=[record_id]
+)
+experiment = Copilot(copied)  # Revalidates ownership and claim consistency.
+print("Original:", original.check_readiness("meadow_ios")["decision"])
+print("Experiment:", experiment.check_readiness("meadow_ios")["decision"])
+print("Original again:", original.check_readiness("meadow_ios")["decision"])
+```
+
+Change only `observed_state` for experiment 3. For experiment 4, change the record's `integration_id` to `"lantern_ios"`; keep the account and referenced fact unchanged. Inspect the validation error rather than removing the check to force the example to run. Each execution begins with a fresh copy.
+
+Explain why the original remains unchanged, why a recorded failure and an unknown lead to different actions, and why a complete checklist still is not launch approval. Find the relevant ownership checks in [test_evidence_scope.py](../tests/test_evidence_scope.py) and the readiness behavior in [test_workflow.py](../tests/test_workflow.py). Keep this local exercise file and your notes outside any public commit until you have reviewed what you want to share.
 
 Evidence to keep: prediction, output, explanation and a small test you can defend.
 
@@ -74,13 +123,7 @@ Evidence to keep: your two versions and the claim-to-evidence annotation.
 
 ## Personal mastery checklist
 
-Additional v0.11 exercise: select **Qwen3-4B · two inbound messages** and read its unedited answer before the review panel. Separate three judgments: were the correct tools called, does the answer follow their results, and do its questions fit the customer's request? Rewrite only the invoice questions in your own words. Do not invent billing procedures or imply that an invoice was sent. Keep your initial assessment and later reflection separate.
-
-Additional v0.10.1 exercise: before opening the [phrase-boundary report](../evidence/TRIAGE_BOUNDARIES.md), predict the categories for `blanket invoice`, `blank invoice`, `The Offerwall keeps blanking` and `Android页面blank`. Run the tool and explain which result depends on spelling boundaries and which requires understanding the sentence. Explain why a general Unicode word-boundary expression could lose the mixed Chinese/English signal. Write down one remaining failure before proposing a broader classifier. This exercise is not recorded as completed.
-
-Additional v0.5 exercise: inspect [the unedited local model response](LOCAL_MODEL.md) before opening the review notes. Mark supported, unsupported and omitted claims. Explain how all four requested tool calls can succeed while the final explanation remains unsuitable for use, and why the narrow promise lint returned zero flags.
-
-Additional v0.4 exercise: work through [the Product feedback review](PRODUCT_FEEDBACK.md). Predict how counts change if a second platform from the same account has a gap. Explain why the callback denominator differs from the device-check denominator, then write a Product question without asserting an unverified cause.
+Use this as a self-review after the three-step route. Leave items unchecked until you have your own explanation or artifact. The optional extensions below let you deepen the area most relevant to your interview.
 
 - [ ] I can explain the customer problem without saying “AI automation” as a substitute.
 - [ ] I can trace one output back to a source record and public documentation.
@@ -90,6 +133,16 @@ Additional v0.4 exercise: work through [the Product feedback review](PRODUCT_FEE
 - [ ] I can distinguish deterministic replay, scripted MCP transport and live model orchestration.
 - [ ] I can explain at least two limits of the evaluation.
 - [ ] I can point to one improvement I personally made and verified.
+
+## Optional extensions: choose one question
+
+Additional v0.11 exercise: select **Qwen3-4B · two inbound messages** and read its unedited answer before the review panel. Separate three judgments: were the correct tools called, does the answer follow their results, and do its questions fit the customer's request? Rewrite only the invoice questions in your own words. Do not invent billing procedures or imply that an invoice was sent. Keep your initial assessment and later reflection separate.
+
+Additional v0.10.1 exercise: before opening the [phrase-boundary report](../evidence/TRIAGE_BOUNDARIES.md), predict the categories for `blanket invoice`, `blank invoice`, `The Offerwall keeps blanking` and `Android页面blank`. Run the tool and explain which result depends on spelling boundaries and which requires understanding the sentence. Explain why a general Unicode word-boundary expression could lose the mixed Chinese/English signal. Write down one remaining failure before proposing a broader classifier. This exercise is not recorded as completed.
+
+Additional v0.5 exercise: inspect [the unedited local model response](LOCAL_MODEL.md) before opening the review notes. Mark supported, unsupported and omitted claims. Explain how all four requested tool calls can succeed while the final explanation remains unsuitable for use, and why the narrow promise lint returned zero flags.
+
+Additional v0.4 exercise: work through [the Product feedback review](PRODUCT_FEEDBACK.md). Predict how counts change if a second platform from the same account has a gap. Explain why the callback denominator differs from the device-check denominator, then write a Product question without asserting an unverified cause.
 
 ## Short reflection template
 

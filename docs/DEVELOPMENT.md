@@ -1,5 +1,11 @@
 # Development notes
 
+## Learning-guide repair: start with an experiment the fixture supports
+
+The guide previously asked the learner to remove Meadow's device evidence, but the current fixture already has an unknown device fact with no references. That instruction did not define the intended state change. Session 2 now adds a scoped synthetic observation to an in-memory deep copy, asks for predictions before execution, and offers passing and incorrectly scoped variants. The example is runnable after normal environment setup and leaves the bundled data unchanged.
+
+Documentation QA executed the published snippet: `not_met` produced `blocked`, `met` produced `checklist_complete`, and a record assigned to `lantern_ios` under Meadow's account was rejected during validation. Both valid runs preserved the original `needs_evidence` result, and the fixture hash was unchanged. These are agent-run checks of the teaching material, not completed practice by Yuchi. A three-step entry route now prioritizes a customer decision, an AI claim review and one personally explained experiment; the longer exercises remain optional extensions.
+
 ## v0.27: read the record behind a checklist state
 
 The evidence table exposed source IDs, while the supporting records were available only as JSON. A new **Trace checklist decisions to source records** disclosure lets a reviewer open a check and read its cited text, full timestamp, source kind, account/platform scope and structured claim. Unknown and failed checks include the existing evidence request; uncited checks do not acquire invented evidence. Raw records remain available separately.

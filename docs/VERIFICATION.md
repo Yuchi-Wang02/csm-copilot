@@ -1,5 +1,7 @@
 # Verification record
 
+Learning-guide documentation QA: the exact Python block in Session 2 was executed with a failed observation, a passing observation and an incorrectly scoped record. Observed results were `blocked`, `checklist_complete` and a validation error respectively; both valid runs left the original result at `needs_evidence`. The bundled dataset's SHA-256 was unchanged. This checks the example's behavior, not the learner's understanding or completed personal work.
+
 Local checks recorded through the v0.27 readable-checklist-source view on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 The v0.27 local browser check expanded Android's failed device record and uncited currency approval, then switched to iOS and verified that its device claim and source ID were separate. The expanded source view fit a 360-pixel viewport with document/scroll widths both 345 CSS pixels; the screenshot was visually reviewed, and the browser error log was empty. Four added JavaScript checks cover account/platform scoping, missing and conflicting claims, uncited not-applicable checks, and inert source text. These are rendering/provenance checks, not source-truth validation.
