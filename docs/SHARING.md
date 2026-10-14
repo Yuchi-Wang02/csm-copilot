@@ -9,6 +9,7 @@ Use these examples to start an interview at a concrete decision:
 | [Android evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace) | Unknown settings and a recorded failed device check lead to different requests |
 | [Chinese iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace) | A complete scoped checklist leads to launch-plan review, without a promise of approval |
 | [Harbor's technical handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) | HTTP 405 is a clue rather than a confirmed root cause; missing logs and reproduction steps remain visible |
+| [Android with fresh test records](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en&update=2#customer-update) | Scoped checks complete; the draft still asks about the earlier issue |
 | [Android after two confirmations](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en&update=1#customer-update) | The separate comparison changes two settings while retaining a failed device check |
 
 ## Navigation behavior

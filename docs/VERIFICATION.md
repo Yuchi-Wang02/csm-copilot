@@ -1,12 +1,12 @@
 # Verification record
 
-Verified through the v0.14 evidence-timing iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.15 customer-update iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 20 passed locally | Five practice, eight routing and seven scoped rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 206 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
+| Python behavior tests | 208 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and three known counterexamples retained |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |
 | Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original outputs preserved; subsequent explicit-denial adaptation documented |
@@ -100,3 +100,5 @@ Generated outputs are deterministic. The diagnostic case hash uses UTF-8 text wi
 The installed `csm-demo` command must reproduce the published JSON workflow and both Markdown briefs. A copy of the standalone MCP client launches the installed `csm-copilot` console command, exercises all eight tools and both prompts, and compares its transcript with the published result. Temporary environments and exports are removed when the check exits. Dependency installation needs package-index access and is not an offline reproducibility claim.
 
 A local negative probe removed `accounts.json` from a disposable wheel. Installation succeeded, but the workflow command failed with a missing packaged-fixture error, and the verifier rejected the wheel. This checks that an editable source tree cannot mask that particular packaging failure. The probe is not a general test of all installation environments or dependency versions.
+
+The v0.15 browser check exercised original evidence, settings-only confirmation and fresh passing test records. The final branch displayed `checklist_complete` and an `issue_status_review` draft while the original Android workspace stayed blocked. Reset returned to the original failure; Back restored the passing-test branch. Reload restored `update=2`; earlier `update=1` links retained their original meaning. The displayed public share URL included `update=2`. The copy control reported success, but the browser clipboard reader returned a prior recording link, so exact clipboard content is not claimed for this iteration. Mobile document and scroll widths both measured 345 CSS pixels at a 360-pixel viewport; no browser error was recorded. Both rebuilt PDF pages were visually inspected.

@@ -81,3 +81,7 @@ For an AI-tool discussion, compare the two callback handoff recordings. The mode
 Open **Compare the two callback handoff attempts** in the AI trace section. Ask which observations support the input check and which would prevent approving the final answer. Point out that the tool descriptions changed and the later explanation lost a citation. Use the two buttons to inspect the underlying recordings instead of presenting the comparison as a benchmark score.
 
 Open [Practice](https://yuchi-wang02.github.io/csm-copilot/#practice) and invite the interviewer to choose a next action for the Android update. Explain the distinction between a failed check and an unknown check before showing the guidance. For an AI-focused discussion, use the third decision and identify the remaining omissions in the model explanation. This is a short conversation aid with published answers, not a quiz score to present as professional qualification.
+
+## Explain what changes after a fresh test
+
+Open the [passing-checks comparison](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en&update=2#customer-update). Compare it with the original snapshot and the settings-only update. Explain which record supports each changed check, why the previous report remains recorded, and why the next draft asks whether the issue still occurs. The branch is synthetic and its proposed message is unsent. Use this as an exercise; do not describe it as a customer result or completed personal practice without doing the explanation yourself.

@@ -5,7 +5,7 @@ const reviewLinks = window.CSM_REVIEW_LINKS;
 const caseReview = window.CSM_CASE_REVIEW;
 const modelRuns = window.CSM_MODEL_RUNS;
 let { runId, invalid: runInvalid } = reviewLinks.readRun(location.search, modelRuns.runs);
-let { selected, integration, activeTab, language, updated, invalid } =
+let { selected, integration, activeTab, language, updated, verified, invalid } =
   reviewLinks.read(location.search, workflow);
 const $ = (id) => document.getElementById(id);
 const esc = (value) =>
@@ -129,11 +129,12 @@ document.querySelectorAll("[data-tab]").forEach((b, n, buttons) => {
   });
 });
 function renderCounter() {
-  const r = workflow.counterfactual[updated ? "after" : "before"];
+  const branch = verified ? "verified" : updated ? "after" : "before";
+  const r = workflow.counterfactual[branch];
   $("counterfactual").innerHTML =
-    `<span class="small-label">${updated ? "AFTER CUSTOMER UPDATE" : "ORIGINAL EVIDENCE"}</span><div class="decision">${badge(r.decision)}<strong>Moon Garden / Android</strong></div>${r.checks
+    `<span class="small-label">${verified ? "AFTER SYNTHETIC TEST RECORDS" : updated ? "AFTER CUSTOMER UPDATE" : "ORIGINAL EVIDENCE"}</span><div class="decision">${badge(r.decision)}<strong>Moon Garden / Android</strong></div>${r.checks
       .filter((c) =>
-        ["currency_approved", "test_only_off", "device_verified"].includes(
+        ["currency_approved", "test_only_off", "device_verified", "callback_verified"].includes(
           c.id,
         ),
       )
@@ -143,12 +144,18 @@ function renderCounter() {
       )
       .join(
         "",
-      )}<p style="margin-top:17px">${updated ? "The settings are now customer-confirmed. The failed device check and missing callback verification remain unresolved." : "Two settings are unknown. A non-test device failure is already recorded."}</p>`;
+      )}<p style="margin-top:17px">${verified ? "All scoped checks are complete. The earlier reported issue remains recorded; ask whether it still occurs before discussing launch decisions." : updated ? "The settings are now customer-confirmed. The failed device check and missing callback verification remain unresolved." : "Two settings are unknown. A non-test device failure is already recorded."}</p>`;
   $("counterfactual").innerHTML += caseReview.timingHTML(
-    workflow.counterfactual[updated ? "after_timing" : "before_timing"],
-    ["currency_approved", "test_only_off", "device_verified"],
-    true,
+    workflow.counterfactual[`${branch}_timing`],
+    ["currency_approved", "test_only_off", "device_verified", "callback_verified"],
+    !verified,
   );
+  if (verified) {
+    const draft = workflow.counterfactual.verified_followup;
+    $("counterfactual").innerHTML += `<div class="draft-purpose"><strong>Next action: ${esc(draft.intent.replaceAll("_", " "))}</strong><p>${esc(draft.next_action)}</p></div><pre class="draft">${esc(draft.body)}</pre><p class="notice">SYNTHETIC DRAFT · NOT SENT. The original workspace and downloads retain the original snapshot.</p><details><summary>Inspect the retained issue and test records</summary><pre>${esc(JSON.stringify({issues: workflow.counterfactual.verified_context.issues, evidence: workflow.counterfactual.verified_context.evidence.filter(e => ["reply_android_settings", "fresh_android_checks", ...draft.issue_ids.map(id => workflow.counterfactual.verified_context.issues.find(i => i.id === id).evidence_id)].includes(e.id))}, null, 2))}</pre></details>`;
+  }
+  $("verify-checks").disabled = !updated || verified;
+  $("verify-checks").setAttribute("aria-pressed", String(verified));
   $("update-toggle").setAttribute("aria-pressed", String(updated));
   $("update-toggle").textContent = updated
     ? "Reset to original evidence ↺"
@@ -156,6 +163,13 @@ function renderCounter() {
 }
 $("update-toggle").addEventListener("click", () => {
   updated = !updated;
+  verified = false;
+  syncReviewUrl();
+  renderShareLink();
+  renderCounter();
+});
+$("verify-checks").addEventListener("click", () => {
+  verified = true;
   syncReviewUrl();
   renderShareLink();
   renderCounter();
@@ -303,7 +317,7 @@ function renderResponseReview(run) {
 }
 
 function reviewState() {
-  return { selected, integration, activeTab, language, updated };
+  return { selected, integration, activeTab, language, updated, verified };
 }
 function renderShareLink() {
   $("share-review-url").value = reviewLinks.share(reviewState(), workflow);
@@ -333,7 +347,7 @@ function syncReviewUrl(anchor = location.hash || "#workspace") {
   }
 }
 function restoreReview(search = location.search) {
-  ({ selected, integration, activeTab, language, updated, invalid } =
+  ({ selected, integration, activeTab, language, updated, verified, invalid } =
     reviewLinks.read(search, workflow));
   ({ runId, invalid: runInvalid } = reviewLinks.readRun(search, modelRuns.runs));
   renderQueue();

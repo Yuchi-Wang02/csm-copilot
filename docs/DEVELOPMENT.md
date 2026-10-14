@@ -205,3 +205,11 @@ The original 30-message dataset and labels remain unchanged. Because its inspect
 Dates were present in raw records but hard to compare in the case explorer. A descriptive timing view now exposes source type, timestamp, snapshot-relative age and supported checks. The same Python helper supplies workflow timing data and Markdown exports; the browser does not recalculate age from its current clock. Shared sources are deduplicated, and missing or mis-scoped sources remain unavailable.
 
 The synthetic settings update is visibly newer than the retained failed device test. This supports a concrete CSM explanation without adding a vendor expiry threshold, automatic readiness change or newest-record-wins rule. The original case packet, historical MCP responses and ten recorded model attempts remain intact. [Design and verification](EVIDENCE_TIMING.md).
+
+## v0.15 — change the next question when the checks pass
+
+The update comparison now has three states: original evidence, two customer-confirmed settings, and additional passing device/callback test records. The final state uses the existing engine rule to generate an `issue_status_review` follow-up. Completing the scoped checklist does not delete the previously recorded customer issue or assert resolution, launch approval or ad availability.
+
+The synthetic branch explicitly replaces the two check references; this is not an automatic newest-record-wins policy. The original snapshot, failed record, platform exports and practice scenario remain intact. The UI shows callback state alongside the other three changed checks, identifies the new records as tests, and exposes the earlier issue and generated draft. `update=1` retains the earlier settings-only meaning; `update=2` restores the new comparison. Reset and browser history restore the relevant state.
+
+**Interview discussion:** explain why the new evidence changes the checklist and the next customer question, but does not answer whether the customer's earlier experience is now resolved. This is a development example, not a record of a real customer outcome or completed personal learning exercise.

@@ -56,6 +56,25 @@ def build_demo():
     after_engine = Copilot(Dataset.model_validate(updated))
     after = after_engine.check_readiness("lantern_android")
     before = engine.check_readiness("lantern_android")
+    # A later test record changes the checklist, not the status of the earlier issue.
+    verified_data = after_engine.data.model_dump(mode="json")
+    verified_data["evidence"].append(
+        {
+            "id": "fresh_android_checks",
+            "account_id": "acc_014",
+            "integration_id": "lantern_android",
+            "at": verified_data["as_of"],
+            "kind": "test_record",
+            "claims": {"device_verified": "met", "callback_verified": "met"},
+            "text": "Synthetic test: device and callback checks passed. The earlier customer issue has not been reconfirmed.",
+        }
+    )
+    for item in verified_data["integrations"]:
+        if item["id"] == "lantern_android":
+            for key in ("device_verified", "callback_verified"):
+                item["facts"][key] = {"status": "met", "evidence_ids": ["fresh_android_checks"]}
+    verified_engine = Copilot(Dataset.model_validate(verified_data))
+    verified = verified_engine.check_readiness("lantern_android")
     return {
         "project": "CSM Copilot",
         "synthetic": True,
@@ -69,6 +88,12 @@ def build_demo():
             "after": after,
             "before_timing": evidence_timing(before, engine.get_account_context("acc_014")),
             "after_timing": evidence_timing(after, after_engine.get_account_context("acc_014")),
+            "verified": verified,
+            "verified_timing": evidence_timing(
+                verified, verified_engine.get_account_context("acc_014")
+            ),
+            "verified_followup": verified_engine.draft_followup("lantern_android", "en"),
+            "verified_context": verified_engine.get_account_context("acc_014"),
         },
     }
 

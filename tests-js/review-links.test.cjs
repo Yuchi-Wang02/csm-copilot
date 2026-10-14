@@ -56,13 +56,14 @@ test("every published case round-trips across views, languages and update branch
     packet.integrations.forEach((item, integration) => {
       for (const activeTab of ["evidence", "followup", "handoff"])
         for (const language of ["en", "zh"])
-          for (const updated of [false, true]) {
+          for (const [updated, verified] of [[false, false], [true, false], [true, true]]) {
             const state = {
               selected,
               integration,
               activeTab,
               language,
               updated,
+              verified,
             };
             const restored = api.read(
               new URL(api.share(state, workflow)).search,
@@ -118,6 +119,7 @@ test("empty URLs restore the original review and invalid internal state cannot b
     activeTab: "evidence",
     language: "en",
     updated: false,
+    verified: false,
     invalid: [],
   });
   assert.throws(

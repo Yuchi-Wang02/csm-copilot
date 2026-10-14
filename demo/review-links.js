@@ -28,7 +28,7 @@
       items.some((item) => item.id === value),
     );
     const item = items.find((item) => item.id === id);
-    return {
+    const result = {
       selected: item.selected,
       integration: item.integration,
       activeTab: one("view", "evidence", (value) =>
@@ -36,9 +36,11 @@
       ),
       language: one("lang", "en", (value) => ["en", "zh"].includes(value)),
       updated:
-        one("update", "0", (value) => ["0", "1"].includes(value)) === "1",
+        one("update", "0", (value) => ["0", "1", "2"].includes(value)) !== "0",
       invalid,
     };
+    result.verified = result.updated && params.get("update") === "2";
+    return result;
   }
   function query(state, workflow) {
     const item = catalog(workflow).find(
@@ -53,7 +55,8 @@
       view: state.activeTab,
       lang: state.language,
     });
-    if (state.updated) params.set("update", "1");
+    if (state.verified && !state.updated) throw new Error("Invalid review state");
+    if (state.updated) params.set("update", state.verified ? "2" : "1");
     // Normalize through the same allowlist used by incoming URLs.
     const normalized = read(params.toString(), workflow);
     if (normalized.invalid.length) throw new Error("Invalid review state");

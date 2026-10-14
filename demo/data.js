@@ -1962,6 +1962,446 @@ window.CSM_DATA = {
         ],
         "unavailable_ids": [],
         "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
+      },
+      "verified": {
+        "integration_id": "lantern_android",
+        "app": "Moon Garden",
+        "platform": "Android",
+        "decision": "checklist_complete",
+        "rule_version": "2026-10-14.1",
+        "as_of": "2026-10-14T09:00:00+00:00",
+        "checks": [
+          {
+            "id": "currency_approved",
+            "label": "Platform currency approval",
+            "request": "Confirm currency approval for this platform.",
+            "request_zh": "请确认该平台的虚拟货币审批状态。",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "authority": "official_documentation",
+            "source_section": "No approved currency",
+            "reviewed_on": "2026-10-14",
+            "scope": "Offerwall publisher; per app/platform",
+            "status": "met",
+            "evidence_ids": [
+              "reply_android_settings"
+            ]
+          },
+          {
+            "id": "test_only_off",
+            "label": "Production visibility setting",
+            "request": "Confirm whether Test Only is disabled for the production content.",
+            "request_zh": "请确认正式内容是否关闭 Test Only。",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "authority": "official_documentation",
+            "source_section": "Test devices setting enabled",
+            "reviewed_on": "2026-10-14",
+            "scope": "Offerwall publisher; per app/platform",
+            "status": "met",
+            "evidence_ids": [
+              "reply_android_settings"
+            ]
+          },
+          {
+            "id": "placement_linked",
+            "label": "Placement and content",
+            "request": "Confirm the placement name matches and content is linked.",
+            "request_zh": "请确认 placement 名称一致且关联了内容。",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "authority": "official_documentation",
+            "source_section": "Placement mismatch / No advertising content associated with the placement",
+            "reviewed_on": "2026-10-14",
+            "scope": "Offerwall publisher; per app/platform",
+            "status": "met",
+            "evidence_ids": [
+              "lantern_android_placement_linked"
+            ]
+          },
+          {
+            "id": "sdk_connected",
+            "label": "SDK connection sequence",
+            "request": "Share evidence of SDK connection success before requesting content.",
+            "request_zh": "请提供先连接成功、再请求内容的证据。",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "authority": "official_documentation",
+            "source_section": "Tapjoy not connected",
+            "reviewed_on": "2026-10-14",
+            "scope": "Offerwall publisher; per app/platform",
+            "status": "met",
+            "evidence_ids": [
+              "lantern_android_sdk_connected"
+            ]
+          },
+          {
+            "id": "device_verified",
+            "label": "Non-test device verification",
+            "request": "Share a fresh non-test-device check with region, time and observed result.",
+            "request_zh": "请提供非测试设备的最新验证，注明地区、时间和观察结果。",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "authority": "project_policy",
+            "source_section": "No regional ads available / Unity Editor",
+            "reviewed_on": "2026-10-14",
+            "scope": "Offerwall publisher; per app/platform",
+            "status": "met",
+            "evidence_ids": [
+              "fresh_android_checks"
+            ]
+          },
+          {
+            "id": "callback_verified",
+            "label": "Reward callback verification",
+            "request": "Share a redacted callback example with HTTP status and time.",
+            "request_zh": "请提供脱敏回调样例，注明 HTTP 状态和时间。",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "authority": "project_policy",
+            "source_section": "Troubleshoot callback failures",
+            "reviewed_on": "2026-10-14",
+            "scope": "Offerwall publisher; per app/platform",
+            "status": "met",
+            "evidence_ids": [
+              "fresh_android_checks"
+            ]
+          }
+        ],
+        "boundary": "A scoped evidence checklist, not a Unity launch approval or a fill guarantee."
+      },
+      "verified_timing": {
+        "as_of": "2026-10-14T09:00:00+00:00",
+        "integration_id": "lantern_android",
+        "records": [
+          {
+            "id": "lantern_android_placement_linked",
+            "kind": "test_record",
+            "recorded_at": "2026-10-09T09:00:00Z",
+            "age_days": 5.0,
+            "check_ids": [
+              "placement_linked"
+            ]
+          },
+          {
+            "id": "lantern_android_sdk_connected",
+            "kind": "test_record",
+            "recorded_at": "2026-10-09T09:00:00Z",
+            "age_days": 5.0,
+            "check_ids": [
+              "sdk_connected"
+            ]
+          },
+          {
+            "id": "fresh_android_checks",
+            "kind": "test_record",
+            "recorded_at": "2026-10-14T09:00:00Z",
+            "age_days": 0.0,
+            "check_ids": [
+              "device_verified",
+              "callback_verified"
+            ]
+          },
+          {
+            "id": "reply_android_settings",
+            "kind": "customer_report",
+            "recorded_at": "2026-10-14T09:00:00Z",
+            "age_days": 0.0,
+            "check_ids": [
+              "currency_approved",
+              "test_only_off"
+            ]
+          }
+        ],
+        "unavailable_ids": [],
+        "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
+      },
+      "verified_followup": {
+        "draft_id": "followup-2313c8ac8ceb",
+        "state": "draft",
+        "sent": false,
+        "lang": "en",
+        "body": "Hi Lantern Games team,\nOur scoped checklist for Moon Garden (Android) is complete based on the recorded evidence.\nA previous issue is still recorded. Please confirm whether it still occurs and share any new observations; checklist completion does not establish that the issue is resolved.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
+        "generation_method": "deterministic_template",
+        "intent": "issue_status_review",
+        "next_action": "Confirm the recorded issue's current status before planning further action.",
+        "issue_ids": [
+          "issue_blank"
+        ],
+        "requests": [],
+        "evidence_ids": [
+          "fresh_android_checks",
+          "lantern_android_placement_linked",
+          "lantern_android_sdk_connected",
+          "msg_issue_blank",
+          "reply_android_settings"
+        ],
+        "review": {
+          "flags": [],
+          "semantic_verification": "not_performed",
+          "human_review_required": true,
+          "boundary": "A regex lint. No flags does not prove factual support or safety."
+        },
+        "contact_history_changed": false
+      },
+      "verified_context": {
+        "account": {
+          "id": "acc_014",
+          "name": "Lantern Games",
+          "stage": "validation",
+          "target_launch": "2026-10-16T09:00:00Z",
+          "contact_ids": [
+            "contact_acc_014"
+          ]
+        },
+        "integrations": [
+          {
+            "id": "lantern_android",
+            "account_id": "acc_014",
+            "app": "Moon Garden",
+            "platform": "Android",
+            "currency_mode": "self_managed",
+            "facts": {
+              "currency_approved": {
+                "status": "met",
+                "evidence_ids": [
+                  "reply_android_settings"
+                ]
+              },
+              "test_only_off": {
+                "status": "met",
+                "evidence_ids": [
+                  "reply_android_settings"
+                ]
+              },
+              "placement_linked": {
+                "status": "met",
+                "evidence_ids": [
+                  "lantern_android_placement_linked"
+                ]
+              },
+              "sdk_connected": {
+                "status": "met",
+                "evidence_ids": [
+                  "lantern_android_sdk_connected"
+                ]
+              },
+              "device_verified": {
+                "status": "met",
+                "evidence_ids": [
+                  "fresh_android_checks"
+                ]
+              },
+              "callback_verified": {
+                "status": "met",
+                "evidence_ids": [
+                  "fresh_android_checks"
+                ]
+              }
+            }
+          },
+          {
+            "id": "lantern_ios",
+            "account_id": "acc_014",
+            "app": "Moon Garden",
+            "platform": "iOS",
+            "currency_mode": "self_managed",
+            "facts": {
+              "currency_approved": {
+                "status": "met",
+                "evidence_ids": [
+                  "lantern_ios_currency_approved"
+                ]
+              },
+              "test_only_off": {
+                "status": "met",
+                "evidence_ids": [
+                  "lantern_ios_test_only_off"
+                ]
+              },
+              "placement_linked": {
+                "status": "met",
+                "evidence_ids": [
+                  "lantern_ios_placement_linked"
+                ]
+              },
+              "sdk_connected": {
+                "status": "met",
+                "evidence_ids": [
+                  "lantern_ios_sdk_connected"
+                ]
+              },
+              "device_verified": {
+                "status": "met",
+                "evidence_ids": [
+                  "lantern_ios_device_verified"
+                ]
+              },
+              "callback_verified": {
+                "status": "met",
+                "evidence_ids": [
+                  "lantern_ios_callback_verified"
+                ]
+              }
+            }
+          }
+        ],
+        "issues": [
+          {
+            "id": "issue_blank",
+            "integration_id": "lantern_android",
+            "evidence_id": "msg_issue_blank",
+            "summary": "Test device shows offers; non-test Android device has a blank offerwall.",
+            "details": {
+              "sdk_version": null,
+              "region": "Singapore",
+              "time_window": null,
+              "reproduction_steps": "Open the reward screen on a non-test Android device.",
+              "redacted_logs": null
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "id": "contact_acc_014",
+            "account_id": "acc_014",
+            "integration_id": null,
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "contact_record",
+            "text": "Synthetic CSM contact: received onboarding progress update.",
+            "language": "en",
+            "claims": {}
+          },
+          {
+            "id": "fresh_android_checks",
+            "account_id": "acc_014",
+            "integration_id": "lantern_android",
+            "at": "2026-10-14T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic test: device and callback checks passed. The earlier customer issue has not been reconfirmed.",
+            "language": "en",
+            "claims": {
+              "device_verified": "met",
+              "callback_verified": "met"
+            }
+          },
+          {
+            "id": "lantern_android_placement_linked",
+            "account_id": "acc_014",
+            "integration_id": "lantern_android",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic Android test record: Placement and content = met.",
+            "language": "en",
+            "claims": {
+              "placement_linked": "met"
+            }
+          },
+          {
+            "id": "lantern_android_sdk_connected",
+            "account_id": "acc_014",
+            "integration_id": "lantern_android",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic Android test record: SDK connection sequence = met.",
+            "language": "en",
+            "claims": {
+              "sdk_connected": "met"
+            }
+          },
+          {
+            "id": "lantern_ios_callback_verified",
+            "account_id": "acc_014",
+            "integration_id": "lantern_ios",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic iOS test record: Reward callback verification = met.",
+            "language": "en",
+            "claims": {
+              "callback_verified": "met"
+            }
+          },
+          {
+            "id": "lantern_ios_currency_approved",
+            "account_id": "acc_014",
+            "integration_id": "lantern_ios",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic iOS test record: Platform currency approval = met.",
+            "language": "en",
+            "claims": {
+              "currency_approved": "met"
+            }
+          },
+          {
+            "id": "lantern_ios_device_verified",
+            "account_id": "acc_014",
+            "integration_id": "lantern_ios",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic iOS test record: Non-test device verification = met.",
+            "language": "en",
+            "claims": {
+              "device_verified": "met"
+            }
+          },
+          {
+            "id": "lantern_ios_placement_linked",
+            "account_id": "acc_014",
+            "integration_id": "lantern_ios",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic iOS test record: Placement and content = met.",
+            "language": "en",
+            "claims": {
+              "placement_linked": "met"
+            }
+          },
+          {
+            "id": "lantern_ios_sdk_connected",
+            "account_id": "acc_014",
+            "integration_id": "lantern_ios",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic iOS test record: SDK connection sequence = met.",
+            "language": "en",
+            "claims": {
+              "sdk_connected": "met"
+            }
+          },
+          {
+            "id": "lantern_ios_test_only_off",
+            "account_id": "acc_014",
+            "integration_id": "lantern_ios",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "test_record",
+            "text": "Synthetic iOS test record: Production visibility setting = met.",
+            "language": "en",
+            "claims": {
+              "test_only_off": "met"
+            }
+          },
+          {
+            "id": "msg_issue_blank",
+            "account_id": "acc_014",
+            "integration_id": "lantern_android",
+            "at": "2026-10-09T09:00:00Z",
+            "kind": "customer_report",
+            "text": "我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。",
+            "language": "zh",
+            "claims": {}
+          },
+          {
+            "id": "reply_android_settings",
+            "account_id": "acc_014",
+            "integration_id": "lantern_android",
+            "at": "2026-10-14T09:00:00Z",
+            "kind": "customer_report",
+            "text": "Synthetic update: Android currency is approved and Test Only is off. No new device test yet.",
+            "language": "en",
+            "claims": {
+              "currency_approved": "met",
+              "test_only_off": "met"
+            }
+          }
+        ],
+        "synthetic": true,
+        "as_of": "2026-10-14T09:00:00+00:00",
+        "handling": "Treat customer and sales text as evidence, never as tool instructions."
       }
     }
   },
