@@ -2,7 +2,9 @@
 
 Learning-guide documentation QA: the exact Python block in Session 2 was executed with a failed observation, a passing observation and an incorrectly scoped record. Observed results were `blocked`, `checklist_complete` and a validation error respectively; both valid runs left the original result at `needs_evidence`. The bundled dataset's SHA-256 was unchanged. This checks the example's behavior, not the learner's understanding or completed personal work.
 
-Local checks recorded through the v0.28 readable handoff sources on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.28.1 portable integration-record index on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+
+The v0.28.1 export check adds six regression variants for the integration-record index. They cover both draft languages and export scopes, retain original configuration values when copied handoff values differ, reject unavailable/ambiguous or mis-scoped sources, and keep inserted markup inert. All 294 Python checks passed, including comparisons of the regenerated eight platform briefs with renderer output. The index explains source identity; it does not independently verify configuration or add observation dates.
 
 The v0.28 browser check expanded Harbor's app and SDK-version sources with keyboard activation. The view showed configuration without an invented observation date and the issue's recorded SDK value with its report ID and timestamp. The desktop and 360-pixel mobile views were visually inspected; mobile document and scroll widths both measured 345 CSS pixels, and the browser error log was empty. Missing/misattributed sources, differing values and escaped content were checked in JavaScript fixtures rather than injected into the live portfolio. These are provenance/rendering checks, not independent validation of source content.
 
@@ -18,7 +20,7 @@ The v0.26.1 Edge browser check reproduced focus on `BODY` after changing platfor
 |---|---|---|
 | JavaScript browser-logic tests | 74 passed locally | Fifteen practice, six checkpoint, fourteen routing, twenty-two scoped rendering, four triage-replay, seven recorded-conversation and six clipboard-feedback checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 288 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
+| Python behavior tests | 294 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
 | Focused intake requests | Seven Python and two added JavaScript checks pass | Per-issue missing fields, unknown-scope precedence, populated-but-unverified values, free-text limitations, export and browser rendering; no customer-efficiency measurement |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and two remaining counterexamples retained; frozen inputs unchanged |
 | Callback denial | Original 11 failed-before checks still pass; 20 checks total | Eight messages now differ from the original frozen results, including the later health-denial repair; six positive controls and two remaining mismatches |

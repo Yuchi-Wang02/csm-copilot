@@ -313,6 +313,17 @@ These are declared synthetic source records, not independent verification. Struc
 | harbor\_android\_test\_only\_off | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Synthetic Android test record: Production visibility setting = met. |
 | msg\_issue\_callback | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10. |
 
+## Integration record index
+
+App and platform handoff fields cite these synthetic configuration records. No per-field observation date is recorded; the export uses the bundled snapshot. These values are not independently verified and do not establish current configuration or launch approval.
+
+| Record | Account | App | Platform |
+|---|---|---|---|
+| lantern\_android | acc\_014 | Moon Garden | Android |
+| lantern\_ios | acc\_014 | Moon Garden | iOS |
+| meadow\_ios | acc\_018 | Meadow Notes | iOS |
+| harbor\_android | acc\_006 | Pocket Harbor | Android |
+
 ## Product sources and review boundaries
 
 - https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq

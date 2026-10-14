@@ -261,6 +261,37 @@ def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | 
             lines.append(
                 f"| {cell(record['id'])} | {cell(scope)} | {cell(record['at'])} | {cell(record['text'])} |"
             )
+    lines += [
+        "",
+        "## Integration record index",
+        "",
+        "App and platform handoff fields cite these synthetic configuration records. No per-field observation date is recorded; the export uses the bundled snapshot. These values are not independently verified and do not establish current configuration or launch approval.",
+        "",
+        "| Record | Account | App | Platform |",
+        "|---|---|---|---|",
+    ]
+    unavailable = []
+    for packet in packets:
+        context = packet["context"]
+        for item in packet["integrations"]:
+            identifier = item["readiness"]["integration_id"]
+            records = [
+                record
+                for record in context["integrations"]
+                if record["id"] == identifier and record["account_id"] == context["account"]["id"]
+            ]
+            if len(records) != 1:
+                unavailable.append(identifier)
+                continue
+            record = records[0]
+            lines.append(
+                f"| {cell(record['id'])} | {cell(record['account_id'])} | {cell(record['app'])} | {cell(record['platform'])} |"
+            )
+    for identifier in unavailable:
+        lines += [
+            "",
+            f"Integration record unavailable or ambiguous: {text(identifier)}. Review the original source; copied handoff values are not a substitute.",
+        ]
     sources = sorted(
         {
             check["source_url"]

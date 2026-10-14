@@ -77,6 +77,14 @@ These are declared synthetic source records, not independent verification. Struc
 | lantern\_ios\_sdk\_connected | acc\_014 / lantern\_ios | 2026-10-09T09:00:00Z | Synthetic iOS test record: SDK connection sequence = met. |
 | lantern\_ios\_test\_only\_off | acc\_014 / lantern\_ios | 2026-10-09T09:00:00Z | Synthetic iOS test record: Production visibility setting = met. |
 
+## Integration record index
+
+App and platform handoff fields cite these synthetic configuration records. No per-field observation date is recorded; the export uses the bundled snapshot. These values are not independently verified and do not establish current configuration or launch approval.
+
+| Record | Account | App | Platform |
+|---|---|---|---|
+| lantern\_ios | acc\_014 | Moon Garden | iOS |
+
 ## Product sources and review boundaries
 
 - https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq

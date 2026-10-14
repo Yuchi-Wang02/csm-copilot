@@ -121,6 +121,14 @@ These are declared synthetic source records, not independent verification. Struc
 | lantern\_android\_sdk\_connected | acc\_014 / lantern\_android | 2026-10-09T09:00:00Z | Synthetic Android test record: SDK connection sequence = met. |
 | msg\_issue\_blank | acc\_014 / lantern\_android | 2026-10-09T09:00:00Z | 我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。 |
 
+## Integration record index
+
+App and platform handoff fields cite these synthetic configuration records. No per-field observation date is recorded; the export uses the bundled snapshot. These values are not independently verified and do not establish current configuration or launch approval.
+
+| Record | Account | App | Platform |
+|---|---|---|---|
+| lantern\_android | acc\_014 | Moon Garden | Android |
+
 ## Product sources and review boundaries
 
 - https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq

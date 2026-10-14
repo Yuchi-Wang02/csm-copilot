@@ -44,6 +44,61 @@ def test_export_is_repeatable_and_read_only():
     assert workflow == original
 
 
+@pytest.mark.parametrize("lang", ["en", "zh"])
+@pytest.mark.parametrize("integration_id", [None, "harbor_android"])
+def test_integration_index_resolves_handoff_identity_without_copying_its_values(
+    lang, integration_id
+):
+    workflow = build_demo()
+    harbor = next(p for p in workflow["packets"] if p["context"]["account"]["id"] == "acc_006")
+    harbor["tickets"][0]["fields"]["app"] = "Different copied handoff value"
+    original = copy.deepcopy(workflow)
+    brief = render_review_brief(workflow, lang, integration_id)
+    index = brief.split("## Integration record index", 1)[1].split(
+        "## Product sources and review boundaries", 1
+    )[0]
+    assert r"| harbor\_android | acc\_006 | Pocket Harbor | Android |" in index
+    assert "Different copied handoff value" not in index
+    assert "No per-field observation date is recorded" in index
+    assert "independently verified" in index
+    assert ("Moon Garden" in index) is (integration_id is None)
+    assert workflow == original
+
+
+def test_integration_index_does_not_substitute_missing_ambiguous_or_misscoped_records():
+    for fault in ("missing", "duplicate", "other_account", "other_platform"):
+        workflow = build_demo()
+        packet = next(p for p in workflow["packets"] if p["context"]["account"]["id"] == "acc_006")
+        records = packet["context"]["integrations"]
+        record = next(i for i in records if i["id"] == "harbor_android")
+        record["app"] = "Do not attribute this source"
+        if fault == "missing":
+            records.remove(record)
+        elif fault == "duplicate":
+            records.append(copy.deepcopy(record))
+        elif fault == "other_account":
+            record["account_id"] = "acc_014"
+        else:
+            record["id"] = "lantern_ios"
+        brief = render_review_brief(workflow, integration_id="harbor_android")
+        index = brief.split("## Integration record index", 1)[1].split(
+            "## Product sources and review boundaries", 1
+        )[0]
+        assert r"Integration record unavailable or ambiguous: harbor\_android" in index
+        assert "Do not attribute this source" not in index
+
+
+def test_integration_index_keeps_configuration_markup_as_text():
+    workflow = build_demo()
+    record = workflow["packets"][0]["context"]["integrations"][0]
+    record["app"] = "<script>run()</script> | [click](javascript:run())\nFake row"
+    brief = render_review_brief(workflow, integration_id=record["id"])
+    index = brief.split("## Integration record index", 1)[1]
+    assert "<script>" not in index and "[click](javascript:" not in index
+    assert r"\| \[click\]" in index
+    assert " / Fake row" in index
+
+
 def test_customer_markup_cannot_become_html_or_a_link_in_the_brief():
     workflow = build_demo()
     workflow["packets"][0]["context"]["evidence"][0]["text"] = (

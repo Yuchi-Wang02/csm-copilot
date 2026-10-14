@@ -7,6 +7,8 @@ The static explorer offers full-queue and selected-platform Markdown briefs. All
 
 Each brief includes the queue and snapshot, separate platform decisions, a proposed CSM next action, customer drafts, technical handoff fields, missing information, field source IDs, and an evidence index. It is a portable synthetic example, not a record of real outreach or model inference.
 
+The **Integration record index** resolves app/platform source IDs within the brief. It shows the original configuration values for the included integrations, separate from dated reports and tests in the Evidence index. For example, Harbor's handoff cites `harbor_android` for app and platform; its index row identifies `Pocket Harbor / Android` under `acc_006`. No per-field observation date is recorded for configuration. The renderer does not fill a missing or ambiguous source row from the copied handoff values, and a single-platform export excludes the other platform's configuration.
+
 ## Four distinct follow-up purposes
 
 | Condition | Purpose | Next step |

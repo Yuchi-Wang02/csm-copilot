@@ -74,6 +74,14 @@ These are declared synthetic source records, not independent verification. Struc
 | meadow\_ios\_sdk\_connected | acc\_018 / meadow\_ios | 2026-10-09T09:00:00Z | Synthetic iOS test record: SDK connection sequence = met. |
 | meadow\_ios\_test\_only\_off | acc\_018 / meadow\_ios | 2026-10-09T09:00:00Z | Synthetic iOS test record: Production visibility setting = met. |
 
+## Integration record index
+
+App and platform handoff fields cite these synthetic configuration records. No per-field observation date is recorded; the export uses the bundled snapshot. These values are not independently verified and do not establish current configuration or launch approval.
+
+| Record | Account | App | Platform |
+|---|---|---|---|
+| meadow\_ios | acc\_018 | Meadow Notes | iOS |
+
 ## Product sources and review boundaries
 
 - https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq
