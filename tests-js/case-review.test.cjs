@@ -2,6 +2,89 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const api = require("../demo/case-review.js");
 
+test("copyable Harbor handoff retains supplied facts, focused requests and review boundaries", () => {
+  const workflow = structuredClone(require("../evidence/workflow.json"));
+  const data = workflow.packets.find((p) => p.context.account.id === "acc_006");
+  const before = JSON.stringify(data);
+  const record = api.issuesFor(data, "harbor_android")[0];
+  const text = api.handoffText(record, workflow.as_of);
+  assert.match(text, /Snapshot: 2026-10-14T09:00:00\+00:00/);
+  assert.match(text, /Issue: issue_callback · Draft: ticket-issue_callback/);
+  assert.match(text, /Missing intake fields: reproduction_steps, redacted_logs/);
+  assert.match(text, /Share the steps to reproduce/);
+  assert.match(text, /credentials, tokens, personal data and other secrets removed/);
+  assert.match(text, /HTTP 405 makes an endpoint method mismatch worth checking; it is not a confirmed cause/);
+  assert.match(text, /Source reference: integration_record \/ harbor_android/);
+  assert.match(text, /Source reference: issue_evidence \/ msg_issue_callback/);
+  assert.match(text, /Root cause: unconfirmed/);
+  assert.match(text, /No ticket was submitted and contact history is unchanged/);
+  assert.doesNotMatch(text, /lantern_android|meadow_ios|Share the SDK version|Share the observation start/);
+  for (const value of Object.values(record.ticket.fields)) assert.ok(text.includes(String(value)));
+  assert.equal(JSON.stringify(data), before);
+});
+
+test("each copy stays with its own issue and unavailable sources are not reconstructed", () => {
+  const data = packet();
+  const records = api.issuesFor(data, "android");
+  const first = api.handoffText(records[0], "snapshot"), second = api.handoffText(records[1], "snapshot");
+  assert.match(first, /Original 1/);
+  assert.doesNotMatch(first, /Original 2|Original 3|ticket-second|ticket-other/);
+  assert.match(second, /Original 2/);
+  assert.doesNotMatch(second, /Original 1|Original 3|ticket-first|ticket-other/);
+  data.context.evidence[0].integration_id = "ios";
+  const unavailable = api.handoffText(api.issuesFor(data, "android")[0], "snapshot");
+  assert.match(unavailable, /One scoped source was not available/);
+  assert.doesNotMatch(unavailable, /Original 1/);
+  assert.equal(api.handoffText({...records[0], ticket: null}, "snapshot"), null);
+});
+
+test("scope-first copied handoff does not turn populated or missing fields into technical intake", () => {
+  for (const missing of [[], ["redacted_logs"]]) {
+    const data = packet(), t = data.tickets[0];
+    t.handoff_state = "needs_scope";
+    t.missing_fields = missing;
+    t.collection_requests = [{field:"redacted_logs",request:"TECHNICAL REQUEST MUST NOT APPEAR"}];
+    t.triage.candidates = [{category:"unknown",questions:["Which account does the invoice concern?"],source_url:null}];
+    const text = api.handoffText(api.issuesFor(data, "android")[0], "snapshot");
+    assert.match(text, /Clarify the request first/);
+    assert.match(text, /Which account does the invoice concern/);
+    assert.doesNotMatch(text, /Missing intake fields|TECHNICAL REQUEST MUST NOT APPEAR/);
+  }
+});
+
+test("ambiguous drafts cannot be copied by choosing whichever occurs first", () => {
+  for (const reverse of [false, true]) {
+    const data = packet();
+    data.tickets.push({...structuredClone(data.tickets[0]), title:"CONFLICTING DRAFT"});
+    if (reverse) data.tickets.reverse();
+    const records = api.issuesFor(data, "android");
+    assert.equal(records[0].ticket, null);
+    assert.equal(api.handoffText(records[0], "snapshot"), null);
+    const html = api.handoffHTML(records, "unused", "snapshot");
+    assert.match(html, /missing or duplicate drafts require review/);
+    assert.doesNotMatch(html, /CONFLICTING DRAFT|Copy handoff · first/);
+    assert.match(html, /Copy handoff · second/);
+  }
+});
+
+test("handoff preview keeps literal customer text inside a readonly, separately labeled field", () => {
+  const data = packet();
+  data.context.evidence[0].text = 'Line one\n</textarea><img src=x onerror="run()">';
+  const records = api.issuesFor(data, "android");
+  const text = api.handoffText(records[0], "snapshot");
+  assert.match(text, /  \| Line one\n  \| <\/textarea><img/);
+  const html = api.handoffHTML(records, "unused", "snapshot");
+  assert.match(html, /data-handoff-copy="0"/);
+  assert.match(html, /data-handoff-copy="1"/);
+  assert.match(html, /id="handoff-text-0" rows="12" readonly/);
+  assert.match(html, /Handoff text for first/);
+  assert.match(html, /Handoff text for second/);
+  assert.match(html, /&lt;\/textarea&gt;&lt;img/);
+  assert.doesNotMatch(html, /<img/);
+  assert.equal((html.match(/<textarea /g) || []).length, 2);
+  assert.equal((html.match(/<\/textarea>/g) || []).length, 2);
+});
+
 function readinessFixture() {
   const workflow = require("../evidence/workflow.json");
   return structuredClone(workflow.packets[0]);

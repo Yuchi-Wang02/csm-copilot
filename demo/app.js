@@ -113,7 +113,19 @@ function renderCase() {
   } else {
     $("panel").innerHTML =
       issueCount +
-      caseReview.handoffHTML(records, item.followup_en.next_action);
+      caseReview.handoffHTML(records, item.followup_en.next_action, workflow.as_of);
+    $("panel").querySelectorAll("[data-handoff-copy]").forEach((button) => {
+      const index = Number(button.dataset.handoffCopy);
+      const text = caseReview.handoffText(records[index], workflow.as_of);
+      button.addEventListener("click", () => copyFeedback.copy(
+        button, text, `Handoff copied · ${records[index].issue.id}`,
+        `Select handoff text · ${records[index].issue.id}`, () => {
+          $(`handoff-preview-${index}`).open = true;
+          $(`handoff-text-${index}`).focus();
+          $(`handoff-text-${index}`).select();
+        },
+      ));
+    });
   }
   if (["platform-select", "language-select"].includes(focusedControl)) {
     $(focusedControl)?.focus({ preventScroll: true });

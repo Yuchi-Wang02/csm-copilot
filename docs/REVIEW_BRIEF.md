@@ -74,6 +74,10 @@ Platform briefs use UTF-8 with LF line endings. Artifact tests and installed CLI
 
 ## Use it in an interview
 
+The Handoff panel also offers **Copy handoff** and **Preview handoff text** for each recorded issue. The plain-text draft carries the fixed snapshot, account/integration/issue IDs, original source text when uniquely available, copied fields with source references, focused missing-information requests, triage notes, proposed owner and next action. It keeps the unconfirmed-cause and nothing-sent boundaries. This compact copy is for review; the platform Markdown brief supplies the fuller evidence index.
+
+Scope-first handoffs ask for clarification before technical intake. A platform with no recorded issue has no copy action, and missing or duplicate drafts are withheld for review. If the browser cannot copy automatically, the preview opens with its readonly text selected for manual copying. Copying does not send a ticket, change contact history or update the evidence snapshot. Source references still require review; the copied values are not independently verified.
+
 Open the brief and point to one account. Explain why it was selected, which platform needs evidence, which next action is proposed and which source records support the decision. Then switch to its other platform and explain why the follow-up purpose changes.
 
 For a focused leave-behind, download the selected platform instead of the entire queue. Explain why its account contact record is included but the other platform's readiness evidence is absent.

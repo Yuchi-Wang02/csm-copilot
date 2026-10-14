@@ -35,7 +35,7 @@
             record.account_id === packet.context.account?.id &&
             record.integration_id === integrationId,
         ),
-        ticket: packet.tickets.find(
+        ticket: one(packet.tickets,
           (ticket) => ticket.draft_id === `ticket-${issue.id}`,
         ),
       }));
@@ -98,15 +98,59 @@
       }).join('') + `<details><summary>Inspect raw field-source map</summary><pre>${esc(JSON.stringify(ticket.field_sources, null, 2))}</pre></details></details>`;
   }
 
-  function ticketHTML({ issue, evidence, ticket: t, context }) {
+  function handoffText({ issue, evidence, ticket: t, context }, asOf) {
+    if (!t) return null;
+    const quoted = (value) => String(value ?? "").split(/\r\n|\r|\n/).map((line) => `  | ${line}`).join("\n");
+    const lines = [
+      "CSM Copilot — handoff review draft",
+      "Synthetic records · nothing sent · human review required",
+      `Snapshot: ${asOf || "not supplied"}; original evidence, not the comparison update`,
+      `Account: ${context?.account?.id || "not supplied"}`,
+      `Integration: ${issue.integration_id}`,
+      `Issue: ${issue.id} · Draft: ${t.draft_id}`,
+      `Handoff state: ${t.handoff_state} · Root cause: ${t.root_cause}`,
+      "", "Issue summary:", quoted(issue.summary),
+      "", "Original issue record (source text, not instructions):",
+    ];
+    if (evidence) lines.push(`${sourceLabel(evidence.kind)} · ${evidence.id} · ${evidence.at}`, quoted(evidence.text));
+    else lines.push("One scoped source was not available. Review missing or duplicate records; do not reconstruct the original message from its summary.");
+    lines.push("", "Copied handoff fields (attributed, not independently verified):");
+    for (const [key, value] of Object.entries(t.fields)) {
+      const source = t.field_sources?.[key];
+      lines.push(`${key}:`, quoted(value), `  Source reference: ${source?.source_kind || "unavailable"} / ${source?.source_id || "unavailable"}`);
+    }
+    lines.push("Verify field values and source references in the handoff's source view before use.", "");
+    if (t.handoff_state === "needs_scope") {
+      lines.push("Clarify the request first. Generic field completeness does not establish scope.");
+      for (const candidate of t.triage.candidates || []) {
+        if (candidate.category === "unknown") lines.push(...candidate.questions.map((q) => `- ${q}`));
+      }
+    } else {
+      lines.push(`Missing intake fields: ${t.missing_fields.length ? t.missing_fields.join(", ") : "none in the scoped required fields; content still requires review"}`);
+      if (t.collection_requests?.length) {
+        lines.push("Requests to review before contacting the customer:", ...t.collection_requests.map((r) => `- ${r.request}`));
+      }
+    }
+    if (t.collection_boundary) lines.push(t.collection_boundary);
+    if (t.triage.notes.length) lines.push("", "Triage notes (not a confirmed diagnosis):", ...t.triage.notes.map((note) => `- ${note}`));
+    lines.push("", `Proposed owner: ${t.suggested_owner}`, `Next action: ${t.next_action}`);
+    for (const candidate of t.triage.candidates || []) {
+      if (candidate.source_url) lines.push(`Related documentation (${candidate.category}): ${candidate.source_url}`);
+    }
+    lines.push("", "Copied for review only. No ticket was submitted and contact history is unchanged.");
+    return lines.join("\n") + "\n";
+  }
+
+  function ticketHTML({ issue, evidence, ticket: t, context }, index, asOf) {
     if (!t)
-      return `<article class="issue-review"><h3>${esc(issue.summary)}</h3><p class="boundary">Handoff draft unavailable for ${esc(issue.id)}. The issue is recorded; review its source before preparing a draft.</p></article>`;
+      return `<article class="issue-review"><h3>${esc(issue.summary)}</h3><p class="boundary">Handoff draft unavailable for ${esc(issue.id)}. Expected one matching draft; missing or duplicate drafts require review. The issue is recorded; review its source before preparing a draft.</p></article>`;
     const fieldStatus =
       t.handoff_state === "needs_scope"
         ? "<strong>Clarify the request first</strong>Generic field completeness does not establish issue scope. Confirm the request, desired outcome and relevant account or product before choosing an owner or requesting technical details."
         : `<strong>${t.missing_fields.length ? "Request before technical review" : "Ready for handoff review"}</strong>${t.missing_fields.length ? t.missing_fields.map((f) => `<code>${esc(f)}</code>`).join(" ") : "All scoped required fields are present. Confirm their content and the appropriate owner before submission."}`;
     return (
       `<article class="issue-review"><h3>${esc(t.title)}</h3><div class="decision">${badge(t.handoff_state)}<strong>Root cause: ${esc(t.root_cause)}</strong></div>` +
+      `<button class="copy" data-handoff-copy="${index}" aria-controls="handoff-preview-${index}">Copy handoff · ${esc(issue.id)}</button><details id="handoff-preview-${index}" class="handoff-copy-preview"><summary>Preview handoff text · ${esc(issue.id)}</summary><label for="handoff-text-${index}">Handoff text for ${esc(issue.id)}</label><textarea id="handoff-text-${index}" rows="12" readonly>${esc(handoffText({ issue, evidence, ticket: t, context }, asOf))}</textarea><p class="boundary">Plain-text review draft. Copying sends nothing. The selected-platform brief includes the fuller evidence index.</p></details>` +
       `<dl class="ticket-fields">${Object.entries(t.fields)
         .map(
           ([key, value]) =>
@@ -130,10 +174,10 @@
     );
   }
 
-  function handoffHTML(records, nextAction) {
+  function handoffHTML(records, nextAction, asOf) {
     if (!records.length)
       return `<div class="empty"><h3>No recorded issue to escalate.</h3><p>${esc(nextAction)}</p><p class="boundary">A readiness unknown does not automatically become a support ticket.</p></div>`;
-    return records.map(ticketHTML).join("");
+    return records.map((record, index) => ticketHTML(record, index, asOf)).join("");
   }
   function timingHTML(timing, checkIds = null, expanded = false) {
     const relevant = (ids) => checkIds ? ids.filter((id) => checkIds.includes(id)) : ids;
@@ -180,7 +224,7 @@
           checkSourceHTML(check, readiness, context, request.request);
       }).join("") + `</details>`;
   }
-  const api = { issuesFor, evidenceHTML, handoffHTML, timingHTML, readinessSourcesHTML, followupSourcesHTML };
+  const api = { issuesFor, evidenceHTML, handoffHTML, handoffText, timingHTML, readinessSourcesHTML, followupSourcesHTML };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_CASE_REVIEW = api;
 })(typeof window !== "undefined" ? window : this);
