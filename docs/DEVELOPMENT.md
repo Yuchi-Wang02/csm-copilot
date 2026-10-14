@@ -1,5 +1,11 @@
 # Development notes
 
+## Keep the navigation within a narrow viewport
+
+At a 320-pixel Edge viewport, the header navigation extended to about 328 pixels and widened the page beyond its 305-pixel content area (the scrollbar occupied the remaining width). The mobile header and its navigation now allow flex wrapping. Links move onto another line when space is insufficient instead of extending past the page edge.
+
+Browser checks at 320, 390 and 720 pixels, followed by the restored 2002-pixel desktop viewport, found document scroll width equal to document client width. At 320 pixels, Harbor's expanded queue evidence, handoff preview and field-source comparison remained within the viewport; the read-only preview had equal scroll and client widths. A targeted screenshot confirmed the wrapped header. The initial emulated full-viewport capture was incorrectly scaled by the browser capture tool, so it was not used as visual evidence. These are bounded layout checks, not a complete mobile-device or accessibility audit. The fixed v0.29.6 download predates this CSS repair.
+
 ## Bound verification waits without changing workflow results
 
 The scripted MCP smoke client left its response timeout unset. A test peer that accepted the initialization request but never replied reached the test's outer watchdog instead of producing a protocol timeout. The client now configures the SDK's 30-second response timeout. The regression test shortens that setting to 50 ms, uses the real SDK session over in-memory streams, and verifies the timeout error and stream cleanup. This does not simulate an operating-system process hang or prove process-tree cleanup.
