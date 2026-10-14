@@ -34,7 +34,8 @@ jobs:
       - run: python evaluation/negation.py
       - run: python scripts/build_model_replay.py
       - run: python scripts/build_project_brief.py
-      - run: git diff --exit-code -- demo/project-brief.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/case-briefs demo/product-feedback.md evidence
+      - run: python scripts/build_client_education.py
+      - run: git diff --exit-code -- demo/project-brief.pdf demo/publisher-teaching-example.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/case-briefs demo/product-feedback.md evidence
       - run: python -m build
       - run: python scripts/verify_wheel.py
       - run: python scripts/build_interview_demo.py --output dist/interview-demo.zip

@@ -2,6 +2,8 @@
 
 An AI-assisted teaching example for the fictional Lantern Games case. All account details are synthetic. This is a proposed customer conversation, not a record of training delivered by Yuchi or an official Unity support procedure.
 
+[Download the one-page teaching handout (PDF)](../demo/publisher-teaching-example.pdf) for a portable version of the explanation, case table and proposed next step. The PDF includes source links and a practice prompt; it can be read without opening GitHub.
+
 **Customer question:** “It worked on iOS. Why is Android still blank, and what should we do next?”
 
 ## Explain the product checks

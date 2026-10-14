@@ -10,6 +10,8 @@ The full learning guide, interview script and publisher teaching example are par
 
 ## Choose the right take-away
 
+The [one-page publisher teaching handout](../demo/publisher-teaching-example.pdf) was added after v0.29.1 and is available separately from the current site and repository. It is not included in that fixed release ZIP. Future bundles built from commits containing this PDF will include it as a committed demo file.
+
 | Item | Use it for |
 |---|---|
 | [Hosted portfolio](https://yuchi-wang02.github.io/csm-copilot/) | Open the interactive review with no setup; it may advance after this release |
