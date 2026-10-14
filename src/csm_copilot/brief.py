@@ -4,6 +4,8 @@ import html
 import re
 from copy import deepcopy
 
+from .timing import evidence_timing
+
 INTENTS = {
     "evidence_request": "Collect evidence",
     "issue_status_review": "Confirm the recorded issue's current status",
@@ -120,6 +122,26 @@ def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | 
                 lines.append(
                     f"| {cell(check['label'])} | {cell(check['status'])} | {cell(', '.join(check['evidence_ids']) or 'No applicable record')} |"
                 )
+            timing = evidence_timing(ready, packet["context"])
+            lines += [
+                "",
+                "**Timing of supporting records** (oldest first)",
+                "",
+                "| Record | Source type | Recorded at | Days before snapshot | Supports |",
+                "|---|---|---|---:|---|",
+            ]
+            for record in timing["records"]:
+                lines.append(
+                    f"| {cell(record['id'])} | {cell(record['kind'])} | {cell(record['recorded_at'])} | {record['age_days']:.2f} | {cell(', '.join(record['check_ids']))} |"
+                )
+            if not timing["records"]:
+                lines += ["", "No available supporting records for this scoped checklist."]
+            if timing["unavailable_ids"]:
+                lines += [
+                    "",
+                    "Unavailable scoped sources: " + text(", ".join(timing["unavailable_ids"])),
+                ]
+            lines += ["", timing["boundary"]]
             lines += [
                 "",
                 text(ready["boundary"]),

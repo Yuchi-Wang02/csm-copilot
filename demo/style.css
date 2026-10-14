@@ -1327,6 +1327,17 @@ button:disabled {
   gap: 18px;
   padding: 12px 0 18px;
 }
+.evidence-timing {
+  margin: 18px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+.evidence-timing ol { padding-left: 20px; }
+.evidence-timing li { margin: 12px 0; overflow-wrap: anywhere; }
+.evidence-timing strong, .evidence-timing span, .evidence-timing time,
+.evidence-timing small { display: block; font-size: 12px; line-height: 1.6; }
+.evidence-timing time { color: var(--muted); }
 .review-sharing details {
   flex: 1;
   min-width: 0;

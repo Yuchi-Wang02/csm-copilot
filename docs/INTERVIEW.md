@@ -30,7 +30,7 @@ Open Follow-up, switch to Chinese, then open Handoff.
 
 “The draft asks for the missing evidence. The handoff includes what we know and makes missing fields visible. Neither action sends a message or updates the last-contact timestamp. The next owner can see what still needs to be collected.”
 
-Show the counterfactual update. Two settings change, but the failed device check remains unresolved.
+Show the counterfactual update. Two settings change, but the failed device check remains unresolved. The expanded evidence-timing view shows the new customer confirmation beside the older device record. Explain why a recent message does not prove a fresh device test, and why age alone does not automatically expire evidence.
 
 ## 1:50–2:30 — Explain the AI architecture and failure cases
 

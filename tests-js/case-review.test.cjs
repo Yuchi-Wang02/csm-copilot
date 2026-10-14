@@ -2,6 +2,34 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const api = require("../demo/case-review.js");
 
+test("timing view shows supplied dates and preserves one shared source across checks", () => {
+  const timing = {
+    as_of: "2026-10-14T09:00:00Z", unavailable_ids: [], boundary: "No expiry policy.",
+    records: [
+      {id:"device-old", kind:"test_record", recorded_at:"2026-10-09T09:00:00Z", age_days:5, check_ids:["device_verified"]},
+      {id:"settings-new", kind:"customer_report", recorded_at:"2026-10-14T09:00:00Z", age_days:0, check_ids:["currency_approved","test_only_off"]},
+      {id:"sdk-other", kind:"test_record", recorded_at:"2026-10-08T09:00:00Z", age_days:6, check_ids:["sdk_connected"]},
+    ],
+  };
+  const original = JSON.stringify(timing);
+  const html = api.timingHTML(timing,["device_verified","currency_approved","test_only_off"],true);
+  assert.match(html,/2 supporting records/);
+  assert.match(html,/5.00 days before snapshot/);
+  assert.match(html,/0.00 days before snapshot/);
+  assert.match(html,/currency_approved, test_only_off/);
+  assert.match(html,/<time datetime="2026-10-09T09:00:00Z">/);
+  assert.ok(!html.includes("sdk-other"));
+  assert.equal(html.match(/<strong>settings-new<\/strong>/g).length,1);
+  assert.equal(JSON.stringify(timing),original);
+});
+test("empty timing does not invent an age and unavailable source text is escaped", () => {
+  const html = api.timingHTML({as_of:"2026-10-14T09:00:00Z",records:[],unavailable_ids:['<img src=x onerror=alert(1)>'],boundary:"Age does not expire evidence."});
+  assert.match(html,/No available supporting records/);
+  assert.match(html,/Unavailable scoped sources: &lt;img/);
+  assert.ok(!html.includes("<img"));
+  assert.ok(!html.includes("days before snapshot"));
+});
+
 function packet() {
   return {
     context: {

@@ -8,6 +8,7 @@ from pathlib import Path
 from .brief import render_review_brief
 from .engine import Copilot
 from .models import Dataset
+from .timing import evidence_timing
 
 
 def build_demo():
@@ -18,9 +19,11 @@ def build_demo():
         context = engine.get_account_context(selected["account_id"])
         integrations = []
         for i in context["integrations"]:
+            readiness = engine.check_readiness(i["id"])
             integrations.append(
                 {
-                    "readiness": engine.check_readiness(i["id"]),
+                    "readiness": readiness,
+                    "evidence_timing": evidence_timing(readiness, context),
                     "followup_en": engine.draft_followup(i["id"], "en"),
                     "followup_zh": engine.draft_followup(i["id"], "zh"),
                 }
@@ -50,7 +53,9 @@ def build_demo():
         if i["id"] == "lantern_android":
             for key in ("currency_approved", "test_only_off"):
                 i["facts"][key] = {"status": "met", "evidence_ids": ["reply_android_settings"]}
-    after = Copilot(Dataset.model_validate(updated)).check_readiness("lantern_android")
+    after_engine = Copilot(Dataset.model_validate(updated))
+    after = after_engine.check_readiness("lantern_android")
+    before = engine.check_readiness("lantern_android")
     return {
         "project": "CSM Copilot",
         "synthetic": True,
@@ -60,8 +65,10 @@ def build_demo():
         "packets": packets,
         "counterfactual": {
             "description": "Customer confirms two Android settings; no fresh device test.",
-            "before": engine.check_readiness("lantern_android"),
+            "before": before,
             "after": after,
+            "before_timing": evidence_timing(before, engine.get_account_context("acc_014")),
+            "after_timing": evidence_timing(after, after_engine.get_account_context("acc_014")),
         },
     }
 

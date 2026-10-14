@@ -1,12 +1,12 @@
 # Verification record
 
-Verified through the v0.13 explicit-denial triage iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.14 evidence-timing iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 18 passed locally | Five practice, eight routing and five scoped issue-rendering checks; not learning outcomes |
+| JavaScript browser-logic tests | 20 passed locally | Five practice, eight routing and seven scoped rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 198 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
+| Python behavior tests | 206 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and three known counterexamples retained |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |
 | Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original outputs preserved; subsequent explicit-denial adaptation documented |
@@ -16,7 +16,7 @@ Verified through the v0.13 explicit-denial triage iteration on 2026-10-14. For t
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
 | Ruff lint and format | Passed | Python source checks |
 | Package build | Source distribution and wheel built | Includes packaged JSON fixtures |
-| Installed wheel | Fresh local installation and CLI exports passed; this release's MCP executable launch was blocked by Windows Application Control | No policy bypass attempted. Clean-runner installed MCP verification is in the linked CI result; earlier releases passed the local console-entry check |
+| Installed wheel | Current wheel built locally; clean-runner CLI and installed MCP verification are recorded in CI | The v0.13 local launcher was blocked by Windows Application Control; no policy bypass or local launcher retry was attempted. Clean-runner Windows and Ubuntu checks passed for that release. |
 | Real MCP stdio client | Eight tools, three follow-up intents, both prompts and invalid-ID error passed | Scripted client, no model inference |
 | Local model attempts | Ten recordings retained across three tasks; newest run completed two exact-message triage calls with no assigned identity, extra calls, errors or corrections | Invoice questions no longer assume a technical symptom but remain broad; AI-assisted review, not independent customer validation |
 | Portable morning review | English and Chinese-draft Markdown generated and checked for consistency | Same workflow packet as the browser; draft-only |
@@ -68,6 +68,8 @@ The v0.11.1 local browser check switched between the original inbound-message re
 The v0.12 local browser check opened the older four-call recording directly, retained a changed selection on reload, and restored both recordings with Back/Forward. The clipboard contained the exact public recording-only URL. Changing the account preserved the selected run; Back restored the prior account. A duplicated run parameter displayed the latest-attempt notice. Callback comparison buttons updated the URL, and a temporary verification note survived navigation before being cleared. At a 360-pixel viewport with the link details expanded, document and scroll widths were both 345 CSS pixels, with no browser errors. Both PDF pages were visually reviewed and the correction link was checked against its annotation target. [Recording-link screenshot](assets/demo-recording-link.png).
 
 The v0.13 local browser check showed 16/18 as a replay after rule adaptation, with the earlier 14/18 explicitly identified and the remaining indirect-wording failure visible. The development-probe link exposes three further counterexamples. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels, with no browser errors. Both PDF pages were visually checked with the same qualification. The added original-diagnostic regression confirms that only the two inspected negation cases change category; all ten model recordings remain unchanged.
+
+The v0.14 browser check displayed the original Android sources, six separate iOS sources, and the counterfactual's 0.00-day settings confirmation beside the unchanged 5.00-day failed device record. Resetting removed the new source. A browser-downloaded Android brief matched its generated file byte-for-byte and retained only the original snapshot. Expanded timing views had no horizontal overflow at the inspected 360-pixel viewport (345 CSS pixels for both document and scroll width). No browser errors were recorded, and both PDF pages were visually checked.
 
 ## Reproduction
 

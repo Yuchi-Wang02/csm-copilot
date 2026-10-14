@@ -75,6 +75,7 @@ function renderCase() {
       issueCount +
       caseReview.evidenceHTML(records) +
       checksTable(r) +
+      caseReview.timingHTML(item.evidence_timing) +
       `<details><summary>Inspect the supporting evidence records</summary><pre>${esc(
         JSON.stringify(
           p.context.evidence.filter((e) =>
@@ -143,6 +144,11 @@ function renderCounter() {
       .join(
         "",
       )}<p style="margin-top:17px">${updated ? "The settings are now customer-confirmed. The failed device check and missing callback verification remain unresolved." : "Two settings are unknown. A non-test device failure is already recorded."}</p>`;
+  $("counterfactual").innerHTML += caseReview.timingHTML(
+    workflow.counterfactual[updated ? "after_timing" : "before_timing"],
+    ["currency_approved", "test_only_off", "device_verified"],
+    true,
+  );
   $("update-toggle").setAttribute("aria-pressed", String(updated));
   $("update-toggle").textContent = updated
     ? "Reset to original evidence ↺"

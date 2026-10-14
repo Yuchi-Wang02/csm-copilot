@@ -409,6 +409,41 @@
             ],
             "boundary": "A scoped evidence checklist, not a Unity launch approval or a fill guarantee."
           },
+          "evidence_timing": {
+            "as_of": "2026-10-14T09:00:00+00:00",
+            "integration_id": "lantern_android",
+            "records": [
+              {
+                "id": "lantern_android_device_verified",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "device_verified"
+                ]
+              },
+              {
+                "id": "lantern_android_placement_linked",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "placement_linked"
+                ]
+              },
+              {
+                "id": "lantern_android_sdk_connected",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "sdk_connected"
+                ]
+              }
+            ],
+            "unavailable_ids": [],
+            "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
+          },
           "followup_en": {
             "draft_id": "followup-801ce08be014",
             "state": "draft",
@@ -615,6 +650,68 @@
               }
             ],
             "boundary": "A scoped evidence checklist, not a Unity launch approval or a fill guarantee."
+          },
+          "evidence_timing": {
+            "as_of": "2026-10-14T09:00:00+00:00",
+            "integration_id": "lantern_ios",
+            "records": [
+              {
+                "id": "lantern_ios_callback_verified",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "callback_verified"
+                ]
+              },
+              {
+                "id": "lantern_ios_currency_approved",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "currency_approved"
+                ]
+              },
+              {
+                "id": "lantern_ios_device_verified",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "device_verified"
+                ]
+              },
+              {
+                "id": "lantern_ios_placement_linked",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "placement_linked"
+                ]
+              },
+              {
+                "id": "lantern_ios_sdk_connected",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "sdk_connected"
+                ]
+              },
+              {
+                "id": "lantern_ios_test_only_off",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "test_only_off"
+                ]
+              }
+            ],
+            "unavailable_ids": [],
+            "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
           },
           "followup_en": {
             "draft_id": "followup-eb6ab5b3759e",
@@ -976,6 +1073,50 @@
             ],
             "boundary": "A scoped evidence checklist, not a Unity launch approval or a fill guarantee."
           },
+          "evidence_timing": {
+            "as_of": "2026-10-14T09:00:00+00:00",
+            "integration_id": "meadow_ios",
+            "records": [
+              {
+                "id": "meadow_ios_currency_approved",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "currency_approved"
+                ]
+              },
+              {
+                "id": "meadow_ios_placement_linked",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "placement_linked"
+                ]
+              },
+              {
+                "id": "meadow_ios_sdk_connected",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "sdk_connected"
+                ]
+              },
+              {
+                "id": "meadow_ios_test_only_off",
+                "kind": "test_record",
+                "recorded_at": "2026-10-09T09:00:00Z",
+                "age_days": 5.0,
+                "check_ids": [
+                  "test_only_off"
+                ]
+              }
+            ],
+            "unavailable_ids": [],
+            "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
+          },
           "followup_en": {
             "draft_id": "followup-ef9652ddbfb3",
             "state": "draft",
@@ -1331,6 +1472,68 @@
             ],
             "boundary": "A scoped evidence checklist, not a Unity launch approval or a fill guarantee."
           },
+          "evidence_timing": {
+            "as_of": "2026-10-14T09:00:00+00:00",
+            "integration_id": "harbor_android",
+            "records": [
+              {
+                "id": "harbor_android_callback_verified",
+                "kind": "test_record",
+                "recorded_at": "2026-10-10T09:00:00Z",
+                "age_days": 4.0,
+                "check_ids": [
+                  "callback_verified"
+                ]
+              },
+              {
+                "id": "harbor_android_currency_approved",
+                "kind": "test_record",
+                "recorded_at": "2026-10-10T09:00:00Z",
+                "age_days": 4.0,
+                "check_ids": [
+                  "currency_approved"
+                ]
+              },
+              {
+                "id": "harbor_android_device_verified",
+                "kind": "test_record",
+                "recorded_at": "2026-10-10T09:00:00Z",
+                "age_days": 4.0,
+                "check_ids": [
+                  "device_verified"
+                ]
+              },
+              {
+                "id": "harbor_android_placement_linked",
+                "kind": "test_record",
+                "recorded_at": "2026-10-10T09:00:00Z",
+                "age_days": 4.0,
+                "check_ids": [
+                  "placement_linked"
+                ]
+              },
+              {
+                "id": "harbor_android_sdk_connected",
+                "kind": "test_record",
+                "recorded_at": "2026-10-10T09:00:00Z",
+                "age_days": 4.0,
+                "check_ids": [
+                  "sdk_connected"
+                ]
+              },
+              {
+                "id": "harbor_android_test_only_off",
+                "kind": "test_record",
+                "recorded_at": "2026-10-10T09:00:00Z",
+                "age_days": 4.0,
+                "check_ids": [
+                  "test_only_off"
+                ]
+              }
+            ],
+            "unavailable_ids": [],
+            "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
+          },
           "followup_en": {
             "draft_id": "followup-94a7c4f825f4",
             "state": "draft",
@@ -1678,6 +1881,86 @@
         }
       ],
       "boundary": "A scoped evidence checklist, not a Unity launch approval or a fill guarantee."
+    },
+    "before_timing": {
+      "as_of": "2026-10-14T09:00:00+00:00",
+      "integration_id": "lantern_android",
+      "records": [
+        {
+          "id": "lantern_android_device_verified",
+          "kind": "test_record",
+          "recorded_at": "2026-10-09T09:00:00Z",
+          "age_days": 5.0,
+          "check_ids": [
+            "device_verified"
+          ]
+        },
+        {
+          "id": "lantern_android_placement_linked",
+          "kind": "test_record",
+          "recorded_at": "2026-10-09T09:00:00Z",
+          "age_days": 5.0,
+          "check_ids": [
+            "placement_linked"
+          ]
+        },
+        {
+          "id": "lantern_android_sdk_connected",
+          "kind": "test_record",
+          "recorded_at": "2026-10-09T09:00:00Z",
+          "age_days": 5.0,
+          "check_ids": [
+            "sdk_connected"
+          ]
+        }
+      ],
+      "unavailable_ids": [],
+      "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
+    },
+    "after_timing": {
+      "as_of": "2026-10-14T09:00:00+00:00",
+      "integration_id": "lantern_android",
+      "records": [
+        {
+          "id": "lantern_android_device_verified",
+          "kind": "test_record",
+          "recorded_at": "2026-10-09T09:00:00Z",
+          "age_days": 5.0,
+          "check_ids": [
+            "device_verified"
+          ]
+        },
+        {
+          "id": "lantern_android_placement_linked",
+          "kind": "test_record",
+          "recorded_at": "2026-10-09T09:00:00Z",
+          "age_days": 5.0,
+          "check_ids": [
+            "placement_linked"
+          ]
+        },
+        {
+          "id": "lantern_android_sdk_connected",
+          "kind": "test_record",
+          "recorded_at": "2026-10-09T09:00:00Z",
+          "age_days": 5.0,
+          "check_ids": [
+            "sdk_connected"
+          ]
+        },
+        {
+          "id": "reply_android_settings",
+          "kind": "customer_report",
+          "recorded_at": "2026-10-14T09:00:00Z",
+          "age_days": 0.0,
+          "check_ids": [
+            "currency_approved",
+            "test_only_off"
+          ]
+        }
+      ],
+      "unavailable_ids": [],
+      "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
     }
   }
 }

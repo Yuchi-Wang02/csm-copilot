@@ -75,7 +75,15 @@
       return `<div class="empty"><h3>No recorded issue to escalate.</h3><p>${esc(nextAction)}</p><p class="boundary">A readiness unknown does not automatically become a support ticket.</p></div>`;
     return records.map(ticketHTML).join("");
   }
-  const api = { issuesFor, evidenceHTML, handoffHTML };
+  function timingHTML(timing, checkIds = null, expanded = false) {
+    const relevant = (ids) => checkIds ? ids.filter((id) => checkIds.includes(id)) : ids;
+    const records = timing.records.filter((record) => relevant(record.check_ids).length);
+    return `<details class="evidence-timing" ${expanded ? "open" : ""}><summary>Evidence timing · ${records.length} supporting ${records.length === 1 ? "record" : "records"}</summary><p class="boundary">Snapshot: ${esc(timing.as_of)}</p>` +
+      (records.length ? `<ol>${records.map((record) => `<li><strong>${esc(record.id)}</strong><span>${esc(record.kind.replaceAll("_", " "))} · ${esc(record.age_days.toFixed(2))} days before snapshot</span><time datetime="${esc(record.recorded_at)}">${esc(record.recorded_at)}</time><small>Supports: ${esc(relevant(record.check_ids).join(", "))}</small></li>`).join("")}</ol>` : '<p>No available supporting records for these checks.</p>') +
+      (timing.unavailable_ids.length ? `<p class="notice">Unavailable scoped sources: ${esc(timing.unavailable_ids.join(", "))}</p>` : "") +
+      `<p class="boundary">${esc(timing.boundary)}</p></details>`;
+  }
+  const api = { issuesFor, evidenceHTML, handoffHTML, timingHTML };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_CASE_REVIEW = api;
 })(typeof window !== "undefined" ? window : this);

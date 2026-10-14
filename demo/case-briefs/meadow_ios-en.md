@@ -37,6 +37,17 @@ Recorded stage: validation. Last actual contact: 2026-10-09T09:00:00\+00:00.
 | Non-test device verification | unknown | No applicable record |
 | Reward callback verification | not\_applicable | No applicable record |
 
+**Timing of supporting records** (oldest first)
+
+| Record | Source type | Recorded at | Days before snapshot | Supports |
+|---|---|---|---:|---|
+| meadow\_ios\_currency\_approved | test\_record | 2026-10-09T09:00:00Z | 5.00 | currency\_approved |
+| meadow\_ios\_placement\_linked | test\_record | 2026-10-09T09:00:00Z | 5.00 | placement\_linked |
+| meadow\_ios\_sdk\_connected | test\_record | 2026-10-09T09:00:00Z | 5.00 | sdk\_connected |
+| meadow\_ios\_test\_only\_off | test\_record | 2026-10-09T09:00:00Z | 5.00 | test\_only\_off |
+
+Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed.
+
 A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
 
 **Customer follow-up draft — not sent**

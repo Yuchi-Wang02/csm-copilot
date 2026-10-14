@@ -199,3 +199,9 @@ The interview guide now links directly to the original batch failure and the two
 The lexical baseline treated an explicitly denied no-offers symptom as a positive signal. Twenty development probes were frozen with actual pre-change outputs at commit `0308c77`. Twelve regression checks failed before the repair: ten message cases and two handoff variants. The matcher now excludes only signal occurrences inside supported local denial patterns. Other occurrences and callback signals are evaluated separately, and the result records an exclusion note.
 
 The original 30-message dataset and labels remain unchanged. Because its inspected negation cases informed this rule, the current 16/18 is labelled a replay after adaptation. The earlier 14/18 result and failures are preserved. Qualified negation, quoted search topics and callback denial remain explicit counterexamples. No new model inference or independent human/customer validation is claimed. [Paired outputs, workflow consequences and limits](../evidence/NEGATION_REVIEW.md).
+
+## v0.14 — show when the supporting record was captured
+
+Dates were present in raw records but hard to compare in the case explorer. A descriptive timing view now exposes source type, timestamp, snapshot-relative age and supported checks. The same Python helper supplies workflow timing data and Markdown exports; the browser does not recalculate age from its current clock. Shared sources are deduplicated, and missing or mis-scoped sources remain unavailable.
+
+The synthetic settings update is visibly newer than the retained failed device test. This supports a concrete CSM explanation without adding a vendor expiry threshold, automatic readiness change or newest-record-wins rule. The original case packet, historical MCP responses and ten recorded model attempts remain intact. [Design and verification](EVIDENCE_TIMING.md).

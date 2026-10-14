@@ -37,6 +37,16 @@ Recorded stage: validation. Last actual contact: 2026-10-09T09:00:00\+00:00.
 | Non-test device verification | not\_met | lantern\_android\_device\_verified |
 | Reward callback verification | unknown | No applicable record |
 
+**Timing of supporting records** (oldest first)
+
+| Record | Source type | Recorded at | Days before snapshot | Supports |
+|---|---|---|---:|---|
+| lantern\_android\_device\_verified | test\_record | 2026-10-09T09:00:00Z | 5.00 | device\_verified |
+| lantern\_android\_placement\_linked | test\_record | 2026-10-09T09:00:00Z | 5.00 | placement\_linked |
+| lantern\_android\_sdk\_connected | test\_record | 2026-10-09T09:00:00Z | 5.00 | sdk\_connected |
+
+Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed.
+
 A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
 
 **Customer follow-up draft — not sent**
@@ -66,6 +76,19 @@ Draft evidence: lantern\_android\_device\_verified, lantern\_android\_placement\
 | SDK connection sequence | met | lantern\_ios\_sdk\_connected |
 | Non-test device verification | met | lantern\_ios\_device\_verified |
 | Reward callback verification | met | lantern\_ios\_callback\_verified |
+
+**Timing of supporting records** (oldest first)
+
+| Record | Source type | Recorded at | Days before snapshot | Supports |
+|---|---|---|---:|---|
+| lantern\_ios\_callback\_verified | test\_record | 2026-10-09T09:00:00Z | 5.00 | callback\_verified |
+| lantern\_ios\_currency\_approved | test\_record | 2026-10-09T09:00:00Z | 5.00 | currency\_approved |
+| lantern\_ios\_device\_verified | test\_record | 2026-10-09T09:00:00Z | 5.00 | device\_verified |
+| lantern\_ios\_placement\_linked | test\_record | 2026-10-09T09:00:00Z | 5.00 | placement\_linked |
+| lantern\_ios\_sdk\_connected | test\_record | 2026-10-09T09:00:00Z | 5.00 | sdk\_connected |
+| lantern\_ios\_test\_only\_off | test\_record | 2026-10-09T09:00:00Z | 5.00 | test\_only\_off |
+
+Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed.
 
 A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
 
@@ -115,6 +138,17 @@ Recorded stage: validation. Last actual contact: 2026-10-09T09:00:00\+00:00.
 | Non-test device verification | unknown | No applicable record |
 | Reward callback verification | not\_applicable | No applicable record |
 
+**Timing of supporting records** (oldest first)
+
+| Record | Source type | Recorded at | Days before snapshot | Supports |
+|---|---|---|---:|---|
+| meadow\_ios\_currency\_approved | test\_record | 2026-10-09T09:00:00Z | 5.00 | currency\_approved |
+| meadow\_ios\_placement\_linked | test\_record | 2026-10-09T09:00:00Z | 5.00 | placement\_linked |
+| meadow\_ios\_sdk\_connected | test\_record | 2026-10-09T09:00:00Z | 5.00 | sdk\_connected |
+| meadow\_ios\_test\_only\_off | test\_record | 2026-10-09T09:00:00Z | 5.00 | test\_only\_off |
+
+Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed.
+
 A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
 
 **Customer follow-up draft — not sent**
@@ -145,6 +179,19 @@ Recorded stage: integration. Last actual contact: 2026-10-10T09:00:00\+00:00.
 | SDK connection sequence | met | harbor\_android\_sdk\_connected |
 | Non-test device verification | met | harbor\_android\_device\_verified |
 | Reward callback verification | not\_met | harbor\_android\_callback\_verified |
+
+**Timing of supporting records** (oldest first)
+
+| Record | Source type | Recorded at | Days before snapshot | Supports |
+|---|---|---|---:|---|
+| harbor\_android\_callback\_verified | test\_record | 2026-10-10T09:00:00Z | 4.00 | callback\_verified |
+| harbor\_android\_currency\_approved | test\_record | 2026-10-10T09:00:00Z | 4.00 | currency\_approved |
+| harbor\_android\_device\_verified | test\_record | 2026-10-10T09:00:00Z | 4.00 | device\_verified |
+| harbor\_android\_placement\_linked | test\_record | 2026-10-10T09:00:00Z | 4.00 | placement\_linked |
+| harbor\_android\_sdk\_connected | test\_record | 2026-10-10T09:00:00Z | 4.00 | sdk\_connected |
+| harbor\_android\_test\_only\_off | test\_record | 2026-10-10T09:00:00Z | 4.00 | test\_only\_off |
+
+Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed.
 
 A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
 
