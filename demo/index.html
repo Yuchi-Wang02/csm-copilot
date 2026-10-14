@@ -8,15 +8,16 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.24.0" />
-    <script defer src="data.js?v=0.24.0"></script>
-    <script defer src="model-runs.js?v=0.24.0"></script>
-    <script defer src="review-links.js?v=0.24.0"></script>
-    <script defer src="case-review.js?v=0.24.0"></script>
-    <script defer src="triage-review.js?v=0.24.0"></script>
-    <script defer src="practice-core.js?v=0.24.0"></script>
-    <script defer src="app.js?v=0.24.0"></script>
-    <script defer src="practice.js?v=0.24.0"></script>
+    <link rel="stylesheet" href="style.css?v=0.25.0" />
+    <script defer src="data.js?v=0.25.0"></script>
+    <script defer src="model-runs.js?v=0.25.0"></script>
+    <script defer src="review-links.js?v=0.25.0"></script>
+    <script defer src="case-review.js?v=0.25.0"></script>
+    <script defer src="triage-review.js?v=0.25.0"></script>
+    <script defer src="practice-core.js?v=0.25.0"></script>
+    <script defer src="practice-session.js?v=0.25.0"></script>
+    <script defer src="app.js?v=0.25.0"></script>
+    <script defer src="practice.js?v=0.25.0"></script>
   </head>
   <body>
     <a class="skip" href="#workspace">Skip to case explorer</a>
@@ -27,7 +28,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.24.0</span>
+      <span class="version">PORTFOLIO / V0.25.0</span>
     </header>
     <main>
       <section class="hero">
@@ -444,8 +445,8 @@
         <p class="disclosure">
           Self-directed practice, not an assessment. Written reasoning is not
           graded. Download unfinished notes or reviewed reflections before leaving;
-          reloading clears this page's notes. The download is a readable record,
-          not a session restore file. No notes are sent to a server. Guidance is
+          reloading clears this page's notes. Use Save progress to resume later,
+          or download readable notes to discuss. No notes are sent to a server. Guidance is
           available in the public source.
         </p>
         <div class="integrity-controls">
@@ -463,6 +464,7 @@
         <p class="boundary">Share the decision only. Choices, notes and revealed guidance are not included.</p>
         <p id="practice-route-notice" class="boundary" role="status"></p>
         <p id="practice-progress" role="status"></p>
+        <p id="practice-restored" class="boundary"></p>
         <div id="practice-case"></div>
         <div class="practice-actions">
           <button class="button primary" id="practice-export" disabled>
@@ -471,6 +473,20 @@
             Reset all practice and clear notes
           </button>
         </div>
+        <details class="practice-checkpoint">
+          <summary>Save or resume practice progress</summary>
+          <p>Save a local progress file to continue later. Readable Markdown notes are a separate download. Neither file is uploaded by this page.</p>
+          <button class="button" id="practice-save" disabled>Save progress file ↓</button>
+          <label class="practice-note" for="practice-load">Choose a saved progress file (JSON)</label>
+          <input id="practice-load" type="file" accept=".json,application/json" />
+          <p id="practice-file-status" role="status" aria-live="polite"></p>
+          <div id="practice-load-preview" hidden>
+            <p id="practice-load-summary"></p>
+            <p>Resuming replaces all practice answers and notes currently in this page. Save any work you want to keep first. A progress file is editable and does not verify who wrote the responses or when guidance was read.</p>
+            <button class="button primary" id="practice-apply">Replace current work and resume</button>
+            <button class="button" id="practice-cancel">Keep current work</button>
+          </div>
+        </details>
       </section>
       <section class="learning">
         <div>

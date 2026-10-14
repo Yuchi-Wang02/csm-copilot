@@ -1,10 +1,10 @@
 # Verification record
 
-Local checks recorded through the v0.24 focused handoff-intake iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.25 practice save/resume iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 47 passed locally | Fifteen practice, fourteen routing, fourteen scoped rendering and four triage-replay checks; not learning outcomes |
+| JavaScript browser-logic tests | 53 passed locally | Fifteen practice, six checkpoint, fourteen routing, fourteen scoped rendering and four triage-replay checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 284 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
 | Focused intake requests | Seven Python and two added JavaScript checks pass | Per-issue missing fields, unknown-scope precedence, populated-but-unverified values, free-text limitations, export and browser rendering; no customer-efficiency measurement |
@@ -30,6 +30,8 @@ Local checks recorded through the v0.24 focused handoff-intake iteration on 2026
 | GitHub Pages deployment | Published successfully | Public static replay |
 
 ## Browser interactions inspected
+
+The v0.25 local HTTP check downloaded an actual progress JSON file with one reviewed QA response, a later reflection and an unfinished fifth decision. Reload cleared the page; an incompatible file and a cancelled valid preview left a new note unchanged. Explicit resume restored the selected decision, unfinished note, read-only original response and separate reflection. The subsequent Markdown download disclosed the editable-file origin and escaped the QA markup. Reset cleared restored state and cancelled a pending preview. At the inspected 360-pixel viewport, document and scroll widths both measured 345 CSS pixels with the preview open. Browser error logs were empty. These were labeled QA notes, not Yuchi's work or evidence of learning. The browser download event observer timed out on the first save; the actual downloaded file was found and inspected on disk, then used for the restore checks.
 
 The v0.24 browser check opened Harbor's handoff over local HTTP and inspected the focused request for reproduction steps and redacted logs. The recorded SDK version, region and time window remained visible; expanding the broader questions retained the original callback suggestions. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels, without horizontal overflow. The inspected session had no browser errors. Both rebuilt PDF pages were visually checked. Historical model files were unchanged; their compatibility check explicitly accounts for the two added intake-output keys while requiring equality for the remaining historical fields.
 

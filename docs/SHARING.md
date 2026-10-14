@@ -2,6 +2,8 @@
 
 The **Copy this review link** button produces a public URL that opens the selected synthetic integration, review step and client language. The comparison toggle is also preserved. The **View share link** control exposes a selectable URL if clipboard permission is unavailable.
 
+Practice progress has a separate local save/resume file. Public links still exclude responses, notes and revealed state. Keep the JSON file private unless you choose to share its contents; it contains your notes. See [the save/resume guide](PRACTICE.md#resume-without-rewriting-the-learning-record).
+
 Use these examples to start an interview at a concrete decision:
 
 | Example | What to demonstrate |

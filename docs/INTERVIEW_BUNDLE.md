@@ -2,7 +2,7 @@
 
 The [v0.23.0 prerelease](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.23.0) provides the five-decision demo, text/action-boundary probes, preserved callback failure and current repair, and two-page PDF brief. It is pinned to commit `34d436cbba31efcd892c60f599026c35f7aca070`.
 
-The hosted portfolio and current source have advanced to v0.24 with focused handoff intake requests. That addition is not included in the fixed v0.23.0 download below. Use the hosted version to inspect the latest workflow, or rebuild a bundle from the desired committed revision.
+The hosted portfolio and current source have advanced to v0.25 with focused handoff intake requests and local practice save/resume. Those additions are not included in the fixed v0.23.0 download below. Use the hosted version to inspect the latest workflow, or rebuild a bundle from the desired committed revision.
 
 ## Choose the right take-away
 

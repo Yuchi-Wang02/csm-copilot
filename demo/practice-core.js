@@ -267,7 +267,7 @@
       .map((s) => "> " + literal(s))
       .join("\n");
   }
-  function exportReflection(cases, session, asOf) {
+  function exportReflection(cases, session, asOf, restored = false) {
     const lines = [
       "# CSM Copilot — practice reflection",
       "",
@@ -278,6 +278,9 @@
       "Unreviewed choices and notes are drafts captured without revealing guidance in this session. They remain editable in the page. This download is a readable record, not a file that can restore the browser session.",
       "",
     ];
+    if (restored) lines.push(
+      "This session was resumed from a user-editable local progress file. Original-response and guidance labels reflect the saved state; they do not verify authorship, timing or unaided work.", "",
+    );
     cases.forEach((c, index) => {
       const item = session[index];
       lines.push(

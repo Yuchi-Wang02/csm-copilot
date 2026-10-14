@@ -23,6 +23,7 @@ The displayed evidence comes from the same artifacts used by the case explorer a
 3. Write what you would change, what you would ask the customer, or what you would investigate next in the separate reflection field.
 4. Switch between decisions using the selector. Your notes remain available while the page stays open. The evidence links open the relevant platform or updated comparison within the page; returning to Practice retains your notes.
 5. Download the Markdown notes at any stage after choosing an option or entering a note. Unreviewed choices and reasoning are saved as editable drafts with no option comparison or guidance included for those decisions. Reviewed decisions retain the original response, published guidance and later reflection separately. The file is a readable record; it cannot restore the browser session.
+6. To continue later, open **Save or resume practice progress** and select **Save progress file**. This downloads a separate JSON file. On a later visit, choose that file, review the preview, then select **Replace current work and resume**. Choosing a file alone does not replace any work. **Keep current work** cancels the preview.
 
 The original choice is preserved to make a change in reasoning discussable. This is a convenience for reflection, not tamper-proof evidence: users can reset, reload, inspect the answer in public source, or edit a downloaded file. There is no identity check or claim that the work was completed unaided.
 
@@ -38,17 +39,25 @@ Completing the interface alone does not prove that you understand the code. Pair
 
 ## Data and verification
 
-Practice notes are held only in page memory. There is no note upload, model call, analytics event, browser storage, or backend persistence in the practice feature. Reloading or resetting clears them. Downloading creates a local file that you decide whether to share. As with other parts of the site, hosting and the optional font request may generate ordinary network traffic; practice notes are not included in those requests.
+Practice notes are held only in page memory unless you explicitly download them. There is no note upload, model call, analytics event, automatic browser storage, or backend persistence in the practice feature. Reloading or resetting clears the in-page session. Downloading creates a local file that you decide whether to share. Resuming reads the file locally; it does not submit it to a service. As with other parts of the site, hosting and the optional font request may generate ordinary network traffic; practice notes are not included in those requests.
 
 The interface uses native radio inputs and labeled text areas. Revealing guidance moves keyboard focus to the feedback. The downloadable report quotes and escapes user-authored notes so they cannot inject active HTML or report headings.
 
 Evidence labels, values and source IDs are also escaped in the Markdown download. A customer message's formatting remains source text instead of becoming a heading, HTML element or authored Markdown link in the report. Evidence line breaks are flattened for the list; your own notes retain quoted line breaks. Escaping changes the file's Markdown syntax, not the stored source record.
 
-Run `node --test tests-js/practice.test.cjs` with Node 24. The fifteen checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished report content, note escaping, a clean reset, pre-guidance export availability, the exact model-recording link, the callback exercise's source grounding and reflection export, literal-text handling for evidence labels, values and source IDs, and the fifth decision's preserved failure, direct probe link and separate draft/reflection export. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
+Run `node --test tests-js/practice.test.cjs tests-js/practice-session.test.cjs` with Node 24. The fifteen core checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished report content, note escaping, a clean reset, pre-guidance export availability, the exact model-recording link, the callback exercise's source grounding and reflection export, literal-text handling for evidence labels, values and source IDs, and the fifth decision's preserved failure, direct probe link and separate draft/reflection export. Six checkpoint checks cover mixed-state round trips, stable IDs despite reordering, changed exercise content, invalid files, Unicode/markup and state capture before asynchronous hashing. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
 
 ## Save unfinished work
 
-You do not have to reveal guidance to save your reasoning. A choice without a note, a note without a choice, or a mix of reviewed and unfinished decisions can be downloaded. Blank sessions keep the download disabled. Saving does not reveal an answer, mark an item reviewed, freeze an unfinished draft or claim a completed exercise. Reload still starts a new browser session; keep the Markdown file if you want to return to your reasoning later.
+You do not have to reveal guidance to save your reasoning. A choice without a note, a note without a choice, or a mix of reviewed and unfinished decisions can be downloaded. Blank sessions keep both downloads disabled. Saving does not reveal an answer, mark an item reviewed, freeze an unfinished draft or claim a completed exercise. Reload still starts a new browser session. Keep the Markdown file for reading and the progress JSON file for resuming.
+
+## Resume without rewriting the learning record
+
+The progress file stores only decision IDs, selected option IDs, notes, guidance-revealed state and the selected decision, alongside the evidence-snapshot date and a SHA-256 signature of the current exercise content. The signature checks compatibility, not authenticity. Case and option reordering remains compatible; changes to evidence, option wording, policy or prompts require keeping the old file as a separate record. Imported files cannot supply new evidence, guidance, source links or executable content.
+
+Validation requires every current decision exactly once, allowed option IDs, consistent original/reviewed state, text notes of at most 4,000 characters, and a file no larger than 512 KiB. A rejected file leaves the current session unchanged. A valid file first opens a preview and replacement notice; applying it replaces the whole in-page session rather than merging potentially conflicting notes. Save current work before replacing it. Reset also cancels any pending import.
+
+The restored page and its Markdown export disclose that the session came from an editable local file. An imported "before guidance" label describes saved state; it does not establish actual timing, authorship, unaided work or mastery. You can still revise unfinished drafts and add later reflections, while reviewed initial responses remain read-only in the interface. No grading, certification or identity verification is added.
 
 The model exercise links directly to `qwen4-constrained`, the recording its evidence describes. It does not depend on which model attempt was most recently added to the portfolio.
 
