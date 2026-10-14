@@ -7,6 +7,65 @@ function readinessFixture() {
   return structuredClone(workflow.packets[0]);
 }
 
+test("handoff provenance separates integration values from dated issue details", () => {
+  const data = structuredClone(require("../evidence/workflow.json").packets.find((p) => p.context.account.id === "acc_006"));
+  const before = JSON.stringify(data);
+  const html = api.handoffHTML(api.issuesFor(data, "harbor_android"));
+  const sources = html.split('class="handoff-sources"')[1];
+  assert.match(sources, /app · Integration record/);
+  assert.match(sources, /Recorded value:<\/strong> Pocket Harbor/);
+  assert.match(sources, /No per-field observation date is recorded/);
+  assert.match(sources, /sdk version · Issue evidence/);
+  assert.match(sources, /Recorded value:<\/strong> synthetic-version-1/);
+  assert.match(sources, /Customer report · msg_issue_callback · 2026-10-10T09:00:00Z/);
+  assert.match(sources, /not automatic extraction/);
+  assert.match(sources, /Inspect raw field-source map/);
+  assert.doesNotMatch(sources, /handoff-field"><summary>redacted logs/);
+  assert.equal(JSON.stringify(data), before);
+});
+
+test("handoff provenance rejects missing, cross-scope and misattributed sources", () => {
+  for (const change of [
+    (p) => { p.context.evidence.find((r) => r.id === "msg_issue_blank").account_id = "other"; },
+    (p) => { p.context.evidence.find((r) => r.id === "msg_issue_blank").integration_id = "lantern_ios"; },
+    (p) => { p.context.evidence = p.context.evidence.filter((r) => r.id !== "msg_issue_blank"); },
+    (p) => { p.tickets[0].field_sources.region.source_id = "another_issue"; },
+    (p) => { p.context.integrations.find((i) => i.id === "lantern_android").account_id = "other"; },
+    (p) => { p.context.issues[0].details.region = null; },
+  ]) {
+    const p = readinessFixture();
+    change(p);
+    const sources = api.handoffHTML(api.issuesFor(p, "lantern_android")).split('class="handoff-sources"')[1];
+    const region = sources.split('<summary>region · Issue evidence</summary>')[1].split('</details>')[0];
+    assert.match(region, /Scoped field source unavailable/);
+    assert.doesNotMatch(region, /Recorded value:/);
+  }
+});
+
+test("handoff provenance exposes differing values and escapes copied source content", () => {
+  const p = readinessFixture();
+  p.tickets[0].fields.region = '<img src=x onerror="run()">';
+  p.context.issues[0].details.region = '<script>source()</script>';
+  const before = JSON.stringify(p);
+  const sources = api.handoffHTML(api.issuesFor(p, "lantern_android")).split('class="handoff-sources"')[1];
+  assert.match(sources, /Handoff value:<\/strong> &lt;img/);
+  assert.match(sources, /Recorded value:<\/strong> &lt;script&gt;/);
+  assert.match(sources, /handoff value differs from the recorded value/);
+  assert.doesNotMatch(sources, /<img|<script/);
+  assert.equal(JSON.stringify(p), before);
+});
+
+test("original issue text is not borrowed from another account", () => {
+  const p = readinessFixture();
+  const source = p.context.evidence.find((r) => r.id === "msg_issue_blank");
+  source.account_id = "another_account";
+  source.text = "DO NOT ATTRIBUTE THIS MESSAGE";
+  const records = api.issuesFor(p, "lantern_android");
+  const html = api.evidenceHTML(records) + api.handoffHTML(records);
+  assert.match(html, /Source record unavailable/);
+  assert.doesNotMatch(html, /DO NOT ATTRIBUTE THIS MESSAGE/);
+});
+
 test("readable readiness records retain check claims, full dates and platform scope", () => {
   const data = readinessFixture();
   const readiness = data.integrations[0].readiness;
@@ -185,6 +244,7 @@ test("empty timing does not invent an age and unavailable source text is escaped
 function packet() {
   return {
     context: {
+      account: { id: "account" },
       issues: [
         {
           id: "first",
@@ -207,6 +267,7 @@ function packet() {
       ],
       evidence: [1, 2, 3].map((n) => ({
         id: `source${n}`,
+        account_id: "account",
         integration_id: n === 3 ? "ios" : "android",
         text: `Original ${n}`,
         at: "2026-10-14T09:00:00Z",

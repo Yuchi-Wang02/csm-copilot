@@ -23,9 +23,12 @@
       .filter((issue) => issue.integration_id === integrationId)
       .map((issue) => ({
         issue,
+        context: packet.context,
         evidence: packet.context.evidence.find(
           (record) =>
+            packet.context.account?.id &&
             record.id === issue.evidence_id &&
+            record.account_id === packet.context.account?.id &&
             record.integration_id === integrationId,
         ),
         ticket: packet.tickets.find(
@@ -62,7 +65,40 @@
     return `<section class="handoff-candidate"><h4>${candidate.category === "unknown" ? "Clarify the request" : `Candidate: ${esc(candidate.category.replaceAll("_", " "))}`}</h4><ul>${candidate.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ul>${link}</section>`;
   }
 
-  function ticketHTML({ issue, evidence, ticket: t }) {
+  function fieldSourcesHTML({ issue, ticket, context }) {
+    const one = (items, predicate) => {
+      const matches = (items || []).filter(predicate);
+      return matches.length === 1 ? matches[0] : null;
+    };
+    const integration = context?.account?.id && one(context.integrations,
+      (i) => i.id === issue.integration_id && i.account_id === context.account.id);
+    return `<details class="handoff-sources"><summary>Trace each handoff field to its record · ${esc(issue.id)}</summary><p class="boundary">Compare copied values with the structured records. Issue details are attributed to the original issue record shown above; this is not automatic extraction from its wording or independent verification. Missing fields remain in the intake review.</p>` +
+      Object.entries(ticket.fields).map(([key, value]) => {
+        const source = ticket.field_sources?.[key];
+        let recorded, label, available = false;
+        if (integration && source?.source_kind === "integration_record" &&
+            source.source_id === integration.id && ["app", "platform"].includes(key)) {
+          recorded = integration[key];
+          label = `Integration record · ${esc(integration.id)}. No per-field observation date is recorded; this is the bundled configuration.`;
+          available = true;
+        } else if (integration && source?.source_kind === "issue_evidence" && source.source_id === issue.evidence_id) {
+          const originalIssue = one(context.issues, (i) => i.id === issue.id && i.integration_id === integration.id && i.evidence_id === source.source_id);
+          const record = one(context.evidence, (r) => r.id === source.source_id && r.account_id === context.account.id && r.integration_id === integration.id);
+          if (record && originalIssue && Object.hasOwn(originalIssue.details || {}, key) && originalIssue.details[key] !== null) {
+            recorded = originalIssue.details[key];
+            label = `${sourceLabel(record.kind)} · ${esc(record.id)} · ${esc(record.at)}`;
+            available = true;
+          }
+        }
+        return `<details class="handoff-field"><summary>${esc(key.replaceAll("_", " "))} · ${source?.source_kind === "integration_record" ? "Integration record" : source?.source_kind === "issue_evidence" ? "Issue evidence" : "Source unavailable"}</summary>` +
+          `<p><strong>Handoff value:</strong> ${esc(value)}</p>` +
+          (available ? `<p><strong>Recorded value:</strong> ${esc(recorded)}</p><p class="boundary">${label}</p>` +
+            (value !== recorded ? '<p class="notice">The handoff value differs from the recorded value. Review before using this field.</p>' : '') :
+            `<p class="notice">Scoped field source unavailable: ${esc(source?.source_id || "no source ID")}. Do not substitute another issue, account or platform's record.</p>`) + '</details>';
+      }).join('') + `<details><summary>Inspect raw field-source map</summary><pre>${esc(JSON.stringify(ticket.field_sources, null, 2))}</pre></details></details>`;
+  }
+
+  function ticketHTML({ issue, evidence, ticket: t, context }) {
     if (!t)
       return `<article class="issue-review"><h3>${esc(issue.summary)}</h3><p class="boundary">Handoff draft unavailable for ${esc(issue.id)}. The issue is recorded; review its source before preparing a draft.</p></article>`;
     const fieldStatus =
@@ -90,7 +126,7 @@
       `<details class="handoff-questions"${t.handoff_state === "needs_scope" ? " open" : ""}><summary>Questions to review before handoff</summary><p class="boundary">Broader suggestions from lexical triage. Some details may already be recorded above; these do not establish a root cause. Review the original report before requesting additional evidence.</p>${(t.triage.candidates || []).map(candidateHTML).join("") || '<p>No candidate questions recorded.</p>'}</details>` +
       t.triage.notes.map((note) => `<p class="boundary">${esc(note)}</p>`).join("") +
       `<details><summary>Inspect candidate checks and source URLs · ${esc(issue.id)}</summary><pre>${esc(JSON.stringify(t.triage, null, 2))}</pre></details>` +
-      `<details><summary>Trace each handoff field to its record · ${esc(issue.id)}</summary><pre>${esc(JSON.stringify(t.field_sources, null, 2))}</pre></details></article>`
+      fieldSourcesHTML({ issue, ticket: t, context }) + `</article>`
     );
   }
 

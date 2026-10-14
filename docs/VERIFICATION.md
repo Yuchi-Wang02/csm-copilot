@@ -2,7 +2,9 @@
 
 Learning-guide documentation QA: the exact Python block in Session 2 was executed with a failed observation, a passing observation and an incorrectly scoped record. Observed results were `blocked`, `checklist_complete` and a validation error respectively; both valid runs left the original result at `needs_evidence`. The bundled dataset's SHA-256 was unchanged. This checks the example's behavior, not the learner's understanding or completed personal work.
 
-Local checks recorded through the v0.27.2 scope-clarification export repair on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.28 readable handoff sources on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+
+The v0.28 browser check expanded Harbor's app and SDK-version sources with keyboard activation. The view showed configuration without an invented observation date and the issue's recorded SDK value with its report ID and timestamp. The desktop and 360-pixel mobile views were visually inspected; mobile document and scroll widths both measured 345 CSS pixels, and the browser error log was empty. Missing/misattributed sources, differing values and escaped content were checked in JavaScript fixtures rather than injected into the live portfolio. These are provenance/rendering checks, not independent validation of source content.
 
 The v0.27.2 export check compared the previous renderer with the repaired renderer using an invoicing request and complete/incomplete generic intake fields. Both tool results required scope clarification. The old Markdown prioritized missing-field reporting; the repaired output prioritizes request clarification and retains recorded values, the original issue text and source references. Four English/Chinese regression variants failed on that presentation assertion before the repair and pass afterward. All 288 Python checks and the real MCP smoke check passed. These are authored regression cases; classification accuracy and customer usefulness were not evaluated by this repair.
 
@@ -14,7 +16,7 @@ The v0.26.1 Edge browser check reproduced focus on `BODY` after changing platfor
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 70 passed locally | Fifteen practice, six checkpoint, fourteen routing, eighteen scoped rendering, four triage-replay, seven recorded-conversation and six clipboard-feedback checks; not learning outcomes |
+| JavaScript browser-logic tests | 74 passed locally | Fifteen practice, six checkpoint, fourteen routing, twenty-two scoped rendering, four triage-replay, seven recorded-conversation and six clipboard-feedback checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 288 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
 | Focused intake requests | Seven Python and two added JavaScript checks pass | Per-issue missing fields, unknown-scope precedence, populated-but-unverified values, free-text limitations, export and browser rendering; no customer-efficiency measurement |

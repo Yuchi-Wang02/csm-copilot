@@ -44,6 +44,8 @@ For a first visit, use the [on-page review route](https://yuchi-wang02.github.io
 
 For a focused handoff example, open [Harbor's callback case](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace). Its next intake request asks for reproduction steps and redacted logs, while retaining the recorded SDK version, region and time window. The original report, broader candidate questions and unconfirmed HTTP 405 hypothesis remain inspectable in the panel and platform brief. Field presence does not verify its content; details mentioned only in free text still require CSM review.
 
+Expand **Trace each handoff field to its record** to compare the copied value with the original structured value. App/platform fields come from the integration record; issue details are attributed to a dated customer report or test record. Missing sources and differing values are flagged for review. The original report and raw field-source map remain available; agreement between copied values does not independently verify them.
+
 | Portfolio question | Open this artifact |
 |---|---|
 | Can the workflow turn evidence into a useful next action? | [Android case](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace), [Chinese iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace), and [technical handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) |
