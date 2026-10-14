@@ -58,7 +58,7 @@ Comparison screenshot from the same source revision. The assessment is an AI-ass
 | Can customer text authorize an action? | [Text/action probes](https://yuchi-wang02.github.io/csm-copilot/#trust-boundary), including remaining gaps |
 | Can I explain the reasoning myself? | [Five practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice) and [learning exercises](docs/LEARNING.md) |
 
-For presentation details, use the [interview walkthrough](docs/INTERVIEW.md). For a portable replay, download the fixed [v0.29.7 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.29.7); the [package guide](docs/INTERVIEW_BUNDLE.md) distinguishes that release from newer source changes. [Sharing instructions](docs/SHARING.md) cover direct links, platform briefs and practice exports.
+For presentation details, use the [interview walkthrough](docs/INTERVIEW.md). For a portable replay, download the fixed [v0.29.8 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.29.8); the [package guide](docs/INTERVIEW_BUNDLE.md) distinguishes that release from newer source changes. [Sharing instructions](docs/SHARING.md) cover direct links, platform briefs and practice exports.
 
 ## Tools
 
