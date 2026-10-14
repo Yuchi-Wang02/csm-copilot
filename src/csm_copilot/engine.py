@@ -217,6 +217,7 @@ class Copilot:
         }
         missing = [f for f in required if not fields.get(f)]
         triage = self.triage_issue(issue.summary, i.id)
+        needs_scope = triage["route"] == "clarify_scope"
         return {
             "draft_id": "ticket-" + issue.id,
             "state": "draft",
@@ -235,11 +236,19 @@ class Copilot:
             "customer_report": self.evidence[issue.evidence_id].text,
             "evidence_ids": [issue.evidence_id],
             "missing_fields": missing,
-            "handoff_state": "needs_information" if missing else "ready_for_human_review",
+            "handoff_state": "needs_scope"
+            if needs_scope
+            else "needs_information"
+            if missing
+            else "ready_for_human_review",
             "root_cause": "unconfirmed",
             "triage": triage,
-            "suggested_owner": "Technical support after CSM evidence review (project policy)",
-            "next_action": "Request missing evidence, then review the handoff; no ticket was submitted."
+            "suggested_owner": "CSM to clarify issue scope (project policy)"
+            if needs_scope
+            else "Technical support after CSM evidence review (project policy)",
+            "next_action": "Clarify what happened and what was expected before choosing a technical owner; no ticket was submitted."
+            if needs_scope
+            else "Request missing evidence, then review the handoff; no ticket was submitted."
             if missing
             else "Review the completed handoff and confirm the appropriate technical owner; no ticket was submitted.",
         }

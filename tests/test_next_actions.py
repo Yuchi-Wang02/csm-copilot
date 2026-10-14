@@ -74,3 +74,28 @@ def test_incomplete_checklist_keeps_specific_evidence_requests():
         "callback_verified",
     }
     assert draft["contact_history_changed"] is False
+
+
+@pytest.mark.parametrize("summary", ["Can we discuss the next steps?", "想咨询一下后续安排。"])
+@pytest.mark.parametrize("complete_fields", [False, True])
+def test_unrecognized_issue_needs_scope_before_technical_handoff(summary, complete_fields):
+    data = Copilot().data.model_dump(mode="json")
+    issue = next(x for x in data["issues"] if x["id"] == "issue_blank")
+    issue["summary"] = summary
+    next(e for e in data["evidence"] if e["id"] == issue["evidence_id"])["text"] = summary
+    if complete_fields:
+        issue["details"].update(
+            sdk_version="synthetic-version-2",
+            time_window="2026-10-09 08:30–09:00 UTC",
+            redacted_logs="Synthetic log supplied; issue scope remains unclear.",
+        )
+    engine = Copilot(Dataset.model_validate(data))
+    before = engine.data.model_dump(mode="json")
+    result = engine.draft_ticket("issue_blank")
+    assert result["triage"]["route"] == "clarify_scope"
+    assert result["handoff_state"] == "needs_scope"
+    assert result["suggested_owner"] == "CSM to clarify issue scope (project policy)"
+    assert result["next_action"].startswith("Clarify what happened and what was expected")
+    assert bool(result["missing_fields"]) is not complete_fields
+    assert result["sent"] is False
+    assert engine.data.model_dump(mode="json") == before

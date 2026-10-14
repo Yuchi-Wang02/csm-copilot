@@ -103,3 +103,11 @@ The existing CI built a wheel after testing an editable checkout, but did not ex
 The complete wheel passed locally. A disposable wheel with `accounts.json` removed installed successfully but failed when loading the workflow; the new verifier rejected it. The incomplete wheel and its raw local log are not distributed. CI now performs the positive installation check on Windows and Ubuntu. This adds verification without changing the customer workflow or the recorded model results.
 
 **Lesson:** a successful build does not prove that an installed artifact works. Check the path a reviewer actually uses, including packaged data, console commands, and a working directory that cannot supply missing source files.
+
+## v0.8.2: clarify issue scope before choosing a technical owner
+
+The triage baseline returned `clarify_scope` for unrecognized requests, but ticket drafting always proposed Technical Support. Filling all generic fields also produced `ready_for_human_review`, despite the unresolved scope. Four regression checks reproduced the contradiction with English and Chinese summaries, each with complete and incomplete fields.
+
+Ticket drafting now preserves `needs_scope` and proposes CSM clarification first. The UI uses the same state instead of deriving readiness solely from the missing-field count. The structured result retains field missingness for inspection. All 117 Python tests pass, and both scope cases were inspected in a local browser preview. The original fixture outputs and historical model recordings remain unchanged.
+
+**Lesson:** field completeness is not problem understanding. An unrecognized issue may be technical, but the lexical baseline has not established that; the next action should collect enough context for a person to decide.

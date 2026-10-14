@@ -54,6 +54,8 @@ Selection uses a strict `>` threshold. Missing contact history is included with 
 
 Follow-up intent is chosen from checklist state, recorded issues and the supplied account stage. A complete checklist with a recorded issue prompts a status question; it does not close the issue automatically. Complete handoffs move to review rather than requesting information already supplied. See [the communication and export policy](REVIEW_BRIEF.md).
 
+Handoff scope and field completeness are separate decisions. Since v0.8.2, a triage result of `clarify_scope` produces `needs_scope`, with the CSM as the proposed owner, even when every generic field is present. Recognized candidates with missing fields produce `needs_information`; recognized candidates with complete fields produce `ready_for_human_review`. Missing generic fields remain visible in the structured result, but the browser asks for scope clarification before requesting technical details. A lexical match only suggests a candidate: neither recognition nor complete fields confirms a cause or authorizes submission.
+
 ## Counterfactual updates
 
 The demo makes a separate copy of the original dataset, appends a customer report and updates two Android facts in that copy. Historical evidence remains available. The last recorded device failure is not silently replaced by a pass. The example illustrates partial information updates, not a general event-sourced CRM or production conflict-resolution engine.
