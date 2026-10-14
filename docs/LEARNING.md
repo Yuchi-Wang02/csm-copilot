@@ -91,6 +91,51 @@ Explain why the original remains unchanged, why a recorded failure and an unknow
 
 Evidence to keep: prediction, output, explanation and a small test you can defend.
 
+### Follow the changed evidence into the customer message
+
+A changed readiness label is only part of the CSM story. Before running this extension, predict the **question you would ask Meadow next** for the original, failed-observation and passing-observation cases. Then append this block to the same `readiness_experiment.py`. It uses the `original` and `experiment` objects above; it is not a standalone script.
+
+```python
+for label, engine in (("Original", original), ("Experiment", experiment)):
+    before = engine.data.model_dump(mode="json")
+    queue_before = engine.list_accounts()
+    draft = engine.draft_followup("meadow_ios", lang="en")
+    chinese_draft = engine.draft_followup("meadow_ios", lang="zh")
+
+    print(f"\n{label} follow-up")
+    print("Intent:", draft["intent"])
+    print("Evidence requests:", [(r["check_id"], r["status"]) for r in draft["requests"]])
+    print("Proposed next action:", draft["next_action"])
+    print(draft["body"])
+    print("Chinese draft uses the same intent:", chinese_draft["intent"] == draft["intent"])
+    print("Sent:", draft["sent"])
+    print("Dataset unchanged:", engine.data.model_dump(mode="json") == before)
+    print("Morning queue unchanged:", engine.list_accounts() == queue_before)
+```
+
+Run once with `observed_state = "not_met"`, then again with `"met"`. Save your prediction before each run. A rejected mis-scoped record stops at `Copilot(copied)`, so it must not reach this drafting block. The dataset and queue comparisons inspect actual before/after values; they do not rely only on the draft's `contact_history_changed` label. Both drafts remain local return values.
+
+Trace the result through these three functions, in this order:
+
+| Code to inspect | Question to answer in your own words |
+|---|---|
+| `Copilot.check_readiness` in [engine.py](../src/csm_copilot/engine.py) | How does a failed required check take precedence over missing evidence? |
+| `Copilot.draft_followup` in [engine.py](../src/csm_copilot/engine.py) | Which checks become requests, and how do recorded issues and account stage affect the intent when no requests remain? |
+| `compose_followup` in [communication.py](../src/csm_copilot/communication.py) | Which sentences express the next customer question, and which wording comes from a template rather than a model? |
+
+<details>
+<summary>Compare with the current implementation after making your prediction</summary>
+
+For Meadow at the bundled snapshot, the original device check is unknown. It produces `needs_evidence`, an `evidence_request` follow-up and one device-verification request. The failed-observation experiment produces `blocked` but keeps that same follow-up intent. Its request metadata changes from `unknown` to `not_met`; the current English message body is identical because both states use the rule's device-evidence request text. Distinguishing states does not yet personalize that wording.
+
+The passing-observation experiment produces `checklist_complete` and `launch_plan_review`, with no missing-evidence requests. Meadow has no recorded issue and is not live, so the next question asks about changes since the checks and the proposed launch plan. This is a choice made by this project's policy; a passed check is not approval or proof that the configuration is still current. If a recorded issue were present, the earlier issue-status branch would take priority over launch-plan review.
+
+The English and Chinese intents match in these runs. That checks a shared decision branch, not translation quality. Drafting leaves the inspected data and queue unchanged, and `sent` remains false. It does not refresh the last-contact timestamp or remove Meadow from the queue.
+
+</details>
+
+Finish with a short explanation in your own words: **what changed in the evidence, what changed in the customer's next question, and what did not change?** Identify one sentence you would tailor for an observed failure versus missing evidence, then explain what source would support your wording. Keep your rewrite separate from the generated draft. This is a prompt for your work, not a supplied personal reflection or a completed learning claim.
+
 ## Session 3 — Understand the MCP boundary (45 minutes)
 
 - Read `server.py`; explain what the decorators expose.
