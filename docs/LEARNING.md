@@ -126,3 +126,9 @@ python -m pytest -q tests/test_queue_order.py
 ```
 
 Explain why rounding is appropriate for display but loses information needed for prioritization. Describe how timezone offsets and true ties should behave. Keep your prediction separate from what you learn after reading the fix; this exercise is not marked complete for you.
+
+## Explain why moving the clock does not refresh the records
+
+Compare the default `list_accounts` result with the later-date call in [the scripted MCP transcript](../evidence/mcp-transcript.json). Locate `as_of`, `dataset_as_of`, `time_basis` and `records_refreshed`. Explain why the contact age changes while Lantern's recorded stage and Android readiness do not.
+
+Predict whether `2026-10-14T05:00:00-04:00` represents the dataset snapshot or a later review. Then run `python -m pytest -q tests/test_review_time.py` and explain the timezone-equivalence check. Identify which new customer evidence would be needed before describing a changed stage or resolved issue. This is a suggested exercise, not a completed personal reflection.

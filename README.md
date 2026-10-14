@@ -82,6 +82,8 @@ Two inbound-message recordings illustrate customer-fit review. The [earlier atte
 | `validate_draft` | Flag a few unsupported-promise patterns | Regex lint cannot establish factual support |
 | `friction_digest` | Summarize recurring checklist gaps for Product review | Snapshot counts and proposed questions; not a trend or defect diagnosis |
 
+An explicit later review date recalculates elapsed time from the same dataset; it does not refresh customer records. Queue results disclose both timestamps and that boundary. See [review time versus evidence time](docs/MCP.md#review-time-versus-evidence-time).
+
 Queue ordering uses exact planned-launch timestamps; rounded day counts are display values. [Three preserved regression examples](evidence/queue-order-before.json) show why that distinction matters when launches are minutes apart. See [the fix and learning exercise](docs/DEVELOPMENT.md#v0161--keep-rounded-display-values-out-of-queue-ordering).
 
 The `morning_review` MCP prompt composes the customer workflow; `product_feedback_review` frames the portfolio discussion. All tools are read-only and repeatable. There is no email, support-system or advertising-platform write integration.

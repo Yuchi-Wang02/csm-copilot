@@ -1,12 +1,12 @@
 # Verification record
 
-Verified through the v0.16.1 queue-order iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.16.2 review-time iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 23 passed locally | Eight practice, eight routing and seven scoped rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 219 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
+| Python behavior tests | 224 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and three known counterexamples retained |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |
 | Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original outputs preserved; subsequent explicit-denial adaptation documented |
@@ -114,3 +114,5 @@ The v0.15.2 browser check downloaded a note-only session before any guidance was
 The v0.16 first-run summary was generated locally from the original workflow and inspected as terminal text. Seven focused tests cover state and scope preservation, unknown/missing cases, terminal-safe text, stdout/file agreement and option rejection before writing. The installed-wheel verifier now compares `csm-demo --format summary` with `evidence/morning-summary.txt` on the clean CI runners. Local installed-launcher execution remains subject to the previously recorded Application Control limitation; it was not retried or bypassed.
 
 The v0.16.1 queue review preserved three actual pre-change results for nearby target timestamps, including overdue dates and different timezone offsets. Three regression cases failed before the repair and passed afterward; the true-tie/live-account check passed both times. All four tests verify the timestamp ordering policy; the changed-case tests also check the fixture hash, equality of returned account fields and non-mutation of input records. No default fixture, recorded model response or customer outcome changed.
+
+The v0.16.2 time-boundary checks distinguish default/equivalent timestamps from a later recalculation, verify unchanged records and readiness, and reject empty date strings. Four focused checks failed before the change; all five pass afterward. The real MCP script additionally verifies the returned time metadata and an empty-date error over stdio. The static demo still uses the default snapshot. Historical model recordings were not rewritten.

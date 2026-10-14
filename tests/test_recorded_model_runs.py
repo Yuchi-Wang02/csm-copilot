@@ -14,6 +14,26 @@ from csm_copilot.response_review import review_final
 DIRECTORY = Path(__file__).resolve().parents[1] / "evidence/model-runs"
 
 
+def assert_historical_callback_result(engine, action, recorded):
+    current = getattr(engine, action["tool"])(**action["arguments"])
+    if action["tool"] == "list_accounts":
+        # These two v0.9 recordings predate the additive v0.16.2 time metadata.
+        assert action["arguments"] == {"stale_days": 3, "as_of": None, "include_live": False}
+        added = {
+            "dataset_as_of": recorded["as_of"],
+            "time_basis": "dataset_snapshot",
+            "records_refreshed": False,
+            "time_boundary": (
+                "Changing as_of recalculates contact age and time to planned launch from existing "
+                "records. It does not refresh contacts, account stages, launch plans or readiness evidence."
+            ),
+        }
+        for key, value in added.items():
+            assert key not in recorded
+            assert current.pop(key) == value
+    assert current == recorded
+
+
 @pytest.mark.parametrize(
     "name",
     [
@@ -159,7 +179,7 @@ def test_callback_handoff_preserves_the_historical_identifier_input_error():
             with pytest.raises(ValueError, match="customer message, not a recorded issue ID"):
                 engine.triage_issue(**action["arguments"])
             continue
-        assert getattr(engine, action["tool"])(**action["arguments"]) == call["tool_result"]
+        assert_historical_callback_result(engine, action, call["tool_result"])
     assert not any("correction_feedback" in step for step in trace["steps"])
 
 
@@ -181,5 +201,5 @@ def test_identifier_check_recording_preserves_the_tool_error_and_successful_hand
             with pytest.raises(ValueError, match="customer message, not a recorded issue ID"):
                 engine.triage_issue(**action["arguments"])
         else:
-            assert getattr(engine, action["tool"])(**action["arguments"]) == call["tool_result"]
+            assert_historical_callback_result(engine, action, call["tool_result"])
     assert not any("correction_feedback" in step for step in trace["steps"])

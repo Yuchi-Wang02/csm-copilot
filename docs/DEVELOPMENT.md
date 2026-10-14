@@ -243,3 +243,9 @@ Input-boundary inspection reproduced a chronological sorting error. Two planned 
 | Nearby launches expressed with different UTC offsets | Rounded values caused an artificial tie | Actual instants determine order |
 
 [The original three outputs](../evidence/queue-order-before.json) were captured at `e4773be` before the change. Each case changes only two target timestamps in a copy of the bundled fixture; the file records the original fixture hash and expected order. Three focused tests failed before the repair and passed afterward. A fourth check retains account-ID ordering for actual ties and keeps live accounts last. Tests also confirm that returned values, selected accounts and input records are unchanged; only their order differs. The default portfolio queue and recorded model traces are unchanged. These are developer-authored regression cases, not customer outcome evidence.
+
+## v0.16.2 — distinguish a later review clock from refreshed evidence
+
+`list_accounts(as_of=...)` already recalculated dates from a fixed dataset, but the output showed only the requested calculation timestamp. It now also exposes `dataset_as_of`, `time_basis`, `records_refreshed: false` and a time-boundary explanation. Equivalent instants written with different offsets are classified as the dataset snapshot. A later instant is a recalculation; the stored contacts, stages, launch dates and readiness remain unchanged.
+
+An explicit empty date previously fell through to the default timestamp. It now fails like other invalid date strings; omission or null still selects the snapshot. Four focused checks failed before this change, and all five now pass. The real stdio MCP client verifies both a later-date call and empty-date rejection. Historical model traces remain unedited. This clarifies time provenance; it is not a freshness policy or a live data integration.

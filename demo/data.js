@@ -6,6 +6,10 @@ window.CSM_DATA = {
     "execution_mode": "deterministic workflow replay; no model inference",
     "selection": {
       "as_of": "2026-10-14T09:00:00+00:00",
+      "dataset_as_of": "2026-10-14T09:00:00+00:00",
+      "time_basis": "dataset_snapshot",
+      "records_refreshed": false,
+      "time_boundary": "Changing as_of recalculates contact age and time to planned launch from existing records. It does not refresh contacts, account stages, launch plans or readiness evidence.",
       "selection_policy": "contact age > threshold; unknown included",
       "stale_days": 3,
       "policy_type": "project_policy",

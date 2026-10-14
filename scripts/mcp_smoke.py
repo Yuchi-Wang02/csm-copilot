@@ -33,6 +33,7 @@ async def run(server_command: Path | None = None):
         ("triage_issue", {"issue_text": "Android页面blank，请协助排查。"}),
         ("triage_issue", {"issue_text": "No offers is not our problem. Please explain invoicing."}),
         ("triage_issue", {"issue_text": "不是没有广告的问题，奖励回调返回405。"}),
+        ("list_accounts", {"as_of": "2026-10-17T09:00:00Z"}),
     ]
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
@@ -53,6 +54,7 @@ async def run(server_command: Path | None = None):
                 assert payload is not None
                 results.append({"tool": name, "arguments": args, "result": payload})
             assert results[0]["result"]["accounts"][0]["account_id"] == "acc_014"
+            assert results[0]["result"]["time_basis"] == "dataset_snapshot"
             assert results[2]["result"]["decision"] == "blocked"
             assert results[4]["result"]["sent"] is False
             assert results[5]["result"]["contact_history_changed"] is False
@@ -70,6 +72,11 @@ async def run(server_command: Path | None = None):
             assert [c["category"] for c in results[13]["result"]["candidates"]] == [
                 "reward_callback"
             ]
+            assert results[14]["result"]["time_basis"] == "recalculated_from_snapshot"
+            assert results[14]["result"]["records_refreshed"] is False
+            assert results[14]["result"]["dataset_as_of"] == results[0]["result"]["dataset_as_of"]
+            empty_date = await session.call_tool("list_accounts", {"as_of": ""})
+            assert empty_date.isError
             invalid = await session.call_tool("check_readiness", {"integration_id": "missing"})
             assert invalid.isError
             identifier = await session.call_tool("triage_issue", {"issue_text": "issue_callback"})
@@ -81,6 +88,7 @@ async def run(server_command: Path | None = None):
                 "tool_count": len(tools.tools),
                 "invalid_id_returns_error": True,
                 "identifier_input_returns_error": True,
+                "empty_review_date_returns_error": True,
                 "calls": results,
             }
 

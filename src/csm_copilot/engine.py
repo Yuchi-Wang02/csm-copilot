@@ -48,7 +48,7 @@ class Copilot:
         """Strictly more than stale_days since actual contact, never since a draft."""
         if not 0 <= stale_days <= 365:
             raise ValueError("stale_days must be between 0 and 365")
-        now = datetime.fromisoformat(as_of) if as_of else self.data.as_of
+        now = datetime.fromisoformat(as_of) if as_of is not None else self.data.as_of
         if now.tzinfo is None or now < self.data.as_of:
             raise ValueError("as_of must be timezone-aware and at or after the dataset snapshot")
         results = []
@@ -88,6 +88,15 @@ class Copilot:
         )
         return {
             "as_of": now.isoformat(),
+            "dataset_as_of": self.data.as_of.isoformat(),
+            "time_basis": "dataset_snapshot"
+            if now == self.data.as_of
+            else "recalculated_from_snapshot",
+            "records_refreshed": False,
+            "time_boundary": (
+                "Changing as_of recalculates contact age and time to planned launch from existing "
+                "records. It does not refresh contacts, account stages, launch plans or readiness evidence."
+            ),
             "selection_policy": "contact age > threshold; unknown included",
             "stale_days": stale_days,
             "policy_type": "project_policy",

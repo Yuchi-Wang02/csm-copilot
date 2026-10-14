@@ -31,6 +31,8 @@ def list_accounts(
 
     Defaults to a fixed synthetic snapshot. A generated draft is never a contact.
     Missing contact history is explicitly unknown. Live accounts are excluded by default.
+    A later as_of recalculates elapsed time from the same dataset; no records are refreshed.
+    Omit as_of or pass null for the snapshot. Empty date strings are invalid.
     """
     return engine.list_accounts(stale_days, as_of, include_live)
 

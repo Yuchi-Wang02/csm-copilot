@@ -48,3 +48,19 @@ The first two were checked into v0.1. Version 0.5 adds [three local model attemp
 Use the `product_feedback_review` prompt, or call `friction_digest` with `include_live: false` for the default onboarding cohort. Counts describe the fixed dataset snapshot. Ask the host to inspect source records, separate unknown checks from failures, and keep proposed Product questions conditional. No logging or external submission is performed.
 
 Version 0.6 extends the local host with [structured-response review](RESPONSE_REVIEW.md), up to two recorded correction requests, and optional schema-constrained final generation. Six raw attempts remain published. Matching fields establish agreement with observed MCP outputs; they do not approve free prose.
+
+## Review time versus evidence time
+
+`list_accounts` defaults to the bundled dataset snapshot. Omit `as_of` or pass `null` for that behavior; an empty or whitespace-only string is invalid. An explicit date must include a timezone and cannot precede the dataset snapshot.
+
+A later `as_of` recalculates contact age, days to planned launch, overdue flags and queue selection from the existing records. It does not obtain new contacts, account stages, launch plans or readiness evidence. Read the returned fields together:
+
+| Field | Meaning |
+|---|---|
+| `as_of` | Time used for queue arithmetic |
+| `dataset_as_of` | Timestamp of the unchanged underlying dataset |
+| `time_basis` | `dataset_snapshot` for the same instant, otherwise `recalculated_from_snapshot` |
+| `records_refreshed` | Always `false` in this prototype |
+| `time_boundary` | Explanation of what the date override does and does not change |
+
+For example, requesting `2026-10-17T09:00:00Z` still uses the October 14 dataset. Lantern's recorded contact becomes eight days old, but its stored stage remains `validation`. Do not infer that it launched or that its issue was resolved because the review clock moved forward. The scripted MCP transcript includes this later-date call and an empty-date rejection; neither is a model-run result.
