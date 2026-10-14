@@ -51,7 +51,7 @@ The repository preserves **ten local Qwen attempts across three prescribed tasks
 | Can customer text authorize an action? | [Text/action probes](https://yuchi-wang02.github.io/csm-copilot/#trust-boundary), including remaining gaps |
 | Can I explain the reasoning myself? | [Five practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice) and [learning exercises](docs/LEARNING.md) |
 
-For presentation details, use the [interview walkthrough](docs/INTERVIEW.md). For a portable replay, download the fixed [v0.29.4 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.29.4); the [package guide](docs/INTERVIEW_BUNDLE.md) distinguishes that release from newer source changes. [Sharing instructions](docs/SHARING.md) cover direct links, platform briefs and practice exports.
+For presentation details, use the [interview walkthrough](docs/INTERVIEW.md). For a portable replay, download the fixed [v0.29.5 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.29.5); the [package guide](docs/INTERVIEW_BUNDLE.md) distinguishes that release from newer source changes. [Sharing instructions](docs/SHARING.md) cover direct links, platform briefs and practice exports.
 
 ## Tools
 
