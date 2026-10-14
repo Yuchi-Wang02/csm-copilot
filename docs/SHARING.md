@@ -64,7 +64,7 @@ Copied case links include four allowlisted display settings: `case`, `view`, `la
 
 Copied links always use the project's public website address, including when the demo is run locally. They contain no local filesystem path, practice note, drafted free text, identity token, or private account information. Copying prepares a URL; the application does not send it to another person.
 
-These are links to the current published demo, not immutable snapshots. Future fixture changes may change what a link displays. For a fixed historical record, cite the Git commit and its checked-in evidence files.
+These are links to the current published demo, not immutable snapshots. Future fixture changes may change what a link displays. For a fixed historical record, cite the Git commit and its checked-in evidence files. The [v0.23.0 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.23.0) provides a tagged demo ZIP and PDF; the [package guide](INTERVIEW_BUNDLE.md) identifies its exact source and checksum.
 
 ## Verification
 
