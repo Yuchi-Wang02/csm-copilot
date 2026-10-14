@@ -65,7 +65,17 @@ Handoff scope and field completeness are separate decisions. Since v0.8.2, a tri
 
 ## Counterfactual updates
 
-The demo makes a separate copy of the original dataset, appends a customer report and updates two Android facts in that copy. Historical evidence remains available. The last recorded device failure is not silently replaced by a pass. The example illustrates partial information updates, not a general event-sourced CRM or production conflict-resolution engine.
+The [Android comparison](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en&update=2#customer-update) has three views built from separate snapshots. The original morning-review packet stays unchanged. Each added record belongs to the same account and Android integration, and constructing the copied engine revalidates the evidence references.
+
+| View | Evidence change | Scoped checklist result | CSM implication |
+|---|---|---|---|
+| Original snapshot | No new record | `blocked`: two met, three unknown, one not met | Ask for missing confirmations and a fresh device check |
+| Settings confirmed | `reply_android_settings` supports currency approval and Test Only being off | Still `blocked`: four met, one unknown, one not met | Those two confirmations do not establish a new device result or callback check |
+| Fresh checks pass | `fresh_android_checks` supports both device and callback checks in a copy of the settings-confirmed snapshot | `checklist_complete`: six met | The generated follow-up changes to `issue_status_review`, asking whether the earlier issue still occurs |
+
+The passing branch retains `issue_blank` and its original source record. It does not mark the issue open or resolved: this prototype has no issue-resolution lifecycle. It also preserves the account record and prior evidence, sends nothing and leaves contact history unchanged. The new test record supports the changed facts; it does not erase the earlier failed observation or establish launch approval.
+
+These are authored synthetic branches at the fixed snapshot, not an automatic reconciliation process. The code explicitly selects which facts the new record supports. Read the [branch construction](../src/csm_copilot/demo.py), [generated packet](../evidence/workflow.json) and [behavior checks](../tests/test_update_story.py) together. The [follow-up policy](REVIEW_BRIEF.md#four-distinct-follow-up-purposes) explains why complete checks can still lead to a customer question. The original case panel and downloaded briefs continue to use the original snapshot; the toggle changes only the separate comparison.
 
 ## Extending responsibly
 
