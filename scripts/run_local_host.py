@@ -29,6 +29,17 @@ TASK = (
     "State that nothing was sent."
 )
 TASKS = {
+    "morning_review": (
+        "Use the fixed synthetic snapshot to find non-live accounts strictly more than three days "
+        "since recorded contact, including unknown contact history. From the returned queue, "
+        "select the first account under its planned-launch ordering. Retrieve that account's "
+        "context, check each of its integrations and prepare an English follow-up for each. "
+        "Prepare a handoff for each recorded issue on that account. Then explain in at most "
+        "220 words why it was selected, how its platform next steps differ, and what is missing "
+        "from its handoffs. Cite source IDs for recorded facts. Keep missing evidence separate "
+        "from recorded failures; do not imply launch approval, a confirmed cause or issue resolution. "
+        "State that nothing was sent or submitted."
+    ),
     "triage_scope": (
         "Review two unrelated synthetic inbound messages. No account or integration ID has been provided. "
         "Message A: " + TRIAGE_SCOPE_MESSAGES["invoice_request"] + " "

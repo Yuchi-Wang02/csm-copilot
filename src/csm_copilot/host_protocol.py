@@ -72,6 +72,13 @@ def trace_coverage(trace: dict) -> dict:
             for label, message in TRIAGE_SCOPE_MESSAGES.items()
         },
     }
+    # Expectations belong to this fixed development fixture, not the model prompt.
+    tasks["morning_review"] = {
+        "morning_queue": ("list_accounts", {"stale_days": 3, "as_of": None, "include_live": False}),
+        "selected_account_context": ("get_account_context", {"account_id": "acc_014"}),
+        **tasks["platform_followups"],
+        "selected_issue_handoff": ("draft_ticket", {"issue_id": "issue_blank"}),
+    }
     task_id = trace.get("task_id", "platform_followups")
     if task_id not in tasks:
         raise ValueError(f"Unknown recorded task: {task_id}")
@@ -80,7 +87,10 @@ def trace_coverage(trace: dict) -> dict:
         label: any(
             step["action"]["tool"] == tool
             and all(
-                step["action"]["arguments"].get(key, "en" if key == "lang" else None) == value
+                step["action"]["arguments"].get(
+                    key, {"lang": "en", "stale_days": 3, "include_live": False}.get(key)
+                )
+                == value
                 for key, value in arguments.items()
             )
             for step in successful
@@ -92,5 +102,10 @@ def trace_coverage(trace: dict) -> dict:
         "observed": sum(checks.values()),
         "required": len(checks),
         "final_response_present": bool(trace.get("final")),
-        "boundary": "Tool coverage only. Does not establish that the final response is faithful, useful or complete.",
+        "boundary": "Tool coverage only. Does not establish that the final response is faithful, useful or complete."
+        + (
+            " Morning-review expectations use the fixed synthetic fixture; call order and ID discovery require separate trace review."
+            if task_id == "morning_review"
+            else ""
+        ),
     }

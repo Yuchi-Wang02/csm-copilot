@@ -142,3 +142,65 @@ def test_failed_calls_and_wrong_language_do_not_satisfy_coverage():
     result = trace_coverage(trace)
     assert result["observed"] == 1
     assert result["checks"]["ios_readiness"] is True
+
+
+def test_morning_coverage_requires_queue_selected_context_platforms_and_issue():
+    calls = [
+        {"action": {"tool": tool, "arguments": arguments}, "tool_result": {}}
+        for tool, arguments in [
+            ("list_accounts", {}),
+            ("get_account_context", {"account_id": "acc_014"}),
+            ("check_readiness", {"integration_id": "lantern_android"}),
+            ("check_readiness", {"integration_id": "lantern_ios"}),
+            ("draft_followup", {"integration_id": "lantern_android"}),
+            ("draft_followup", {"integration_id": "lantern_ios", "lang": "en"}),
+            ("draft_ticket", {"issue_id": "issue_blank"}),
+        ]
+    ]
+    trace = {"task_id": "morning_review", "steps": [{"tool_calls": calls}]}
+    assert trace_coverage(trace)["observed"] == trace_coverage(trace)["required"] == 7
+    calls[0]["action"]["arguments"] = {"stale_days": 1}
+    calls[1]["action"]["arguments"]["account_id"] = "acc_006"
+    calls[-1]["action"]["arguments"]["issue_id"] = "issue_callback"
+    assert trace_coverage(trace)["observed"] == 4
+    calls[0]["action"]["arguments"] = {"stale_days": 3, "as_of": None, "include_live": False}
+    assert trace_coverage(trace)["checks"]["morning_queue"] is True
+    for call in calls:
+        call["tool_error"] = True
+    trace["final"] = "All work completed."
+    assert trace_coverage(trace)["observed"] == 0
+
+
+@pytest.mark.parametrize("arguments", [{"include_live": True}, {"as_of": "2026-10-17"}])
+def test_morning_coverage_does_not_credit_a_different_queue(arguments):
+    trace = {
+        "task_id": "morning_review",
+        "steps": [
+            {
+                "tool_calls": [
+                    {"action": {"tool": "list_accounts", "arguments": arguments}, "tool_result": {}}
+                ]
+            }
+        ],
+    }
+    assert trace_coverage(trace)["observed"] == 0
+
+
+def test_morning_expectations_match_the_actual_fixed_queue_without_prompt_identifiers():
+    import runpy
+    from pathlib import Path
+
+    from csm_copilot.engine import Copilot
+
+    engine = Copilot()
+    queue = engine.list_accounts()
+    first = queue["accounts"][0]
+    assert first["account_id"] == "acc_014"
+    context = engine.get_account_context(first["account_id"])
+    assert {i["id"] for i in context["integrations"]} == {"lantern_android", "lantern_ios"}
+    assert {i["id"] for i in context["issues"]} == {"issue_blank"}
+    task = runpy.run_path(str(Path(__file__).resolve().parents[1] / "scripts/run_local_host.py"))[
+        "TASKS"
+    ]["morning_review"]
+    for identifier in ("acc_014", "lantern_android", "lantern_ios", "issue_blank", "Lantern"):
+        assert identifier not in task
