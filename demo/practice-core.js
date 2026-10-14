@@ -208,20 +208,22 @@
   function hasWork(session) {
     return session.some((item) => item.reviewed || item.choice || item.reasoning.trim());
   }
+  function literal(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/([\\`*_{}\[\]()#+.!|~-])/g, "\\$1");
+  }
+  function inline(value) {
+    return literal(String(value).replace(/\r\n?|\n/g, " "));
+  }
   function line(value) {
     // Quote every user-authored line so it cannot become report structure or active HTML.
     return String(value || "[No note entered]")
       .replace(/\r\n?/g, "\n")
       .split("\n")
-      .map(
-        (s) =>
-          "> " +
-          s
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/([\\`*_{}\[\]()#+.!|~-])/g, "\\$1"),
-      )
+      .map((s) => "> " + literal(s))
       .join("\n");
   }
   function exportReflection(cases, session, asOf) {
@@ -276,7 +278,7 @@
         "Evidence available for this decision:",
         ...c.evidence.map(
           (e) =>
-            `- ${e.label}: ${e.value.replace(/\r?\n/g, " ")} [${e.sources.join(", ") || "no applicable record"}]`,
+            `- ${inline(e.label)}: ${inline(e.value)} [${inline(e.sources.join(", ") || "no applicable record")}]`,
         ),
         "",
         `Explore: https://yuchi-wang02.github.io/csm-copilot/${c.source}`,

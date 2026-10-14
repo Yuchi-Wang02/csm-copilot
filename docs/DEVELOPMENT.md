@@ -273,3 +273,9 @@ A fourth practice decision now draws from Harbor's original issue record, existi
 The existing reflection flow preserves initial choice/reasoning and later revision separately. The new source link opens Harbor's exact handoff in-page. Reset now derives its count from the case collection instead of announcing three decisions. The earlier three cases and historical model outputs remain unchanged. Two added tests verify evidence grounding and fourth-case export preservation; existing export-count assertions now follow the case collection.
 
 The teaching text is AI-assisted project guidance. It does not grade prose, certify personal mastery or establish customer usefulness. Browser-test notes explicitly identify themselves as QA material; Yuchi's own exercise has not been completed on their behalf.
+
+## v0.18.1 — preserve evidence as text in reflection exports
+
+Reflection exports already escaped user-authored notes, but evidence labels, values and source IDs were inserted directly into Markdown. A customer report containing HTML or Markdown syntax could therefore change the document's presentation. Three probes reproduced this separately for labels, values and source IDs.
+
+The exporter now shares its literal-text escaping between notes and evidence. Evidence lines normalize CRLF, CR and LF to spaces before insertion, while user notes retain their quoted line breaks. Source IDs keep their original meaning with escaped Markdown punctuation. The actual records, teaching cases, browser evidence and historical model outputs are unchanged. Three regression checks pass after failing before the repair; earlier tests continue to check original reasoning, later reflection and unreviewed exports. This addresses the exercised Markdown/HTML formatting cases, not every behavior of every third-party Markdown renderer.

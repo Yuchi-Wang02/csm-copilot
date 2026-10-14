@@ -17,6 +17,27 @@ const cases = api.buildCases(
   context.window.CSM_MODEL_RUNS,
 );
 
+for (const field of ["label", "value", "sources"]) {
+  test(`export keeps evidence ${field} as text instead of Markdown structure`, () => {
+    const probeCases = JSON.parse(JSON.stringify(cases));
+    const payload = '<img src=x onerror="run()">\r# Forged heading\n[Open](javascript:run())\n**approved**';
+    const evidence = probeCases[3].evidence[0];
+    evidence[field] = field === "sources" ? [payload] : payload;
+    const before = JSON.stringify(probeCases);
+    const out = api.exportReflection(probeCases, api.createSession(probeCases), "2026-10-14");
+    assert.ok(!out.includes('<img'));
+    assert.ok(!out.includes('\r'));
+    assert.ok(!out.includes('\n# Forged heading'));
+    assert.ok(!out.includes('[Open](javascript:'));
+    assert.ok(!out.includes('**approved**'));
+    assert.ok(out.includes('&lt;img'));
+    assert.ok(out.includes('\\# Forged heading'));
+    assert.ok(out.includes('\\*\\*approved\\*\\*'));
+    assert.equal((out.match(/^## /gm) || []).length, 4);
+    assert.equal(JSON.stringify(probeCases), before);
+  });
+}
+
 test("notes can be saved before any guidance is revealed", () => {
   const session = api.createSession(cases);
   assert.equal(api.hasWork(session), false);
@@ -94,7 +115,7 @@ test("export distinguishes initial work, later reflection and unreviewed decisio
   assert.match(out, /Reflection written after guidance/);
   assert.equal((out.match(/Status: not reviewed/g) || []).length, cases.length - 1);
   assert.match(out, /Written reasoning remains ungraded/);
-  assert.match(out, /lantern_android_device_verified/);
+  assert.ok(out.includes("lantern\\_android\\_device\\_verified"));
   assert.match(out, /An unfinished second decision/);
   assert.equal(session[1].reviewed, false);
 });
@@ -154,7 +175,7 @@ test("fourth decision preserves first reasoning, later reflection and its eviden
   assert.match(out, /QA\\-only initial reasoning/);
   assert.match(out, /QA\\-only later reflection/);
   assert.match(out, /Option comparison: differs from the project policy/);
-  assert.match(out, /msg_issue_callback/);
+  assert.ok(out.includes("msg\\_issue\\_callback"));
   assert.match(out, /case=harbor_android&view=handoff&lang=en#workspace/);
   assert.equal((out.match(/Status: not reviewed/g) || []).length, 3);
 });
