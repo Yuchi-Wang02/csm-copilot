@@ -41,6 +41,8 @@ A [two-page project brief](demo/project-brief.pdf) provides a portable introduct
 
 In the AI trace section, expand **Compare the two callback handoff attempts** to inspect the same action batch before and after the identifier check. The comparison separates recorded tool behavior from AI-assisted explanation review, including the citation lost in the newer answer. A [portable comparison](evidence/MODEL_RUNS.md#compare-the-callback-handoff-attempts) links both raw traces.
 
+Each recording also has **How this recorded AI run unfolded**: expand a turn to separate the model's proposal, actual MCP results, host rejection and correction feedback. The [four-turn correction example](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs) shows where expected values entered the conversation. Initial instructions and raw outputs remain available. This is a readable view of the existing recordings, not new inference or a change to their results.
+
 ## Start with one case
 
 1. Open **Lantern Games** in the [demo](https://yuchi-wang02.github.io/csm-copilot/).
@@ -186,7 +188,7 @@ Try: **“At the bundled snapshot, review accounts more than three days past the
 
 **The failures stay in the report.** Indirect wording still fails; qualified negation, quoted topics and unsupported callback-denial forms remain explicit development counterexamples. English/Chinese paraphrases remain in the same split. There are no claims of measured time savings, business impact, production readiness, or independent human validation.
 
-The [callback-denial review](evidence/CALLBACK_DENIAL.md) preserves sixteen actual pre-change outputs. A bounded rule repairs seven selected denial messages while retaining separate positive symptoms and three documented failures. Eleven message/handoff regression checks failed before the change and pass afterward. This does not change the original 16/18 diagnostic result or establish general language understanding.
+The [callback-denial review](evidence/CALLBACK_DENIAL.md) preserves sixteen actual pre-change outputs. Its initial bounded rule repaired seven selected denial messages while retaining separate positive symptoms and three documented failures. Eleven message/handoff regression checks failed before that change and pass afterward. The later health-denial repair below handles one of those three failures. Neither iteration changes the original 16/18 diagnostic result or establishes general language understanding.
 
 The later [present-tense callback-health repair](docs/CALLBACK_HEALTH.md) handles “callbacks are not failing” while retaining questions, qualifiers and separate symptoms for review. Five messages change in twelve newly inspected probes; seven checks failed before the repair and pass afterward. The practice case retains the historical failure, and the original diagnostic score is unchanged.
 

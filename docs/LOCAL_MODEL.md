@@ -61,6 +61,10 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 `python scripts/build_model_replay.py` packages the checked-in traces and review annotations into the website. It does not perform inference. CI checks structural coverage consistency, regenerates the replay and compares the artifact with Git; it does not certify the review annotations as independent truth or rerun a GPU model.
 
+Since v0.26, the browser also renders the existing trace as a turn-by-turn conversation. It distinguishes parsed model proposals, recorded tool calls and errors, parser rejection, structured-field checks, and host correction requests. A model proposal is not counted as an executed call. Correction feedback is labeled as host-supplied assistance, including when it provides expected values. Final prose remains unverified even after fields match. The view retains initial messages, unedited model output and the full raw steps; no historical file is rewritten.
+
+Seven browser-logic tests cover all ten recordings, the four-call unsupported answer, parser rejection with no execution, a tool error beside successful calls, two field-review corrections, exhausted parse corrections, and escaping model/host/tool text. These are presentation and provenance checks, not new model results.
+
 The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, and two exact-message triage calls for inbound scope review. The separate source review examines the final prose. Do not combine these into one unqualified accuracy number.
 
 For an interview exercise, hide the review panel, annotate every claim in the unedited response, then compare your findings. Explain why the model can choose the correct tools yet still overstate their results, and why a zero-flag lint result should not approve the answer.

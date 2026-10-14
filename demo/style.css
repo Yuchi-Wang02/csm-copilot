@@ -1369,6 +1369,33 @@ input:focus-visible {
   gap: 16px;
   margin-top: 22px;
 }
+.model-conversation {
+  margin: 24px 0;
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.model-conversation h3 { margin-top: 0; }
+.model-conversation h4 { margin: 20px 0 10px; }
+.model-conversation h5 { margin: 12px 0 6px; }
+.model-conversation p { font-size: 14px; line-height: 1.65; }
+.model-turns { list-style: none; padding: 0; margin: 20px 0; }
+.model-turns > li + li { margin-top: 12px; }
+.model-turn {
+  border-left: 3px solid var(--line);
+  padding: 10px 16px;
+  background: #f8f9f5;
+}
+.model-turn > summary { font-size: 15px; font-weight: 600; }
+.turn-calls { padding-left: 20px; }
+.turn-calls > li { padding: 8px 0; }
+.turn-calls span { display: block; font-size: 12px; color: var(--muted); }
+.turn-host, .turn-correction { border-top: 1px solid var(--line); margin-top: 18px; }
+@media (max-width: 700px) {
+  .model-conversation { padding: 16px; }
+  .model-turn { padding: 8px 10px; }
+}
 .practice-checkpoint {
   margin-top: 24px;
 }
