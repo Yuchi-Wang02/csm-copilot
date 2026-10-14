@@ -18,7 +18,7 @@ Save your first reasoning in [Practice](https://yuchi-wang02.github.io/csm-copil
 
 ## First run — read the decision before the full packet
 
-After the README's installation steps, run:
+After [installing the Python workflow](LOCAL_SETUP.md#install-the-python-workflow), run:
 
 ```sh
 csm-demo --format summary
@@ -55,7 +55,7 @@ Write a prediction for each experiment before running it:
 3. In a fresh copy, make that observation and its fact both `met`.
 4. In another fresh copy, give the new record a different integration ID while keeping Meadow's reference to it. Predict whether input validation should accept it.
 
-After the README's environment setup, save the following as `readiness_experiment.py` in your local checkout and run `python readiness_experiment.py`. It demonstrates experiment 2. It reads the bundled fixture and changes only an in-memory copy; it does not save customer records or modify the published demo.
+After the [Python environment setup](LOCAL_SETUP.md#install-the-python-workflow), save the following as `readiness_experiment.py` in your local checkout and run `python readiness_experiment.py`. It demonstrates experiment 2. It reads the bundled fixture and changes only an in-memory copy; it does not save customer records or modify the published demo.
 
 ```python
 from csm_copilot.engine import Copilot

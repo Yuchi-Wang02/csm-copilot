@@ -93,7 +93,7 @@ The [learning path](docs/LEARNING.md) asks you to predict a result, change a cop
 
 ## Run locally
 
-Python **3.11–3.13**. Follow the [local setup guide](docs/LOCAL_SETUP.md) to install the package, print a morning summary, export English/Chinese briefs, serve the explorer or connect an MCP host. The [full verification sequence](docs/VERIFICATION.md#reproduction) includes JavaScript checks, package checks and PDF builders.
+To present the committed browser replay, follow the [local preview commands](docs/LOCAL_SETUP.md#view-the-browser-replay); no package installation or model is needed. To execute the workflow, use Python **3.11–3.13** and [install the Python package](docs/LOCAL_SETUP.md#install-the-python-workflow), then print a morning summary or export English/Chinese briefs. The [full verification sequence](docs/VERIFICATION.md#reproduction) includes JavaScript checks, package checks and PDF builders.
 
 ## Repository map
 

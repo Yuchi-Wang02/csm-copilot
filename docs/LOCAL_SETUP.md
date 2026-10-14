@@ -1,16 +1,38 @@
 # Run CSM Copilot locally
 
-Install the Python workflow, export a review, or connect an MCP host. The bundled synthetic workflow needs no model or API key. For the browser portfolio, [open the hosted demo](https://yuchi-wang02.github.io/csm-copilot/).
+Choose the path that matches what you want to inspect. All three use synthetic records; none requires a model or API key.
+
+| Your goal | Start here | Requirements |
+|---|---|---|
+| Present or explore the case | [Hosted three-minute review](https://yuchi-wang02.github.io/csm-copilot/#start), or [local replay below](#view-the-browser-replay) | A browser; local replay also uses Git and Python's standard-library HTTP server |
+| Run the workflow and export a brief | [Install the Python workflow](#install-the-python-workflow) | Git, Python 3.11–3.13 and package-index access |
+| Change the code or reproduce verification | [Develop and verify](#develop-and-verify) | Workflow installation plus development dependencies; full reproduction also uses Node.js |
 
 [Back to the project overview](../README.md)
 
-## Install and view the demo
+## View the browser replay
 
-Python **3.11–3.13**; verified locally on Windows / Python 3.13. GitHub Actions tests Windows and Ubuntu.
+The committed `demo/` directory already contains the generated case data, saved model recordings, scripts and PDFs. You can serve it without installing the Python package or rebuilding anything:
 
 ```sh
 git clone https://github.com/Yuchi-Wang02/csm-copilot.git
 cd csm-copilot
+python -m http.server 8000 --bind 127.0.0.1 --directory demo
+```
+
+Open **http://127.0.0.1:8000/#start**. Leave the terminal running while presenting; press **Ctrl+C** there when finished. If port 8000 is already in use, choose another port such as 8001 in both the command and browser address. The server listens only on your computer's loopback address.
+
+You should see **Follow a decision. Inspect a mistake. Explain the learning.** Start with the Android follow-up, then compare the recorded AI claim with its tool result. This path replays committed outputs; it does not start an MCP server or run inference. Practice notes remain in page memory unless you explicitly download a file.
+
+Browser verification uses HTTP. Direct-file opening of `demo/index.html` remains unverified. The optional Google Fonts request falls back to system fonts when offline; external source links still require internet access. For a fixed release instead of the current checkout, use the [portable interview package](INTERVIEW_BUNDLE.md).
+
+## Install the Python workflow
+
+Python **3.11–3.13**. The installed commands are verified by GitHub Actions on Windows / Python 3.13 and Ubuntu / Python 3.11; local system policies can impose additional restrictions.
+
+Clone the repository and enter `csm-copilot` using the first two commands above if you have not already done so. Stop the preview server with Ctrl+C or use a second terminal in the checkout. Then create an environment:
+
+```sh
 python -m venv .venv
 ```
 
@@ -26,18 +48,35 @@ Activate the environment:
 source .venv/bin/activate
 ```
 
-Then install and verify:
+Install the workflow and print the first review:
+
+```sh
+python -m pip install -e .
+csm-demo --format summary
+```
+
+At the bundled snapshot, the output starts with `CSM Copilot - morning review` and reports **3 accounts, 4 platforms**. Find `Moon Garden / Android: blocked`, then compare it with `Moon Garden / iOS: checklist_complete` and `Meadow Notes / iOS: needs_evidence`. The [committed summary](../evidence/morning-summary.txt) is the complete reference output. This confirms the deterministic workflow ran; it does not establish model reasoning or customer outcomes.
+
+If activation or an installed command is blocked by a local security policy, keep that restriction intact. The hosted or local browser replay remains available without running the installed package. The [verification record](VERIFICATION.md#reproduction) distinguishes successful CI checks from the development machine's launcher restriction.
+
+## Develop and verify
+
+From the activated environment, add development dependencies and run the authored Python checks:
 
 ```sh
 python -m pip install -e ".[dev]"
-csm-demo --format summary
 python -m pytest -q
-python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
-python scripts/build_demo.py
-python -m http.server 8000 --directory demo
 ```
 
-Open `http://localhost:8000`. Browser verification uses HTTP; direct-file opening of `demo/index.html` remains unverified in this environment. The optional Google Fonts request falls back to local system fonts when offline. No account data leaves the page.
+To regenerate the scripted MCP transcript and browser workflow data after changing their source:
+
+```sh
+python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
+python scripts/build_demo.py
+git diff --stat
+```
+
+These builders overwrite generated files. Inspect the diff before committing; regeneration is not required just to view the existing demo. For the complete sequence, including JavaScript checks, model-replay packaging and both PDF builders, follow [Verification](VERIFICATION.md#reproduction). PDF generation needs the optional `brief` dependencies.
 
 ## Check the installed package
 
