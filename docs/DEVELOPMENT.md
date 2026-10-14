@@ -1,5 +1,13 @@
 # Development notes
 
+## Record what happened after enabling the dependency policy
+
+One new Qwen3-4B morning-review attempt used committed host `f0cb1e428ec09cd6b595f2ecb4766fecb72db85a` with `--enforce-dependencies`, eight turns, 768 output tokens and no corrections. The host supplied a one-action pending queue state before generation. The model still proposed five actions, with invented account, integration and issue IDs. The existing parser rejected the batch before dependency validation. No tool executed; the policy stayed at `awaiting_queue` with one pending action and no completed work. This is a failed model-use observation, not a failure of a policy check that was never reached.
+
+The new raw trace is preserved byte-for-byte with SHA-256 `bf65fa466c0f3acd72bb43fe0e0bfbe72ad22986b07e6ff9a477f832ee2e6c84`; the preceding twelve raw files remain unchanged. The replay now exposes the exact per-turn host state before the model's proposal, and distinguishes parser, dependency and result-check failures. Tests cover provenance, state-message escaping and those separate display boundaries. The initial-message hash matches the original morning attempt; the per-turn state message is additional model input and is disclosed separately. See the [recorded outcome](LOCAL_MODEL.md#policy-enabled-attempt-parser-stops-the-proposal-first).
+
+All 390 Python tests, 103 JavaScript tests and Ruff checks passed. Local browser inspection confirmed the new selection, 0/7 execution, one pending queue action and the exact pre-generation host message. The refreshed project brief has two pages and seven links; both rendered pages were visually inspected. These checks verify the published explanation and replay, not model reliability or personal mastery.
+
 ## Enforce dependencies after the prompt-only attempt fails
 
 The optional `--enforce-dependencies` flag adds a stateful policy to the morning-review batch host. It learns the selected account from a successful queue result and pending integration/issue work from successful context. Each entire proposal is checked before execution; correct-looking IDs cannot skip those dependencies. Failed calls stay pending, accepted results remove only their corresponding work, and an unfinished workflow cannot accept a final response. A malformed or mis-scoped successful result stops the remaining batch. The policy also supplies pending-action state each turn, which is explicit host planning assistance.

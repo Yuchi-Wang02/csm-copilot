@@ -1,8 +1,8 @@
 # An actual model run, including the failures
 
-The project contains twelve exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
+The project contains thirteen exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
 
-The newest attempt repeats the morning-review request with explicit dependency guidance: retrieve the queue alone, wait for context and use IDs from earlier results. It still proposes five actions and unsupported identifiers before reading any result. The unchanged four-action batch limit rejects the entire response. Neither morning attempt demonstrates account discovery. The paired inputs and outputs are preserved below.
+The newest attempt enables the host dependency policy and receives a state message allowing only the snapshot queue lookup. It still proposes five actions and unsupported identifiers before reading any result. The unchanged four-action parser rejects the response before dependency validation. None of the three morning attempts demonstrates account discovery. The input changes and outcomes are preserved below, including the per-turn host state message.
 
 **The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
@@ -63,7 +63,7 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 Since v0.26, the browser also renders the existing trace as a turn-by-turn conversation. It distinguishes parsed model proposals, recorded tool calls and errors, parser rejection, structured-field checks, and host correction requests. A model proposal is not counted as an executed call. Correction feedback is labeled as host-supplied assistance, including when it provides expected values. Final prose remains unverified even after fields match. The view retains initial messages, unedited model output and the full raw steps; no historical file is rewritten.
 
-Seven browser-logic tests cover all twelve recordings, the four-call unsupported answer, parser rejection with no execution (including both queue-first attempts), a tool error beside successful calls, two field-review corrections, exhausted parse corrections, and escaping model/host/tool text. These are presentation and provenance checks, not model-quality scores.
+Browser-logic tests cover all thirteen recordings, the four-call unsupported answer, parser rejection with no execution, per-turn host state input, distinct dependency-rejection and result-failure displays, a tool error beside successful calls, two field-review corrections, exhausted parse corrections, and escaping model/host/tool text. These are presentation and provenance checks, not model-quality scores. Dependency rejection and result-failure display tests use constructed cases; the policy-enabled model recording stops earlier, at parsing.
 
 The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, two exact-message triage calls for inbound scope review, and seven fixed-fixture calls for morning review. Coverage does not check dependency order or prove that IDs were discovered from tool results; inspect the sequence separately. The separate source review examines final prose when present. Do not combine these into one unqualified accuracy number.
 
@@ -158,6 +158,29 @@ The option was committed in `d6778c42470e0a1f4673167c256d32d707872945` before in
 
 The newer response uses 97 generated tokens, with no token-cap hit. It does not obey the instruction to retrieve the queue alone. No queue result, account context, drafts or tool errors are returned because batch validation rejects the whole proposal. A regression comparison verifies that removing the one dependency paragraph restores the earlier system message exactly; task text, schemas, runtime settings and caps match. These checks establish recorded controls and outcomes, not the general effectiveness of prompt changes.
 
-This pair supports a narrow conclusion: the added instruction was insufficient in this attempt. It does not prove all dependency prompts fail. A subsequent [opt-in host policy](DEPENDENCY_POLICY.md) now enforces queue/context dependencies and checks IDs against returned scope, with scripted real-MCP tests. It is enabled by the separate `--enforce-dependencies` flag and has no model recording yet. It also supplies pending-action state to the model. The twelve recordings predate that policy; the prompt-only `--sequence-dependencies` flag does not enforce call order.
+This pair supports a narrow conclusion: the added instruction was insufficient in this attempt. It does not prove all dependency prompts fail. A subsequent [opt-in host policy](DEPENDENCY_POLICY.md) now enforces queue/context dependencies and checks IDs against returned scope, with scripted real-MCP tests. It is enabled by the separate `--enforce-dependencies` flag and also supplies pending-action state. The thirteenth recording below uses it; the preceding twelve recordings predate that policy. The prompt-only `--sequence-dependencies` flag does not enforce call order.
 
 [New raw recording](../evidence/model-runs/qwen4-morning-sequenced.json) · [Replay with dependency instruction](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-sequenced#model-runs). All eleven earlier raw traces remain unchanged. This new source and recording also postdate the fixed v0.29.8 release.
+
+## Policy-enabled attempt: parser stops the proposal first
+
+The thirteenth attempt uses the host implementation committed in `f0cb1e428ec09cd6b595f2ecb4766fecb72db85a`. Run the same morning-review command with `--enforce-dependencies`, without `--sequence-dependencies`, and a fresh output filename. Model revision, runtime settings, user task, initial system message and schemas, eight-turn limit, 768-token cap and zero correction budget match the original morning recording.
+
+There are two changes relative to that original attempt: the runtime dependency policy is enabled, and the host appends its current pending-action state before each generation. This is explicit planning assistance, not an isolated test of enforcement with identical model input. At the first turn it supplies one action: `list_accounts(stale_days=3, as_of=null, include_live=false)`. No account, integration or issue ID is available yet.
+
+**Observed:** the model returns five actions, beginning with that queue call but continuing with context, readiness, follow-up and handoff calls. It supplies `account_12345`, `integration_67890` and `issue_12345` without any preceding result. The actual stopping condition remains **"An action batch must contain 1..4 actions"**. Parsing happens before dependency validation, so this trace has a `parse_error`, no `policy_error`, and no executed calls. Do not describe it as a runtime rejection of the invented IDs by the dependency policy.
+
+| Recorded outcome | Value |
+|---|---|
+| Input / output tokens | 1,339 / 110; no output-cap hit |
+| Executed requested calls | 0/7 |
+| Policy stage before and after | `awaiting_queue` |
+| Pending / completed actions | 1 / 0 |
+| Selected account / final response | Neither |
+| Corrections / retries | None |
+
+The initial-message fingerprint matches the original recording because `prompt_sha256` covers `initial_messages` only. It does **not** cover the additional per-turn host message. The complete raw file, its SHA-256, `steps[0].policy_message` and `policy_before` preserve that extra input; the browser displays it before the model proposal. Regression checks verify the unchanged initial controls, added state, unchanged final policy state and parser-first rejection.
+
+This attempt shows no execution improvement from supplying pending-action state under these settings. It does not estimate a general failure rate or invalidate the separate software tests of enforcement. A future constrained-generation attempt must be labeled as additional decoding assistance and preserved separately. Successful tool use and a faithful explanation remain unproven for this morning-review model task.
+
+[Raw recording](../evidence/model-runs/qwen4-morning-enforced.json) · [Policy-enabled replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-enforced#model-runs). SHA-256: `bf65fa466c0f3acd72bb43fe0e0bfbe72ad22986b07e6ff9a477f832ee2e6c84`. All twelve earlier raw traces remain unchanged. Review annotations are AI-assisted, not independent human validation; this source and recording postdate the fixed v0.29.8 release.

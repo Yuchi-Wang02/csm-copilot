@@ -10,8 +10,8 @@
     <title>CSM Copilot · Evidence before confidence</title>
     <link rel="stylesheet" href="style.css?v=0.29.8" />
     <script defer src="data.js?v=0.29.8"></script>
-    <script defer src="model-runs.js?v=0.29.8-dependencies"></script>
-    <script defer src="model-turns.js?v=0.29.8"></script>
+    <script defer src="model-runs.js?v=0.29.8-policy"></script>
+    <script defer src="model-turns.js?v=0.29.8-policy"></script>
     <script defer src="review-links.js?v=0.29.8"></script>
     <script defer src="case-review.js?v=0.29.8"></script>
     <script defer src="triage-review.js?v=0.29.8"></script>
@@ -274,8 +274,9 @@
         </p>
         <p class="disclosure">Queue-first comparison:
           <a data-review-link href="?run=qwen4-morning-review#model-runs">Original request</a>
-          · <a data-review-link href="?run=qwen4-morning-sequenced#model-runs">With dependency instruction</a>.
-          Both stopped before tool execution; inspect the changed prompt and retained proposals.
+          · <a data-review-link href="?run=qwen4-morning-sequenced#model-runs">With dependency instruction</a>
+          · <a data-review-link href="?run=qwen4-morning-enforced#model-runs">With host policy</a>.
+          All three stopped at batch parsing before tool execution. Inspect the changed inputs and retained proposals.
         </p>
         <div class="integrity-controls">
           <label for="model-run">Inspect a recorded attempt</label

@@ -298,9 +298,38 @@
           "assessment": "This paired development observation shows that the added instruction was insufficient in this run. It does not estimate a general failure rate, compare models or prove that all dependency prompts fail. A future enforced call policy would need separate implementation and testing; it is not present in this recording."
         }
       ]
+    },
+    {
+      "id": "qwen4-morning-enforced",
+      "label": "Qwen3-4B · morning review with host policy",
+      "protocol": "batch",
+      "verdict": "Parser stopped the proposal before dependency validation",
+      "summary": "With the dependency policy enabled, the host supplied a state message allowing only the snapshot queue lookup. The model still proposed five actions and unsupported IDs. The existing four-action parser rejected the response before policy validation or tool execution. Coverage remains 0/7; there is no final explanation.",
+      "findings": [
+        {
+          "kind": "control",
+          "claim": "A host state message supplied the allowed next action",
+          "assessment": "The initial system message, task, schemas, model revision, runtime settings, eight-turn limit and zero-correction budget match the original morning attempt. Unlike that attempt, this run enables the runtime policy and appends an exact pending-action message before generation. It permits only list_accounts with the fixed snapshot defaults. The prompt-only sequence-dependencies flag is false. This is explicit host planning assistance, not an isolated test of enforcement without an input change."
+        },
+        {
+          "kind": "format",
+          "claim": "The same batch-size error occurred before policy validation",
+          "assessment": "The model proposed five actions in one array, including account_12345, integration_67890 and issue_12345 before any result. The parser stopped at 'An action batch must contain 1..4 actions'. There is no policy_error or tool call. It would be incorrect to describe this recording as an observed ID rejection by the new policy."
+        },
+        {
+          "kind": "incomplete",
+          "claim": "The policy remained at awaiting_queue",
+          "assessment": "The final policy state matches the state supplied before generation: one pending queue call, no completed actions, no selected account, final_allowed=false. The 110-token response did not reach the 768-token cap. No correction, retry, queue discovery or final explanation followed."
+        },
+        {
+          "kind": "boundary",
+          "claim": "Software enforcement does not establish successful model use",
+          "assessment": "The policy's real-MCP scripted integration tests verify call-sequencing boundaries. This separate model run shows that presenting pending actions did not produce a valid first proposal in this attempt. The original twelve raw traces remain unchanged. This is a development observation, not a general failure rate or evidence of autonomous CSM task completion."
+        }
+      ]
     }
   ],
-  "boundary": "Twelve exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Thirteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

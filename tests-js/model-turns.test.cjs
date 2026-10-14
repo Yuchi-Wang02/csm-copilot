@@ -26,7 +26,7 @@ test("claim comparison keeps quoted source fields and review separate and escape
 
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
-  assert.equal(names.length, 12);
+  assert.equal(names.length, 13);
   for (const name of names) {
     const input = trace(name.slice(0, -5)), before = JSON.stringify(input);
     const html = api.render(input);
@@ -49,13 +49,60 @@ test("successful tool calls and an unsupported final statement stay distinct", (
   assert.doesNotMatch(html, /Structured fields matched|Host correction request/);
 });
 test("parser rejection does not turn proposed tool names into executed calls", () => {
-  for (const id of ["qwen06-single", "qwen4-single", "qwen4-morning-review", "qwen4-morning-sequenced"]) {
+  for (const id of ["qwen06-single", "qwen4-single", "qwen4-morning-review", "qwen4-morning-sequenced", "qwen4-morning-enforced"]) {
     const html = api.render(trace(id));
     assert.match(html, /Host rejected the proposed action/);
     assert.match(html, /No tool calls were executed in this turn/);
     assert.doesNotMatch(html, /<h4>Tool execution through MCP<\/h4>/);
     assert.doesNotMatch(html, /4 recorded tool calls/);
   }
+});
+
+test("host policy input is visible before the model proposal without claiming policy rejection", () => {
+  const input = trace("qwen4-morning-enforced"), before = JSON.stringify(input);
+  const html = api.render(input);
+  assert.match(html, /Host state supplied before this proposal/);
+  assert.match(html, /pending actions as planning assistance/);
+  assert.match(html, /Stage: <code>awaiting_queue<\/code> · 1 pending action · Final response not allowed/);
+  assert.match(html, /steps\[0\].policy_message/);
+  assert.match(html, /Read the exact host state message/);
+  assert.ok(html.indexOf("Host state supplied") < html.indexOf("<h4>Model proposal"));
+  assert.match(html, /An action batch must contain 1..4 actions/);
+  assert.doesNotMatch(html, /Host dependency validation|Host rejected the dependency proposal/);
+  assert.equal(JSON.stringify(input), before);
+});
+
+test("dependency rejection and result failure retain their distinct stopping boundaries", () => {
+  const input = trace("qwen4-morning-enforced");
+  delete input.steps[0].parse_error;
+  input.steps[0].policy_error = "Requested work remains";
+  let html = api.render(input);
+  assert.match(html, /Host rejected the dependency proposal/);
+  assert.match(html, /whole proposal was rejected before tool execution/);
+  delete input.steps[0].policy_error;
+  input.steps[0].tool_calls = [{action: {tool: "check_readiness", arguments: {integration_id: "a"}},
+    tool_error: false, tool_result: {integration_id: "b"}, policy_result_error: "Wrong scope"}];
+  html = api.render(input);
+  assert.match(html, /Host stopped after a result failed dependency checks/);
+  assert.match(html, /Later actions in this batch were not executed/);
+  assert.doesNotMatch(html, /No tool calls were executed in this turn/);
+  delete input.steps[0].tool_calls[0].policy_result_error;
+  input.steps[0].tool_calls[0].policy_after = {stage: "reviewing", pending_actions: []};
+  html = api.render(input);
+  assert.match(html, /Host dependency state after this result/);
+});
+
+test("policy messages, state and result errors are escaped as data", () => {
+  const input = trace("qwen4-morning-enforced");
+  const payload = '<img src=x onerror="run()">';
+  input.steps[0].policy_message.content = payload;
+  input.steps[0].policy_before.stage = payload;
+  input.steps[0].policy_error = payload;
+  input.steps[0].tool_calls = [{action: {tool: "check_readiness", arguments: {}}, tool_result: {},
+    policy_result_error: payload, policy_after: {stage: payload}}];
+  const html = api.render(input);
+  assert.doesNotMatch(html, /<img|<script/);
+  assert.ok((html.match(/&lt;img/g) || []).length >= 5);
 });
 test("a failed call remains visible beside other calls that received results", () => {
   const html = api.render(trace("qwen4-callback-input-guard"));

@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Twelve exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Thirteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -226,6 +226,20 @@ Observed requested tool actions: 0/7. Final response present: False.
 - **format: The five-action pattern persisted.** The model again proposed list\_accounts, get\_account\_context, check\_readiness, draft\_followup and draft\_ticket together. Its first four proposals match the earlier response. The issue placeholder changed from 12345 to 11223; neither is a fixture issue ID. The host stopped at the same batch-size validation before executing even the queue lookup.
 - **incomplete: Coverage remained zero of seven.** No queue or account context was retrieved, no platform or issue call executed, and final=null. The response used 97 tokens without hitting the cap. There was no correction feedback, automatic action repair or successful account discovery.
 - **boundary: Prompt presence is not behavioral enforcement.** This paired development observation shows that the added instruction was insufficient in this run. It does not estimate a general failure rate, compare models or prove that all dependency prompts fail. A future enforced call policy would need separate implementation and testing; it is not present in this recording.
+## Qwen3-4B · morning review with host policy
+
+**Review verdict:** Parser stopped the proposal before dependency validation.
+With the dependency policy enabled, the host supplied a state message allowing only the snapshot queue lookup. The model still proposed five actions and unsupported IDs. The existing four-action parser rejected the response before policy validation or tool execution. Coverage remains 0/7; there is no final explanation.
+
+**Task:** Use the fixed synthetic snapshot to find non-live accounts strictly more than three days since recorded contact, including unknown contact history. From the returned queue, select the first account under its planned-launch ordering. Retrieve that account's context, check each of its integrations and prepare an English follow-up for each. Prepare a handoff for each recorded issue on that account. Then explain in at most 220 words why it was selected, how its platform next steps differ, and what is missing from its handoffs. Cite source IDs for recorded facts. Keep missing evidence separate from recorded failures; do not imply launch approval, a confirmed cause or issue resolution. State that nothing was sent or submitted.
+
+Observed requested tool actions: 0/7. Final response present: False.
+[Complete trace](model-runs/qwen4-morning-enforced.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+- **control: A host state message supplied the allowed next action.** The initial system message, task, schemas, model revision, runtime settings, eight-turn limit and zero-correction budget match the original morning attempt. Unlike that attempt, this run enables the runtime policy and appends an exact pending-action message before generation. It permits only list\_accounts with the fixed snapshot defaults. The prompt-only sequence-dependencies flag is false. This is explicit host planning assistance, not an isolated test of enforcement without an input change.
+- **format: The same batch-size error occurred before policy validation.** The model proposed five actions in one array, including account\_12345, integration\_67890 and issue\_12345 before any result. The parser stopped at 'An action batch must contain 1..4 actions'. There is no policy\_error or tool call. It would be incorrect to describe this recording as an observed ID rejection by the new policy.
+- **incomplete: The policy remained at awaiting\_queue.** The final policy state matches the state supplied before generation: one pending queue call, no completed actions, no selected account, final\_allowed=false. The 110-token response did not reach the 768-token cap. No correction, retry, queue discovery or final explanation followed.
+- **boundary: Software enforcement does not establish successful model use.** The policy's real-MCP scripted integration tests verify call-sequencing boundaries. This separate model run shows that presenting pending actions did not produce a valid first proposal in this attempt. The original twelve raw traces remain unchanged. This is a development observation, not a general failure rate or evidence of autonomous CSM task completion.
 ## Compare the callback handoff attempts
 
 Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.

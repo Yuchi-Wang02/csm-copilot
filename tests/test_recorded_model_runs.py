@@ -58,6 +58,7 @@ def assert_historical_callback_result(engine, action, recorded):
         "qwen4-triage-neutral-questions",
         "qwen4-morning-review",
         "qwen4-morning-sequenced",
+        "qwen4-morning-enforced",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):
@@ -130,6 +131,53 @@ def test_morning_instruction_pair_preserves_controls_and_failed_execution():
     assert len(proposals) == 5 and proposals[:4] == previous[:4]
     assert proposals[-1]["arguments"]["issue_id"] == "11223"
     assert "11223" not in Copilot().issues
+
+
+def test_enforced_morning_run_retains_host_input_and_parser_first_rejection():
+    from csm_copilot.dependency_policy import MorningReviewPolicy
+
+    original = json.loads((DIRECTORY / "qwen4-morning-review.json").read_text(encoding="utf-8"))
+    revised = json.loads((DIRECTORY / "qwen4-morning-enforced.json").read_text(encoding="utf-8"))
+    for key in (
+        "initial_messages",
+        "prompt_sha256",
+        "task",
+        "task_id",
+        "model_id",
+        "revision",
+        "protocol_version",
+        "max_steps",
+        "repair_budget",
+        "constrain_final",
+        "runtime",
+        "coverage",
+    ):
+        assert original[key] == revised[key], key
+    assert revised["enforce_dependencies"] is True
+    assert revised["sequence_dependencies"] is False
+    assert revised["status"] == "invalid_action"
+    assert revised["final"] is None and len(revised["steps"]) == 1
+    step = revised["steps"][0]
+    state = MorningReviewPolicy().snapshot()
+    assert step["policy_before"] == revised["dependency_policy"] == state
+    message = step["policy_message"]
+    assert message["role"] == "user"
+    assert json.loads(message["content"][message["content"].index("{") :]) == state
+    assert step["parse_error"] == "An action batch must contain 1..4 actions"
+    assert "policy_error" not in step and "actions" not in step
+    assert not step.get("tool_calls") and "correction_feedback" not in step
+    proposals = json.loads(step["model_response"]["text"])
+    assert len(proposals) == 5 and proposals[0] == state["pending_actions"][0]
+    engine = Copilot()
+    assert proposals[1]["arguments"]["account_id"] not in engine.accounts
+    assert proposals[2]["arguments"]["integration_id"] not in engine.integrations
+    assert proposals[4]["arguments"]["issue_id"] not in engine.issues
+    assert step["model_response"]["output_tokens"] == 110
+    assert step["model_response"]["token_limit_reached"] is False
+    assert (
+        step["model_response"]["input_tokens"]
+        > original["steps"][0]["model_response"]["input_tokens"]
+    )
 
 
 def test_published_tool_results_match_except_documented_followup_wording():

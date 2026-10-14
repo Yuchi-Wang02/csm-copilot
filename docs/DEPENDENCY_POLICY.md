@@ -4,7 +4,7 @@ Two recorded Qwen3-4B morning-review attempts proposed a queue lookup and depend
 
 The next engineering change is an **opt-in host policy**, implemented in [dependency_policy.py](../src/csm_copilot/dependency_policy.py) and used by [run_local_host.py](../scripts/run_local_host.py). It validates each entire proposed batch against the current workflow state before dispatching any calls. It does not silently split a bad batch, invent identifiers, substitute a planned action, or infer completion from a final answer.
 
-**Verification status:** automated policy tests and scripted-worker integration tests through the real MCP server pass. No recorded language-model attempt uses this policy yet. Software enforcement and model task completion are separate claims. This implementation postdates the fixed v0.29.8 interview bundle.
+**Verification status:** automated policy tests and scripted-worker integration tests through the real MCP server pass. A [subsequent model attempt](LOCAL_MODEL.md#policy-enabled-attempt-parser-stops-the-proposal-first) enables the policy and receives its pending-action state, but still proposes five actions. The parser rejects that batch before dependency validation or tool execution. The recording does not demonstrate a policy rejection or completed work. Software enforcement and model task completion remain separate claims. This implementation postdates the fixed v0.29.8 interview bundle.
 
 ## What advances the workflow
 
@@ -46,7 +46,7 @@ The fault cases alter returned data inside the test after real transport executi
 python -m pytest -q tests/test_dependency_policy.py tests/test_host_dependency_integration.py
 ```
 
-## Running a future model attempt
+## Reproducing the policy-enabled attempt
 
 Use the [local-model setup and command](LOCAL_MODEL.md#reproduce-a-local-attempt), select `--task morning_review --protocol batch`, add `--enforce-dependencies`, and choose a new output path. The flag is rejected for other tasks and protocols. It is independent of the earlier `--sequence-dependencies` prompt flag; record both values when comparing runs.
 
@@ -60,4 +60,4 @@ Result checks establish the minimum structure and available identity needed to t
 
 Allowing a final response means the requested tool work has completed, **not that the explanation is accurate**. It does not check the word limit, factual support, citation coverage, tone, approval promises or customer usefulness. The existing fixed-fixture call-coverage count is also separate from this dynamic policy state. Preserve both in future reviews.
 
-The learning point to discuss is concrete: inspect a failed proposal, identify the dependency it violated, turn that dependency into a testable host rule, then run a new model attempt without rewriting the earlier failure. The next unanswered question is whether the model follows the supplied pending-action state and produces a useful, evidence-grounded explanation.
+The learning point to discuss is concrete: inspect a failed proposal, identify the dependency it violated, turn that dependency into a testable host rule, then run a new model attempt without rewriting the earlier failure. The new attempt still fails before its first tool call, even with the pending-action input. A next experiment could constrain generation to valid pending actions; that would add decoding assistance and require its own implementation, tests and recording. The unresolved goal is successful tool use followed by a useful, evidence-grounded explanation, not merely a rejected unsafe proposal.

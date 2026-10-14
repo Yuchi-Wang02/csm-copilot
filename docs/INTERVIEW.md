@@ -103,6 +103,8 @@ Use **How this recorded AI run unfolded** to explain who did each part. Expand T
 
 For a customer-communication alternative, open [the original inbound-message recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-triage-scope#model-runs). The model uses the right input text and different routes, but its invoice questions repeat a generic troubleshooting template. Discuss what you would ask instead and distinguish a proposed question from an invented company billing procedure. Then open [the neutral-question recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-triage-neutral-questions#model-runs) to inspect the observed change. The review is AI-assisted; no customer usefulness score is claimed.
 
+For an engineering follow-up, open [the policy-enabled morning attempt](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-enforced#model-runs). Expand Turn 1 and **Read the exact host state message**. The host permits one queue call; the model proposes five actions anyway. Explain why the parser stops first, why the dependency policy has not been exercised by this particular proposal, and why passing the separate software tests does not mean the model completes the task. This is a concrete fix-and-retest story with an unresolved outcome, not a successful autonomous-agent demonstration.
+
 
 ### More detail: Explain the learning direction honestly
 
