@@ -4,6 +4,7 @@ import json
 import runpy
 from pathlib import Path
 
+from csm_copilot.brief import render_review_brief
 from csm_copilot.demo import build_demo
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,3 +19,8 @@ payload = {"workflow": build_demo(), "evaluation": report, "integrity": integrit
     json.dumps(payload["workflow"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
 )
 print("Built demo/data.js and evidence/workflow.json from engine outputs.")
+for language in ("en", "zh"):
+    brief = render_review_brief(payload["workflow"], language)
+    for directory in ("demo", "evidence"):
+        (ROOT / directory / f"morning-review-{language}.md").write_text(brief, encoding="utf-8")
+print("Built English and Chinese review briefs from the same workflow packet.")

@@ -538,6 +538,11 @@
         "lang": "en",
         "body": "Hi Lantern Games team,\nFollowing up on Moon Garden (Android). Our current records still need the following evidence:\n- Confirm currency approval for this platform.\n- Confirm whether Test Only is disabled for the production content.\n- Share a fresh non-test-device check with region, time and observed result.\n- Share a redacted callback example with HTTP status and time.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
         "generation_method": "deterministic_template",
+        "intent": "evidence_request",
+        "next_action": "Review and send the evidence request, then reassess when new records arrive.",
+        "issue_ids": [
+          "issue_blank"
+        ],
         "requests": [
           {
             "check_id": "currency_approved",
@@ -567,7 +572,8 @@
         "evidence_ids": [
           "lantern_android_device_verified",
           "lantern_android_placement_linked",
-          "lantern_android_sdk_connected"
+          "lantern_android_sdk_connected",
+          "msg_issue_blank"
         ],
         "review": {
           "flags": [],
@@ -590,6 +596,73 @@
         "semantic_verification": "not_performed",
         "human_review_required": true,
         "boundary": "A regex lint. No flags does not prove factual support or safety."
+      }
+    },
+    {
+      "tool": "draft_followup",
+      "arguments": {
+        "integration_id": "lantern_ios",
+        "lang": "en"
+      },
+      "result": {
+        "draft_id": "followup-eb6ab5b3759e",
+        "state": "draft",
+        "sent": false,
+        "lang": "en",
+        "body": "Hi Lantern Games team,\nOur scoped checklist for Moon Garden (iOS) is complete based on the recorded evidence.\nPlease confirm whether anything has changed since those checks and whether the proposed launch plan is still current. We can then review the remaining launch decisions together.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
+        "generation_method": "deterministic_template",
+        "intent": "launch_plan_review",
+        "next_action": "Review the launch plan and confirm any changes since the recorded checks.",
+        "issue_ids": [],
+        "requests": [],
+        "evidence_ids": [
+          "lantern_ios_callback_verified",
+          "lantern_ios_currency_approved",
+          "lantern_ios_device_verified",
+          "lantern_ios_placement_linked",
+          "lantern_ios_sdk_connected",
+          "lantern_ios_test_only_off"
+        ],
+        "review": {
+          "flags": [],
+          "semantic_verification": "not_performed",
+          "human_review_required": true,
+          "boundary": "A regex lint. No flags does not prove factual support or safety."
+        },
+        "contact_history_changed": false
+      }
+    },
+    {
+      "tool": "draft_followup",
+      "arguments": {
+        "integration_id": "pine_ios",
+        "lang": "zh"
+      },
+      "result": {
+        "draft_id": "followup-fd28433bda3a",
+        "state": "draft",
+        "sent": false,
+        "lang": "zh",
+        "body": "Pine Pixel 团队好，\n根据现有记录，Pine Trails（iOS）已完成本项目范围内的检查清单。\n想了解目前的线上体验。请告知上次检查后是否出现新问题或配置变更，我们可以据此确认下一次复核的重点。\n本次跟进不代表问题已解决，也不承诺广告供应。",
+        "generation_method": "deterministic_template",
+        "intent": "post_launch_checkin",
+        "next_action": "跟进线上体验，确认是否出现新问题或配置变更。",
+        "issue_ids": [],
+        "requests": [],
+        "evidence_ids": [
+          "pine_ios_currency_approved",
+          "pine_ios_device_verified",
+          "pine_ios_placement_linked",
+          "pine_ios_sdk_connected",
+          "pine_ios_test_only_off"
+        ],
+        "review": {
+          "flags": [],
+          "semantic_verification": "not_performed",
+          "human_review_required": true,
+          "boundary": "A regex lint. No flags does not prove factual support or safety."
+        },
+        "contact_history_changed": false
       }
     }
   ]

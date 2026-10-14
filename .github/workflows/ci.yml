@@ -25,5 +25,5 @@ jobs:
       - run: python -m pytest -q
       - run: python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
       - run: python scripts/build_demo.py
-      - run: git diff --exit-code -- demo/data.js evidence
+      - run: git diff --exit-code -- demo/data.js demo/morning-review-en.md demo/morning-review-zh.md evidence
       - run: python -m build

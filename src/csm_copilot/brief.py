@@ -1,0 +1,153 @@
+"""Human-readable export of the same review packet used by the static explorer."""
+
+import html
+import re
+
+INTENTS = {
+    "evidence_request": "Collect evidence",
+    "issue_status_review": "Confirm the recorded issue's current status",
+    "launch_plan_review": "Review the launch plan",
+    "post_launch_checkin": "Check the live experience",
+}
+
+
+def text(value):
+    """Keep customer strings as text in Markdown, including raw HTML and table delimiters."""
+    escaped = html.escape(str(value), quote=False)
+    return re.sub(r"([\\`*_{}\[\]()#+!|])", r"\\\1", escaped)
+
+
+def cell(value):
+    return text(value).replace("\r\n", "\n").replace("\r", "\n").replace("\n", " / ")
+
+
+def render_review_brief(workflow: dict, lang: str = "en") -> str:
+    """Export synthetic findings and drafts; do not rerun or mutate the workflow."""
+    if lang not in ("en", "zh"):
+        raise ValueError("lang must be en or zh")
+    lines = [
+        "# CSM Copilot — Morning review brief",
+        "",
+        "> Independent portfolio prototype. All customer records are synthetic. Nothing was sent or submitted.",
+        "",
+        f"Snapshot: **{text(workflow['as_of'])}**",
+        f"Execution: {text(workflow['execution_mode'])}.",
+        f"Client draft language: {'English' if lang == 'en' else 'Chinese'}.",
+        "",
+        "## Today's review queue",
+        "",
+        "Selection: strictly more than three days since actual contact; missing contact history is included as unknown. Live accounts are excluded from this bundled morning queue.",
+        "",
+        "| Account | Days since contact | Planned launch | Integrations |",
+        "|---|---:|---|---|",
+    ]
+    for packet in workflow["packets"]:
+        account = packet["context"]["account"]
+        age = packet["selection"]["days_since_contact"]
+        lines.append(
+            f"| {cell(account['name'])} ({cell(account['id'])}) | {age if age is not None else 'Unknown'} | {cell(account['target_launch'])} | {len(packet['integrations'])} |"
+        )
+    lines += [
+        "",
+        "Priority is the planned launch date, not a predicted risk or revenue score. All next steps are proposals for CSM review; no deadline or customer agreement is inferred.",
+    ]
+    for packet in workflow["packets"]:
+        account = packet["context"]["account"]
+        lines += [
+            "",
+            f"## {text(account['name'])} — {text(account['id'])}",
+            "",
+            f"Recorded stage: {text(account['stage'])}. Last actual contact: {text(packet['selection']['last_contact'] or 'Unknown')}.",
+        ]
+        for item in packet["integrations"]:
+            ready = item["readiness"]
+            draft = item[f"followup_{lang}"]
+            lines += [
+                "",
+                f"### {text(ready['app'])} / {text(ready['platform'])}",
+                "",
+                f"**Scoped readiness:** {text(ready['decision'])}.",
+                f"**Follow-up purpose:** {INTENTS[draft['intent']]}. **Proposed owner:** CSM.",
+                f"**Next action:** {text(draft['next_action'])}",
+                "",
+                "| Check | State | Source record IDs |",
+                "|---|---|---|",
+            ]
+            for check in ready["checks"]:
+                lines.append(
+                    f"| {cell(check['label'])} | {cell(check['status'])} | {cell(', '.join(check['evidence_ids']) or 'No applicable record')} |"
+                )
+            lines += [
+                "",
+                text(ready["boundary"]),
+                "",
+                "**Customer follow-up draft — not sent**",
+                "",
+            ]
+            lines += ["> " + text(line) for line in draft["body"].splitlines()]
+            lines += [
+                "",
+                f"Draft evidence: {text(', '.join(draft['evidence_ids']) or 'No evidence records')}. Contact history unchanged.",
+            ]
+        for ticket in packet["tickets"]:
+            lines += [
+                "",
+                f"### Technical handoff — {text(ticket['draft_id'])}",
+                "",
+                f"**{text(ticket['title'])}**",
+                "",
+                f"Handoff state: {text(ticket['handoff_state'])}. Root cause: {text(ticket['root_cause'])}.",
+                f"Suggested owner: {text(ticket['suggested_owner'])}.",
+                "",
+                "| Known field | Value | Source record |",
+                "|---|---|---|",
+            ]
+            for key, value in ticket["fields"].items():
+                lines.append(
+                    f"| {cell(key)} | {cell(value)} | {cell(ticket['field_sources'][key]['source_id'])} |"
+                )
+            lines += [
+                "",
+                "**Missing information:** "
+                + (
+                    text(", ".join(ticket["missing_fields"]))
+                    if ticket["missing_fields"]
+                    else "None in the scoped required fields; human review is still required."
+                ),
+                "",
+                f"**Next action:** {text(ticket['next_action'])}",
+            ]
+    lines += [
+        "",
+        "## Evidence index",
+        "",
+        "These are declared synthetic source records, not independent verification. Structured claims must match account, integration and checklist scope.",
+        "",
+        "| Record | Account / integration | Recorded at | Source text |",
+        "|---|---|---|---|",
+    ]
+    for packet in workflow["packets"]:
+        for record in packet["context"]["evidence"]:
+            scope = record["account_id"] + " / " + (record["integration_id"] or "account contact")
+            lines.append(
+                f"| {cell(record['id'])} | {cell(scope)} | {cell(record['at'])} | {cell(record['text'])} |"
+            )
+    sources = sorted(
+        {
+            check["source_url"]
+            for p in workflow["packets"]
+            for i in p["integrations"]
+            for check in i["readiness"]["checks"]
+        }
+    )
+    lines += ["", "## Product sources and review boundaries", ""]
+    # URLs originate in the bundled rule register, never in arbitrary customer messages.
+    lines += [f"- {url}" for url in sources]
+    lines += [
+        "",
+        "The rule register distinguishes official product documentation from project operating policies. Checklist completion is not vendor launch approval. Triage candidates are not confirmed root causes. Promise-pattern lint does not verify arbitrary model-written claims.",
+        "",
+        "This export is a deterministic review artifact, not evidence of a live model run, independent human validation, customer impact or actual outreach.",
+        "",
+    ]
+    return "\n".join(lines)

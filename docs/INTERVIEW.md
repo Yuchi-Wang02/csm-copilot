@@ -8,6 +8,8 @@ This is a suggested presentation, not a claim that the exercises or interview ha
 
 Open the [case explorer](https://yuchi-wang02.github.io/csm-copilot/). Point out the fixed snapshot and synthetic data label.
 
+The download links above the queue provide a portable review brief with findings, drafts, next actions and evidence. Use it as a leave-behind or backup when you cannot run the live demo.
+
 ## 0:30–1:10 — Show the evidence boundary
 
 Select Lantern Games. Show Android's unknown currency approval and failed device check. Switch to iOS and back.

@@ -2,8 +2,10 @@
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
+from .brief import render_review_brief
 from .engine import Copilot
 from .models import Dataset
 
@@ -66,14 +68,26 @@ def build_demo():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, help="Write JSON; default prints to stdout")
+    parser.add_argument("--output", type=Path, help="Write the export; default prints to stdout")
+    parser.add_argument("--format", choices=("json", "markdown"), default="json")
+    parser.add_argument(
+        "--lang",
+        choices=("en", "zh"),
+        default="en",
+        help="Client draft language for the Markdown export; JSON always includes both",
+    )
     args = parser.parse_args()
-    content = json.dumps(build_demo(), ensure_ascii=False, indent=2) + "\n"
+    workflow = build_demo()
+    content = (
+        render_review_brief(workflow, args.lang)
+        if args.format == "markdown"
+        else json.dumps(workflow, ensure_ascii=False, indent=2) + "\n"
+    )
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(content, encoding="utf-8")
+        args.output.write_text(content, encoding="utf-8", newline="\n")
     else:
-        print(content)
+        sys.stdout.buffer.write(content.encode("utf-8"))
 
 
 if __name__ == "__main__":

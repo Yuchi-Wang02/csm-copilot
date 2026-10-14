@@ -23,6 +23,8 @@ async def run():
         ("draft_ticket", {"issue_id": "issue_blank"}),
         ("draft_followup", {"integration_id": "lantern_android", "lang": "en"}),
         ("validate_draft", {"text": "We guarantee approval tomorrow."}),
+        ("draft_followup", {"integration_id": "lantern_ios", "lang": "en"}),
+        ("draft_followup", {"integration_id": "pine_ios", "lang": "zh"}),
     ]
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
@@ -45,6 +47,10 @@ async def run():
             assert results[4]["result"]["sent"] is False
             assert results[5]["result"]["contact_history_changed"] is False
             assert "approval_promise" in results[6]["result"]["flags"]
+            assert results[5]["result"]["intent"] == "evidence_request"
+            assert results[7]["result"]["intent"] == "launch_plan_review"
+            assert results[8]["result"]["intent"] == "post_launch_checkin"
+            assert "上线时间" not in results[8]["result"]["body"]
             invalid = await session.call_tool("check_readiness", {"integration_id": "missing"})
             assert invalid.isError
             return {

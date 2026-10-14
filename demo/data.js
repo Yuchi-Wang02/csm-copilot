@@ -417,6 +417,11 @@ window.CSM_DATA = {
               "lang": "en",
               "body": "Hi Lantern Games team,\nFollowing up on Moon Garden (Android). Our current records still need the following evidence:\n- Confirm currency approval for this platform.\n- Confirm whether Test Only is disabled for the production content.\n- Share a fresh non-test-device check with region, time and observed result.\n- Share a redacted callback example with HTTP status and time.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
               "generation_method": "deterministic_template",
+              "intent": "evidence_request",
+              "next_action": "Review and send the evidence request, then reassess when new records arrive.",
+              "issue_ids": [
+                "issue_blank"
+              ],
               "requests": [
                 {
                   "check_id": "currency_approved",
@@ -446,7 +451,8 @@ window.CSM_DATA = {
               "evidence_ids": [
                 "lantern_android_device_verified",
                 "lantern_android_placement_linked",
-                "lantern_android_sdk_connected"
+                "lantern_android_sdk_connected",
+                "msg_issue_blank"
               ],
               "review": {
                 "flags": [],
@@ -463,6 +469,11 @@ window.CSM_DATA = {
               "lang": "zh",
               "body": "Lantern Games 团队好，\n跟进 Moon Garden（Android）的接入进展，目前记录还需要以下证据：\n- 请确认该平台的虚拟货币审批状态。\n- 请确认正式内容是否关闭 Test Only。\n- 请提供非测试设备的最新验证，注明地区、时间和观察结果。\n- 请提供脱敏回调样例，注明 HTTP 状态和时间。\n收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
               "generation_method": "deterministic_template",
+              "intent": "evidence_request",
+              "next_action": "复核并发送证据请求，收到新记录后重新评估。",
+              "issue_ids": [
+                "issue_blank"
+              ],
               "requests": [
                 {
                   "check_id": "currency_approved",
@@ -492,7 +503,8 @@ window.CSM_DATA = {
               "evidence_ids": [
                 "lantern_android_device_verified",
                 "lantern_android_placement_linked",
-                "lantern_android_sdk_connected"
+                "lantern_android_sdk_connected",
+                "msg_issue_blank"
               ],
               "review": {
                 "flags": [],
@@ -606,12 +618,15 @@ window.CSM_DATA = {
               "boundary": "A scoped evidence checklist, not a Unity launch approval or a fill guarantee."
             },
             "followup_en": {
-              "draft_id": "followup-361f50aecfa2",
+              "draft_id": "followup-eb6ab5b3759e",
               "state": "draft",
               "sent": false,
               "lang": "en",
-              "body": "Hi Lantern Games team,\nOur scoped checklist for Moon Garden (iOS) is complete based on the recorded evidence.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
+              "body": "Hi Lantern Games team,\nOur scoped checklist for Moon Garden (iOS) is complete based on the recorded evidence.\nPlease confirm whether anything has changed since those checks and whether the proposed launch plan is still current. We can then review the remaining launch decisions together.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
               "generation_method": "deterministic_template",
+              "intent": "launch_plan_review",
+              "next_action": "Review the launch plan and confirm any changes since the recorded checks.",
+              "issue_ids": [],
               "requests": [],
               "evidence_ids": [
                 "lantern_ios_callback_verified",
@@ -630,12 +645,15 @@ window.CSM_DATA = {
               "contact_history_changed": false
             },
             "followup_zh": {
-              "draft_id": "followup-bcd41fc6f078",
+              "draft_id": "followup-d8007062c06f",
               "state": "draft",
               "sent": false,
               "lang": "zh",
-              "body": "Lantern Games 团队好，\n根据现有记录，Moon Garden（iOS）已完成本项目范围内的检查清单。\n收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
+              "body": "Lantern Games 团队好，\n根据现有记录，Moon Garden（iOS）已完成本项目范围内的检查清单。\n请确认上次检查后是否有变更，以及拟定的上线计划是否仍适用。之后我们可以一起复核其余上线决策。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
               "generation_method": "deterministic_template",
+              "intent": "launch_plan_review",
+              "next_action": "复核上线计划，并确认上次检查后是否有变更。",
+              "issue_ids": [],
               "requests": [],
               "evidence_ids": [
                 "lantern_ios_callback_verified",
@@ -966,6 +984,9 @@ window.CSM_DATA = {
               "lang": "en",
               "body": "Hi Meadow Works team,\nFollowing up on Meadow Notes (iOS). Our current records still need the following evidence:\n- Share a fresh non-test-device check with region, time and observed result.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
               "generation_method": "deterministic_template",
+              "intent": "evidence_request",
+              "next_action": "Review and send the evidence request, then reassess when new records arrive.",
+              "issue_ids": [],
               "requests": [
                 {
                   "check_id": "device_verified",
@@ -995,6 +1016,9 @@ window.CSM_DATA = {
               "lang": "zh",
               "body": "Meadow Works 团队好，\n跟进 Meadow Notes（iOS）的接入进展，目前记录还需要以下证据：\n- 请提供非测试设备的最新验证，注明地区、时间和观察结果。\n收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
               "generation_method": "deterministic_template",
+              "intent": "evidence_request",
+              "next_action": "复核并发送证据请求，收到新记录后重新评估。",
+              "issue_ids": [],
               "requests": [
                 {
                   "check_id": "device_verified",
@@ -1315,6 +1339,11 @@ window.CSM_DATA = {
               "lang": "en",
               "body": "Hi Harbor Studio team,\nFollowing up on Pocket Harbor (Android). Our current records still need the following evidence:\n- Share a redacted callback example with HTTP status and time.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
               "generation_method": "deterministic_template",
+              "intent": "evidence_request",
+              "next_action": "Review and send the evidence request, then reassess when new records arrive.",
+              "issue_ids": [
+                "issue_callback"
+              ],
               "requests": [
                 {
                   "check_id": "callback_verified",
@@ -1329,7 +1358,8 @@ window.CSM_DATA = {
                 "harbor_android_device_verified",
                 "harbor_android_placement_linked",
                 "harbor_android_sdk_connected",
-                "harbor_android_test_only_off"
+                "harbor_android_test_only_off",
+                "msg_issue_callback"
               ],
               "review": {
                 "flags": [],
@@ -1346,6 +1376,11 @@ window.CSM_DATA = {
               "lang": "zh",
               "body": "Harbor Studio 团队好，\n跟进 Pocket Harbor（Android）的接入进展，目前记录还需要以下证据：\n- 请提供脱敏回调样例，注明 HTTP 状态和时间。\n收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
               "generation_method": "deterministic_template",
+              "intent": "evidence_request",
+              "next_action": "复核并发送证据请求，收到新记录后重新评估。",
+              "issue_ids": [
+                "issue_callback"
+              ],
               "requests": [
                 {
                   "check_id": "callback_verified",
@@ -1360,7 +1395,8 @@ window.CSM_DATA = {
                 "harbor_android_device_verified",
                 "harbor_android_placement_linked",
                 "harbor_android_sdk_connected",
-                "harbor_android_test_only_off"
+                "harbor_android_test_only_off",
+                "msg_issue_callback"
               ],
               "review": {
                 "flags": [],

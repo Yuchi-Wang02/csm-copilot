@@ -19,17 +19,19 @@ A publisher wants to launch on Friday. Sales says integration is nearly complete
 
 A fluent message is easy to generate. A useful message must preserve the difference between **confirmed failure**, **missing evidence**, and **a possible explanation**. This project makes that distinction visible all the way from source records to the customer follow-up.
 
-The v0.2 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups. It does not reproduce a production CRM or Unity's internal process.
+The v0.3 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups. It does not reproduce a production CRM or Unity's internal process.
 
-**New in v0.2:** source ownership and structured-claim agreement are enforced before tools use the data. A valid iOS evidence ID cannot certify Android; another customer's contact cannot reset this account's clock; ticket details cannot overwrite the affected app/platform. Explore the [eight-case evidence-boundary replay](https://yuchi-wang02.github.io/csm-copilot/#integrity) or read [the reproduced failure and fix](docs/EVIDENCE.md). The full behavior suite now has 44 tests.
+**New in v0.3:** take away a readable [English morning-review brief](evidence/morning-review-en.md) or a [brief with Chinese drafts](evidence/morning-review-zh.md). Follow-ups now distinguish missing evidence, a recorded issue needing a status check, launch-plan review and a live-account check-in. See [the export and next-action policy](docs/REVIEW_BRIEF.md). The behavior suite now has 59 tests.
+
+**Evidence controls from v0.2:** source ownership and structured-claim agreement are enforced before tools use the data. A valid iOS evidence ID cannot certify Android; another customer's contact cannot reset this account's clock; ticket details cannot overwrite the affected app/platform. Explore the [eight-case evidence-boundary replay](https://yuchi-wang02.github.io/csm-copilot/#integrity) or read [the reproduced failure and fix](docs/EVIDENCE.md).
 
 ## Start with one case
 
 1. Open **Lantern Games** in the [demo](https://yuchi-wang02.github.io/csm-copilot/).
 2. Inspect Android: currency approval and Test Only are **unknown**; a device check is **not met**.
 3. Switch to iOS. Its evidence is separate and its scoped checklist is complete.
-4. Open **Follow-up** and switch between English and Chinese. The draft requests evidence without inventing a deadline.
-5. Open **Handoff**. Known fields carry an evidence reference; missing SDK version, time window and logs stay missing.
+4. Open **Follow-up** and switch between English and Chinese. iOS prompts a launch-plan review. Switch back to Android to see its specific evidence requests.
+5. On Android, open **Handoff**. Known fields carry an evidence reference; missing SDK version, time window and logs stay missing.
 6. Apply the synthetic update below the explorer. Two settings become confirmed, but the failed device check still requires a retest.
 
 The site is a **deterministic replay of actual Python engine outputs**, not a live AI conversation. Its data is regenerated with `python scripts/build_demo.py`.
@@ -50,7 +52,7 @@ flowchart LR
 
 The model-enabled MCP host interprets the request, chooses tools, and can rewrite drafts. The server handles dates, scope, evidence references and checklist states deterministically. Default drafts are transparent templates; the project does not require an embedded paid model API.
 
-**Verified:** real stdio MCP initialization, tool discovery, seven tool calls, prompt retrieval and invalid-ID errors. **Not measured:** live model orchestration quality or customer productivity. The checked-in transcript is a scripted MCP client run, not an LLM trace. This distinction keeps protocol verification separate from AI performance.
+**Verified:** real stdio MCP initialization, tool discovery, calls across seven tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. **Not measured:** live model orchestration quality or customer productivity. The checked-in transcript is a scripted MCP client run, not an LLM trace. This distinction keeps protocol verification separate from AI performance.
 
 ## Tools
 
@@ -104,6 +106,8 @@ To print the full review packet without a browser:
 
 ```sh
 csm-demo --output review-packet.json
+csm-demo --format markdown --lang en --output morning-review.md
+csm-demo --format markdown --lang zh --output morning-review-zh.md
 ```
 
 ### Connect an MCP host

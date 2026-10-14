@@ -7,6 +7,7 @@ from datetime import datetime
 from importlib.resources import files
 from typing import Literal
 
+from .communication import compose_followup
 from .models import Dataset
 
 RULE_VERSION = "2026-10-14.1"
@@ -230,13 +231,17 @@ class Copilot:
             "root_cause": "unconfirmed",
             "triage": triage,
             "suggested_owner": "Technical support after CSM evidence review (project policy)",
-            "next_action": "Request missing evidence, then review the handoff; no ticket was submitted.",
+            "next_action": "Request missing evidence, then review the handoff; no ticket was submitted."
+            if missing
+            else "Review the completed handoff and confirm the appropriate technical owner; no ticket was submitted.",
         }
 
     def draft_followup(self, integration_id: str, lang: Literal["en", "zh"] = "en"):
         if lang not in ("en", "zh"):
             raise ValueError("lang must be en or zh")
         i = self._lookup(self.integrations, integration_id, "integration")
+        account = self.accounts[i.account_id]
+        issues = [issue for issue in self.data.issues if issue.integration_id == integration_id]
         ready = self.check_readiness(i.id)
         open_checks = [c for c in ready["checks"] if c["status"] in ("not_met", "unknown")]
         requests = [
@@ -248,37 +253,25 @@ class Copilot:
             }
             for c in open_checks
         ]
-        if lang == "en":
-            lines = [
-                f"Hi {self.accounts[i.account_id].name} team,",
-                f"Following up on {i.app} ({i.platform}). Our current records still need the following evidence:",
-            ]
-            lines += [f"- {r['request']}" for r in requests]
-            if not requests:
-                lines = [
-                    f"Hi {self.accounts[i.account_id].name} team,",
-                    f"Our scoped checklist for {i.app} ({i.platform}) is complete based on the recorded evidence.",
-                ]
-            lines += [
-                "I can consolidate your updates for technical review. Please let us know when you expect to share them.",
-                "Launch timing remains subject to verification; this message does not confirm approval or ad availability.",
-            ]
-        else:
-            lines = [
-                f"{self.accounts[i.account_id].name} 团队好，",
-                f"跟进 {i.app}（{i.platform}）的接入进展，目前记录还需要以下证据：",
-            ]
-            lines += [f"- {r['request']}" for r in requests]
-            if not requests:
-                lines = [
-                    f"{self.accounts[i.account_id].name} 团队好，",
-                    f"根据现有记录，{i.app}（{i.platform}）已完成本项目范围内的检查清单。",
-                ]
-            lines += [
-                "收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。",
-                "上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
-            ]
-        body = "\n".join(lines)
+        intent = (
+            "evidence_request"
+            if requests
+            else "issue_status_review"
+            if issues
+            else "post_launch_checkin"
+            if account.stage == "live"
+            else "launch_plan_review"
+        )
+        wording = compose_followup(
+            name=account.name,
+            app=i.app,
+            platform=i.platform,
+            stage=account.stage,
+            intent=intent,
+            requests=requests,
+            lang=lang,
+        )
+        body = wording["body"]
         return {
             "draft_id": "followup-" + hashlib.sha256(body.encode()).hexdigest()[:12],
             "state": "draft",
@@ -286,8 +279,14 @@ class Copilot:
             "lang": lang,
             "body": body,
             "generation_method": "deterministic_template",
+            "intent": intent,
+            "next_action": wording["next_action"],
+            "issue_ids": [issue.id for issue in issues],
             "requests": requests,
-            "evidence_ids": sorted({e for c in ready["checks"] for e in c["evidence_ids"]}),
+            "evidence_ids": sorted(
+                {e for c in ready["checks"] for e in c["evidence_ids"]}
+                | {issue.evidence_id for issue in issues}
+            ),
             "review": validate_draft(body),
             "contact_history_changed": False,
         }

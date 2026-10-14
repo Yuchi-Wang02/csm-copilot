@@ -48,6 +48,9 @@ Selection uses a strict `>` threshold. Missing contact history is included with 
 - **MCP host:** natural-language interpretation, tool choice, optional draft rewriting.
 - **Human:** evidence adequacy, nuanced customer judgment and final communication.
 - **Static explorer:** exact generated outputs; no fabricated model activity.
+- **Readable export:** the same workflow packet rendered into a portable Markdown brief, with draft purpose, next actions and source records.
+
+Follow-up intent is chosen from checklist state, recorded issues and the supplied account stage. A complete checklist with a recorded issue prompts a status question; it does not close the issue automatically. Complete handoffs move to review rather than requesting information already supplied. See [the communication and export policy](REVIEW_BRIEF.md).
 
 ## Counterfactual updates
 
