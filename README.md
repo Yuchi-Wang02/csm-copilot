@@ -46,6 +46,8 @@ For a focused handoff example, open [Harbor's callback case](https://yuchi-wang0
 
 Expand **Trace each handoff field to its record** to compare the copied value with the original structured value. App/platform fields come from the integration record; issue details are attributed to a dated customer report or test record. Missing sources and differing values are flagged for review. The original report and raw field-source map remain available; agreement between copied values does not independently verify them.
 
+In **Follow-up**, expand **Why this draft asks for evidence** to trace each request to its checklist state and scoped source. Compare Android's dated failed-device record with an unknown approval check that has no supporting citation. The request text follows the selected client language; this view explains evidence requests without verifying every sentence in the draft.
+
 | Portfolio question | Open this artifact |
 |---|---|
 | Can the workflow turn evidence into a useful next action? | [Android case](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace), [Chinese iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace), and [technical handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) |

@@ -7,6 +7,65 @@ function readinessFixture() {
   return structuredClone(workflow.packets[0]);
 }
 
+test("follow-up requests expose only their check sources in the selected language", () => {
+  const data = readinessFixture(), item = data.integrations[0];
+  const before = JSON.stringify(data);
+  for (const lang of ["en", "zh"]) {
+    const html = api.followupSourcesHTML(item[`followup_${lang}`], item.readiness, data.context);
+    assert.match(html, /Why this draft asks for evidence/);
+    assert.match(html, /Non-test device verification · not met/);
+    assert.match(html, /2026-10-09T09:00:00Z/);
+    assert.match(html, /Recorded claim for this check:<\/strong> not met/);
+    assert.match(html, /Platform currency approval · unknown/);
+    assert.match(html, /No supporting record is cited/);
+    assert.match(html, /does not verify source truth or every sentence/);
+    assert.ok(html.includes(item[`followup_${lang}`].requests.find((r) => r.check_id === "device_verified").request));
+    assert.doesNotMatch(html, /Placement and content|SDK connection sequence|lantern_ios|msg_issue_blank/);
+  }
+  assert.equal(JSON.stringify(data), before);
+  const complete = data.integrations[1];
+  assert.equal(api.followupSourcesHTML(complete.followup_en, complete.readiness, data.context), "");
+});
+
+test("follow-up source display refuses unmatched or differing request states", () => {
+  for (const change of [
+    (r, checks) => { r.check_id = "not_a_check"; },
+    (r, checks) => { r.status = "met"; },
+    (r, checks) => { checks.push(structuredClone(checks.find((c) => c.id === r.check_id))); },
+  ]) {
+    const data = readinessFixture(), item = data.integrations[0];
+    const request = item.followup_en.requests.find((r) => r.check_id === "device_verified");
+    item.followup_en.requests = [request];
+    change(request, item.readiness.checks);
+    const html = api.followupSourcesHTML(item.followup_en, item.readiness, data.context);
+    assert.match(html, /Request needs review/);
+    assert.match(html, /No unique matching open checklist state/);
+    assert.doesNotMatch(html, /Synthetic Android test record|Recorded claim for this check/);
+  }
+});
+
+test("follow-up source display keeps missing citations and wrong-scope records visible", () => {
+  const data = readinessFixture(), item = data.integrations[0];
+  item.followup_en.evidence_ids = [];
+  const source = data.context.evidence.find((r) => r.id === "lantern_android_device_verified");
+  source.account_id = "unrelated";
+  source.text = "DO NOT ATTRIBUTE THIS RECORD";
+  const html = api.followupSourcesHTML(item.followup_en, item.readiness, data.context);
+  assert.match(html, /Checklist sources missing from draft citations: lantern_android_device_verified/);
+  assert.match(html, /Scoped source unavailable: lantern_android_device_verified/);
+  assert.doesNotMatch(html, /DO NOT ATTRIBUTE THIS RECORD/);
+});
+
+test("follow-up request text stays inert and does not alter the source records", () => {
+  const data = readinessFixture(), item = data.integrations[0];
+  item.followup_en.requests[0].request = '<script>rewrite()</script>';
+  const before = JSON.stringify(data);
+  const html = api.followupSourcesHTML(item.followup_en, item.readiness, data.context);
+  assert.match(html, /&lt;script&gt;rewrite\(\)&lt;\/script&gt;/);
+  assert.doesNotMatch(html, /<script>/);
+  assert.equal(JSON.stringify(data), before);
+});
+
 test("handoff provenance separates integration values from dated issue details", () => {
   const data = structuredClone(require("../evidence/workflow.json").packets.find((p) => p.context.account.id === "acc_006"));
   const before = JSON.stringify(data);
