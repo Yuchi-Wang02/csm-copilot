@@ -37,6 +37,41 @@
     return `<small${selection.stage === "live" || !Number.isFinite(days) ? "" : ' class="urgent"'}>${esc(launch)}</small><small>${esc(contact)}</small>`;
   }
 
+  function queueSourcesHTML(packet, queue) {
+    const selection = packet.selection, account = packet.context?.account;
+    const start = '<details class="queue-sources"><summary>Why this account is in the queue</summary>';
+    if (!account || account.id !== selection.account_id)
+      return start + '<p class="notice">Matching account context is unavailable. Do not substitute another account\'s contact history or launch plan.</p></details>';
+    const recorded = selection.contact_state === "recorded";
+    const age = recorded && Number.isFinite(selection.days_since_contact) && selection.days_since_contact >= 0
+      ? `${selection.days_since_contact} days (rounded)` : "Unknown; no elapsed interval established";
+    const rule = Number.isFinite(queue.stale_days)
+      ? `Strictly more than ${queue.stale_days} days since recorded contact; unknown history is included for review.`
+      : "Queue threshold unavailable; inspect the source result.";
+    const facts = [
+      ["Queue rule (project policy)", rule],
+      ["Review time", queue.as_of],
+      ["Dataset snapshot", queue.dataset_as_of],
+      ["Reported contact state", selection.contact_state],
+      ["Reported last contact", recorded && selection.last_contact ? selection.last_contact : "Unknown"],
+      ["Reported contact age", age],
+      ["Planned launch", account.target_launch],
+      ["Recorded stage", account.stage],
+    ];
+    const ids = [...new Set(account.contact_ids || [])];
+    const sources = ids.map((id) => {
+      const source = one(packet.context.evidence, (r) => r.id === id &&
+        r.account_id === account.id && r.integration_id === null && r.kind === "contact_record");
+      if (!source) return `<p class="notice">Contact source unavailable: ${esc(id)}. Expected one account-level contact record; missing, duplicate or mis-scoped records require review.</p>`;
+      return `<article class="quote"><h4>Contact record · ${esc(id)}</h4><time datetime="${esc(source.at)}">${esc(source.at)}</time><p lang="${source.language === "zh" ? "zh-CN" : "en"}">${esc(source.text)}</p></article>`;
+    }).join("");
+    return start + `<p class="boundary">Account-level evidence for ${esc(account.id)}; shared by its platforms. These are the queue's reported values, not a new eligibility calculation.</p>` +
+      `<dl class="ticket-fields">${facts.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${esc(value ?? "Unavailable")}</dd>`).join("")}</dl>` +
+      `<h4>Referenced contact records</h4>${sources || '<p class="notice">No contact record is referenced. Unknown history is included for review; it does not establish how long the customer has gone without contact.</p>'}` +
+      `<p class="boundary">Launch plan and stage come from account record ${esc(account.id)}. Contact text is attributed evidence, not independent verification. Creating a draft is not a contact event and does not reset the clock.</p>` +
+      (queue.time_boundary ? `<p class="boundary">${esc(queue.time_boundary)}</p>` : "") + '</details>';
+  }
+
   function issuesFor(packet, integrationId) {
     return packet.context.issues
       .filter((issue) => issue.integration_id === integrationId)
@@ -239,7 +274,7 @@
           checkSourceHTML(check, readiness, context, request.request);
       }).join("") + `</details>`;
   }
-  const api = { issuesFor, evidenceHTML, handoffHTML, handoffText, queueTimingHTML, timingHTML, readinessSourcesHTML, followupSourcesHTML };
+  const api = { issuesFor, evidenceHTML, handoffHTML, handoffText, queueTimingHTML, queueSourcesHTML, timingHTML, readinessSourcesHTML, followupSourcesHTML };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_CASE_REVIEW = api;
 })(typeof window !== "undefined" ? window : this);

@@ -44,6 +44,7 @@ The repository preserves **ten local Qwen attempts across three prescribed tasks
 
 | Reviewer question | Evidence to open |
 |---|---|
+| Why was this account selected for review? | [Lantern's queue evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace): expand **Why this account is in the queue** to inspect its contact record, threshold and fixed review time |
 | Can the workflow prepare a useful technical handoff? | [Harbor callback case](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace): request missing reproduction steps and redacted logs while retaining the supplied details |
 | Can a CSM explain the next step to a publisher? | [Customer-education example](docs/CLIENT_EDUCATION.md) and [one-page teaching handout](demo/publisher-teaching-example.pdf) |
 | Can recurring gaps become useful Product questions? | [Feedback review](https://yuchi-wang02.github.io/csm-copilot/#feedback): distinct account counts, source records and a proposed validation step |

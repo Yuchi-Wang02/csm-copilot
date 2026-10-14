@@ -2,6 +2,85 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const api = require("../demo/case-review.js");
 
+function queueFixture() {
+  const workflow = structuredClone(require("../evidence/workflow.json"));
+  return {packet: workflow.packets[0], queue: workflow.selection};
+}
+
+test("queue source view traces the selected account to its contact record and rule", () => {
+  const {packet, queue} = queueFixture();
+  const before = JSON.stringify({packet, queue});
+  const html = api.queueSourcesHTML(packet, queue);
+  assert.match(html, /Why this account is in the queue/);
+  assert.match(html, /Strictly more than 3 days/);
+  assert.match(html, /5 days \(rounded\)/);
+  assert.match(html, /Contact record · contact_acc_014/);
+  assert.match(html, /2026-10-09T09:00:00Z/);
+  assert.match(html, /Synthetic CSM contact: received onboarding progress update/);
+  assert.match(html, /2026-10-16T09:00:00Z/);
+  assert.match(html, /Creating a draft is not a contact event/);
+  assert.doesNotMatch(html, /msg_issue_blank|lantern_android_device_verified|acc_018/);
+  assert.equal(JSON.stringify({packet, queue}), before);
+});
+
+test("unknown contact history stays unknown without substituting technical evidence", () => {
+  const {packet, queue} = queueFixture();
+  packet.context.account.contact_ids = [];
+  Object.assign(packet.selection, {contact_state:'unknown', days_since_contact:null, last_contact:null});
+  const html = api.queueSourcesHTML(packet, queue);
+  assert.match(html, /No contact record is referenced/);
+  assert.match(html, /Unknown; no elapsed interval established/);
+  assert.doesNotMatch(html, /0 days \(rounded\)|Contact record ·|Synthetic CSM contact|Android test record/);
+});
+
+test("missing, duplicate and mis-scoped contact sources are withheld", () => {
+  for (const change of [
+    (p, r) => { p.context.evidence = p.context.evidence.filter(e => e !== r); },
+    (p, r) => { r.account_id = 'acc_018'; },
+    (p, r) => { r.integration_id = 'lantern_android'; },
+    (p, r) => { r.kind = 'test_record'; },
+    (p, r) => { p.context.evidence.push({...r}); },
+  ]) {
+    const {packet, queue} = queueFixture();
+    const source = packet.context.evidence.find(r => r.id === 'contact_acc_014');
+    source.text = 'SOURCE MUST BE WITHHELD';
+    change(packet, source);
+    const html = api.queueSourcesHTML(packet, queue);
+    assert.match(html, /Contact source unavailable: contact_acc_014/);
+    assert.doesNotMatch(html, /SOURCE MUST BE WITHHELD/);
+  }
+});
+
+test("unreferenced and other-account contact records do not replace the selected source", () => {
+  const {packet, queue} = queueFixture();
+  const source = packet.context.evidence.find(r => r.id === 'contact_acc_014');
+  packet.context.evidence.unshift({...source, account_id:'acc_018', text:'OTHER ACCOUNT CONTACT'});
+  packet.context.evidence.push({...source, id:'unreferenced_recent', at:queue.as_of, text:'UNREFERENCED RECENT CONTACT'});
+  const html = api.queueSourcesHTML(packet, queue);
+  assert.match(html, /Synthetic CSM contact: received onboarding progress update/);
+  assert.doesNotMatch(html, /OTHER ACCOUNT CONTACT|UNREFERENCED RECENT CONTACT|Contact source unavailable/);
+});
+
+test("queue source view rejects mismatched account context", () => {
+  const {packet, queue} = queueFixture();
+  packet.context.account.id = 'acc_018';
+  const html = api.queueSourcesHTML(packet, queue);
+  assert.match(html, /Matching account context is unavailable/);
+  assert.doesNotMatch(html, /Synthetic CSM contact|2026-10-16|5 days \(rounded\)/);
+});
+
+test("queue source text and metadata remain inert in the rendered disclosure", () => {
+  const {packet, queue} = queueFixture();
+  packet.context.evidence.find(r => r.id === 'contact_acc_014').text = '<img src=x onerror="run()">';
+  packet.context.account.target_launch = '<script>plan</script>';
+  queue.time_boundary = '<script>boundary</script>';
+  const html = api.queueSourcesHTML(packet, queue);
+  assert.match(html, /&lt;img/);
+  assert.match(html, /&lt;script&gt;plan/);
+  assert.match(html, /&lt;script&gt;boundary/);
+  assert.doesNotMatch(html, /<img|<script/);
+});
+
 test("queue timing labels the bundled target as a plan without changing its selection", () => {
   const selection = structuredClone(require("../evidence/workflow.json").packets[0].selection);
   const before = JSON.stringify(selection);

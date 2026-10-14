@@ -24,6 +24,14 @@ Before tools use a dataset, validation checks:
 
 The ticket output includes `field_sources`: app/platform fields point to the integration record, while supplied diagnostic details point to the issue's evidence record. This records declared provenance; it does not automatically establish that the detail was correctly extracted from prose.
 
+## Inspect why an account was selected
+
+In the case explorer, expand **Why this account is in the queue** below the account heading. It shows the project queue rule, review and dataset times, reported contact state/age, planned date and recorded stage, followed by the contact records referenced by that account. For Lantern, `contact_acc_014` records a synthetic contact on 9 October; the 14 October snapshot reports five elapsed days against the strictly-more-than-three-day rule.
+
+Contact evidence has account scope and is shared by that account's platforms. Each displayed source must match the referenced ID, account, `contact_record` kind and null integration scope uniquely. Missing, duplicate or mismatched sources stay unavailable. A newer technical record or an unreferenced contact record is not substituted. No contact references means unknown history, not a zero-day interval or proof that a customer was ignored.
+
+The view displays the engine's existing result; it does not recalculate eligibility, refresh the records or independently verify that contact occurred. Planned launch and stage are attributed to the account record. Creating a follow-up draft is not a contact event. Use the disclosure to explain the evidence before discussing what the CSM should do next.
+
 ## Example: a real ID with the wrong scope
 
 ```json

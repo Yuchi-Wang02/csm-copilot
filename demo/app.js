@@ -55,6 +55,12 @@ function renderCase() {
   const p = workflow.packets[selected],
     item = p.integrations[integration],
     r = item.readiness;
+  const queueSource = $("queue-source");
+  const sourceExpanded = queueSource.dataset.accountId === p.selection.account_id &&
+    queueSource.querySelector("details")?.open;
+  queueSource.innerHTML = caseReview.queueSourcesHTML(p, workflow.selection);
+  queueSource.dataset.accountId = p.selection.account_id;
+  queueSource.querySelector("details").open = Boolean(sourceExpanded);
   $("case-download-label").textContent = `${r.app} / ${r.platform} brief`;
   for (const lang of ["en", "zh"]) {
     const link = $(`case-download-${lang}`);
