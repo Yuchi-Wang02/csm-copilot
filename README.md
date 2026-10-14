@@ -8,7 +8,10 @@ A working MCP server and interactive case explorer for a customer-success mornin
 
 **[Explore the interactive demo](https://yuchi-wang02.github.io/csm-copilot/)** · **[Three-minute interview walkthrough](docs/INTERVIEW.md)** · **[Evaluation results](evidence/EVALUATION.md)** · **[Learning path](docs/LEARNING.md)**
 
-![CSM Copilot case explorer](docs/assets/demo-desktop.png)
+![CSM Copilot case explorer](docs/assets/demo-case.png)
+
+[![Verify workflow](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml)
+[![Publish case explorer](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml/badge.svg)](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml)
 
 ## The business problem
 
@@ -131,7 +134,7 @@ Try: **“At the bundled snapshot, review accounts more than three days past the
 
 **The failures stay in the report.** Indirect wording and negation expose the lexical baseline's limits. English/Chinese paraphrases remain in the same split. There are no claims of measured time savings, business impact, production readiness, or independent human validation.
 
-See [per-case results](evidence/evaluation.json), [methodology](evidence/EVALUATION.md), and the [real MCP transcript](evidence/mcp-transcript.json). Unit tests separately cover time boundaries, platform isolation, unknown states, missing provenance, draft side effects, invalid inputs and partial-confirmation retesting.
+See [per-case results](evidence/evaluation.json), [methodology](evidence/EVALUATION.md), the [verification record](docs/VERIFICATION.md), and the [real MCP transcript](evidence/mcp-transcript.json). Unit tests separately cover time boundaries, platform isolation, unknown states, missing provenance, draft side effects, invalid inputs and partial-confirmation retesting.
 
 ## Portfolio rationale
 

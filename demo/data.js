@@ -241,7 +241,7 @@ window.CSM_DATA = {
               "id": "msg_issue_blank",
               "at": "2026-10-09T09:00:00Z",
               "kind": "customer_report",
-              "text": "测试机能看到广告，Android 正式设备打开 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。"
+              "text": "我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。"
             }
           ],
           "synthetic": true,
@@ -602,7 +602,7 @@ window.CSM_DATA = {
               "region": "Singapore",
               "reproduction_steps": "Open the reward screen on a non-test Android device."
             },
-            "customer_report": "测试机能看到广告，Android 正式设备打开 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。",
+            "customer_report": "我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。",
             "evidence_ids": [
               "msg_issue_blank"
             ],
@@ -1041,7 +1041,7 @@ window.CSM_DATA = {
               "id": "msg_issue_callback",
               "at": "2026-10-10T09:00:00Z",
               "kind": "customer_report",
-              "text": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user."
+              "text": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10."
             }
           ],
           "synthetic": true,
@@ -1228,7 +1228,7 @@ window.CSM_DATA = {
               "sdk_version": "synthetic-version-1",
               "region": "Japan"
             },
-            "customer_report": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user.",
+            "customer_report": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10.",
             "evidence_ids": [
               "msg_issue_callback"
             ],
