@@ -1,5 +1,11 @@
 # Development notes
 
+## Inspect saved practice responses before replacing current work
+
+The resume preview previously showed only a decision count and the selected exercise. It now adds a collapsed section for each saved decision, with the saved option and separately labeled unfinished/initial reasoning and later reflection. It uses text nodes for the saved content and does not include option feedback or policy explanations. Selection alone still does not replace the current session; the existing explicit replacement action remains required.
+
+Local Edge checks used clearly labeled QA-only progress files outside the repository. Preview and cancellation preserved an unsaved current note, invalid JSON was rejected, Unicode and markup remained literal text, and explicit resume restored an editable unfinished note plus a separate read-only initial note and editable reflection. The preview stayed within a 320-pixel viewport; the desktop viewport was restored afterward. Reset cleared the QA session and preview. All 100 JavaScript checks passed. The file schema, exercise signature and learning content are unchanged, so existing compatible files remain usable. These checks do not represent personal practice by Yuchi or a complete accessibility audit. The fixed v0.29.7 package predates this UI change.
+
 ## Make the MCP learning exercise observable
 
 Session 3 previously asked the learner to run and inspect the smoke transcript without specifying a fresh output path or a focused inspection sequence. It now asks for predictions, writes the real stdio result under ignored `dist/`, and provides a small inspector for available tools, successful calls, retrieved prompts, review/data timestamps and an expected-error flag. It distinguishes scripted call selection from model-proposed actions and explains why a pre-existing file cannot establish a failed run's success.

@@ -170,7 +170,34 @@
     fileAttempt += 1;
     pending = null;
     get("practice-load-preview").hidden = true;
+    get("practice-load-responses").replaceChildren();
     get("practice-load").value = "";
+  }
+  function previewResponses(loaded) {
+    const container = get("practice-load-responses");
+    container.replaceChildren();
+    loaded.session.forEach((item, index) => {
+      const decision = cases.find((c) => c.id === item.id);
+      const section = document.createElement("details");
+      section.className = "practice-resume-item";
+      const heading = document.createElement("summary");
+      heading.textContent = `${index + 1}. ${decision.title} · ${item.reviewed ? "Saved as reviewed" : "Unfinished"}`;
+      section.appendChild(heading);
+      function field(label, value) {
+        const title = document.createElement("p");
+        title.className = "practice-resume-label";
+        title.textContent = label;
+        const content = document.createElement("p");
+        content.className = "practice-resume-note";
+        content.textContent = value;
+        section.append(title, content);
+      }
+      const option = decision.options.find((o) => o.id === item.choice);
+      field("Saved choice", option ? option.text : "No option selected");
+      field(item.reviewed ? "Saved initial reasoning" : "Unfinished reasoning", item.reasoning || "No note saved");
+      if (item.reviewed) field("Saved later reflection", item.reflection || "No reflection saved");
+      container.appendChild(section);
+    });
   }
   get("practice-save").addEventListener("click", async () => {
     get("practice-save").disabled = true;
@@ -188,6 +215,7 @@
     const attempt = ++fileAttempt, file = event.target.files[0];
     pending = null;
     get("practice-load-preview").hidden = true;
+    get("practice-load-responses").replaceChildren();
     if (!file) {
       get("practice-file-status").textContent = "No file selected. Your current work is unchanged.";
       return;
@@ -200,6 +228,7 @@
       pending = loaded;
       const reviewed = loaded.session.filter((s) => s.reviewed).length;
       get("practice-load-summary").textContent = `${loaded.session.length} decisions · ${reviewed} with guidance revealed. Opens: ${cases.find((c) => c.id === loaded.selectedId).title}`;
+      previewResponses(loaded);
       get("practice-load-preview").hidden = false;
       get("practice-file-status").textContent = "File is compatible. Review the replacement notice before resuming; your current work has not changed.";
     } catch (error) {
