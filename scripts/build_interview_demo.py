@@ -66,8 +66,8 @@ def start_guide(version, commit, *, can_resume=False):
 Extract the entire ZIP and read this guide before opening index.html.
 Start with the three-minute review route, or open project-brief.pdf.
 
-Discuss one customer decision, one recorded AI mistake and one remaining triage
-failure. Write your own reasoning in Practice before revealing the guidance.
+Discuss one customer decision, one recorded AI mistake and one next learning
+step. Write your own reasoning in Practice before revealing the guidance.
 {practice}
 Reloading clears the in-page notes. The package includes no personal responses.
 
@@ -85,7 +85,7 @@ Hosted review: https://yuchi-wang02.github.io/csm-copilot/#start
 For a local HTTP review, if Python is already installed, open a terminal in the
 extracted csm-copilot-demo folder and run:
   python -m http.server 8000 --bind 127.0.0.1
-Then open http://127.0.0.1:8000 in your browser. Stop the server with Ctrl+C.
+Then open http://127.0.0.1:8000/#start in your browser. Stop the server with Ctrl+C.
 The PDF is a readable introduction if you do not want to run a local server.
 
 Source: https://github.com/Yuchi-Wang02/csm-copilot
