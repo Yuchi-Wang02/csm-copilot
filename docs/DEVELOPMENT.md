@@ -1,5 +1,13 @@
 # Development notes
 
+## v0.26.1: keep the presenter in the case workflow
+
+Keyboard inspection of the published v0.26.0 explorer reproduced focus loss: changing the platform or client language rebuilt the focused select, leaving `document.activeElement` on `BODY`. Selecting an account also rebuilt its button. A keyboard presenter could lose their place while comparing the very cases the interview route recommends.
+
+Account selection now updates the existing buttons' selected state. Case rendering restores focus to a replaced platform/language control only if that control was focused before rendering, without scrolling. Other navigation retains its own focus behavior. This changes presentation behavior only; customer evidence, engine decisions and recorded model attempts are unchanged.
+
+Local Edge checks verified Android → iOS → Android, English → Chinese, Tab to Copy draft, Enter to select an account followed by Tab to the next account, and ArrowRight/Home in the review tabs. The narrow browser check is not a screen-reader audit or a claim of full accessibility conformance.
+
 ## Verified integration issue: structured MCP output
 
 The first engine test run passed, but the real stdio smoke test failed. The client expected `structuredContent`; the server exposed tool return annotations as bare `dict`, and the installed SDK returned text content instead.

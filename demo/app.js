@@ -34,7 +34,11 @@ function renderQueue() {
       selected = Number(button.dataset.account);
       integration = 0;
       syncReviewUrl();
-      renderQueue();
+      document.querySelectorAll("[data-account]").forEach((item) => {
+        const isSelected = Number(item.dataset.account) === selected;
+        item.classList.toggle("active", isSelected);
+        item.setAttribute("aria-pressed", String(isSelected));
+      });
       renderCase();
     }),
   );
@@ -43,6 +47,9 @@ function checksTable(r) {
   return `<div class="decision">${badge(r.decision)}<strong>${esc(r.platform)} · scoped checklist</strong></div><table class="checks"><thead><tr><th>CHECK / SOURCE</th><th>STATE</th><th>EVIDENCE</th></tr></thead><tbody>${r.checks.map((c) => `<tr><td>${esc(c.label)}<a class="check-source" href="${esc(c.source_url)}" target="_blank" rel="noreferrer">${c.authority === "project_policy" ? "Project policy · related docs" : "Official documentation"} ↗</a></td><td>${badge(c.status)}</td><td>${c.evidence_ids.length ? c.evidence_ids.map((id) => `<span class="evidence-link">${esc(id)}</span>`).join("") : '<span class="evidence-link">No applicable record</span>'}</td></tr>`).join("")}</tbody></table><p class="boundary">${esc(r.boundary)}</p>`;
 }
 function renderCase() {
+  // These controls are rebuilt below. Preserve the user's place only when
+  // the replaced control held focus; other navigation keeps its own focus.
+  const focusedControl = document.activeElement?.id;
   renderShareLink();
   const p = workflow.packets[selected],
     item = p.integrations[integration],
@@ -110,6 +117,9 @@ function renderCase() {
     $("panel").innerHTML =
       issueCount +
       caseReview.handoffHTML(records, item.followup_en.next_action);
+  }
+  if (["platform-select", "language-select"].includes(focusedControl)) {
+    $(focusedControl)?.focus({ preventScroll: true });
   }
 }
 document.querySelectorAll("[data-tab]").forEach((b, n, buttons) => {

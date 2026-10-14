@@ -1,6 +1,8 @@
 # Verification record
 
-Local checks recorded through the v0.26 recorded-conversation view on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.26.1 keyboard-focus repair on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+
+The v0.26.1 Edge browser check reproduced focus on `BODY` after changing platform and language on the published v0.26.0 page. Locally, the repair retained focus on each rebuilt select, Tab from language reached Copy draft, account activation retained the selected button and subsequent Tab reached the next account. ArrowRight and Home selected and focused the expected review tab. Browser error logs were empty. The 284 Python and 60 JavaScript checks also passed. Focus behavior was checked in the browser, not established by those unit-test counts; screen-reader behavior and other browser engines remain unverified.
 
 | Check | Observed result | Scope |
 |---|---|---|
