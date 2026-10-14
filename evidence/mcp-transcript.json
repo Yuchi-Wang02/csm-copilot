@@ -8,7 +8,7 @@
     "websiteUrl": null,
     "icons": null
   },
-  "tool_count": 7,
+  "tool_count": 8,
   "invalid_id_returns_error": true,
   "calls": [
     {
@@ -663,6 +663,237 @@
           "boundary": "A regex lint. No flags does not prove factual support or safety."
         },
         "contact_history_changed": false
+      }
+    },
+    {
+      "tool": "friction_digest",
+      "arguments": {},
+      "result": {
+        "as_of": "2026-10-14T09:00:00+00:00",
+        "synthetic": true,
+        "method": "deterministic scoped-check aggregation",
+        "include_live": false,
+        "cohort_account_ids": [
+          "acc_006",
+          "acc_011",
+          "acc_014",
+          "acc_018"
+        ],
+        "cohort_account_count": 4,
+        "cohort_integration_count": 5,
+        "themes": [
+          {
+            "check_id": "callback_verified",
+            "label": "Reward callback verification",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "rule_authority": "project_policy",
+            "applicable_integration_ids": [
+              "harbor_android",
+              "lantern_android",
+              "lantern_ios"
+            ],
+            "members": [
+              {
+                "account_id": "acc_006",
+                "account_name": "Harbor Studio",
+                "integration_id": "harbor_android",
+                "app": "Pocket Harbor",
+                "platform": "Android",
+                "status": "not_met",
+                "evidence_ids": [
+                  "harbor_android_callback_verified"
+                ],
+                "source_records": [
+                  {
+                    "id": "harbor_android_callback_verified",
+                    "account_id": "acc_006",
+                    "integration_id": "harbor_android",
+                    "at": "2026-10-10T09:00:00Z",
+                    "kind": "test_record",
+                    "text": "Synthetic Android test record: Reward callback verification = not_met.",
+                    "language": "en",
+                    "claims": {
+                      "callback_verified": "not_met"
+                    }
+                  }
+                ],
+                "next_question": "Share a redacted callback example with HTTP status and time."
+              },
+              {
+                "account_id": "acc_014",
+                "account_name": "Lantern Games",
+                "integration_id": "lantern_android",
+                "app": "Moon Garden",
+                "platform": "Android",
+                "status": "unknown",
+                "evidence_ids": [],
+                "source_records": [],
+                "next_question": "Share a redacted callback example with HTTP status and time."
+              }
+            ],
+            "affected_account_ids": [
+              "acc_006",
+              "acc_014"
+            ],
+            "affected_account_count": 2,
+            "affected_integration_count": 2,
+            "applicable_integration_count": 3,
+            "unknown_integration_count": 1,
+            "failed_integration_count": 1,
+            "recurring_across_accounts": true,
+            "product_question": "Would a callback evidence template clarify the endpoint details needed for review?",
+            "proposed_owner": "CSM + Product Education (project proposal)",
+            "validation_step": "Review the source records, ask affected customers whether the proposed resource addresses their difficulty, and test it before claiming an improvement.",
+            "interpretation": "Checklist friction signal; not a confirmed product defect or a measured customer-confusion theme."
+          },
+          {
+            "check_id": "device_verified",
+            "label": "Non-test device verification",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "rule_authority": "project_policy",
+            "applicable_integration_ids": [
+              "harbor_android",
+              "lantern_android",
+              "lantern_ios",
+              "meadow_ios",
+              "orbit_android"
+            ],
+            "members": [
+              {
+                "account_id": "acc_014",
+                "account_name": "Lantern Games",
+                "integration_id": "lantern_android",
+                "app": "Moon Garden",
+                "platform": "Android",
+                "status": "not_met",
+                "evidence_ids": [
+                  "lantern_android_device_verified"
+                ],
+                "source_records": [
+                  {
+                    "id": "lantern_android_device_verified",
+                    "account_id": "acc_014",
+                    "integration_id": "lantern_android",
+                    "at": "2026-10-09T09:00:00Z",
+                    "kind": "test_record",
+                    "text": "Synthetic Android test record: Non-test device verification = not_met.",
+                    "language": "en",
+                    "claims": {
+                      "device_verified": "not_met"
+                    }
+                  }
+                ],
+                "next_question": "Share a fresh non-test-device check with region, time and observed result."
+              },
+              {
+                "account_id": "acc_018",
+                "account_name": "Meadow Works",
+                "integration_id": "meadow_ios",
+                "app": "Meadow Notes",
+                "platform": "iOS",
+                "status": "unknown",
+                "evidence_ids": [],
+                "source_records": [],
+                "next_question": "Share a fresh non-test-device check with region, time and observed result."
+              }
+            ],
+            "affected_account_ids": [
+              "acc_014",
+              "acc_018"
+            ],
+            "affected_account_count": 2,
+            "affected_integration_count": 2,
+            "applicable_integration_count": 5,
+            "unknown_integration_count": 1,
+            "failed_integration_count": 1,
+            "recurring_across_accounts": true,
+            "product_question": "Would a non-test-device evidence template make validation handoffs clearer?",
+            "proposed_owner": "CSM + Product Education (project proposal)",
+            "validation_step": "Review the source records, ask affected customers whether the proposed resource addresses their difficulty, and test it before claiming an improvement.",
+            "interpretation": "Checklist friction signal; not a confirmed product defect or a measured customer-confusion theme."
+          },
+          {
+            "check_id": "currency_approved",
+            "label": "Platform currency approval",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "rule_authority": "official_documentation",
+            "applicable_integration_ids": [
+              "harbor_android",
+              "lantern_android",
+              "lantern_ios",
+              "meadow_ios",
+              "orbit_android"
+            ],
+            "members": [
+              {
+                "account_id": "acc_014",
+                "account_name": "Lantern Games",
+                "integration_id": "lantern_android",
+                "app": "Moon Garden",
+                "platform": "Android",
+                "status": "unknown",
+                "evidence_ids": [],
+                "source_records": [],
+                "next_question": "Confirm currency approval for this platform."
+              }
+            ],
+            "affected_account_ids": [
+              "acc_014"
+            ],
+            "affected_account_count": 1,
+            "affected_integration_count": 1,
+            "applicable_integration_count": 5,
+            "unknown_integration_count": 1,
+            "failed_integration_count": 0,
+            "recurring_across_accounts": false,
+            "product_question": "Would a platform-specific approval-status explanation help customers supply the right evidence?",
+            "proposed_owner": "CSM + Product Education (project proposal)",
+            "validation_step": "Review the source records, ask affected customers whether the proposed resource addresses their difficulty, and test it before claiming an improvement.",
+            "interpretation": "Checklist friction signal; not a confirmed product defect or a measured customer-confusion theme."
+          },
+          {
+            "check_id": "test_only_off",
+            "label": "Production visibility setting",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "rule_authority": "official_documentation",
+            "applicable_integration_ids": [
+              "harbor_android",
+              "lantern_android",
+              "lantern_ios",
+              "meadow_ios",
+              "orbit_android"
+            ],
+            "members": [
+              {
+                "account_id": "acc_014",
+                "account_name": "Lantern Games",
+                "integration_id": "lantern_android",
+                "app": "Moon Garden",
+                "platform": "Android",
+                "status": "unknown",
+                "evidence_ids": [],
+                "source_records": [],
+                "next_question": "Confirm whether Test Only is disabled for the production content."
+              }
+            ],
+            "affected_account_ids": [
+              "acc_014"
+            ],
+            "affected_account_count": 1,
+            "affected_integration_count": 1,
+            "applicable_integration_count": 5,
+            "unknown_integration_count": 1,
+            "failed_integration_count": 0,
+            "recurring_across_accounts": false,
+            "product_question": "Would a production-visibility walkthrough help customers confirm the setting?",
+            "proposed_owner": "CSM + Product Education (project proposal)",
+            "validation_step": "Review the source records, ask affected customers whether the proposed resource addresses their difficulty, and test it before claiming an improvement.",
+            "interpretation": "Checklist friction signal; not a confirmed product defect or a measured customer-confusion theme."
+          }
+        ],
+        "counting_policy": "One observation per integration and check. Accounts are deduplicated within each theme; themes overlap and their counts must not be added as unique customers. Not-applicable checks are excluded from each theme's denominator.",
+        "recurrence_policy": "Recurring means at least two distinct accounts in this snapshot (project policy), not repeated events over time.",
+        "boundary": "This is a snapshot of recorded states, not a weekly trend, prevalence estimate, confirmed root cause or product priority score. Proposed questions and owners are unvalidated project suggestions. Nothing was sent to Product."
       }
     }
   ]

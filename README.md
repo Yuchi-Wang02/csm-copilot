@@ -19,9 +19,11 @@ A publisher wants to launch on Friday. Sales says integration is nearly complete
 
 A fluent message is easy to generate. A useful message must preserve the difference between **confirmed failure**, **missing evidence**, and **a possible explanation**. This project makes that distinction visible all the way from source records to the customer follow-up.
 
-The v0.3 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups. It does not reproduce a production CRM or Unity's internal process.
+The v0.4 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, and a portfolio feedback review. It does not reproduce a production CRM or Unity's internal process.
 
-**New in v0.3:** take away a readable [English morning-review brief](evidence/morning-review-en.md) or a [brief with Chinese drafts](evidence/morning-review-zh.md). Follow-ups now distinguish missing evidence, a recorded issue needing a status check, launch-plan review and a live-account check-in. See [the export and next-action policy](docs/REVIEW_BRIEF.md). The behavior suite now has 59 tests.
+**New in v0.4:** explore [recurring checklist friction](https://yuchi-wang02.github.io/csm-copilot/#feedback) and download a [Product feedback review](evidence/product-feedback.md). The eighth MCP tool counts affected accounts separately from integrations, distinguishes missing evidence from failures, and proposes questions to validate with Product. Read the [method and interview exercise](docs/PRODUCT_FEEDBACK.md). The behavior suite now has 69 tests.
+
+**Portable reviews from v0.3:** take away a readable [English morning-review brief](evidence/morning-review-en.md) or a [brief with Chinese drafts](evidence/morning-review-zh.md). Follow-ups distinguish missing evidence, a recorded issue needing a status check, launch-plan review and a live-account check-in. See [the export and next-action policy](docs/REVIEW_BRIEF.md).
 
 **Evidence controls from v0.2:** source ownership and structured-claim agreement are enforced before tools use the data. A valid iOS evidence ID cannot certify Android; another customer's contact cannot reset this account's clock; ticket details cannot overwrite the affected app/platform. Explore the [eight-case evidence-boundary replay](https://yuchi-wang02.github.io/csm-copilot/#integrity) or read [the reproduced failure and fix](docs/EVIDENCE.md).
 
@@ -52,7 +54,7 @@ flowchart LR
 
 The model-enabled MCP host interprets the request, chooses tools, and can rewrite drafts. The server handles dates, scope, evidence references and checklist states deterministically. Default drafts are transparent templates; the project does not require an embedded paid model API.
 
-**Verified:** real stdio MCP initialization, tool discovery, calls across seven tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. **Not measured:** live model orchestration quality or customer productivity. The checked-in transcript is a scripted MCP client run, not an LLM trace. This distinction keeps protocol verification separate from AI performance.
+**Verified:** real stdio MCP initialization, tool discovery, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. **Not measured:** live model orchestration quality or customer productivity. The checked-in transcript is a scripted MCP client run, not an LLM trace. This distinction keeps protocol verification separate from AI performance.
 
 ## Tools
 
@@ -65,8 +67,9 @@ The model-enabled MCP host interprets the request, chooses tools, and can rewrit
 | `draft_ticket` | Prepare an engineering handoff | Missing fields are explicit; no external submission |
 | `draft_followup` | Produce English or Chinese follow-up templates | Drafting never changes contact history |
 | `validate_draft` | Flag a few unsupported-promise patterns | Regex lint cannot establish factual support |
+| `friction_digest` | Summarize recurring checklist gaps for Product review | Snapshot counts and proposed questions; not a trend or defect diagnosis |
 
-The `morning_review` MCP prompt composes the complete workflow. All tools are read-only and repeatable. There is no email, support-system or advertising-platform write integration.
+The `morning_review` MCP prompt composes the customer workflow; `product_feedback_review` frames the portfolio discussion. All tools are read-only and repeatable. There is no email, support-system or advertising-platform write integration.
 
 ## Run locally
 

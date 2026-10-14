@@ -1,6 +1,6 @@
 # MCP setup and honest demo modes
 
-The package pins the official Python MCP SDK to `1.30.0`. It uses the SDK's `FastMCP` stdio server and `ClientSession` client. The seven tools return typed dictionary payloads and read-only/idempotent annotations. These annotations describe behavior; they are not a security enforcement mechanism.
+The package pins the official Python MCP SDK to `1.30.0`. It uses the SDK's `FastMCP` stdio server and `ClientSession` client. The eight tools return typed dictionary payloads and read-only/idempotent annotations. These annotations describe behavior; they are not a security enforcement mechanism.
 
 ## Configure a host
 
@@ -42,3 +42,7 @@ The exposed `morning_review` prompt contains a more detailed version. A good hos
 | Model-enabled host run | Actual model tool choice and response behavior for that run | General reliability or business impact |
 
 Only the first two are checked into v0.1. No API credential, paid inference or model-generated benchmark result is included. If you run the third, publish it as an additional artifact with the model, host, date, prompt and complete tool trace.
+
+## Product feedback workflow
+
+Use the `product_feedback_review` prompt, or call `friction_digest` with `include_live: false` for the default onboarding cohort. Counts describe the fixed dataset snapshot. Ask the host to inspect source records, separate unknown checks from failures, and keep proposed Product questions conditional. No logging or external submission is performed.

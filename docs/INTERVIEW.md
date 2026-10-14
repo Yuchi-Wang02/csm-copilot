@@ -53,8 +53,10 @@ Replace the last sentence only after completing and documenting the relevant exe
 
 ## Portfolio wording
 
+For a Product-focused interview, add a one-minute extension: open [Product feedback](https://yuchi-wang02.github.io/csm-copilot/#feedback), compare the two device-verification accounts, and explain why a failed test and a missing record lead to a question rather than a defect claim. The [exercise](PRODUCT_FEEDBACK.md) covers account deduplication and applicable denominators.
+
 Safe current description:
 
-> Developed an AI-assisted portfolio prototype of an evidence-grounded CSM onboarding workflow, with a seven-tool MCP server, bilingual follow-up templates, an interactive case explorer, and reproducible synthetic diagnostics that expose failure modes.
+> Developed an AI-assisted portfolio prototype of an evidence-grounded CSM onboarding workflow, with an eight-tool MCP server, bilingual follow-up templates, an interactive case explorer, and reproducible synthetic diagnostics that expose failure modes.
 
 Avoid adding production adoption, customer impact, measured efficiency gains or independent human evaluation without new evidence.

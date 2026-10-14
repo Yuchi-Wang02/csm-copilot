@@ -1,6 +1,6 @@
 /* A transparent replay of Python outputs. No API, hidden AI, or simulated typing. */
 "use strict";
-const { workflow, evaluation: report, integrity } = window.CSM_DATA;
+const { workflow, evaluation: report, integrity, friction } = window.CSM_DATA;
 let selected = 0,
   integration = 0,
   activeTab = "evidence",
@@ -192,3 +192,29 @@ function renderIntegrity() {
 }
 $("integrity-case").addEventListener("change", renderIntegrity);
 renderIntegrity();
+
+$("friction-scope").textContent =
+  `Fixed snapshot: ${friction.as_of.slice(0, 10)} · ${friction.cohort_account_count} non-live accounts · ${friction.cohort_integration_count} integrations · all synthetic. Includes recently contacted accounts; this is broader than the morning queue.`;
+$("friction-theme").innerHTML = friction.themes
+  .map(
+    (t) =>
+      `<option value="${esc(t.check_id)}" ${t.check_id === "device_verified" ? "selected" : ""}>${esc(t.label)} — ${t.affected_account_count} ${t.affected_account_count === 1 ? "account" : "accounts"}</option>`,
+  )
+  .join("");
+$("friction-counting").textContent =
+  friction.counting_policy + " " + friction.recurrence_policy;
+$("friction-boundary").textContent = friction.boundary;
+function renderFriction() {
+  const t = friction.themes.find(
+    (item) => item.check_id === $("friction-theme").value,
+  );
+  if (!t) {
+    $("friction-result").textContent =
+      "No scoped checklist friction found. This does not establish that customers have no difficulties.";
+    return;
+  }
+  $("friction-result").innerHTML =
+    `<div class="friction-stats"><div><strong>${t.affected_account_count}</strong><span>${t.affected_account_count === 1 ? "distinct account" : "distinct accounts"}</span></div><div><strong>${t.affected_integration_count} / ${t.applicable_integration_count}</strong><span>affected / applicable integrations</span></div><div><strong>${t.unknown_integration_count}</strong><span>checks with unknown evidence</span></div><div><strong>${t.failed_integration_count}</strong><span>checks recorded as failed</span></div></div><p class="boundary">${t.recurring_across_accounts ? "Recurring across accounts in this snapshot." : "Single-account signal; recurrence across accounts is not established."} Counts overlap with other themes.</p><div class="friction-grid"><div class="friction-members">${t.members.map((m) => `<article><h3>${esc(m.account_name)}</h3><p>${esc(m.app)} / ${esc(m.platform)} · ${badge(m.status)}</p><p>${esc(m.next_question)}</p><details><summary>Inspect ${esc(m.integration_id)} evidence</summary>${m.source_records.length ? m.source_records.map((r) => `<p><b>${esc(r.id)}</b> · ${esc(r.at.slice(0, 10))}</p><p>${esc(r.text)}</p>`).join("") : "<p>No applicable record. This is a request for evidence, not a recorded failure.</p>"}</details></article>`).join("")}</div><aside class="friction-proposal"><span class="small-label">PROPOSED PRODUCT QUESTION</span><h3>${esc(t.product_question)}</h3><p><b>Proposed owner</b><br>${esc(t.proposed_owner)}</p><p><b>How to validate</b><br>${esc(t.validation_step)}</p><p class="boundary">${esc(t.interpretation)}</p><a href="${esc(t.source_url)}" target="_blank" rel="noopener noreferrer">Related product documentation ↗</a><p class="disclosure">Checklist authority: ${esc(t.rule_authority.replaceAll("_", " "))}. Product questions are project proposals.</p></aside></div>`;
+}
+$("friction-theme").addEventListener("change", renderFriction);
+renderFriction();

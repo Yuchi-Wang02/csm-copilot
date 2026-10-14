@@ -1,15 +1,16 @@
 # Verification record
 
-Verified through the v0.3 next-action and review-brief improvement on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.4 Product feedback improvement on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| Python behavior tests | 59 passed locally | Workflow, source scope, next-action selection, readable exports and UTF-8 output |
+| Python behavior tests | 69 passed locally | Workflow, source scope, next-action selection, readable exports and UTF-8 output |
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
 | Ruff lint and format | Passed | Python source checks |
 | Package build | Source distribution and wheel built | Includes packaged JSON fixtures |
-| Real MCP stdio client | Seven tools, three follow-up intents, prompt retrieval and invalid-ID error passed | Scripted client, no model inference |
+| Real MCP stdio client | Eight tools, three follow-up intents, both prompts and invalid-ID error passed | Scripted client, no model inference |
 | Portable morning review | English and Chinese-draft Markdown generated and checked for consistency | Same workflow packet as the browser; draft-only |
+| Product feedback digest | Ten targeted tests cover counts, applicability, deduplication, empty cohorts, sources, ordering and export | Fixed synthetic snapshot; no measured Product outcome |
 | Synthetic diagnostics | 12/12 dev; 14/18 family-separated cases | Same-session authored, not independently validated |
 | Initial GitHub Actions verification | Windows / Python 3.13 and Ubuntu / Python 3.11 passed | Clean runner installation and regenerated-artifact consistency |
 | GitHub Pages deployment | Published successfully | Public static replay |
@@ -26,8 +27,9 @@ Verified through the v0.3 next-action and review-brief improvement on 2026-10-14
 - Browser error logs were empty in the inspected local session.
 - The v0.2 evidence selector displays rejected cross-platform and identity-overwrite probes, and accepts an explicitly unknown state with contradictory reports. Its mobile layout also measured 375 CSS pixels for both document and scroll width, without horizontal overflow.
 - The v0.3 iOS follow-up requests a launch-plan review in both languages; Android requests its missing evidence. The English brief was downloaded through the browser and its SHA-256 matched the generated file. The download row had no horizontal overflow at the inspected mobile viewport, and the local browser error log was empty.
+- The v0.4 feedback selector shows device checks at two affected / five applicable integrations, callbacks at two / three, and approval at one account with no cross-account recurrence claim. Expanding source panels distinguishes a recorded failure from no applicable record. The feedback download matched the generated file's SHA-256. At the inspected mobile viewport, document and scroll widths were both 375 CSS pixels; the selector worked and no browser errors were recorded.
 
-Screenshots: [desktop introduction](assets/demo-desktop.png), [case review](assets/demo-case.png), [Chinese follow-up](assets/demo-followup.png), [mobile evidence view](assets/demo-mobile.png), [v0.2 evidence-boundary replay](assets/demo-integrity.png), [v0.3 follow-up and brief export](assets/demo-review-brief.png).
+Screenshots: [desktop introduction](assets/demo-desktop.png), [case review](assets/demo-case.png), [Chinese follow-up](assets/demo-followup.png), [mobile evidence view](assets/demo-mobile.png), [v0.2 evidence-boundary replay](assets/demo-integrity.png), [v0.3 follow-up and brief export](assets/demo-review-brief.png), [v0.4 Product feedback](assets/demo-product-feedback.png).
 
 ## Reproduction
 
@@ -38,7 +40,7 @@ python -m ruff check .
 python -m ruff format --check .
 python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
 python scripts/build_demo.py
-git diff --exit-code -- demo/data.js demo/morning-review-en.md demo/morning-review-zh.md evidence
+git diff --exit-code -- demo/data.js demo/morning-review-en.md demo/morning-review-zh.md demo/product-feedback.md evidence
 python -m build
 ```
 

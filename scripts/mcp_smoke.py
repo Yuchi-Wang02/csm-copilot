@@ -25,6 +25,7 @@ async def run():
         ("validate_draft", {"text": "We guarantee approval tomorrow."}),
         ("draft_followup", {"integration_id": "lantern_ios", "lang": "en"}),
         ("draft_followup", {"integration_id": "pine_ios", "lang": "zh"}),
+        ("friction_digest", {}),
     ]
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
@@ -35,6 +36,8 @@ async def run():
             assert "morning_review" in {p.name for p in prompts.prompts}
             prompt = await session.get_prompt("morning_review")
             assert prompt.messages
+            feedback_prompt = await session.get_prompt("product_feedback_review")
+            assert feedback_prompt.messages
             results = []
             for name, args in calls:
                 result = await session.call_tool(name, args)
@@ -51,6 +54,8 @@ async def run():
             assert results[7]["result"]["intent"] == "launch_plan_review"
             assert results[8]["result"]["intent"] == "post_launch_checkin"
             assert "上线时间" not in results[8]["result"]["body"]
+            assert results[9]["result"]["cohort_account_count"] == 4
+            assert len(results[9]["result"]["themes"]) == 4
             invalid = await session.call_tool("check_readiness", {"integration_id": "missing"})
             assert invalid.isError
             return {

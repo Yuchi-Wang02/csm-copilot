@@ -11,6 +11,7 @@ This is an educational portfolio prototype with synthetic records, not a deploya
 - **Evaluation is synthetic and same-session authored.** Family separation helps prevent bilingual duplicate leakage but does not create independent human validation.
 - **Drafting is read-only.** No records are sent or contact timestamps updated. A future write integration needs explicit authorization, review, idempotency and audit history.
 - **No measured business outcome.** Time savings, resolution speed, activation rate and customer satisfaction are hypotheses for a future study.
+- **Product feedback is a hypothesis.** `friction_digest` aggregates scoped checklist states, not automatically discovered customer-confusion themes. Distinct account counts overlap across themes. A repeated evidence gap does not establish a product defect, cause, priority or weekly trend.
 
 ## Handling customer text
 

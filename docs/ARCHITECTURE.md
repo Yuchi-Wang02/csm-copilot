@@ -59,3 +59,7 @@ The demo makes a separate copy of the original dataset, appends a customer repor
 ## Extending responsibly
 
 A next iteration should add separately authored cases and a model-enabled host trace before expanding product coverage. For real CRM integration, add authorization, evidence freshness, conflict review, idempotency keys, a separate draft/sent state machine and a reviewable send action. The current code intentionally has no external send capability.
+
+## Portfolio feedback aggregation
+
+`friction.py` consumes `check_readiness` results across the selected account cohort. Applicability therefore comes from the same rules as customer review. It aggregates once per integration/check, deduplicates accounts within each theme, and retains source records. `friction_digest` exposes the result through MCP; `product_feedback_review` provides the host prompt. The browser and Markdown export share the generated `evidence/friction.json` payload. Product questions are explicit project proposals, not inferred root causes.

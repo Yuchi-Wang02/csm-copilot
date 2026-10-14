@@ -988,6 +988,79 @@ details pre {
     overflow-wrap: anywhere;
   }
 }
+.feedback-section {
+  padding: 55px 0;
+  border-top: 1px solid var(--line);
+}
+.friction-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 24px;
+  background: #eef2e9;
+  border-radius: 12px;
+}
+.friction-stats strong {
+  display: block;
+  font-size: 30px;
+  font-weight: 500;
+}
+.friction-stats span {
+  display: block;
+  font-size: 12px;
+  margin-top: 6px;
+}
+.friction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 22px;
+}
+.friction-members article,
+.friction-proposal {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  min-width: 0;
+}
+.friction-members article + article {
+  margin-top: 14px;
+}
+.friction-members p,
+.friction-proposal p {
+  margin: 12px 0;
+}
+.friction-members details {
+  overflow-wrap: anywhere;
+}
+.friction-proposal {
+  background: #f3f0e8;
+}
+.friction-proposal h3 {
+  font-size: 22px;
+  line-height: 1.45;
+  margin-top: 14px;
+}
+.friction-policy {
+  margin-top: 24px;
+}
+.friction-policy p {
+  margin-top: 12px;
+}
+@media (max-width: 700px) {
+  .friction-stats {
+    grid-template-columns: 1fr 1fr;
+    padding: 18px;
+    gap: 18px;
+  }
+  .friction-grid {
+    grid-template-columns: 1fr;
+  }
+  .feedback-section {
+    padding: 35px 0;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
