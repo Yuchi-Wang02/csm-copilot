@@ -1,12 +1,12 @@
 # Verification record
 
-Local checks recorded through the v0.20.1 triage-sharing iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the reproducible interview-bundle iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 40 passed locally | Thirteen practice, eleven routing, twelve scoped rendering and four triage-replay checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 251 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
+| Python behavior tests | 257 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and two remaining counterexamples retained; frozen inputs unchanged |
 | Callback denial | 11 failed-before checks now pass; 20 checks total | Seven repaired messages and four handoff variants; six positive controls and three preserved limitations; developer-authored probes |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |

@@ -36,3 +36,9 @@ jobs:
       - run: git diff --exit-code -- demo/project-brief.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/case-briefs demo/product-feedback.md evidence
       - run: python -m build
       - run: python scripts/verify_wheel.py
+      - run: python scripts/build_interview_demo.py --output dist/interview-demo.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: interview-demo-${{ matrix.os }}-${{ github.run_attempt }}
+          path: dist/interview-demo.zip
+          if-no-files-found: error
