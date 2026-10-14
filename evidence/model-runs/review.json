@@ -269,9 +269,38 @@
           "assessment": "The run used the existing cached Qwen3-4B revision, 768 generated tokens per turn, an eight-turn cap and zero corrections. It stopped on turn one after 97 generated tokens, without reaching the token cap. This is a preserved failure on a newly authored task, not a model ranking or evidence that queue-first orchestration works."
         }
       ]
+    },
+    {
+      "id": "qwen4-morning-sequenced",
+      "label": "Qwen3-4B · morning review with dependency instruction",
+      "protocol": "batch",
+      "verdict": "Dependency instruction did not prevent the rejected batch",
+      "summary": "The same morning task was repeated with an explicit instruction to call the queue alone and wait for returned IDs before dependent work. The model still proposed five actions with unsupported identifiers. The unchanged four-action limit rejected the entire response; zero tools executed and no final explanation was produced.",
+      "findings": [
+        {
+          "kind": "control",
+          "claim": "Only a dependency paragraph was added to the initial model input",
+          "assessment": "The user task, available tool schemas, model revision, runtime sampling settings, eight-turn cap and zero-correction budget match the preceding morning recording. The system message adds an instruction to retrieve the queue alone, wait for context and use only IDs in previous results. This is a prompt change, not an enforced state machine or schema constraint."
+        },
+        {
+          "kind": "format",
+          "claim": "The five-action pattern persisted",
+          "assessment": "The model again proposed list_accounts, get_account_context, check_readiness, draft_followup and draft_ticket together. Its first four proposals match the earlier response. The issue placeholder changed from 12345 to 11223; neither is a fixture issue ID. The host stopped at the same batch-size validation before executing even the queue lookup."
+        },
+        {
+          "kind": "incomplete",
+          "claim": "Coverage remained zero of seven",
+          "assessment": "No queue or account context was retrieved, no platform or issue call executed, and final=null. The response used 97 tokens without hitting the cap. There was no correction feedback, automatic action repair or successful account discovery."
+        },
+        {
+          "kind": "boundary",
+          "claim": "Prompt presence is not behavioral enforcement",
+          "assessment": "This paired development observation shows that the added instruction was insufficient in this run. It does not estimate a general failure rate, compare models or prove that all dependency prompts fail. A future enforced call policy would need separate implementation and testing; it is not present in this recording."
+        }
+      ]
     }
   ],
-  "boundary": "Eleven exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Twelve exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

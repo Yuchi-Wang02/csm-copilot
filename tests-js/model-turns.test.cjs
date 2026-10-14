@@ -26,7 +26,7 @@ test("claim comparison keeps quoted source fields and review separate and escape
 
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
-  assert.equal(names.length, 11);
+  assert.equal(names.length, 12);
   for (const name of names) {
     const input = trace(name.slice(0, -5)), before = JSON.stringify(input);
     const html = api.render(input);
@@ -49,7 +49,7 @@ test("successful tool calls and an unsupported final statement stay distinct", (
   assert.doesNotMatch(html, /Structured fields matched|Host correction request/);
 });
 test("parser rejection does not turn proposed tool names into executed calls", () => {
-  for (const id of ["qwen06-single", "qwen4-single", "qwen4-morning-review"]) {
+  for (const id of ["qwen06-single", "qwen4-single", "qwen4-morning-review", "qwen4-morning-sequenced"]) {
     const html = api.render(trace(id));
     assert.match(html, /Host rejected the proposed action/);
     assert.match(html, /No tool calls were executed in this turn/);

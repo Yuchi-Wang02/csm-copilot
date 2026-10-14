@@ -1,5 +1,15 @@
 # Development notes
 
+## Test a dependency instruction without claiming it enforces the workflow
+
+An optional `--sequence-dependencies` paragraph asks the morning-review model to retrieve the queue alone, wait for account context and use only previously returned IDs. It does not change parser limits, tools or runtime validation; original default prompts remain identical. The flag and its test were committed before one new local Qwen3-4B attempt.
+
+The model again proposed five actions before tool results. The first four proposals match the earlier attempt; the issue placeholder changes from `12345` to `11223`. Batch validation again rejected the entire response. The recorded result remains 0/7, with no final answer or corrections and no token-cap hit. A paired regression checks the exact one-paragraph system-input difference, unchanged task, tool schemas, runtime settings and limits. This is evidence that this instruction was insufficient for this attempt, not a failure-rate estimate or an implemented dependency guard.
+
+The raw trace SHA-256 is `247be9a71ee43d8f1e925d38d411281dfa341afa4f700ed5f81668d13469de1a`. Both morning attempts are linked together in the replay, and the prior eleven raw files remain unchanged. The fixed v0.29.8 release predates both recordings.
+
+All 344 Python tests, 100 JavaScript tests and Ruff checks passed. Local browser checks switched between both comparison links, showed their separate 0/7 results and exposed the added paragraph in the recorded system input. Both pages of the refreshed twelve-attempt project brief were rendered and visually checked. These verify published behavior and evidence consistency, not improved model performance.
+
 ## Record a queue-first task without supplied account identifiers
 
 The earlier platform task names both integrations. A new `morning_review` task asks the model to obtain the snapshot queue, select its first account, retrieve context and prepare scoped readiness, English follow-ups and issue handoffs. Its seven expected calls are defined against the fixed fixture and tested separately from the prompt; coverage does not establish call order, ID discovery or answer quality. Task and coverage code were committed before inference.

@@ -1,8 +1,8 @@
 # An actual model run, including the failures
 
-The project contains eleven exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
+The project contains twelve exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
 
-The newest attempt starts with a morning-review request containing no account or integration IDs. It proposes five actions, including dependent calls with unsupported identifiers, before reading any tool result. The four-action batch limit rejects the entire response, so no queue or account data reaches the model. The earlier inbound-message comparison remains available below.
+The newest attempt repeats the morning-review request with explicit dependency guidance: retrieve the queue alone, wait for context and use IDs from earlier results. It still proposes five actions and unsupported identifiers before reading any result. The unchanged four-action batch limit rejects the entire response. Neither morning attempt demonstrates account discovery. The paired inputs and outputs are preserved below.
 
 **The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
@@ -63,7 +63,7 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 Since v0.26, the browser also renders the existing trace as a turn-by-turn conversation. It distinguishes parsed model proposals, recorded tool calls and errors, parser rejection, structured-field checks, and host correction requests. A model proposal is not counted as an executed call. Correction feedback is labeled as host-supplied assistance, including when it provides expected values. Final prose remains unverified even after fields match. The view retains initial messages, unedited model output and the full raw steps; no historical file is rewritten.
 
-Seven browser-logic tests cover all eleven recordings, the four-call unsupported answer, parser rejection with no execution (including the queue-first attempt), a tool error beside successful calls, two field-review corrections, exhausted parse corrections, and escaping model/host/tool text. These are presentation and provenance checks, not model-quality scores.
+Seven browser-logic tests cover all twelve recordings, the four-call unsupported answer, parser rejection with no execution (including both queue-first attempts), a tool error beside successful calls, two field-review corrections, exhausted parse corrections, and escaping model/host/tool text. These are presentation and provenance checks, not model-quality scores.
 
 The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, two exact-message triage calls for inbound scope review, and seven fixed-fixture calls for morning review. Coverage does not check dependency order or prove that IDs were discovered from tool results; inspect the sequence separately. The separate source review examines final prose when present. Do not combine these into one unqualified accuracy number.
 
@@ -134,6 +134,30 @@ The host task and coverage definitions were committed in `9341d2f5544bd0e9aedfe1
 
 The response used 97 generated tokens and did not reach the 768-token cap. No final explanation, corrections or retries followed. Coverage is **0/7**: snapshot queue, selected account context, two readiness checks, two English drafts and one issue handoff. Those expectations are tied to this fixed fixture, with a test checking its first account and scoped records. They are evaluator knowledge, not IDs supplied to the model, and this count does not evaluate sequencing or answer usefulness.
 
-The result does not demonstrate account discovery or a completed CSM workflow. It exposes a dependency problem in the proposed plan alongside the batch-format violation. A future iteration could explicitly require the queue result before selecting an account and the context result before proposing its issue calls; any resulting run must be kept separately and reviewed for observed order, unsupported IDs, extra calls and final claims. A single revised run would remain development evidence, not a general reliability gain.
+The result does not demonstrate account discovery or a completed CSM workflow. It exposes a dependency problem in the proposed plan alongside the batch-format violation. The next attempt tests an explicit instruction to wait for the queue and context results. It remains a separate development observation, not a general reliability estimate.
 
 [Raw recording](../evidence/model-runs/qwen4-morning-review.json) · [Browser replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-review#model-runs). The previous ten raw recordings are unchanged. Review annotations are AI-assisted and not independent human validation.
+
+## Queue-first dependency instruction: no observed execution improvement
+
+The twelfth attempt repeats the exact morning task with `--sequence-dependencies`. This optional flag adds one paragraph to the system instruction: call `list_accounts` alone, wait for its result, retrieve context using the returned first account ID, then use only IDs present in preceding results and batch only independent calls. It is accepted only with `--task morning_review --protocol batch`. It changes the model's instructions, not tool availability, parser limits or runtime ID validation. Default prompts are unchanged.
+
+The option was committed in `d6778c42470e0a1f4673167c256d32d707872945` before inference. Add the flag to the preceding reproduction command and use a different output filename. No account, integration or issue IDs are added to the prompt. The original recording remains intact.
+
+| Recorded comparison | Original morning attempt | With dependency instruction |
+|---|---|---|
+| User task, available tool schemas | Same | Same |
+| Model revision and runtime sampling settings | Same | Same |
+| Limits | Eight turns, 768 output tokens per turn, zero corrections | Same |
+| Initial system input | Batch instruction | Same instruction plus one dependency paragraph |
+| First proposed actions | Five, including dependent calls before results | Same five tool names; first four proposals identical |
+| Unsupported issue ID | `12345` | `11223` |
+| Host stopping condition | Batch exceeds four actions | Same |
+| Executed requested calls | 0/7 | 0/7 |
+| Final explanation | None | None |
+
+The newer response uses 97 generated tokens, with no token-cap hit. It does not obey the instruction to retrieve the queue alone. No queue result, account context, drafts or tool errors are returned because batch validation rejects the whole proposal. A regression comparison verifies that removing the one dependency paragraph restores the earlier system message exactly; task text, schemas, runtime settings and caps match. These checks establish recorded controls and outcomes, not the general effectiveness of prompt changes.
+
+This pair supports a narrow conclusion: the added instruction was insufficient in this attempt. It does not prove all dependency prompts fail. A next implementation could enforce which calls are available before the queue and context results arrive, and check identifiers against those returned records. That policy would require explicit behavior tests and a separate model recording; it is not implemented by this flag. Prompt presence must not be described as a guardrail that already enforces call order.
+
+[New raw recording](../evidence/model-runs/qwen4-morning-sequenced.json) · [Replay with dependency instruction](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-sequenced#model-runs). All eleven earlier raw traces remain unchanged. This new source and recording also postdate the fixed v0.29.8 release.

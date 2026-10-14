@@ -57,6 +57,7 @@ def assert_historical_callback_result(engine, action, recorded):
         "qwen4-triage-scope",
         "qwen4-triage-neutral-questions",
         "qwen4-morning-review",
+        "qwen4-morning-sequenced",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):
@@ -91,6 +92,44 @@ def test_morning_recording_preserves_rejected_proposals_without_execution():
     assert proposals[2]["arguments"]["integration_id"] not in engine.integrations
     assert proposals[4]["arguments"]["issue_id"] not in engine.issues
     assert trace["coverage"]["observed"] == 0 and trace["coverage"]["required"] == 7
+
+
+def test_morning_instruction_pair_preserves_controls_and_failed_execution():
+    import runpy
+
+    original = json.loads((DIRECTORY / "qwen4-morning-review.json").read_text(encoding="utf-8"))
+    revised = json.loads((DIRECTORY / "qwen4-morning-sequenced.json").read_text(encoding="utf-8"))
+    for key in (
+        "task",
+        "task_id",
+        "model_id",
+        "revision",
+        "protocol_version",
+        "max_steps",
+        "repair_budget",
+        "constrain_final",
+        "runtime",
+        "coverage",
+    ):
+        assert original[key] == revised[key], key
+    assert revised["sequence_dependencies"] is True
+    guidance = runpy.run_path(str(DIRECTORY.parents[1] / "scripts/run_local_host.py"))[
+        "DEPENDENCY_GUIDANCE"
+    ]
+    before, after = original["initial_messages"], revised["initial_messages"]
+    assert before[1:] == after[1:]
+    assert after[0]["content"].count(guidance) == 1
+    assert after[0]["content"].replace("\n" + guidance, "", 1) == before[0]["content"]
+    assert len(revised["steps"]) == 1 and revised["final"] is None
+    step = revised["steps"][0]
+    assert step["parse_error"] == "An action batch must contain 1..4 actions"
+    assert not step.get("tool_calls") and "correction_feedback" not in step
+    assert step["model_response"]["token_limit_reached"] is False
+    proposals = json.loads(step["model_response"]["text"])
+    previous = json.loads(original["steps"][0]["model_response"]["text"])
+    assert len(proposals) == 5 and proposals[:4] == previous[:4]
+    assert proposals[-1]["arguments"]["issue_id"] == "11223"
+    assert "11223" not in Copilot().issues
 
 
 def test_published_tool_results_match_except_documented_followup_wording():
