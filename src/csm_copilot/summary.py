@@ -52,11 +52,18 @@ def render_summary(workflow: dict) -> str:
                     )
                     continue
                 ticket = matches[0]
-                missing = ", ".join(ticket["missing_fields"]) or "none"
-                lines += [
-                    f"     Handoff {_text(issue['id'])}: {_text(ticket['handoff_state'])}; missing: {_text(missing)}",
-                    f"     Proposed owner: {_text(ticket['suggested_owner'])}",
-                ]
+                if ticket["handoff_state"] == "needs_scope":
+                    lines += [
+                        f"     Handoff {_text(issue['id'])}: needs_scope",
+                        "     Scope first: generic field completeness does not establish the request.",
+                        f"     Next for this issue: {_text(ticket['next_action'])}",
+                    ]
+                else:
+                    missing = ", ".join(ticket["missing_fields"]) or "none"
+                    lines.append(
+                        f"     Handoff {_text(issue['id'])}: {_text(ticket['handoff_state'])}; missing: {_text(missing)}"
+                    )
+                lines.append(f"     Proposed owner: {_text(ticket['suggested_owner'])}")
     lines += [
         "",
         "Checklist completion is not launch approval or issue resolution.",

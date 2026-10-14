@@ -5,6 +5,7 @@ import sys
 import pytest
 
 from csm_copilot.demo import build_demo
+from csm_copilot.engine import Copilot
 from csm_copilot.summary import render_summary
 
 
@@ -75,6 +76,41 @@ def test_record_text_cannot_inject_terminal_controls_or_new_lines():
     workflow["packets"][0]["selection"]["name"] = "Studio\nFAKE STATUS\x1b[2J"
     result = render_summary(workflow)
     assert "\x1b" not in result and "\nFAKE STATUS" not in result
+
+
+@pytest.mark.parametrize("complete", [False, True])
+def test_summary_prioritizes_scope_over_generic_field_completeness(complete):
+    data = Copilot().data.model_copy(deep=True)
+    issue = next(i for i in data.issues if i.id == "issue_callback")
+    issue.summary = "Please explain invoicing."
+    record = next(e for e in data.evidence if e.id == issue.evidence_id)
+    record.text = issue.summary
+    if complete:
+        for field in type(issue.details).model_fields:
+            setattr(issue.details, field, "Recorded placeholder; not reviewed")
+    engine = Copilot(data)
+    ticket = engine.draft_ticket(issue.id)
+    assert ticket["handoff_state"] == "needs_scope"
+    assert ticket["collection_requests"] == []
+    workflow = build_demo()
+    packet = next(
+        p for p in workflow["packets"] if p["context"]["account"]["id"] == record.account_id
+    )
+    packet["context"] = engine.get_account_context(record.account_id)
+    packet["tickets"] = [ticket]
+    before = copy.deepcopy(workflow)
+
+    result = render_summary(workflow)
+    handoff = result.split("Handoff issue_callback:", 1)[1].split("\n\n", 1)[0]
+
+    assert "needs_scope" in handoff
+    assert "Scope first: generic field completeness does not establish the request." in handoff
+    assert ticket["next_action"] in handoff
+    assert ticket["suggested_owner"] in handoff
+    assert "missing:" not in handoff
+    assert "reproduction_steps" not in handoff and "redacted_logs" not in handoff
+    assert "Handoff issue_blank: needs_information; missing:" in result
+    assert workflow == before
 
 
 def test_summary_cli_stdout_and_file_match_the_original_workflow(tmp_path):

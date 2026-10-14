@@ -78,6 +78,8 @@ Handoffs are resolved from the recorded issues. Exactly one matching draft is re
 
 The compact terminal view (`csm-demo --format summary`) also requires one matching draft. Duplicate matches produce an unavailable-handoff notice and count, while the issue ID and readiness remain visible. It does not choose a handoff state or proposed owner by array order. Use the full brief to inspect the recorded evidence; neither format resolves the conflict for you.
 
+For `needs_scope`, the terminal view displays a scope-first explanation and the issue's clarification action instead of generic missing-field status. An invoicing question therefore remains a request to clarify even when reproduction steps and logs are absent—or all technical fields contain unreviewed placeholders. The full brief preserves those fields for review. This follows the engine's existing route; it does not establish that the route is correct or provide a billing procedure.
+
 ## Use it in an interview
 
 The Handoff panel also offers **Copy handoff** and **Preview handoff text** for each recorded issue. The plain-text draft carries the fixed snapshot, account/integration/issue IDs, original source text when uniquely available, copied fields with source references, focused missing-information requests, triage notes, proposed owner and next action. It keeps the unconfirmed-cause and nothing-sent boundaries. This compact copy is for review; the platform Markdown brief supplies the fuller evidence index.

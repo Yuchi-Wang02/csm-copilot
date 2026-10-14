@@ -1,5 +1,11 @@
 # Development notes
 
+## Clarify the request before judging technical intake in the summary
+
+The compact terminal summary preserved `needs_scope` but paired it with generic missing-field status and omitted the issue's next action. With the same synthetic request, "Please explain invoicing.", it showed either `missing: reproduction_steps, redacted_logs` or `missing: none` after all intake fields were populated with unreviewed placeholders. The engine requested scope clarification in both cases; no triage rule changed.
+
+Two failing-before tests now pass: the summary explicitly prioritizes scope and displays the engine's clarification action and proposed CSM owner without presenting technical completeness as the issue's next step. The full brief retains the recorded fields for inspection. Both tests use actual engine output, preserve another issue's technical handoff and leave the input unchanged. All 331 Python tests passed, and the default 1,879-byte morning summary remained byte-identical. This is a presentation correction, not a verified billing workflow, improved classification result or personal learning completion. The fixed v0.29.7 source predates this change.
+
 ## Keep ambiguous handoffs out of the terminal summary
 
 The compact `csm-demo --format summary` output selected the first draft matching an issue. This disagreed with the browser and Markdown brief, which already withheld duplicate matches. Four failing-before regression variants reproduced the problem with identical and conflicting duplicates in both array orders.
