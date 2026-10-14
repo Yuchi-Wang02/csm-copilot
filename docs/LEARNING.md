@@ -245,6 +245,46 @@ Write a short customer follow-up that requests only the missing details. Trace e
 
 The v0.24 handoff now offers a focused intake request above the broader candidate questions. Explain why its two requests differ from the full troubleshooting list. Then predict what should happen if the structured time window is empty even though the original message mentions a time, or if every field contains an unreviewed placeholder. Inspect `tests/test_collection_requests.py` and compare your prediction with the implemented behavior. What would you change before using this policy with real customers? Keep that judgment separate from whether the tests pass.
 
+## Trace a missing or duplicated handoff
+
+Use this optional exercise to connect a small code change with a CSM decision. It requires the current source checkout after the [export repair](https://github.com/Yuchi-Wang02/csm-copilot/commit/a80bc41c7d891c92a34460fc3214d4b476f4f139), plus the [Python workflow setup](LOCAL_SETUP.md#install-the-python-workflow). The fixed v0.29.6 source predates this repair; the static demo ZIP cannot execute Python experiments.
+
+Before running anything, predict what the exported handoff should show when there is one draft, no draft, or two drafts for the same recorded issue. Explain whether each situation changes the evidence that the issue occurred, and what you would review before preparing a handoff.
+
+<details>
+<summary>Run the experiment after recording your predictions</summary>
+
+Save this as a local `handoff_experiment.py` and run `python handoff_experiment.py`. It changes an in-memory copy of the generated packet and prints the relevant section; it does not write customer records, change the published demo or submit a ticket.
+
+```python
+from copy import deepcopy
+
+from csm_copilot.brief import render_review_brief
+from csm_copilot.demo import build_demo
+
+original = build_demo()
+experiment = deepcopy(original)
+packet = next(p for p in experiment["packets"] if p["context"]["account"]["id"] == "acc_014")
+mode = "duplicate"  # Repeat with "missing" and "unchanged".
+if mode == "duplicate":
+    packet["tickets"].append(deepcopy(packet["tickets"][0]))
+elif mode == "missing":
+    packet["tickets"] = []
+elif mode != "unchanged":
+    raise ValueError("Choose duplicate, missing or unchanged")
+
+brief = render_review_brief(experiment, integration_id="lantern_android")
+handoff = brief.split("### Technical handoff", 1)[1].split("## Evidence index", 1)[0]
+print(handoff)
+print("Original packet unchanged:", original == build_demo())
+```
+
+Change only the `mode` assignment between runs. For a duplicate, reverse `packet["tickets"]` before rendering and explain whether ordering should select an acceptable draft. Read the matching logic in [brief.py](../src/csm_copilot/brief.py), then inspect the three missing/duplicate/unmatched-draft tests in [test_case_brief.py](../tests/test_case_brief.py).
+
+</details>
+
+Keep your prediction, actual output and explanation separate. Explain why an unavailable draft does not mean that no customer issue exists, and why withholding ambiguous content does not resolve the underlying records. Identify one additional case you would test before proposing a change. Running the supplied example is not a personally implemented fix; the next learning evidence would be your own case, reasoning and verified change.
+
 ## Distinguish a reported symptom from a test observation
 
 In the handoff's original-record disclosure, find the source type and recorded timestamp. Explain what additional context you would want if the same symptom came from a test record instead of a customer report. A label identifies the declared origin; it does not prove reproducibility or current customer impact.

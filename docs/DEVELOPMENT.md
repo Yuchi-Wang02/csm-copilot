@@ -1,5 +1,9 @@
 # Development notes
 
+## Rehearse the evidence decisions with a small experiment
+
+The interview guide now connects queue selection, field-source agreement and unavailable handoffs to specific review actions. An optional learning exercise asks for predictions before exposing runnable code that varies one, zero or two drafts for Lantern's recorded Android issue. Documentation QA executed the exact snippet in all three modes: the normal case retained the field comparison, the altered cases reported zero/two matches, the original packet remained equal to a fresh generated packet, and the source fixture's SHA-256 was unchanged. This verifies the teaching material; it is not a personal reflection or completed practice by Yuchi. The guide explicitly requires current source after the repair because v0.29.6 predates that export behavior.
+
 ## Do not turn ambiguous handoff packets into usable drafts
 
 The browser withheld duplicate matching drafts, but the Markdown renderer iterated directly over the ticket list. Three failing-before tests reproduced duplicate drafts being printed, a recorded issue with no draft disappearing from the handoff section, and an unmatched draft being presented without a recorded issue.

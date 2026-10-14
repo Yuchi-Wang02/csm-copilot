@@ -50,7 +50,7 @@ Use Tab to move between controls; the blue outline shows the focused control, in
 - From **Follow-up**, Tab enters the **Client language** selector. Changing language keeps focus on that selector so you can continue to Copy draft and the evidence disclosures.
 - Use Enter or Space on a disclosure heading to expand or collapse it. Tab then reaches the controls inside an expanded section, including nested source headings.
 
-This path was checked in Edge on Windows. It is a presentation aid, not a screen-reader or cross-browser accessibility assessment. The fixed v0.29.3 download predates the consistent disclosure outline; use the hosted site for that styling update.
+This path was checked in Edge on Windows. It is a presentation aid, not a screen-reader or cross-browser accessibility assessment. The current [fixed interview package](INTERVIEW_BUNDLE.md) includes the disclosure outline; older packages may predate it.
 
 ## Optional deeper walkthrough
 
@@ -119,6 +119,9 @@ Replace the last sentence only after completing and documenting the relevant exe
 | Is this production-ready? | No. It lacks real CRM integration, auth, conflict resolution, freshness policy and human outcome validation. |
 | What did you measure? | Synthetic category-set retrieval and workflow behavior; not time savings or customer success outcomes. |
 | How do you know a draft is factual? | Its template is tied to structured records, but regex lint is insufficient for arbitrary model rewrites. Human claim-to-evidence review remains necessary. |
+| Why is this account in the queue? | Expand **Why this account is in the queue**. The bundled review excludes recorded live accounts, includes contacts older than three days and unknown contact histories, then orders accounts by their exact planned launch time. Unknown history does not establish elapsed time, and priority is not a predicted customer-risk score. |
+| If a copied field matches its source, is it verified? | It agrees with that scoped structured record. The record may still be wrong or outdated. In [Harbor's handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace), compare the copied value, recorded value and dated attribution, then state what external confirmation is still needed. |
+| What happens when the handoff data is incomplete or contradictory? | Missing and duplicate matching drafts produce an unavailable-draft notice; the recorded issue remains. The current export also withholds unmatched draft contents. Use [the small handoff experiment](LEARNING.md#trace-a-missing-or-duplicated-handoff) to explain this behavior from an output you have reproduced yourself. |
 | How would you explain the issue to a new publisher? | Start with the customer's question, distinguish the recorded Android failure from unknown settings, and ask for focused evidence. Use the [teaching example](CLIENT_EDUCATION.md) to rehearse that explanation in your own words. |
 | What would you improve first? | Independent cases and human review of model-written claims, then semantic retrieval compared fairly to the baseline. |
 
