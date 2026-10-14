@@ -2,6 +2,45 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const api = require("../demo/case-review.js");
 
+test("handoff questions are readable per candidate, with the scoped original record", () => {
+  const data = packet();
+  data.tickets[0].triage.candidates = [
+    {category: "reward_callback", questions: ["Which currency mode?", "Share redacted logs."], source_url: "https://docs.unity.com/example"},
+    {category: "no_offers", questions: ["Compare the devices."], source_url: null},
+  ];
+  const original = JSON.stringify(data);
+  const html = api.handoffHTML(api.issuesFor(data, "android").slice(0, 1), "unused");
+  assert.match(html, /<h4>Candidate: reward callback<\/h4>/);
+  assert.match(html, /<li>Which currency mode\?<\/li>/);
+  assert.match(html, /<li>Compare the devices\.<\/li>/);
+  assert.match(html, /href="https:\/\/docs.unity.com\/example"/);
+  assert.match(html, /Original issue record · source1/);
+  assert.match(html, /Original 1/);
+  assert.doesNotMatch(html, /Original 2|Original 3/);
+  assert.match(html, /do not establish a root cause/);
+  assert.equal(JSON.stringify(data), original);
+});
+
+test("unknown-scope questions do not invent technical candidates or documentation", () => {
+  const data = packet();
+  data.tickets[0].triage.candidates = [{category: "unknown", questions: ["What outcome do you need?"], source_url: null}];
+  const html = api.handoffHTML(api.issuesFor(data, "android").slice(0, 1), "unused");
+  assert.match(html, /<h4>Clarify the request<\/h4>/);
+  assert.match(html, /<li>What outcome do you need\?<\/li>/);
+  assert.doesNotMatch(html, /Candidate: unknown|Related documentation/);
+});
+
+test("handoff questions escape source text and do not activate non-HTTPS URLs", () => {
+  const data = packet();
+  data.context.evidence[0].integration_id = "ios";
+  data.tickets[0].triage.candidates = [{category: "<img>", questions: ['<script>run()</script>'], source_url: 'javascript:run()'}];
+  const html = api.handoffHTML(api.issuesFor(data, "android").slice(0, 1), "unused");
+  assert.match(html, /&lt;img&gt;/);
+  assert.match(html, /<li>&lt;script&gt;/);
+  assert.match(html, /Original issue record unavailable for this platform/);
+  assert.doesNotMatch(html, /<script>|<img>|href="javascript:|Original 1/);
+});
+
 test("timing view shows supplied dates and preserves one shared source across checks", () => {
   const timing = {
     as_of: "2026-10-14T09:00:00Z", unavailable_ids: [], boundary: "No expiry policy.",

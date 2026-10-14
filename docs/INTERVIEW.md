@@ -32,6 +32,8 @@ Open Follow-up, switch to Chinese, then open Handoff.
 
 “The draft asks for the missing evidence. The handoff includes what we know and makes missing fields visible. Neither action sends a message or updates the last-contact timestamp. The next owner can see what still needs to be collected.”
 
+For a concrete handoff discussion, open [Harbor's callback case](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace). Expand **Original issue record**, then compare it with **Questions to review before handoff**. The report already supplies self-managed currency, HTTP 405 and a time window. Explain which generic questions you would shorten or remove and which missing evidence you would still request. Treat the endpoint-method mismatch as a possibility to investigate. The selected-platform Markdown download carries the same report, questions and hypothesis note.
+
 Show the counterfactual update. Two settings change, but the failed device check remains unresolved. The expanded evidence-timing view shows the new customer confirmation beside the older device record. Explain why a recent message does not prove a fresh device test, and why age alone does not automatically expire evidence.
 
 ## 1:50–2:30 — Explain the AI architecture and failure cases

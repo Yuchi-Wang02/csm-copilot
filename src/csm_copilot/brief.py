@@ -187,6 +187,27 @@ def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | 
                 "",
                 f"**Next action:** {text(ticket['next_action'])}",
             ]
+            lines += ["", "**Original issue record**", ""]
+            lines += ["> " + text(line) for line in ticket["customer_report"].splitlines()]
+            lines += [
+                "",
+                "Source record: " + text(", ".join(ticket["evidence_ids"])),
+                "",
+                "**Questions to review before handoff**",
+                "",
+                "Suggested questions from lexical triage. Review what is already known before asking the customer; these do not establish a root cause.",
+            ]
+            for candidate in ticket["triage"]["candidates"]:
+                label = (
+                    "Clarify the request"
+                    if candidate["category"] == "unknown"
+                    else "Candidate: " + candidate["category"].replace("_", " ")
+                )
+                lines += ["", f"**{text(label)}**", ""]
+                lines += ["- " + cell(question) for question in candidate["questions"]]
+                if candidate["source_url"]:
+                    lines += ["", "Related documentation: " + text(candidate["source_url"])]
+            lines += ["", *[text(note) for note in ticket["triage"]["notes"]]]
     lines += [
         "",
         "## Evidence index",

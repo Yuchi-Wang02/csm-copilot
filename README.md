@@ -25,6 +25,8 @@ The current scope is deliberately bounded: Offerwall publisher onboarding, two i
 
 For a first visit, use the [on-page review route](https://yuchi-wang02.github.io/csm-copilot/#start): inspect a customer next action, compare a recorded AI mistake with its corrections, then explain a decision before revealing the practice guidance. The suggested timing is a presentation aid, not a measured completion time.
 
+For a focused handoff example, open [Harbor's callback case](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace). Its original report, candidate questions and unconfirmed HTTP 405 hypothesis are readable in the panel and platform brief. Compare what the customer already supplied with what still needs to be requested; the generic questions require CSM review.
+
 | Portfolio question | Open this artifact |
 |---|---|
 | Can the workflow turn evidence into a useful next action? | [Android case](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace), [Chinese iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace), and [technical handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) |

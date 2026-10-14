@@ -1445,6 +1445,16 @@ button:disabled {
   border-top: 1px solid #dce2d8;
 }
 
+.handoff-questions {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.handoff-candidate { margin: 18px 0; }
+.handoff-candidate h4 { margin: 0 0 8px; }
+.handoff-candidate ul { padding-left: 22px; }
+.handoff-candidate li { margin: 8px 0; }
+
 .model-comparison {
   margin: 20px 0;
   padding: 18px;

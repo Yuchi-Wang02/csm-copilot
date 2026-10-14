@@ -81,6 +81,26 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 
 **Next action:** Request missing evidence, then review the handoff; no ticket was submitted.
 
+**Original issue record**
+
+> Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10.
+
+Source record: msg\_issue\_callback
+
+**Questions to review before handoff**
+
+Suggested questions from lexical triage. Review what is already known before asking the customer; these do not establish a root cause.
+
+**Candidate: reward callback**
+
+- Which currency mode is configured?
+- Share the callback time window, HTTP status and redacted logs.
+- Provide a redacted transaction example and endpoint method.
+
+Related documentation: https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures
+
+HTTP 405 makes an endpoint method mismatch worth checking; it is not a confirmed cause.
+
 ## Evidence index
 
 These are declared synthetic source records, not independent verification. Structured claims must match account, integration and checklist scope.

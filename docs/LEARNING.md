@@ -132,3 +132,9 @@ Explain why rounding is appropriate for display but loses information needed for
 Compare the default `list_accounts` result with the later-date call in [the scripted MCP transcript](../evidence/mcp-transcript.json). Locate `as_of`, `dataset_as_of`, `time_basis` and `records_refreshed`. Explain why the contact age changes while Lantern's recorded stage and Android readiness do not.
 
 Predict whether `2026-10-14T05:00:00-04:00` represents the dataset snapshot or a later review. Then run `python -m pytest -q tests/test_review_time.py` and explain the timezone-equivalence check. Identify which new customer evidence would be needed before describing a changed stage or resolved issue. This is a suggested exercise, not a completed personal reflection.
+
+## Turn generic triage questions into a focused handoff
+
+Open [Harbor's handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) and expand its original issue record. Before reading the candidate questions, list what is known, what is missing and what remains a hypothesis. Then compare the suggested questions with the record: which facts would be redundant to ask for again?
+
+Write a short customer follow-up that requests only the missing details. Trace each retained question to either a missing handoff field or a candidate check, and explain why HTTP 405 alone does not establish the cause. Download the platform brief and verify that another reviewer could find the same original report and questions. Save your own first reasoning and later revision separately; this guide does not supply or certify your personal answer.

@@ -80,6 +80,25 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 
 **Next action:** Request missing evidence, then review the handoff; no ticket was submitted.
 
+**Original issue record**
+
+> 我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。
+
+Source record: msg\_issue\_blank
+
+**Questions to review before handoff**
+
+Suggested questions from lexical triage. Review what is already known before asking the customer; these do not establish a root cause.
+
+**Candidate: no offers**
+
+- Confirm the affected app and platform.
+- Share currency approval and Test Only settings for that platform.
+- Compare a test device with a non-test device; include region and time.
+
+Related documentation: https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq
+
+
 ## Evidence index
 
 These are declared synthetic source records, not independent verification. Structured claims must match account, integration and checklist scope.

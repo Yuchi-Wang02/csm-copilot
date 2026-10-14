@@ -47,7 +47,20 @@
       .join("");
   }
 
-  function ticketHTML({ issue, ticket: t }) {
+  function candidateHTML(candidate) {
+    const source = candidate.source_url;
+    let link = "";
+    if (source) {
+      let valid = false;
+      try { valid = new URL(source).protocol === "https:"; } catch { /* Show invalid sources as text. */ }
+      link = valid
+        ? `<a href="${esc(source)}" target="_blank" rel="noopener noreferrer">Related documentation ↗</a>`
+        : `<p class="boundary">Source URL unavailable as a safe link: ${esc(source)}</p>`;
+    }
+    return `<section class="handoff-candidate"><h4>${candidate.category === "unknown" ? "Clarify the request" : `Candidate: ${esc(candidate.category.replaceAll("_", " "))}`}</h4><ul>${candidate.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ul>${link}</section>`;
+  }
+
+  function ticketHTML({ issue, evidence, ticket: t }) {
     if (!t)
       return `<article class="issue-review"><h3>${esc(issue.summary)}</h3><p class="boundary">Handoff draft unavailable for ${esc(issue.id)}. The issue is recorded; review its source before preparing a draft.</p></article>`;
     const fieldStatus =
@@ -64,7 +77,12 @@
         .join(
           "",
         )}<dt>Evidence</dt><dd>${esc(t.evidence_ids.join(", "))}</dd><dt>Suggested owner</dt><dd>${esc(t.suggested_owner)}</dd></dl>` +
-      `<div class="missing">${fieldStatus}</div><p class="boundary">${esc(t.next_action)}</p>${t.triage.notes.map((note) => `<p class="boundary">${esc(note)}</p>`).join("")}` +
+      `<div class="missing">${fieldStatus}</div><p class="boundary">${esc(t.next_action)}</p>` +
+      (evidence
+        ? `<details><summary>Original issue record · ${esc(evidence.id)}</summary><p lang="${evidence.language === "zh" ? "zh-CN" : "en"}">${esc(evidence.text)}</p></details>`
+        : '<p class="boundary">Original issue record unavailable for this platform.</p>') +
+      `<div class="handoff-questions"><h3>Questions to review before handoff</h3><p class="boundary">Suggested questions from lexical triage. Review what is already known before asking the customer; these do not establish a root cause.</p>${(t.triage.candidates || []).map(candidateHTML).join("") || '<p>No candidate questions recorded.</p>'}</div>` +
+      t.triage.notes.map((note) => `<p class="boundary">${esc(note)}</p>`).join("") +
       `<details><summary>Inspect candidate checks and source URLs · ${esc(issue.id)}</summary><pre>${esc(JSON.stringify(t.triage, null, 2))}</pre></details>` +
       `<details><summary>Trace each handoff field to its record · ${esc(issue.id)}</summary><pre>${esc(JSON.stringify(t.field_sources, null, 2))}</pre></details></article>`
     );

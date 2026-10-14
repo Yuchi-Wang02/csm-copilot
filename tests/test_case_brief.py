@@ -13,6 +13,50 @@ from csm_copilot.demo import build_demo
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_handoff_export_preserves_report_questions_and_unconfirmed_hypothesis():
+    workflow = build_demo()
+    original = deepcopy(workflow)
+    brief = render_review_brief(workflow, integration_id="harbor_android")
+    handoff = brief.split("### Technical handoff", 1)[1].split("## Evidence index", 1)[0]
+    ticket = next(
+        p
+        for p in workflow["packets"]
+        if p["tickets"] and p["tickets"][0]["draft_id"] == "ticket-issue_callback"
+    )["tickets"][0]
+    assert text(ticket["customer_report"]) in handoff
+    assert "**Candidate: reward callback**" in handoff
+    for question in ticket["triage"]["candidates"][0]["questions"]:
+        assert "- " + text(question) in handoff
+    assert "not a confirmed cause" in handoff
+    assert "do not establish a root cause" in handoff
+    assert "Compare a test device" not in handoff
+    assert workflow == original
+
+
+def test_handoff_export_keeps_unknown_questions_and_escapes_inserted_markup():
+    workflow = build_demo()
+    ticket = workflow["packets"][0]["tickets"][0]
+    ticket["customer_report"] = "<script>run()</script>\n# Fake heading"
+    ticket["triage"] = {
+        "candidates": [
+            {
+                "category": "unknown",
+                "questions": ["What outcome?\n# Fake heading", "[click](javascript:run())"],
+                "source_url": None,
+            }
+        ],
+        "notes": [],
+    }
+    brief = render_review_brief(workflow, integration_id="lantern_android")
+    handoff = brief.split("### Technical handoff", 1)[1].split("## Evidence index", 1)[0]
+    assert "**Clarify the request**" in handoff
+    assert "> &lt;script&gt;" in handoff
+    assert "> \\# Fake heading" in handoff
+    assert "- What outcome? / \\# Fake heading" in handoff
+    assert "[click](javascript:" not in handoff
+    assert "Related documentation:" not in handoff
+
+
 @pytest.mark.parametrize(
     "integration_id", ["lantern_android", "lantern_ios", "meadow_ios", "harbor_android"]
 )
