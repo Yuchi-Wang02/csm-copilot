@@ -1,12 +1,13 @@
 # Verification record
 
-Local checks recorded through the v0.23 present-tense callback-health iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.24 focused handoff-intake iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 45 passed locally | Fifteen practice, fourteen routing, twelve scoped rendering and four triage-replay checks; not learning outcomes |
+| JavaScript browser-logic tests | 47 passed locally | Fifteen practice, fourteen routing, fourteen scoped rendering and four triage-replay checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 277 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
+| Python behavior tests | 284 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
+| Focused intake requests | Seven Python and two added JavaScript checks pass | Per-issue missing fields, unknown-scope precedence, populated-but-unverified values, free-text limitations, export and browser rendering; no customer-efficiency measurement |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and two remaining counterexamples retained; frozen inputs unchanged |
 | Callback denial | Original 11 failed-before checks still pass; 20 checks total | Eight messages now differ from the original frozen results, including the later health-denial repair; six positive controls and two remaining mismatches |
 | Present-tense callback health | Seven failed-before checks now pass; 14 checks total | Five repaired messages, six retained controls, one quoted-topic mismatch and two handoff variants; inspected development cases |
@@ -29,6 +30,8 @@ Local checks recorded through the v0.23 present-tense callback-health iteration 
 | GitHub Pages deployment | Published successfully | Public static replay |
 
 ## Browser interactions inspected
+
+The v0.24 browser check opened Harbor's handoff over local HTTP and inspected the focused request for reproduction steps and redacted logs. The recorded SDK version, region and time window remained visible; expanding the broader questions retained the original callback suggestions. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels, without horizontal overflow. The inspected session had no browser errors. Both rebuilt PDF pages were visually checked. Historical model files were unchanged; their compatibility check explicitly accounts for the two added intake-output keys while requiring equality for the remaining historical fields.
 
 - Android evidence remains blocked; switching to iOS displays its own complete scoped checklist.
 - English and Chinese follow-ups render from the generated engine outputs.

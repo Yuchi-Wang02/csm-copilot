@@ -31,6 +31,15 @@ def assert_historical_callback_result(engine, action, recorded):
         for key, value in added.items():
             assert key not in recorded
             assert current.pop(key) == value
+    if action["tool"] == "draft_ticket":
+        # v0.24 adds intake wording without rewriting either v0.9 recording.
+        assert action["arguments"] == {"issue_id": "issue_callback"}
+        assert "collection_requests" not in recorded and "collection_boundary" not in recorded
+        requests = current.pop("collection_requests")
+        assert [r["field"] for r in requests] == ["reproduction_steps", "redacted_logs"]
+        assert "steps to reproduce" in requests[0]["request"]
+        assert "secrets removed" in requests[1]["request"]
+        assert "not verified" in current.pop("collection_boundary")
     assert current == recorded
 
 

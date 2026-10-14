@@ -80,6 +80,14 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 
 **Next action:** Request missing evidence, then review the handoff; no ticket was submitted.
 
+**Request missing intake details**
+
+- Share the SDK version used in the affected app build.
+- Share the observation start and end time, including date and timezone.
+- Share relevant logs with credentials, tokens, personal data and other secrets removed.
+
+Based on the five structured intake fields for this issue \(project policy\). Recorded values are not verified; review their content and the original report before asking. Details mentioned only in free text are not extracted automatically. Additional candidate-specific evidence may still be needed.
+
 **Original issue record**
 
 Source type: Customer report. Recorded at: 2026-10-09T09:00:00Z.

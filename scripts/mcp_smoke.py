@@ -63,6 +63,10 @@ async def run(server_command: Path | None = None):
             assert results[0]["result"]["time_basis"] == "dataset_snapshot"
             assert results[2]["result"]["decision"] == "blocked"
             assert results[4]["result"]["sent"] is False
+            assert [r["field"] for r in results[4]["result"]["collection_requests"]] == results[4][
+                "result"
+            ]["missing_fields"]
+            assert "not verified" in results[4]["result"]["collection_boundary"]
             assert results[5]["result"]["contact_history_changed"] is False
             assert "approval_promise" in results[6]["result"]["flags"]
             assert results[5]["result"]["intent"] == "evidence_request"

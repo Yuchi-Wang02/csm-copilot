@@ -9,6 +9,7 @@ from typing import Literal
 
 from .communication import compose_followup
 from .friction import build_friction_digest
+from .intake import COLLECTION_BOUNDARY, REQUIRED_FIELDS
 from .models import Dataset
 from .triage_signals import callback_signal, offerwall_signal
 
@@ -241,7 +242,7 @@ class Copilot:
     def draft_ticket(self, issue_id: str):
         issue = self._lookup(self.issues, issue_id, "issue")
         i = self.integrations[issue.integration_id]
-        required = ["sdk_version", "region", "time_window", "reproduction_steps", "redacted_logs"]
+        required = REQUIRED_FIELDS
         fields = {
             "app": i.app,
             "platform": i.platform,
@@ -268,6 +269,10 @@ class Copilot:
             "customer_report": self.evidence[issue.evidence_id].text,
             "evidence_ids": [issue.evidence_id],
             "missing_fields": missing,
+            "collection_requests": []
+            if needs_scope
+            else [{"field": key, "request": REQUIRED_FIELDS[key]} for key in missing],
+            "collection_boundary": COLLECTION_BOUNDARY,
             "handoff_state": "needs_scope"
             if needs_scope
             else "needs_information"

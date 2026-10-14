@@ -80,10 +80,14 @@
           "",
         )}<dt>Evidence</dt><dd>${esc(t.evidence_ids.join(", "))}</dd><dt>Suggested owner</dt><dd>${esc(t.suggested_owner)}</dd></dl>` +
       `<div class="missing">${fieldStatus}</div><p class="boundary">${esc(t.next_action)}</p>` +
+      (t.collection_requests?.length
+        ? `<section class="handoff-questions"><h3>Request missing intake details</h3><ul>${t.collection_requests.map((r) => `<li>${esc(r.request)}</li>`).join("")}</ul></section>`
+        : "") +
+      (t.collection_boundary ? `<p class="boundary">${esc(t.collection_boundary)}</p>` : "") +
       (evidence
         ? `<details><summary>Original issue record · ${esc(evidence.id)}</summary><p class="boundary">${sourceLabel(evidence.kind)} · ${esc(evidence.at)}</p><p lang="${evidence.language === "zh" ? "zh-CN" : "en"}">${esc(evidence.text)}</p></details>`
         : '<p class="boundary">Original issue record unavailable for this platform.</p>') +
-      `<div class="handoff-questions"><h3>Questions to review before handoff</h3><p class="boundary">Suggested questions from lexical triage. Review what is already known before asking the customer; these do not establish a root cause.</p>${(t.triage.candidates || []).map(candidateHTML).join("") || '<p>No candidate questions recorded.</p>'}</div>` +
+      `<details class="handoff-questions"${t.handoff_state === "needs_scope" ? " open" : ""}><summary>Questions to review before handoff</summary><p class="boundary">Broader suggestions from lexical triage. Some details may already be recorded above; these do not establish a root cause. Review the original report before requesting additional evidence.</p>${(t.triage.candidates || []).map(candidateHTML).join("") || '<p>No candidate questions recorded.</p>'}</details>` +
       t.triage.notes.map((note) => `<p class="boundary">${esc(note)}</p>`).join("") +
       `<details><summary>Inspect candidate checks and source URLs · ${esc(issue.id)}</summary><pre>${esc(JSON.stringify(t.triage, null, 2))}</pre></details>` +
       `<details><summary>Trace each handoff field to its record · ${esc(issue.id)}</summary><pre>${esc(JSON.stringify(t.field_sources, null, 2))}</pre></details></article>`

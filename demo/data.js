@@ -813,6 +813,21 @@ window.CSM_DATA = {
               "time_window",
               "redacted_logs"
             ],
+            "collection_requests": [
+              {
+                "field": "sdk_version",
+                "request": "Share the SDK version used in the affected app build."
+              },
+              {
+                "field": "time_window",
+                "request": "Share the observation start and end time, including date and timezone."
+              },
+              {
+                "field": "redacted_logs",
+                "request": "Share relevant logs with credentials, tokens, personal data and other secrets removed."
+              }
+            ],
+            "collection_boundary": "Based on the five structured intake fields for this issue (project policy). Recorded values are not verified; review their content and the original report before asking. Details mentioned only in free text are not extracted automatically. Additional candidate-specific evidence may still be needed.",
             "handoff_state": "needs_information",
             "root_cause": "unconfirmed",
             "triage": {
@@ -1658,6 +1673,17 @@ window.CSM_DATA = {
               "reproduction_steps",
               "redacted_logs"
             ],
+            "collection_requests": [
+              {
+                "field": "reproduction_steps",
+                "request": "Share the steps to reproduce the issue, including the expected and observed result."
+              },
+              {
+                "field": "redacted_logs",
+                "request": "Share relevant logs with credentials, tokens, personal data and other secrets removed."
+              }
+            ],
+            "collection_boundary": "Based on the five structured intake fields for this issue (project policy). Recorded values are not verified; review their content and the original report before asking. Details mentioned only in free text are not extracted automatically. Additional candidate-specific evidence may still be needed.",
             "handoff_state": "needs_information",
             "root_cause": "unconfirmed",
             "triage": {
@@ -3326,7 +3352,7 @@ window.CSM_DATA = {
     "boundary": "This is a snapshot of recorded states, not a weekly trend, prevalence estimate, confirmed root cause or product priority score. Proposed questions and owners are unvalidated project suggestions. Nothing was sent to Product."
   },
   "callback_denial": {
-    "project_version": "0.23.0",
+    "project_version": "0.24.0",
     "before_commit": "b1a7ca2059a4fea529bb3c433ceb8b7e1f33db8c",
     "before_sha256": "0d7cfaeb79ba470713aed8594022439e7d7c33608a5a4bd31101b271974547f5",
     "boundary": "AI-assisted developer-authored probes. Captured before the callback-denial change; not held out or independently labelled. No model inference.",

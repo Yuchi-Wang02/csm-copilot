@@ -141,6 +141,8 @@ Open [Harbor's handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_
 
 Write a short customer follow-up that requests only the missing details. Trace each retained question to either a missing handoff field or a candidate check, and explain why HTTP 405 alone does not establish the cause. Download the platform brief and verify that another reviewer could find the same original report and questions. Save your own first reasoning and later revision separately; this guide does not supply or certify your personal answer.
 
+The v0.24 handoff now offers a focused intake request above the broader candidate questions. Explain why its two requests differ from the full troubleshooting list. Then predict what should happen if the structured time window is empty even though the original message mentions a time, or if every field contains an unreviewed placeholder. Inspect `tests/test_collection_requests.py` and compare your prediction with the implemented behavior. What would you change before using this policy with real customers? Keep that judgment separate from whether the tests pass.
+
 ## Distinguish a reported symptom from a test observation
 
 In the handoff's original-record disclosure, find the source type and recorded timestamp. Explain what additional context you would want if the same symptom came from a test record instead of a customer report. A label identifies the declared origin; it does not prove reproducibility or current customer impact.

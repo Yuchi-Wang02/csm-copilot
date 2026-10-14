@@ -25,7 +25,7 @@ The current scope is deliberately bounded: Offerwall publisher onboarding, two i
 
 For a first visit, use the [on-page review route](https://yuchi-wang02.github.io/csm-copilot/#start): inspect a customer next action, compare a recorded AI mistake with its corrections, then explain a decision before revealing the practice guidance. The suggested timing is a presentation aid, not a measured completion time.
 
-For a focused handoff example, open [Harbor's callback case](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace). Its original report, candidate questions and unconfirmed HTTP 405 hypothesis are readable in the panel and platform brief. Compare what the customer already supplied with what still needs to be requested; the generic questions require CSM review.
+For a focused handoff example, open [Harbor's callback case](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace). Its next intake request asks for reproduction steps and redacted logs, while retaining the recorded SDK version, region and time window. The original report, broader candidate questions and unconfirmed HTTP 405 hypothesis remain inspectable in the panel and platform brief. Field presence does not verify its content; details mentioned only in free text still require CSM review.
 
 | Portfolio question | Open this artifact |
 |---|---|
@@ -124,7 +124,7 @@ python scripts/build_demo.py
 python -m http.server 8000 --directory demo
 ```
 
-Open `http://localhost:8000`. The static demo also works by opening `demo/index.html`; clipboard support may vary on file URLs. The optional Google Fonts request falls back to local system fonts when offline. No account data leaves the page.
+Open `http://localhost:8000`. Browser verification uses HTTP; direct-file opening of `demo/index.html` remains unverified in this environment. The optional Google Fonts request falls back to local system fonts when offline. No account data leaves the page.
 
 To check the distributable package as well as the editable checkout:
 

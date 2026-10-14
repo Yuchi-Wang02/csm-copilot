@@ -2,6 +2,35 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const api = require("../demo/case-review.js");
 
+test("focused requests precede optional broader questions and escape all text", () => {
+  const data = packet();
+  const ticket = data.tickets[0];
+  ticket.collection_requests = [{field: "redacted_logs", request: "Share logs <script>run()</script>"}];
+  ticket.collection_boundary = "Recorded <values> are not verified.";
+  ticket.triage.candidates = [{category: "reward_callback", questions: ["Share the time window."], source_url: null}];
+  const original = JSON.stringify(data);
+  const html = api.handoffHTML(api.issuesFor(data, "android").slice(0, 1));
+  assert.match(html, /Request missing intake details/);
+  assert.match(html, /Share logs &lt;script&gt;/);
+  assert.match(html, /Recorded &lt;values&gt; are not verified/);
+  assert.doesNotMatch(html, /<script>/);
+  assert.match(html, /<details class="handoff-questions"><summary>/);
+  assert.ok(html.indexOf("Request missing intake details") < html.indexOf("Share the time window."));
+  assert.equal(JSON.stringify(data), original);
+});
+
+test("scope questions stay expanded without an empty technical request section", () => {
+  const data = packet();
+  const ticket = data.tickets[0];
+  ticket.handoff_state = "needs_scope";
+  ticket.collection_requests = [];
+  ticket.triage.candidates = [{category: "unknown", questions: ["What outcome do you need?"], source_url: null}];
+  const html = api.handoffHTML(api.issuesFor(data, "android").slice(0, 1));
+  assert.match(html, /<details class="handoff-questions" open>/);
+  assert.match(html, /What outcome do you need/);
+  assert.doesNotMatch(html, /Request missing intake details/);
+});
+
 test("issue displays preserve whether the original source is a customer report or a test", () => {
   const data = packet();
   for (const [kind, label, disclosure] of [

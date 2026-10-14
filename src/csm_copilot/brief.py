@@ -203,6 +203,13 @@ def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | 
                 "",
                 f"**Next action:** {text(ticket['next_action'])}",
             ]
+            if ticket.get("collection_requests"):
+                lines += ["", "**Request missing intake details**", ""]
+                lines += [
+                    "- " + cell(request["request"]) for request in ticket["collection_requests"]
+                ]
+            if ticket.get("collection_boundary"):
+                lines += ["", text(ticket["collection_boundary"])]
             lines += ["", "**Original issue record**", ""]
             source = _issue_source(packet, ticket)
             if source is None:

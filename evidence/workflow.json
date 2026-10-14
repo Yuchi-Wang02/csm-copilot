@@ -812,6 +812,21 @@
             "time_window",
             "redacted_logs"
           ],
+          "collection_requests": [
+            {
+              "field": "sdk_version",
+              "request": "Share the SDK version used in the affected app build."
+            },
+            {
+              "field": "time_window",
+              "request": "Share the observation start and end time, including date and timezone."
+            },
+            {
+              "field": "redacted_logs",
+              "request": "Share relevant logs with credentials, tokens, personal data and other secrets removed."
+            }
+          ],
+          "collection_boundary": "Based on the five structured intake fields for this issue (project policy). Recorded values are not verified; review their content and the original report before asking. Details mentioned only in free text are not extracted automatically. Additional candidate-specific evidence may still be needed.",
           "handoff_state": "needs_information",
           "root_cause": "unconfirmed",
           "triage": {
@@ -1657,6 +1672,17 @@
             "reproduction_steps",
             "redacted_logs"
           ],
+          "collection_requests": [
+            {
+              "field": "reproduction_steps",
+              "request": "Share the steps to reproduce the issue, including the expected and observed result."
+            },
+            {
+              "field": "redacted_logs",
+              "request": "Share relevant logs with credentials, tokens, personal data and other secrets removed."
+            }
+          ],
+          "collection_boundary": "Based on the five structured intake fields for this issue (project policy). Recorded values are not verified; review their content and the original report before asking. Details mentioned only in free text are not extracted automatically. Additional candidate-specific evidence may still be needed.",
           "handoff_state": "needs_information",
           "root_cause": "unconfirmed",
           "triage": {
