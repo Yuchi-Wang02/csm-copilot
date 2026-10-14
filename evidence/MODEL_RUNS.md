@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Ten exploratory attempts across three prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Eleven exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -198,6 +198,20 @@ Observed requested tool actions: 2/2. Final response present: True.
 
 Narrow promise lint flags: []. No flags does not establish fidelity.
 
+## Qwen3-4B · queue-first morning review
+
+**Review verdict:** Invented identifiers; five-action batch rejected.
+The task supplied no account or integration IDs. The model proposed a queue lookup together with dependent calls using unsupported IDs, in a five-action batch. The four-action limit rejected the entire response before any tool executed. No queue was retrieved and no follow-up or handoff was prepared.
+
+**Task:** Use the fixed synthetic snapshot to find non-live accounts strictly more than three days since recorded contact, including unknown contact history. From the returned queue, select the first account under its planned-launch ordering. Retrieve that account's context, check each of its integrations and prepare an English follow-up for each. Prepare a handoff for each recorded issue on that account. Then explain in at most 220 words why it was selected, how its platform next steps differ, and what is missing from its handoffs. Cite source IDs for recorded facts. Keep missing evidence separate from recorded failures; do not imply launch approval, a confirmed cause or issue resolution. State that nothing was sent or submitted.
+
+Observed requested tool actions: 0/7. Final response present: False.
+[Complete trace](model-runs/qwen4-morning-review.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+- **format: Five proposed actions exceed the batch limit.** The recorded response is a JSON array of five actions. The host accepts at most four and rejected the whole array. The list\_accounts proposal was not executed; it cannot count as completed queue selection.
+- **unsupported: Dependent calls used identifiers before discovery.** The model supplied account\_id=12345, integration\_id=67890 and issue\_id=12345 in the first response, before any tool result. These identifiers were absent from the task and are not in the synthetic fixture. Batch-size rejection was the actual stopping condition; no identifier-validation error was returned by a tool.
+- **incomplete: Zero of seven requested actions observed.** The fixed-fixture coverage check expects the snapshot queue, its first account context, both platform readiness checks, both English drafts and the recorded issue handoff. None executed; final=null. Coverage does not test dependency order or prove the quality of an explanation.
+- **boundary: One uncorrected development attempt.** The run used the existing cached Qwen3-4B revision, 768 generated tokens per turn, an eight-turn cap and zero corrections. It stopped on turn one after 97 generated tokens, without reaching the token cap. This is a preserved failure on a newly authored task, not a model ranking or evidence that queue-first orchestration works.
 ## Compare the callback handoff attempts
 
 Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.

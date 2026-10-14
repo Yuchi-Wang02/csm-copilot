@@ -1,8 +1,8 @@
 # An actual model run, including the failures
 
-The project contains ten exploratory local model attempts across three synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
+The project contains eleven exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
 
-The newest attempt repeats the inbound-message task after neutralizing the unknown-scope questions. Both exact-message calls succeed, and the invoice follow-up now asks about account/product context rather than an app failure. It still copies broad fallback questions. The original and revised answers remain available; this is an observed development pair, not a general model-quality result.
+The newest attempt starts with a morning-review request containing no account or integration IDs. It proposes five actions, including dependent calls with unsupported identifiers, before reading any tool result. The four-action batch limit rejects the entire response, so no queue or account data reaches the model. The earlier inbound-message comparison remains available below.
 
 **The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
@@ -63,9 +63,9 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 Since v0.26, the browser also renders the existing trace as a turn-by-turn conversation. It distinguishes parsed model proposals, recorded tool calls and errors, parser rejection, structured-field checks, and host correction requests. A model proposal is not counted as an executed call. Correction feedback is labeled as host-supplied assistance, including when it provides expected values. Final prose remains unverified even after fields match. The view retains initial messages, unedited model output and the full raw steps; no historical file is rewritten.
 
-Seven browser-logic tests cover all ten recordings, the four-call unsupported answer, parser rejection with no execution, a tool error beside successful calls, two field-review corrections, exhausted parse corrections, and escaping model/host/tool text. These are presentation and provenance checks, not new model results.
+Seven browser-logic tests cover all eleven recordings, the four-call unsupported answer, parser rejection with no execution (including the queue-first attempt), a tool error beside successful calls, two field-review corrections, exhausted parse corrections, and escaping model/host/tool text. These are presentation and provenance checks, not model-quality scores.
 
-The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, and two exact-message triage calls for inbound scope review. The separate source review examines the final prose. Do not combine these into one unqualified accuracy number.
+The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, two exact-message triage calls for inbound scope review, and seven fixed-fixture calls for morning review. Coverage does not check dependency order or prove that IDs were discovered from tool results; inspect the sequence separately. The separate source review examines final prose when present. Do not combine these into one unqualified accuracy number.
 
 For an interview exercise, hide the review panel, annotate every claim in the unedited response, then compare your findings. Explain why the model can choose the correct tools yet still overstate their results, and why a zero-flag lint result should not approve the answer.
 
@@ -123,3 +123,17 @@ The tenth recording repeats that exact task after changing the tool's unknown-sc
 The final answer uses candidate language and explicitly says nothing was sent. Its invoice questions remain broad, and it does not explain lexical retrieval or cite the Offerwall URL. One matched development pair supports this observation, not a general quality estimate. A regression check compares the controls and verifies that the only returned-data difference is the unknown candidate's question list. It does not score the usefulness of the answer.
 
 [Earlier raw trace](../evidence/model-runs/qwen4-triage-scope.json) · [New raw trace](../evidence/model-runs/qwen4-triage-neutral-questions.json) · [Integrity checks](../tests/test_recorded_model_runs.py)
+
+## Queue-first morning review: first recorded attempt
+
+The eleventh attempt starts before account selection. Its task asks for the fixed snapshot's non-live accounts strictly more than three days since contact, including unknown history, then the first account under the tool's planned-launch ordering. It requests context, readiness and English follow-ups for each integration, handoffs for recorded issues, and an evidence-citing explanation. The task contains no account, integration or issue IDs. The same batch system instruction supplies the available tool schemas.
+
+The host task and coverage definitions were committed in `9341d2f5544bd0e9aedfe1e8d80fe763b02fe7a6` before the run. Use the reproduction command above with `--task morning_review --protocol batch --max-steps 8 --max-new-tokens 768` and a fresh output path. This uses the existing cached Qwen3-4B revision, the same sampling configuration and zero repair attempts. The fixed v0.29.8 release predates this task and recording.
+
+**Observed:** on turn one, the model returned a five-item JSON array: `list_accounts`, `get_account_context`, `check_readiness`, `draft_followup`, and `draft_ticket`. The dependent calls supplied `12345` and `67890` as identifiers before any result had been returned. Those IDs occur in neither the prompt nor the fixture. The actual rejection was **"An action batch must contain 1..4 actions"**. The host rejected the entire batch; it did not execute the otherwise relevant queue lookup, return an invalid-ID tool error, or silently salvage a subset.
+
+The response used 97 generated tokens and did not reach the 768-token cap. No final explanation, corrections or retries followed. Coverage is **0/7**: snapshot queue, selected account context, two readiness checks, two English drafts and one issue handoff. Those expectations are tied to this fixed fixture, with a test checking its first account and scoped records. They are evaluator knowledge, not IDs supplied to the model, and this count does not evaluate sequencing or answer usefulness.
+
+The result does not demonstrate account discovery or a completed CSM workflow. It exposes a dependency problem in the proposed plan alongside the batch-format violation. A future iteration could explicitly require the queue result before selecting an account and the context result before proposing its issue calls; any resulting run must be kept separately and reviewed for observed order, unsupported IDs, extra calls and final claims. A single revised run would remain development evidence, not a general reliability gain.
+
+[Raw recording](../evidence/model-runs/qwen4-morning-review.json) · [Browser replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-review#model-runs). The previous ten raw recordings are unchanged. Review annotations are AI-assisted and not independent human validation.

@@ -1,5 +1,13 @@
 # Development notes
 
+## Record a queue-first task without supplied account identifiers
+
+The earlier platform task names both integrations. A new `morning_review` task asks the model to obtain the snapshot queue, select its first account, retrieve context and prepare scoped readiness, English follow-ups and issue handoffs. Its seven expected calls are defined against the fixed fixture and tested separately from the prompt; coverage does not establish call order, ID discovery or answer quality. Task and coverage code were committed before inference.
+
+One local Qwen3-4B attempt proposed five actions in its first response, including dependent calls with unsupported `12345` and `67890` identifiers before any tool result. The host rejected the whole batch because the maximum is four. It did not salvage the queue call or execute identifier validation. The recording ends with `invalid_action`, zero of seven requested calls observed, no final answer and no corrections. It used 97 generated tokens without reaching the cap. No retries were performed for this task.
+
+The raw trace is retained byte-for-byte (SHA-256 `31314f78a3b14604473b80e9e3d950007ae602e7b269bf54ab2db6f455896405`) alongside the unchanged previous ten recordings. The browser shows its rejected proposal and empty execution path. The documentation describes the failed dependency plan without claiming successful account discovery. All 341 Python tests and 100 JavaScript tests passed; both PDF pages were rendered and visually checked with the new eleven-attempt count. Browser inspection confirmed 0/7, the exact batch-limit error and no executed calls. Review annotations remain AI-assisted; this is a new development failure, not an independent benchmark. The fixed v0.29.8 release predates the new task and recording.
+
 ## Keep the recorded problem visible in the terminal handoff review
 
 The compact morning review listed issue IDs, handoff state and missing fields but omitted the recorded problem. It now includes the issue record's summary beside each platform's handoff. Harbor's review therefore says that the recorded callback returned HTTP 405 before showing missing reproduction steps and logs. The output does not substitute a draft title, diagnose the cause or establish that the symptom is still current.

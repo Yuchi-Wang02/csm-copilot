@@ -240,9 +240,38 @@
           "assessment": "This is the tenth exploratory recording across three prescribed tasks. The invoice message is a published development probe. A matched prompt and sampling configuration do not make a single generated pair a general reliability estimate, a blinded test or independent human review."
         }
       ]
+    },
+    {
+      "id": "qwen4-morning-review",
+      "label": "Qwen3-4B · queue-first morning review",
+      "protocol": "batch",
+      "verdict": "Invented identifiers; five-action batch rejected",
+      "summary": "The task supplied no account or integration IDs. The model proposed a queue lookup together with dependent calls using unsupported IDs, in a five-action batch. The four-action limit rejected the entire response before any tool executed. No queue was retrieved and no follow-up or handoff was prepared.",
+      "findings": [
+        {
+          "kind": "format",
+          "claim": "Five proposed actions exceed the batch limit",
+          "assessment": "The recorded response is a JSON array of five actions. The host accepts at most four and rejected the whole array. The list_accounts proposal was not executed; it cannot count as completed queue selection."
+        },
+        {
+          "kind": "unsupported",
+          "claim": "Dependent calls used identifiers before discovery",
+          "assessment": "The model supplied account_id=12345, integration_id=67890 and issue_id=12345 in the first response, before any tool result. These identifiers were absent from the task and are not in the synthetic fixture. Batch-size rejection was the actual stopping condition; no identifier-validation error was returned by a tool."
+        },
+        {
+          "kind": "incomplete",
+          "claim": "Zero of seven requested actions observed",
+          "assessment": "The fixed-fixture coverage check expects the snapshot queue, its first account context, both platform readiness checks, both English drafts and the recorded issue handoff. None executed; final=null. Coverage does not test dependency order or prove the quality of an explanation."
+        },
+        {
+          "kind": "boundary",
+          "claim": "One uncorrected development attempt",
+          "assessment": "The run used the existing cached Qwen3-4B revision, 768 generated tokens per turn, an eight-turn cap and zero corrections. It stopped on turn one after 97 generated tokens, without reaching the token cap. This is a preserved failure on a newly authored task, not a model ranking or evidence that queue-first orchestration works."
+        }
+      ]
     }
   ],
-  "boundary": "Ten exploratory attempts across three prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Eleven exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

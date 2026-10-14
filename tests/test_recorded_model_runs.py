@@ -56,6 +56,7 @@ def assert_historical_callback_result(engine, action, recorded):
         "qwen4-callback-input-guard",
         "qwen4-triage-scope",
         "qwen4-triage-neutral-questions",
+        "qwen4-morning-review",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):
@@ -67,6 +68,29 @@ def test_recorded_prompt_and_coverage_match_trace(name):
     assert trace_coverage(trace) == trace["coverage"]
     assert trace["model_inference"] is True
     assert trace["runtime"]["enable_thinking"] is False
+
+
+def test_morning_recording_preserves_rejected_proposals_without_execution():
+    trace = json.loads((DIRECTORY / "qwen4-morning-review.json").read_text(encoding="utf-8"))
+    assert trace["task_id"] == "morning_review"
+    assert trace["status"] == "invalid_action"
+    assert trace["repair_budget"] == 0 and trace["final"] is None
+    assert len(trace["steps"]) == 1
+    step = trace["steps"][0]
+    proposals = json.loads(step["model_response"]["text"])
+    assert len(proposals) == 5
+    assert proposals[0] == {
+        "tool": "list_accounts",
+        "arguments": {"stale_days": 3, "include_live": False},
+    }
+    assert step["parse_error"] == "An action batch must contain 1..4 actions"
+    assert not step.get("tool_calls") and "correction_feedback" not in step
+    assert step["model_response"]["token_limit_reached"] is False
+    engine = Copilot()
+    assert proposals[1]["arguments"]["account_id"] not in engine.accounts
+    assert proposals[2]["arguments"]["integration_id"] not in engine.integrations
+    assert proposals[4]["arguments"]["issue_id"] not in engine.issues
+    assert trace["coverage"]["observed"] == 0 and trace["coverage"]["required"] == 7
 
 
 def test_published_tool_results_match_except_documented_followup_wording():

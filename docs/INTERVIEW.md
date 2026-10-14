@@ -127,6 +127,7 @@ Replace the last sentence only after completing and documenting the relevant exe
 | What happens when the handoff data is incomplete or contradictory? | Missing and duplicate matching drafts produce an unavailable-draft notice; the recorded issue remains. The current export also withholds unmatched draft contents. Use [the small handoff experiment](LEARNING.md#trace-a-missing-or-duplicated-handoff) to explain this behavior from an output you have reproduced yourself. |
 | How would you explain the issue to a new publisher? | Start with the customer's question, distinguish the recorded Android failure from unknown settings, and ask for focused evidence. Use the [teaching example](CLIENT_EDUCATION.md) to rehearse that explanation in your own words. |
 | What would you improve first? | Independent cases and human review of model-written claims, then semantic retrieval compared fairly to the baseline. |
+| Can the model start from the queue without being given account IDs? | The [queue-first attempt](LOCAL_MODEL.md#queue-first-morning-review-first-recorded-attempt) failed: it proposed five actions and unsupported IDs before reading any tool result. The batch limit stopped all execution. I can show the preserved failure and explain why dependent calls need evidence from earlier results; successful queue-first orchestration remains unshown. |
 
 ## Portfolio wording
 
