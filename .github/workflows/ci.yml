@@ -23,12 +23,13 @@ jobs:
         with:
           node-version: '24'
       - run: node --test tests-js/practice.test.cjs tests-js/review-links.test.cjs
-      - run: python -m pip install -e ".[dev]"
+      - run: python -m pip install -e ".[dev,brief]"
       - run: python -m ruff check .
       - run: python -m ruff format --check .
       - run: python -m pytest -q
       - run: python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
       - run: python scripts/build_demo.py
       - run: python scripts/build_model_replay.py
-      - run: git diff --exit-code -- demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/product-feedback.md evidence
+      - run: python scripts/build_project_brief.py
+      - run: git diff --exit-code -- demo/project-brief.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/product-feedback.md evidence
       - run: python -m build

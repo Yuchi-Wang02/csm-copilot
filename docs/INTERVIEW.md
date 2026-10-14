@@ -2,6 +2,8 @@
 
 This is a suggested presentation, not a claim that the exercises or interview have already happened.
 
+Use the [two-page PDF brief](../demo/project-brief.pdf) as a leave-behind or offline introduction. It includes clickable links to the examples and identifies the evidence bundle behind its figures.
+
 For a targeted demonstration, use [direct links to the Android evidence, Chinese iOS follow-up, and Harbor handoff](SHARING.md). The selected platform and review step are preserved, so the audience opens the example you intend.
 
 ## 0:00–0:30 — Explain the customer problem

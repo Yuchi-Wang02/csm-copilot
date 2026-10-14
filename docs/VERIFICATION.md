@@ -1,10 +1,11 @@
 # Verification record
 
-Verified through the v0.8 shareable reviews on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.8 shareable reviews and portable PDF brief on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 10 passed locally | Five practice checks plus five routing checks; not learning outcomes |
+| Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 109 passed locally | Workflow, source scope, next-action selection, readable exports and UTF-8 output |
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
 | Ruff lint and format | Passed | Python source checks |
@@ -41,10 +42,12 @@ The v0.7 browser check exercised all three decisions, both matching and differin
 
 The v0.8 browser check opened a Chinese iOS follow-up and Harbor handoff directly, verified the exact public URL in the clipboard, restored the previous view with Back, and confirmed invalid-setting fallback notices. Practice evidence links retained a test note while opening the appropriate iOS follow-up or Android comparison. The original Android panel stayed unchanged when the comparison toggle was active. The complete iOS empty-handoff view now proposes launch-plan review. Mobile document and scroll widths both measured 360 CSS pixels with the share-link controls expanded, and no browser errors were recorded. [Review-link screenshot](assets/demo-review-link.png).
 
+The portable brief was rendered and visually reviewed on both pages. Its seven link annotations were extracted and checked, repeated builds produced identical bytes, and the browser-downloaded PDF matched the reviewed file's SHA-256. The new download link fit the inspected mobile layout (360 CSS pixels for both document and scroll width), with no browser errors. Rebuild instructions and metadata conventions are in [the brief guide](PROJECT_BRIEF.md).
+
 ## Reproduction
 
 ```sh
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,brief]"
 python -m pytest -q
 node --test tests-js/practice.test.cjs tests-js/review-links.test.cjs
 python -m ruff check .
@@ -52,7 +55,8 @@ python -m ruff format --check .
 python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
 python scripts/build_demo.py
 python scripts/build_model_replay.py
-git diff --exit-code -- demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/product-feedback.md evidence
+python scripts/build_project_brief.py
+git diff --exit-code -- demo/project-brief.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/product-feedback.md evidence
 python -m build
 ```
 

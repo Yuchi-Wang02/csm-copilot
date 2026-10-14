@@ -6,7 +6,7 @@
 
 A working MCP server and interactive case explorer for a customer-success morning review: find accounts needing attention, inspect app/platform evidence, draft bilingual follow-ups, and prepare technical handoffs.
 
-**[Explore the interactive demo](https://yuchi-wang02.github.io/csm-copilot/)** · **[Three-minute interview walkthrough](docs/INTERVIEW.md)** · **[Evaluation results](evidence/EVALUATION.md)** · **[Learning path](docs/LEARNING.md)** · **[Practice the decisions](https://yuchi-wang02.github.io/csm-copilot/#practice)**
+**[Explore the interactive demo](https://yuchi-wang02.github.io/csm-copilot/)** · **[Two-page project brief (PDF)](demo/project-brief.pdf)** · **[Three-minute interview walkthrough](docs/INTERVIEW.md)** · **[Evaluation results](evidence/EVALUATION.md)** · **[Learning path](docs/LEARNING.md)** · **[Practice the decisions](https://yuchi-wang02.github.io/csm-copilot/#practice)**
 
 ![CSM Copilot case explorer](docs/assets/demo-case.png)
 
@@ -32,7 +32,7 @@ The current scope is deliberately bounded: Offerwall publisher onboarding, two i
 | How can I explain the judgment myself? | [Three interactive practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice), a downloadable reflection, and [the learning path](docs/LEARNING.md) |
 | Can I share a specific example or take it away? | [Direct review links](docs/SHARING.md), [English morning brief](evidence/morning-review-en.md), and [brief with Chinese drafts](evidence/morning-review-zh.md) |
 
-The latest release adds shareable review selections and restores them with browser Back/Forward. Practice evidence links open the relevant platform while retaining in-page notes. See [development notes](docs/DEVELOPMENT.md) for the iteration history and [verification](docs/VERIFICATION.md) for the checks and their limits.
+A [two-page project brief](demo/project-brief.pdf) provides a portable introduction to the workflow, recorded AI failure and improvement, contribution boundaries, and evidence links. The website also supports shareable review selections and restores them with browser Back/Forward. Practice evidence links open the relevant platform while retaining in-page notes. See [development notes](docs/DEVELOPMENT.md) for the iteration history and [verification](docs/VERIFICATION.md) for the checks and their limits.
 
 ## Start with one case
 

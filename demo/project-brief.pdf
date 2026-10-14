@@ -1,0 +1,621 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document (opensource)
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://yuchi-wang02.github.io/csm-copilot/)
+>> /Border [ 0 0 0 ] /Rect [ 54 76 181.84 88 ] /Subtype /Link /Type /Annot
+>>
+endobj
+5 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/Yuchi-Wang02/csm-copilot)
+>> /Border [ 0 0 0 ] /Rect [ 201.12 76 309.51 88 ] /Subtype /Link /Type /Annot
+>>
+endobj
+6 0 obj
+<<
+/Annots [ 4 0 R 5 0 R ] /Contents 16 0 R /MediaBox [ 0 0 612 792 ] /Parent 15 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+7 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence#workspace)
+>> /Border [ 0 0 0 ] /Rect [ 54 172 112.36 184 ] /Subtype /Link /Type /Annot
+>>
+endobj
+8 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace)
+>> /Border [ 0 0 0 ] /Rect [ 131.64 172 230.56 184 ] /Subtype /Link /Type /Annot
+>>
+endobj
+9 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://yuchi-wang02.github.io/csm-copilot/#practice)
+>> /Border [ 0 0 0 ] /Rect [ 249.84 172 285.96 184 ] /Subtype /Link /Type /Annot
+>>
+endobj
+10 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/MODEL_RUNS.md)
+>> /Border [ 0 0 0 ] /Rect [ 54 151 198.49 163 ] /Subtype /Link /Type /Annot
+>>
+endobj
+11 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/Yuchi-Wang02/csm-copilot/blob/main/docs/VERIFICATION.md)
+>> /Border [ 0 0 0 ] /Rect [ 217.77 151 298.35 163 ] /Subtype /Link /Type /Annot
+>>
+endobj
+12 0 obj
+<<
+/Annots [ 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R ] /Contents 17 0 R /MediaBox [ 0 0 612 792 ] /Parent 15 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+13 0 obj
+<<
+/Lang (en-US) /PageMode /UseNone /Pages 15 0 R /Type /Catalog
+>>
+endobj
+14 0 obj
+<<
+/Author (Yuchi Wang) /CreationDate (D:20000101000000+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20000101000000+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (An AI-assisted customer-success workflow and inspectable model experiment) /Title (CSM Copilot - Portfolio Brief) /Trapped /False
+>>
+endobj
+15 0 obj
+<<
+/Count 2 /Kids [ 6 0 R 12 0 R ] /Type /Pages
+>>
+endobj
+16 0 obj
+<<
+/Length 5888
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.862745 .886275 .85098 RG
+n 48 42 m 564 42 l S
+.372549 .439216 .419608 rg
+BT /F1 7.5 Tf 9 TL ET
+BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence 1e50be5a0939) Tj T* ET
+BT 1 0 0 1 549.405 29 Tm (1 / 2) Tj T* ET
+Q
+q
+1 0 0 1 54 732 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 3 Tm /F2 8 Tf 11 TL (YUCHI WANG / CUSTOMER SUCCESS x APPLIED AI) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 687 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 4 Tm /F2 31 Tf 35 TL (CSM Copilot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 635 cm
+q
+BT 1 0 0 1 0 26 Tm 21 TL /F1 16 Tf .12549 .337255 .290196 rg (Move onboarding forward.) Tj  T* (Keep the evidence intact.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 611 cm
+q
+.372549 .439216 .419608 rg
+BT 1 0 0 1 0 2.9 Tm /F1 8.1 Tf 11 TL (Independent portfolio project. Not affiliated with Unity. All customer records are synthetic.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 48 555 cm
+q
+.933333 .94902 .913725 rg
+n 0 51 516 -51 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 13 26 cm
+q
+BT 1 0 0 1 0 4 Tm 14 TL /F2 10 Tf .098039 .172549 .168627 rg (5 synthetic accounts) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (8 MCP tools) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (6 recorded model attempts) Tj T* ET
+Q
+Q
+q
+1 0 0 1 13 8 cm
+q
+.372549 .439216 .419608 rg
+BT 1 0 0 1 0 2.9 Tm /F1 8.1 Tf 11 TL (English and Chinese follow-ups | Public evidence snapshot: 14 October 2026) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 54 529 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 4 Tm /F2 12 Tf 16 TL (The customer problem) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 481 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 32 Tm /F1 10 Tf 14 TL -0.035789 Tw (A publisher wants to launch on Friday. An iOS test passed, but a non-test Android device shows a blank Offerwall.) Tj T* 0 Tw (The CSM needs a focused follow-up and a useful technical handoff without turning incomplete information into a) Tj T* (promise.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 455 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 4 Tm /F2 12 Tf 16 TL (The working sequence) Tj T* ET
+Q
+Q
+q
+1 0 0 1 48 387 cm
+q
+.933333 .94902 .913725 rg
+n 0 62 516 -62 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 13 37 cm
+q
+BT 1 0 0 1 0 4 Tm 14 TL /F2 10 Tf .098039 .172549 .168627 rg (Prioritize accounts > inspect evidence > draft > prepare handoff > review) Tj T* ET
+Q
+Q
+q
+1 0 0 1 13 8 cm
+q
+.372549 .439216 .419608 rg
+BT 1 0 0 1 0 13.9 Tm /F1 8.1 Tf 11 TL (The MCP server supplies scoped findings and drafts. A model-enabled host can choose tools. The website replays actual engine outputs) Tj T* (and recorded model runs; it is not a live chat.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 54 361 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 4 Tm /F2 12 Tf 16 TL (One account. Two different next actions.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 48 229 cm
+q
+.933333 .94902 .913725 rg
+n 0 126 516 -30 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 9 105 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 3 Tm /F2 9 Tf 12 TL (Integration) Tj T* ET
+Q
+Q
+q
+1 0 0 1 109 105 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 3 Tm /F2 9 Tf 12 TL (Recorded evidence) Tj T* ET
+Q
+Q
+q
+1 0 0 1 305 105 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 3 Tm /F2 9 Tf 12 TL (CSM next action) Tj T* ET
+Q
+Q
+q
+1 0 0 1 9 63 cm
+q
+BT 1 0 0 1 0 15 Tm 12 TL /F1 9 Tf .098039 .172549 .168627 rg (Moon Garden) Tj  T* /F2 9 Tf (Android) Tj T* ET
+Q
+Q
+q
+1 0 0 1 109 63 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 15 Tm /F1 9 Tf 12 TL (3 unknown checks; 1 failed device check.) Tj T* -0.097833 Tw (Separate settings evidence from a fresh test.) Tj T* 0 Tw ET
+Q
+Q
+q
+1 0 0 1 305 51 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 27 Tm /F1 9 Tf 12 TL (Request missing settings/callback evidence and a) Tj T* (new non-test-device result. Keep launch) Tj T* (unresolved.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 9 9 cm
+q
+BT 1 0 0 1 0 15 Tm 12 TL /F1 9 Tf .098039 .172549 .168627 rg (Moon Garden) Tj  T* /F2 9 Tf (iOS) Tj T* ET
+Q
+Q
+q
+1 0 0 1 109 9 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 15 Tm /F1 9 Tf 12 TL (6 scoped checks met. The records belong to) Tj T* (iOS, not Android.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 305 9 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 15 Tm /F1 9 Tf 12 TL (Confirm changes and review the launch plan.) Tj T* (Checklist completion is not launch approval.) Tj T* ET
+Q
+Q
+q
+1 J
+1 j
+.862745 .886275 .85098 RG
+.5 w
+n 0 96 m 516 96 l S
+n 0 42 m 516 42 l S
+n 0 0 m 516 0 l S
+Q
+Q
+Q
+q
+1 0 0 1 54 218 cm
+q
+BT 1 0 0 1 0 2.9 Tm 11 TL /F1 8.1 Tf .372549 .439216 .419608 rg (Trace the Android failure to ) Tj /F2 8.1 Tf (lantern_android_device_verified) Tj /F1 8.1 Tf (. Two new setting confirmations still do not replace that failed test.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 192 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 4 Tm /F2 12 Tf 16 TL (What a reviewer can inspect) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 158 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 18 Tm /F1 10 Tf 14 TL (Bilingual drafts, explicit missing handoff fields, platform-specific evidence, a Product feedback digest, and a) Tj T* (practice exercise that preserves initial reasoning separately from reflection after guidance.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 48 94 cm
+q
+.933333 .94902 .913725 rg
+n 0 57 516 -57 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 13 35 cm
+q
+.372549 .439216 .419608 rg
+BT 1 0 0 1 0 2.9 Tm /F2 8.1 Tf 11 TL (Contribution and learning) Tj T* ET
+Q
+Q
+q
+1 0 0 1 13 8 cm
+q
+.372549 .439216 .419608 rg
+BT 1 0 0 1 0 13.9 Tm /F1 8.1 Tf 11 TL (Yuchi selected the project direction and CSM workflow. Implementation, synthetic cases, tests and documentation used substantial AI) Tj T* (assistance. Personal mastery exercises and independent human validation are not claimed as completed.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 54 88 cm
+Q
+q
+1 0 0 1 54 74 cm
+q
+.12549 .337255 .290196 RG
+n 0 2.75 m 127.84 2.75 l S
+n 147.12 2.75 m 255.51 2.75 l S
+BT 1 0 0 1 0 4 Tm 14 TL /F1 10 Tf .12549 .337255 .290196 rg (Open the interactive portfolio) Tj .098039 .172549 .168627 rg (   |   ) Tj .12549 .337255 .290196 rg (View code and evidence) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+17 0 obj
+<<
+/Length 5983
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+.862745 .886275 .85098 RG
+n 48 42 m 564 42 l S
+.372549 .439216 .419608 rg
+BT /F1 7.5 Tf 9 TL ET
+BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence 1e50be5a0939) Tj T* ET
+BT 1 0 0 1 549.405 29 Tm (2 / 2) Tj T* ET
+Q
+q
+1 0 0 1 54 732 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 3 Tm /F2 8 Tf 11 TL (EXECUTION EVIDENCE / FAILURE / IMPROVEMENT) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 687 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 4 Tm /F2 31 Tf 35 TL (AI behavior you can inspect) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 649 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 18 Tm /F1 10 Tf 14 TL (Correct tool use does not guarantee a faithful explanation. The project preserves the failed outputs as well as the) Tj T* (changes made in response.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 48 438 cm
+q
+.933333 .94902 .913725 rg
+n 0 204 516 -30 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 9 183 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 3 Tm /F2 9 Tf 12 TL (Observed step) Tj T* ET
+Q
+Q
+q
+1 0 0 1 114 183 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 3 Tm /F2 9 Tf 12 TL (What happened) Tj T* ET
+Q
+Q
+q
+1 0 0 1 329 183 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 3 Tm /F2 9 Tf 12 TL (Design response) Tj T* ET
+Q
+Q
+q
+1 0 0 1 9 153 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 3 Tm /F1 9 Tf 12 TL (1. Tool calls succeed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 114 129 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 27 Tm /F1 9 Tf 12 TL (Qwen3-4B executed 4/4 requested calls, then) Tj T* (described iOS as having 'full compliance' and) Tj T* (omitted citations.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 329 129 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 27 Tm /F1 9 Tf 12 TL (Separate tool coverage from answer fidelity.) Tj T* -0.094833 Tw (Preserve the raw output and compare claims) Tj T* 0 Tw (with sources.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 9 87 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 15 Tm /F1 9 Tf 12 TL (2. Format is) Tj T* (constrained) Tj T* ET
+Q
+Q
+q
+1 0 0 1 114 75 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 27 Tm /F1 9 Tf 12 TL (Parseable JSON still repeated platforms and) Tj T* (included an issue-only source as readiness) Tj T* (evidence.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 329 75 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 27 Tm /F1 9 Tf 12 TL (Check scope, unknowns, failures and) Tj T* (readiness IDs against actual tool results.) Tj T* (Reject mismatches.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 9 45 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 3 Tm /F1 9 Tf 12 TL (3. Fields finally match) Tj T* ET
+Q
+Q
+q
+1 0 0 1 114 9 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 39 Tm /F1 9 Tf 12 TL (After 2 recorded correction requests, the) Tj T* (structured fields matched. The explanation still) Tj T* (lacked inline source IDs and an explicit) Tj T* (nothing-sent sentence.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 329 33 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 15 Tm /F1 9 Tf 12 TL (Render a separate summary from checked) Tj T* -0.012333 Tw (tool fields. Keep free prose visibly unverified.) Tj T* 0 Tw ET
+Q
+Q
+q
+1 J
+1 j
+.862745 .886275 .85098 RG
+.5 w
+n 0 174 m 516 174 l S
+n 0 120 m 516 120 l S
+n 0 66 m 516 66 l S
+n 0 0 m 516 0 l S
+Q
+Q
+Q
+q
+1 0 0 1 54 426 cm
+Q
+q
+1 0 0 1 48 364 cm
+q
+.956863 .909804 .862745 rg
+n 0 62 516 -62 re f*
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 13 37 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 4 Tm /F2 10 Tf 14 TL (Result: assisted recovery on one task, not a model accuracy score.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 13 8 cm
+q
+.372549 .439216 .419608 rg
+BT 1 0 0 1 0 13.9 Tm /F1 8.1 Tf 11 TL (Prompts, response contracts and generation settings changed across attempts. Correction feedback supplied expected values. Field) Tj T* (agreement does not verify source truth or free prose. The source comparison is AI-assisted, not independent human review.) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 54 338 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 4 Tm /F2 12 Tf 16 TL (What the checks establish) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 290 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 32 Tm /F1 10 Tf 14 TL (Real MCP transport, repeatable workflow outputs and tested evidence boundaries. The lexical triage diagnostic) Tj T* (matched 14/18 family-separated synthetic messages; the same development effort authored the cases. No) Tj T* (production adoption, measured time savings or general reliability is claimed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 264 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 4 Tm /F2 12 Tf 16 TL (How to demonstrate the learning) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 216 cm
+q
+.098039 .172549 .168627 rg
+BT 1 0 0 1 0 32 Tm /F1 10 Tf 14 TL (Explain one decision before opening the guidance. Trace it to a source. Identify what would change your) Tj T* (conclusion. Then make and verify a small improvement you can explain yourself. The practice download keeps) Tj T* (original reasoning and later reflection distinct; it does not grade them.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 190 cm
+q
+.12549 .337255 .290196 rg
+BT 1 0 0 1 0 4 Tm /F2 12 Tf 16 TL (Open the evidence) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 170 cm
+q
+.12549 .337255 .290196 RG
+n 0 2.75 m 58.36 2.75 l S
+n 77.64 2.75 m 176.56 2.75 l S
+n 195.84 2.75 m 231.96 2.75 l S
+BT 1 0 0 1 0 4 Tm 14 TL /F1 10 Tf .12549 .337255 .290196 rg (Android case) Tj .098039 .172549 .168627 rg (   |   ) Tj .12549 .337255 .290196 rg (Chinese iOS follow-up) Tj .098039 .172549 .168627 rg (   |   ) Tj .12549 .337255 .290196 rg (Practice) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 149 cm
+q
+.12549 .337255 .290196 RG
+n 0 2.75 m 144.49 2.75 l S
+n 163.77 2.75 m 244.35 2.75 l S
+BT 1 0 0 1 0 4 Tm 14 TL /F1 10 Tf .12549 .337255 .290196 rg (Six model recordings and review) Tj .098039 .172549 .168627 rg (   |   ) Tj .12549 .337255 .290196 rg (Verification record) Tj T* ET
+Q
+Q
+q
+1 0 0 1 54 120 cm
+q
+.372549 .439216 .419608 rg
+BT 1 0 0 1 0 13.9 Tm /F1 8.1 Tf 11 TL (Source basis: evidence/workflow.json; evidence/model-runs/qwen4-batch.json; evidence/model-runs/qwen4-constrained.json;) Tj T* (evidence/evaluation.json. Links open the current public project. The evidence fingerprint in the footer identifies the source bundle used here.) Tj T* ET
+Q
+Q
+ 
+endstream
+endobj
+xref
+0 18
+0000000000 65535 f 
+0000000061 00000 n 
+0000000102 00000 n 
+0000000209 00000 n 
+0000000321 00000 n 
+0000000496 00000 n 
+0000000675 00000 n 
+0000000894 00000 n 
+0000001116 00000 n 
+0000001346 00000 n 
+0000001536 00000 n 
+0000001747 00000 n 
+0000001960 00000 n 
+0000002200 00000 n 
+0000002284 00000 n 
+0000002636 00000 n 
+0000002703 00000 n 
+0000008643 00000 n 
+trailer
+<<
+/ID 
+[<f996c800c7e0deaa7efca62d5a84125c><f996c800c7e0deaa7efca62d5a84125c>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 14 0 R
+/Root 13 0 R
+/Size 18
+>>
+startxref
+14678
+%%EOF
