@@ -9,6 +9,51 @@ from csm_copilot.engine import Copilot
 from csm_copilot.timing import evidence_timing
 
 
+@pytest.mark.parametrize("conflicting_date", [False, True])
+@pytest.mark.parametrize("reverse", [False, True])
+def test_ambiguous_scoped_dates_are_withheld_regardless_of_record_order(conflicting_date, reverse):
+    engine = Copilot()
+    readiness = engine.check_readiness("lantern_android")
+    context = engine.get_account_context("acc_014")
+    identifier = "lantern_android_device_verified"
+    duplicate = deepcopy(next(r for r in context["evidence"] if r["id"] == identifier))
+    if conflicting_date:
+        duplicate["at"] = "2026-10-14T09:00:00Z"
+    context["evidence"].append(duplicate)
+    if reverse:
+        context["evidence"].reverse()
+    original = deepcopy((readiness, context))
+
+    timing = evidence_timing(readiness, context)
+
+    assert timing["unavailable_ids"] == [identifier]
+    assert identifier not in {r["id"] for r in timing["records"]}
+    assert len(timing["records"]) == 2
+    assert readiness["decision"] == "blocked"
+    assert (readiness, context) == original
+
+
+@pytest.mark.parametrize("wrong_scope", ["account_id", "integration_id"])
+@pytest.mark.parametrize("reverse", [False, True])
+def test_unrelated_same_id_record_cannot_hide_one_unique_scoped_date(wrong_scope, reverse):
+    engine = Copilot()
+    readiness = engine.check_readiness("lantern_android")
+    context = engine.get_account_context("acc_014")
+    baseline = evidence_timing(readiness, context)
+    unrelated = deepcopy(
+        next(r for r in context["evidence"] if r["id"] == "lantern_android_device_verified")
+    )
+    unrelated[wrong_scope] = "unrelated"
+    unrelated["at"] = "not a timestamp in this platform's evidence"
+    context["evidence"].append(unrelated)
+    if reverse:
+        context["evidence"].reverse()
+    original = deepcopy((readiness, context))
+
+    assert evidence_timing(readiness, context) == baseline
+    assert (readiness, context) == original
+
+
 def test_update_has_one_new_source_but_retains_the_older_failed_device_record():
     comparison = build_demo()["counterfactual"]
     before, after = comparison["before_timing"], comparison["after_timing"]

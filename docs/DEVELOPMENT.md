@@ -435,3 +435,11 @@ Two new regression cases failed before the repair and pass afterward. They cover
 The MCP initialization instructions said to distinguish unknown from missing, although missing evidence is one reason a check is unknown. They now distinguish insufficient evidence from a recorded unmet requirement. The morning prompt explicitly includes unknown-contact entries without calling them overdue, names the review and dataset dates, and requests a follow-up for each queued integration. A completed checklist therefore retains its launch-plan-review follow-up. Proposed ownership remains project policy rather than a confirmed assignment.
 
 The scripted transport transcript now captures the actual initialization instructions and both retrieved prompt responses. This makes the guidance inspectable beside the tool results and allows the existing isolated-wheel comparison to check that the installed server delivers the same instructions. Tool rules, synthetic records and historical model recordings are unchanged. This is a guidance correction and protocol observation, not a new model run or evidence that a host follows these instructions reliably.
+
+## v0.29.3: keep ambiguous dates out of the evidence timeline
+
+The source quotation views required one unique scoped record, but the timing helper indexed records by ID with the last match winning. In a deliberately malformed copy of a replay packet, a duplicate could replace the displayed date. A same-ID record from another account or platform could also hide a valid source, depending on array order. The bundled dataset contains no duplicate IDs.
+
+Timing now groups records within the selected account and integration, then requires exactly one match per citation. An ambiguous date is withheld and its ID is listed as unavailable. The exported Evidence index retains the raw records so a reviewer can inspect the conflict; the helper neither reconciles it nor changes readiness.
+
+Ten added regression variants cover identical and conflicting duplicate dates, both array orders, unrelated same-ID records, both draft languages and unchanged input packets. Eight failed before the repair; the two reversed-order controls already passed. All pass after the repair. This aligns descriptive timing with the existing source-view boundary; it is not independent source validation or a new freshness policy.

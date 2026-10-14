@@ -7,19 +7,22 @@ def evidence_timing(readiness: dict, context: dict) -> dict:
     as_of = datetime.fromisoformat(readiness["as_of"])
     if as_of.tzinfo is None:
         raise ValueError("Evidence timing requires a timezone-aware snapshot")
-    records = {record["id"]: record for record in context["evidence"]}
+    records = {}
+    for record in context["evidence"]:
+        if (
+            record["account_id"] == context["account"]["id"]
+            and record["integration_id"] == readiness["integration_id"]
+        ):
+            records.setdefault(record["id"], []).append(record)
     included = {}
     unavailable = set()
     for check in readiness["checks"]:
         for identifier in check["evidence_ids"]:
-            record = records.get(identifier)
-            if (
-                record is None
-                or record["account_id"] != context["account"]["id"]
-                or record["integration_id"] != readiness["integration_id"]
-            ):
+            matches = records.get(identifier, [])
+            if len(matches) != 1:
                 unavailable.add(identifier)
                 continue
+            record = matches[0]
             recorded_at = datetime.fromisoformat(record["at"])
             if recorded_at.tzinfo is None or recorded_at > as_of:
                 raise ValueError(

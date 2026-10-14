@@ -54,6 +54,31 @@ def test_export_is_repeatable_and_read_only():
 
 
 @pytest.mark.parametrize("lang", ["en", "zh"])
+def test_brief_timing_withholds_a_duplicate_source_date_but_keeps_records_for_review(lang):
+    workflow = build_demo()
+    packet = workflow["packets"][0]
+    duplicate = copy.deepcopy(
+        next(
+            r for r in packet["context"]["evidence"] if r["id"] == "lantern_android_device_verified"
+        )
+    )
+    duplicate["at"] = "2026-10-14T09:00:00Z"
+    packet["context"]["evidence"].append(duplicate)
+    original = copy.deepcopy(workflow)
+
+    brief = render_review_brief(workflow, lang, "lantern_android")
+    timing = brief.split("**Timing of supporting records**", 1)[1].split(
+        "**Customer follow-up draft", 1
+    )[0]
+    assert r"Unavailable scoped sources: lantern\_android\_device\_verified" in timing
+    assert r"| lantern\_android\_device\_verified |" not in timing
+    index = brief.split("## Evidence index", 1)[1].split("## Integration record index", 1)[0]
+    assert index.count(r"| lantern\_android\_device\_verified |") == 2
+    assert "**Scoped readiness:** blocked." in brief
+    assert workflow == original
+
+
+@pytest.mark.parametrize("lang", ["en", "zh"])
 @pytest.mark.parametrize("integration_id", [None, "harbor_android"])
 def test_integration_index_resolves_handoff_identity_without_copying_its_values(
     lang, integration_id

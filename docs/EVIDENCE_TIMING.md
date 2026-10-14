@@ -16,10 +16,12 @@ Age is elapsed time between the source timestamp and the fixed snapshot, rounded
 
 There is no invented vendor expiry threshold, automatic stale flag or newest-record-wins rule. An older record can still support a historical observation; a newer message does not necessarily retest it. The CSM must decide whether the customer needs to reconfirm a setting or provide a fresh test. Source age does not establish source truth or current product behavior.
 
-Missing or mis-scoped referenced records appear as unavailable, with no invented date. Future and timezone-naive timestamps are rejected by the timing helper, as they are by the dataset boundary. Timing does not modify readiness, resolve conflicting claims, approve launch or send anything.
+Each citation must resolve to exactly one record in the account and integration. Missing, mis-scoped or duplicate matches appear as unavailable, with no selected date. Even identical duplicates require review; array order does not choose a source. An unrelated record with the same ID cannot hide a unique record in the correct scope. The exported Evidence index retains the underlying records for inspection.
+
+Future and timezone-naive timestamps are rejected for a uniquely resolved source, as they are by the dataset boundary. Timing does not modify readiness, resolve conflicting claims, approve launch or send anything.
 
 ## Reproduction
 
 `python scripts/build_demo.py` builds the browser timing data and both language versions of the Markdown briefs from the same scoped records. The eight MCP tools retain their existing responses; `get_account_context` already returns the underlying timestamps. No new model inference is needed for this descriptive view.
 
-The Python checks cover timezone arithmetic, non-mutation, old records without automatic expiry, missing/mis-scoped sources, invalid dates, shared-source deduplication and the settings-versus-device comparison. Browser-logic checks cover rendering, scope filtering, unavailable sources and text escaping. These are software checks, not a freshness policy or independent evidence validation.
+The Python checks cover timezone arithmetic, non-mutation, old records without automatic expiry, missing/mis-scoped sources, ambiguous same-ID records in either order, invalid dates, shared-source deduplication and the settings-versus-device comparison. Both language exports are checked for withholding an ambiguous date while retaining its raw records. Browser-logic checks cover rendering, scope filtering, unavailable sources and text escaping. These are software checks, not a freshness policy or independent evidence validation.
