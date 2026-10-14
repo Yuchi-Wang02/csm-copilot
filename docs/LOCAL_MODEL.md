@@ -1,6 +1,6 @@
 # An actual model run, including the failures
 
-The project contains seven exploratory local model attempts across two synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
+The project contains eight exploratory local model attempts across two synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
 
 **The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
@@ -78,3 +78,11 @@ The seventh recording asks for Harbor Studio's account context and a handoff for
 The model completed both requested actions and added a portfolio lookup and a triage call. The triage call passed the issue identifier as free-text input, rather than the customer's message. Its final answer preserved HTTP 405, Japan, both missing fields and the issue evidence ID, but described the recorded failed callback check as unconfirmed, omitted the proposed owner and endpoint-method hypothesis, and did not explicitly state that nothing was sent. It did state that no ticket was submitted.
 
 This gives a second failure mode to inspect: valid tool arguments can still be semantically inappropriate. The two-action coverage count measures the required calls, not the quality of the extra calls or final explanation. The new task was authored during development and has not been independently reviewed. [Raw recording](../evidence/model-runs/qwen4-callback-handoff.json) and [AI-assisted comparison](../evidence/MODEL_RUNS.md).
+
+## v0.9.1: reject a known identifier used as customer text
+
+The server now rejects text that, after trimming whitespace, exactly equals a known issue ID. Its error directs the caller to retrieve the message or use the recorded-issue handoff tool. This is a narrow check: it does not detect arbitrary identifiers, establish the meaning of prose, or fix lexical triage's known limitations. Customer prose that includes an identifier remains accepted.
+
+One fresh run repeated the same initial four-call batch. The extra triage call now returned an error; the model did not retry it. Both required calls succeeded. The final answer preserved the failed callback check separately from the unconfirmed cause and explicitly stated that nothing was sent, but omitted source evidence IDs, the proposed owner and the specific endpoint-method hypothesis. The unedited result remains labeled incomplete.
+
+The run used `--task callback_handoff --protocol batch --max-steps 4 --max-new-tokens 768`, without host correction requests. Its trace records project version 0.9.1. The tool description and error behavior differ from the preceding run, so this is an observed development iteration, not a controlled improvement estimate. Older traces retain their historical tool results, including the formerly accepted identifier. Replaying an old action against the current server can intentionally produce a different result. [New raw trace](../evidence/model-runs/qwen4-callback-input-guard.json).

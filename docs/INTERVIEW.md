@@ -72,4 +72,6 @@ Describe the work as an AI-assisted development experiment with inspectable fail
 
 ## Optional audience interaction
 
+For an AI-tool discussion, compare the two callback handoff recordings. The model supplies the same issue ID as triage prose in both. The earlier server accepts it; the newer server rejects it with a useful error while the recorded-issue handoff still succeeds. Explain the narrow exact-match rule and then identify what the newer answer still omits: evidence citations, the proposed owner and the specific hypothesis. This demonstrates a failure-to-control development sequence without claiming that the whole answer became reliable.
+
 Open [Practice](https://yuchi-wang02.github.io/csm-copilot/#practice) and invite the interviewer to choose a next action for the Android update. Explain the distinction between a failed check and an unknown check before showing the guidance. For an AI-focused discussion, use the third decision and identify the remaining omissions in the model explanation. This is a short conversation aid with published answers, not a quiz score to present as professional qualification.

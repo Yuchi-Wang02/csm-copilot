@@ -129,3 +129,11 @@ The local host and coverage checker originally hardcoded the four-action platfor
 One new Qwen3-4B attempt retrieved Harbor's account context and drafted its callback handoff. It also made two extra calls, including triage on an issue identifier rather than customer prose. The explanation cited the issue and preserved several facts, but blurred a failed check with an unconfirmed cause and omitted the owner and specific hypothesis. The trace is retained without correction or rewriting. The replay now exposes each attempt's task and shows account/issue arguments as well as integration IDs.
 
 **Lesson:** successful tool execution can hide an input-meaning error. Coverage, argument suitability, recorded check status, causal uncertainty and final-answer completeness need separate review. A second development task is more evidence to inspect, not an independent benchmark.
+
+## v0.9.1: turn an observed input error into an explicit tool response
+
+Three rejection tests reproduced the issue-ID-as-prose problem; three acceptance cases retained English, Chinese and prose containing an ID. Triage now rejects a bare known issue ID and explains which tool to use. The MCP description states that distinction, and the real stdio check exercises the rejection. The check intentionally does not guess whether every unfamiliar string is an identifier.
+
+A fresh local run repeated the same four-call batch. The extra triage call was rejected while the required context and ticket calls succeeded. The answer distinguished the failed check from causal uncertainty and included a nothing-sent statement, but still omitted evidence IDs, owner and the specific hypothesis. The historical trace remains unchanged; a regression check explicitly preserves its formerly accepted result while expecting rejection from the new engine. New traces record the project version.
+
+**Lesson:** an observed failure can justify a narrow, explainable input check. That check's success does not certify the rest of the model response, and historical evidence must not be rewritten to match newer behavior.

@@ -54,6 +54,8 @@ def check_readiness(integration_id: str) -> dict[str, Any]:
 def triage_issue(issue_text: str, integration_id: str | None = None) -> dict[str, Any]:
     """Retrieve possible checks for blank Offerwall or reward callbacks.
 
+    issue_text must contain customer prose, not an issue ID. For a recorded issue,
+    retrieve its message with get_account_context or use draft_ticket(issue_id).
     Lexical baseline, not semantic diagnosis; negation/paraphrases can fail.
     Returns candidate categories, questions and sources, never a confirmed root cause.
     """

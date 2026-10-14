@@ -12,6 +12,7 @@ from pathlib import Path
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
+from csm_copilot import __version__
 from csm_copilot.host_protocol import parse_action, parse_actions, trace_coverage
 from csm_copilot.response_review import final_response_schema, parse_grounded_actions, review_final
 
@@ -98,6 +99,7 @@ async def run(args):
     )
     trace = {
         "model_inference": False,
+        "project_version": __version__,
         "model_id": args.model_id,
         "revision": args.revision,
         "started_at": datetime.now(timezone.utc).isoformat(),

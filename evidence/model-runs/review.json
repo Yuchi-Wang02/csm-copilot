@@ -143,7 +143,36 @@
           "assessment": "The extra triage_issue call receives issue_text=\"issue_callback\" and no integration scope. A lexical match retrieves the callback category, but this is not evidence that the customer message was triaged. The separate draft_ticket call correctly uses the recorded issue and supplies its actual summary."
         }
       ]
+    },
+    {
+      "id": "qwen4-callback-input-guard",
+      "label": "Qwen3-4B · handoff with identifier check",
+      "protocol": "batch",
+      "verdict": "Bad triage input rejected; final answer still incomplete",
+      "summary": "The same initial four-call batch repeats the issue-ID input error. The server rejects that extra call, while both requested actions succeed. The answer separates the failed check from the unconfirmed cause and states nothing was sent, but omits evidence IDs, the proposed owner and the specific hypothesis.",
+      "findings": [
+        {
+          "kind": "rejected",
+          "claim": "Known issue ID passed as customer prose",
+          "assessment": "The model again sends issue_text=\"issue_callback\". In project version 0.9.1 the server returns a tool error with guidance to retrieve the customer message or use draft_ticket. The model does not retry triage. Its valid draft_ticket call separately supplies the actual recorded issue."
+        },
+        {
+          "kind": "supported",
+          "claim": "Failed check, causal uncertainty and nothing sent",
+          "assessment": "The final response preserves callback_verified=not_met separately from the unconfirmed root cause. HTTP 405, region, SDK version, time window, missing fields and the draft state agree with the returned records. It explicitly says nothing was sent."
+        },
+        {
+          "kind": "omitted",
+          "claim": "Evidence citations, owner and specific hypothesis",
+          "assessment": "The answer names account, issue and draft IDs but does not cite msg_issue_callback or the readiness evidence IDs requested by the task. It also omits Technical support after CSM evidence review and the endpoint-method-mismatch hypothesis. These gaps prevent a claim of full task completion."
+        },
+        {
+          "kind": "boundary",
+          "claim": "A repeated task after a tool-contract change",
+          "assessment": "One fresh generation used the same task and sampling configuration, but the tool description and error behavior changed. The first action batch matches the earlier recording. No host correction requests were sent. This is an observed development iteration, not a controlled estimate of general improvement or independent human validation."
+        }
+      ]
     }
   ],
-  "boundary": "Seven exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use."
+  "boundary": "Eight exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use."
 }

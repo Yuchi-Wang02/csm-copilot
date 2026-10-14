@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Seven exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Eight exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -130,5 +130,26 @@ Observed requested tool actions: 2/2. Final response present: True.
 ### Unedited model response — needs review
 
 > Harbor Studio \(acc\_006\) reported a reward callback issue with HTTP 405 in Japan. The callback\_verified status is unconfirmed. Missing fields include reproduction steps and redacted logs. The issue is unconfirmed, and no ticket was submitted. Next action: request missing evidence and review the handoff. Evidence ID: msg\_issue\_callback.
+
+Narrow promise lint flags: []. No flags does not establish fidelity.
+
+## Qwen3-4B · handoff with identifier check
+
+**Review verdict:** Bad triage input rejected; final answer still incomplete.
+The same initial four-call batch repeats the issue-ID input error. The server rejects that extra call, while both requested actions succeed. The answer separates the failed check from the unconfirmed cause and states nothing was sent, but omits evidence IDs, the proposed owner and the specific hypothesis.
+
+**Task:** Review Harbor Studio \(account acc\_006\) and its recorded issue issue\_callback. Retrieve the account context and prepare the issue handoff using tools. Then explain in at most 180 words the reported observation, any hypothesis that remains unconfirmed, the missing handoff fields, and the proposed next owner and action. Cite evidence IDs for recorded facts. Do not claim the cause is confirmed, the issue is resolved, or a ticket was submitted. State that nothing was sent.
+
+Observed requested tool actions: 2/2. Final response present: True.
+[Complete trace](model-runs/qwen4-callback-input-guard.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+- **rejected: Known issue ID passed as customer prose.** The model again sends issue\_text="issue\_callback". In project version 0.9.1 the server returns a tool error with guidance to retrieve the customer message or use draft\_ticket. The model does not retry triage. Its valid draft\_ticket call separately supplies the actual recorded issue.
+- **supported: Failed check, causal uncertainty and nothing sent.** The final response preserves callback\_verified=not\_met separately from the unconfirmed root cause. HTTP 405, region, SDK version, time window, missing fields and the draft state agree with the returned records. It explicitly says nothing was sent.
+- **omitted: Evidence citations, owner and specific hypothesis.** The answer names account, issue and draft IDs but does not cite msg\_issue\_callback or the readiness evidence IDs requested by the task. It also omits Technical support after CSM evidence review and the endpoint-method-mismatch hypothesis. These gaps prevent a claim of full task completion.
+- **boundary: A repeated task after a tool-contract change.** One fresh generation used the same task and sampling configuration, but the tool description and error behavior changed. The first action batch matches the earlier recording. No host correction requests were sent. This is an observed development iteration, not a controlled estimate of general improvement or independent human validation.
+
+### Unedited model response — needs review
+
+> Harbor Studio \(acc\_006\) has a recorded issue \(issue\_callback\) with Android's reward callback returning HTTP 405. The issue was observed in Japan with SDK synthetic-version-1 between 08:30–09:00 UTC on 2026-10-10. Evidence shows callback\_verified is not\_met, but other checks like currency\_approved, device\_verified, and sdk\_connected are met. The root cause remains unconfirmed, and missing fields include reproduction\_steps and redacted\_logs. A draft ticket \(ticket-issue\_callback\) was prepared but not sent. Next action: request missing evidence and review the handoff before submitting a ticket. Nothing was sent.
 
 Narrow promise lint flags: []. No flags does not establish fidelity.

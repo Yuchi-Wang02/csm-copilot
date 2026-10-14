@@ -23,6 +23,7 @@ DIRECTORY = Path(__file__).resolve().parents[1] / "evidence/model-runs"
         "qwen4-grounded-corrections",
         "qwen4-constrained",
         "qwen4-callback-handoff",
+        "qwen4-callback-input-guard",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):
@@ -64,7 +65,7 @@ def test_recorded_corrections_and_field_reviews_are_reproducible():
     assert trace["response_review"]["free_text_verification"] == "not_performed"
 
 
-def test_callback_handoff_recording_matches_actual_tools_without_approving_prose():
+def test_callback_handoff_preserves_the_historical_identifier_input_error():
     trace = json.loads((DIRECTORY / "qwen4-callback-handoff.json").read_text(encoding="utf-8"))
     assert trace["task_id"] == "callback_handoff"
     assert trace["coverage"]["observed"] == trace["coverage"]["required"] == 2
@@ -73,5 +74,35 @@ def test_callback_handoff_recording_matches_actual_tools_without_approving_prose
     assert len(calls) == 4
     for call in calls:
         action = call["action"]
+        if action["tool"] == "triage_issue":
+            # The v0.9 recording is immutable. v0.9.1 rejects this formerly accepted input.
+            assert action["arguments"]["issue_text"] == "issue_callback"
+            assert call["tool_error"] is False
+            assert call["tool_result"]["candidates"][0]["category"] == "reward_callback"
+            with pytest.raises(ValueError, match="customer message, not a recorded issue ID"):
+                engine.triage_issue(**action["arguments"])
+            continue
         assert getattr(engine, action["tool"])(**action["arguments"]) == call["tool_result"]
+    assert not any("correction_feedback" in step for step in trace["steps"])
+
+
+def test_identifier_check_recording_preserves_the_tool_error_and_successful_handoff():
+    trace = json.loads((DIRECTORY / "qwen4-callback-input-guard.json").read_text(encoding="utf-8"))
+    previous = json.loads((DIRECTORY / "qwen4-callback-handoff.json").read_text(encoding="utf-8"))
+    assert trace["project_version"] == "0.9.1"
+    assert trace["steps"][0]["actions"] == previous["steps"][0]["actions"]
+    assert trace["coverage"]["observed"] == trace["coverage"]["required"] == 2
+    calls = [c for s in trace["steps"] for c in s.get("tool_calls", [])]
+    assert len(calls) == 4
+    assert sum(c["tool_error"] for c in calls) == 1
+    engine = Copilot()
+    for call in calls:
+        action = call["action"]
+        if call["tool_error"]:
+            assert action["tool"] == "triage_issue"
+            assert "customer message, not a recorded issue ID" in call["tool_result"][0]["text"]
+            with pytest.raises(ValueError, match="customer message, not a recorded issue ID"):
+                engine.triage_issue(**action["arguments"])
+        else:
+            assert getattr(engine, action["tool"])(**action["arguments"]) == call["tool_result"]
     assert not any("correction_feedback" in step for step in trace["steps"])

@@ -137,6 +137,12 @@ class Copilot:
     def triage_issue(self, issue_text: str, integration_id: str | None = None):
         if not issue_text.strip() or len(issue_text) > 8000:
             raise ValueError("issue_text must contain 1 to 8000 characters")
+        if issue_text.strip() in self.issues:
+            raise ValueError(
+                "issue_text must be a customer message, not a recorded issue ID. "
+                "Use get_account_context to read the message, or draft_ticket(issue_id) "
+                "to prepare a handoff from the recorded issue."
+            )
         if integration_id:
             self._lookup(self.integrations, integration_id, "integration")
         text = issue_text.casefold()

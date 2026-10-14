@@ -36,6 +36,8 @@ Since v0.2, evidence declares account/integration ownership and structured check
 
 Each result includes rule version, source URL, authority type and evidence IDs. The current fixture explicitly records facts. It does **not** use a model to extract facts from arbitrary customer prose, resolve conflicting records or verify dashboard screenshots. A known fact means “supported by the recorded synthetic source,” not externally confirmed truth.
 
+Triage accepts customer prose, whereas ticket drafting accepts a recorded issue ID. Since v0.9.1, a bare known issue ID supplied as triage text is rejected with guidance to retrieve its message or use `draft_ticket`. This exact-match check does not classify arbitrary strings as identifiers or provide general semantic input validation.
+
 ## Priority and time
 
 `contact_age_days = (as_of - latest_actual_contact) / 86,400 seconds`

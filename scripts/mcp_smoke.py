@@ -61,12 +61,15 @@ async def run(server_command: Path | None = None):
             assert len(results[9]["result"]["themes"]) == 4
             invalid = await session.call_tool("check_readiness", {"integration_id": "missing"})
             assert invalid.isError
+            identifier = await session.call_tool("triage_issue", {"issue_text": "issue_callback"})
+            assert identifier.isError
             return {
                 "transport": "stdio",
                 "model_inference": False,
                 "server": init.serverInfo.model_dump(),
                 "tool_count": len(tools.tools),
                 "invalid_id_returns_error": True,
+                "identifier_input_returns_error": True,
                 "calls": results,
             }
 
