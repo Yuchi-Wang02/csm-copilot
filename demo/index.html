@@ -8,12 +8,12 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.15.0" />
-    <script defer src="data.js?v=0.15.0"></script>
-    <script defer src="model-runs.js?v=0.15.0"></script>
-    <script defer src="review-links.js?v=0.15.0"></script>
-    <script defer src="case-review.js?v=0.15.0"></script>
-    <script defer src="app.js?v=0.15.0"></script>
+    <link rel="stylesheet" href="style.css?v=0.15.1" />
+    <script defer src="data.js?v=0.15.1"></script>
+    <script defer src="model-runs.js?v=0.15.1"></script>
+    <script defer src="review-links.js?v=0.15.1"></script>
+    <script defer src="case-review.js?v=0.15.1"></script>
+    <script defer src="app.js?v=0.15.1"></script>
     <script defer src="practice-core.js?v=0.8.0"></script>
     <script defer src="practice.js?v=0.8.0"></script>
   </head>
@@ -26,7 +26,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.15.0</span>
+      <span class="version">PORTFOLIO / V0.15.1</span>
     </header>
     <main>
       <section class="hero">
@@ -41,12 +41,12 @@
             follow-up and a useful technical handoff.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#workspace"
-              >Explore the morning review <span>↓</span></a
+            <a class="button primary" href="#start"
+              >Start the three-minute review <span>↓</span></a
             ><a
               class="text-link"
-              href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/docs/INTERVIEW.md"
-              >The 3-minute walkthrough ↗</a
+              href="#workspace"
+              >Go straight to the case explorer ↓</a
             ><a
               class="text-link"
               href="project-brief.pdf"
@@ -81,7 +81,44 @@
           >
         </p>
       </div>
+      <section id="start" class="review-route" aria-labelledby="route-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">START HERE / THREE MINUTES, THREE QUESTIONS</p>
+            <h2 id="route-title">Follow a decision. Inspect a mistake. Explain the learning.</h2>
+          </div>
+          <p>A suggested review route.<br />Open any stop to inspect the evidence.</p>
+        </div>
+        <ol class="route-cards">
+          <li>
+            <span class="small-label">01 / CUSTOMER JUDGMENT · ABOUT 1 MINUTE</span>
+            <h3>What should the CSM ask next?</h3>
+            <p>Android has a failed device check and missing confirmations. Inspect the specific evidence requests, then compare the next question after fresh checks pass.</p>
+            <p class="route-question"><strong>Discuss:</strong> Which new record changes the action, and what remains unanswered?</p>
+            <a class="text-link" data-review-link href="?case=lantern_android&amp;view=followup&amp;lang=en#workspace">Open the Android follow-up →</a>
+            <a class="text-link" data-review-link href="?case=lantern_android&amp;view=evidence&amp;lang=en&amp;update=2#customer-update">Compare the fresh-test update →</a>
+          </li>
+          <li>
+            <span class="small-label">02 / AI EVIDENCE · ABOUT 1 MINUTE</span>
+            <h3>Did correct tool calls produce a faithful answer?</h3>
+            <p>A local model completed four requested calls, then described iOS as having “full compliance.” Compare the raw answer with the scoped checklist and the later field review.</p>
+            <p class="route-question"><strong>Discuss:</strong> What did the checks catch, and which parts of the explanation remain unverified?</p>
+            <a class="text-link" data-review-link href="?run=qwen4-batch#model-runs">Inspect the original recorded mistake →</a>
+            <a class="text-link" data-review-link href="?run=qwen4-constrained#model-runs">Inspect the recorded corrections →</a>
+          </li>
+          <li>
+            <span class="small-label">03 / LEARNING · ABOUT 1 MINUTE</span>
+            <h3>Can you explain the decision before seeing guidance?</h3>
+            <p>Choose a next action and write your reasoning in Practice. Reveal the evidence, then record what you would change. The original response stays separate from the reflection.</p>
+            <p class="route-question"><strong>Discuss:</strong> Which source supports your choice, and what evidence would change your mind?</p>
+            <a class="text-link" href="#practice">Try a decision before the guidance →</a>
+            <a class="text-link" href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/docs/LEARNING.md">Follow the learning exercises ↗</a>
+          </li>
+        </ol>
+        <p class="route-boundary">Yuchi selected the project direction and CSM workflow. Implementation, synthetic cases and documentation used substantial AI assistance. The examples show inspectable work; personal mastery and independent customer validation are not claimed.</p>
+      </section>
       <section id="workspace" class="workspace-section">
+        <a class="route-return" href="#start">← Back to the three-minute route</a>
         <div class="section-heading">
           <div>
             <p class="eyebrow">01 / MORNING REVIEW</p>
@@ -206,6 +243,7 @@
         <div id="counterfactual" class="counter-card" aria-live="polite"></div>
       </section>
       <section id="model-runs" class="model-section">
+        <a class="route-return" href="#start">← Back to the three-minute route</a>
         <div class="section-heading">
           <div>
             <p class="eyebrow">03 / OBSERVE AN ACTUAL MODEL RUN</p>
@@ -352,6 +390,7 @@
         </div>
       </section>
       <section id="practice" class="practice-section">
+        <a class="route-return" href="#start">← Back to the three-minute route</a>
         <div class="section-heading">
           <div>
             <p class="eyebrow">07 / PRACTICE THE JUDGMENT</p>

@@ -213,3 +213,9 @@ The update comparison now has three states: original evidence, two customer-conf
 The synthetic branch explicitly replaces the two check references; this is not an automatic newest-record-wins policy. The original snapshot, failed record, platform exports and practice scenario remain intact. The UI shows callback state alongside the other three changed checks, identifies the new records as tests, and exposes the earlier issue and generated draft. `update=1` retains the earlier settings-only meaning; `update=2` restores the new comparison. Reset and browser history restore the relevant state.
 
 **Interview discussion:** explain why the new evidence changes the checklist and the next customer question, but does not answer whether the customer's earlier experience is now resolved. This is a development example, not a record of a real customer outcome or completed personal learning exercise.
+
+## v0.15.1 — give the audience a short route through the evidence
+
+The hero previously sent visitors to a long GitHub document for the three-minute walkthrough. An on-page route now presents three questions: what the CSM should ask next, whether correct tool calls produced a faithful answer, and how to explain a decision before seeing guidance. Each card points to an existing case or exact recorded attempt. It reuses the in-page navigation that preserves practice notes, with return links beside the relevant sections.
+
+The route makes the project's evidence easier to inspect without adding a new model result or claiming personal mastery. Its suggested timing has not been measured with interviewers. Desktop and mobile inspection verify presentation and navigation only; audience usefulness remains unvalidated.

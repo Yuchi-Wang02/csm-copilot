@@ -6,7 +6,7 @@
 
 A working MCP server and interactive case explorer for a customer-success morning review: find accounts needing attention, inspect app/platform evidence, draft bilingual follow-ups, and prepare technical handoffs.
 
-**[Explore the interactive demo](https://yuchi-wang02.github.io/csm-copilot/)** · **[Two-page project brief (PDF)](demo/project-brief.pdf)** · **[Three-minute interview walkthrough](docs/INTERVIEW.md)** · **[Evaluation results](evidence/EVALUATION.md)** · **[Learning path](docs/LEARNING.md)** · **[Practice the decisions](https://yuchi-wang02.github.io/csm-copilot/#practice)**
+**[Start the three-minute review](https://yuchi-wang02.github.io/csm-copilot/#start)** · **[Two-page project brief (PDF)](demo/project-brief.pdf)** · **[Three-minute interview walkthrough](docs/INTERVIEW.md)** · **[Evaluation results](evidence/EVALUATION.md)** · **[Learning path](docs/LEARNING.md)** · **[Practice the decisions](https://yuchi-wang02.github.io/csm-copilot/#practice)**
 
 ![CSM Copilot case explorer](docs/assets/demo-case.png)
 
@@ -22,6 +22,8 @@ A fluent message is easy to generate. A useful message must preserve the differe
 The current scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, a portfolio feedback review, and recorded local model attempts. It does not reproduce a production CRM or Unity's internal process.
 
 ## Choose what to inspect
+
+For a first visit, use the [on-page review route](https://yuchi-wang02.github.io/csm-copilot/#start): inspect a customer next action, compare a recorded AI mistake with its corrections, then explain a decision before revealing the practice guidance. The suggested timing is a presentation aid, not a measured completion time.
 
 | Portfolio question | Open this artifact |
 |---|---|

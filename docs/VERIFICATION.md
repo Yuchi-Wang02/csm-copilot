@@ -1,6 +1,6 @@
 # Verification record
 
-Verified through the v0.15 customer-update iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.15.1 review-route iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
@@ -106,3 +106,5 @@ The v0.15 browser check exercised original evidence, settings-only confirmation 
 The first v0.15 CI attempt caught a package/module version mismatch during isolated wheel verification: metadata was 0.15.0 while `__version__` was still 0.14.0. The module declaration was corrected, and the MCP replay and all 208 Python checks passed locally again. This packaging correction does not change the customer scenario or recorded model outputs.
 
 The subsequent regenerated-artifact check also identified two diagnostic reports whose version stamps still said 0.14.0. Rebuilding both reports changed only `project_version` to 0.15.0; case inputs, predictions and metrics were unchanged.
+
+The v0.15.1 browser check opened the Android evidence-request draft, fresh-test comparison, original four-call recording and constrained recording from the new route. Case and recording links focused their target section. A test-only practice note remained intact after visiting both recordings; return links opened the route. At a 360-pixel viewport the cards stacked in one column, and document/scroll widths both measured 345 CSS pixels. Desktop and mobile screenshots were visually inspected; the browser error log was empty. This verifies navigation and rendering, not the suggested three-minute timing or interviewer usefulness.

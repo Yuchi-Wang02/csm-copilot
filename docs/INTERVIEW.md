@@ -2,6 +2,8 @@
 
 This is a suggested presentation, not a claim that the exercises or interview have already happened.
 
+Start with the [three-stop route on the portfolio](https://yuchi-wang02.github.io/csm-copilot/#start). It opens the exact Android follow-up, passing-test comparison and model recordings discussed below. The return links bring you back to the route; in-page evidence navigation preserves practice notes. The fuller script below is optional preparation.
+
 Use the [two-page PDF brief](../demo/project-brief.pdf) as a leave-behind or offline introduction. It includes clickable links to the examples and identifies the evidence bundle behind its figures.
 
 For a targeted demonstration, use [direct links to the Android evidence, Chinese iOS follow-up, and Harbor handoff](SHARING.md). The selected platform and review step are preserved, so the audience opens the example you intend.
