@@ -8,21 +8,22 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.4.0" />
-    <script defer src="data.js?v=0.4.0"></script>
-    <script defer src="app.js?v=0.4.0"></script>
+    <link rel="stylesheet" href="style.css?v=0.5.0" />
+    <script defer src="data.js?v=0.5.0"></script>
+    <script defer src="model-runs.js?v=0.5.0"></script>
+    <script defer src="app.js?v=0.5.0"></script>
   </head>
   <body>
     <a class="skip" href="#workspace">Skip to case explorer</a>
     <header class="topbar">
       <a class="brand" href="#"><span class="mark">c/</span> CSM Copilot</a>
       <nav aria-label="Main">
-        <a href="#workspace">Case explorer</a
+        <a href="#workspace">Case explorer</a><a href="#model-runs">AI trace</a
         ><a href="#feedback">Product feedback</a
         ><a href="#evaluation">Evaluation</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.4</span>
+      <span class="version">PORTFOLIO / V0.5</span>
     </header>
     <main>
       <section class="hero">
@@ -167,10 +168,37 @@
         </div>
         <div id="counterfactual" class="counter-card" aria-live="polite"></div>
       </section>
+      <section id="model-runs" class="model-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / OBSERVE AN ACTUAL MODEL RUN</p>
+            <h2>Four tool calls. Still an answer to review.</h2>
+          </div>
+          <a
+            class="text-link"
+            href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/docs/LOCAL_MODEL.md"
+            >Read the experiment ↗</a
+          >
+        </div>
+        <p class="integrity-intro">
+          A local Qwen model chose and executed the requested MCP calls. Its
+          final explanation still overstated the evidence. Inspect the recorded
+          attempts and the source-based review.
+        </p>
+        <p class="disclosure">
+          Recorded local inference · synthetic customer data · no model runs in
+          your browser · three exploratory attempts, not a benchmark.
+        </p>
+        <div class="integrity-controls">
+          <label for="model-run">Inspect a recorded attempt</label
+          ><select id="model-run"></select>
+        </div>
+        <div id="model-result" aria-live="polite"></div>
+      </section>
       <section id="integrity" class="integrity-section">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">03 / CHECK THE EVIDENCE BOUNDARY</p>
+            <p class="eyebrow">04 / CHECK THE EVIDENCE BOUNDARY</p>
             <h2>A citation ID is not enough.</h2>
           </div>
           <a
@@ -202,7 +230,7 @@
       <section id="feedback" class="feedback-section">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">04 / FROM CASES TO PRODUCT FEEDBACK</p>
+            <p class="eyebrow">05 / FROM CASES TO PRODUCT FEEDBACK</p>
             <h2>Find the pattern. Keep the question open.</h2>
           </div>
           <a
@@ -232,7 +260,7 @@
       <section id="evaluation" class="evaluation-section">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">05 / MEASURE THE LIMITS</p>
+            <p class="eyebrow">06 / MEASURE THE LIMITS</p>
             <h2>Useful outputs. Visible failure cases.</h2>
           </div>
           <a
@@ -263,7 +291,7 @@
       </section>
       <section class="learning">
         <div>
-          <p class="eyebrow">06 / BUILT TO BE EXPLAINED</p>
+          <p class="eyebrow">07 / BUILT TO BE EXPLAINED</p>
           <h2>A portfolio of decisions,<br />not just a screen.</h2>
         </div>
         <div>

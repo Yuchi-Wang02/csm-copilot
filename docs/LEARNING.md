@@ -54,6 +54,8 @@ Evidence to keep: your two versions and the claim-to-evidence annotation.
 
 ## Personal mastery checklist
 
+Additional v0.5 exercise: inspect [the unedited local model response](LOCAL_MODEL.md) before opening the review notes. Mark supported, unsupported and omitted claims. Explain how all four requested tool calls can succeed while the final explanation remains unsuitable for use, and why the narrow promise lint returned zero flags.
+
 Additional v0.4 exercise: work through [the Product feedback review](PRODUCT_FEEDBACK.md). Predict how counts change if a second platform from the same account has a gap. Explain why the callback denominator differs from the device-check denominator, then write a Product question without asserting an unverified cause.
 
 - [ ] I can explain the customer problem without saying “AI automation” as a substitute.

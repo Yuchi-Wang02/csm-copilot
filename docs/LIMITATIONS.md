@@ -3,7 +3,7 @@
 This is an educational portfolio prototype with synthetic records, not a deployable customer-support product.
 
 - **No real account integration.** JSON fixtures represent a fixed snapshot. No CRM, Unity dashboard, ticketing or messaging connection exists.
-- **No live model evaluation.** A model-enabled MCP host can use the tools. The published demo and evaluations do not run a language model.
+- **Model evidence is exploratory.** Three local model attempts are recorded on one task, with a host-protocol change after failures. The most complete run still has an unfaithful final explanation. This is not independent evaluation, a model ranking or evidence of general reliability. The website only replays recordings.
 - **Triage is a baseline.** Lexical matches can miss paraphrases and misread negation; multiple symptoms are returned as candidates.
 - **Evidence is attributed, not independently verified.** Account, integration, check scope and structured-claim agreement are validated. The system does not verify that claims match source prose or external truth, verify screenshots, automatically resolve contradictory evidence, or expire stale evidence. Conflicting records can remain explicitly unknown.
 - **Checklist scope is partial.** `checklist_complete` covers six project checks and never certifies production launch, compliance or revenue.

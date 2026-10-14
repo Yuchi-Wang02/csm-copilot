@@ -1,0 +1,40 @@
+{
+  "review_method": "AI-assisted comparison with recorded tool results; not independent human review",
+  "runs": [
+    {
+      "id": "qwen06-single",
+      "label": "Qwen3-0.6B · single-action smoke",
+      "protocol": "single",
+      "verdict": "Stopped before tool execution",
+      "summary": "The model wrapped its action in Markdown fences and invented a 2023 date. Strict parsing rejected the response; no tool was called.",
+      "findings": [
+        {"kind": "format", "claim": "Markdown-fenced JSON", "assessment": "The requested protocol accepts plain JSON only. The host did not silently strip the fences."},
+        {"kind": "unsupported", "claim": "as_of: 2023-04-01", "assessment": "The task did not supply this date. The dataset snapshot is 2026-10-14; the action was rejected before reaching the tool."}
+      ]
+    },
+    {
+      "id": "qwen4-single",
+      "label": "Qwen3-4B · single-action attempt",
+      "protocol": "single",
+      "verdict": "Stopped before tool execution",
+      "summary": "The model selected four relevant calls but emitted concatenated JSON objects. The one-action protocol rejected the whole output; zero calls executed.",
+      "findings": [
+        {"kind": "format", "claim": "Four concatenated JSON objects", "assessment": "Relevant proposed tool choices are visible, but they were not executed. This led to an explicit bounded-array protocol in the next run, not a hidden repair of this output."}
+      ]
+    },
+    {
+      "id": "qwen4-batch",
+      "label": "Qwen3-4B · explicit batch protocol",
+      "protocol": "batch",
+      "verdict": "Final explanation needs revision",
+      "summary": "All four requested tool calls executed, but the final explanation omitted citations, overstated the iOS result, and blurred a recorded Android failure into missing evidence.",
+      "findings": [
+        {"kind": "unsupported", "claim": "iOS's full compliance", "assessment": "The tool reports checklist_complete for six scoped checks and explicitly says it is not launch approval. Compliance was not evaluated."},
+        {"kind": "contradicted", "claim": "No evidence IDs are missing for Android", "assessment": "Android currency approval, production visibility and callback verification have unknown states with empty evidence_ids. No source IDs are cited in the final explanation."},
+        {"kind": "omitted", "claim": "Android's missing evidence", "assessment": "This is incomplete: lantern_android_device_verified supports a not_met state. The final explanation fails to distinguish the recorded failed check from the unknown checks."},
+        {"kind": "supported", "claim": "Nothing was sent", "assessment": "Both follow-up tool outputs have sent=false and contact_history_changed=false. The server exposes no sending capability."}
+      ]
+    }
+  ],
+  "boundary": "Three exploratory runs on one task, with a changed host protocol after observed failures. This is neither an independent benchmark nor a fair model ranking. Tool coverage is not answer correctness. No output is approved for customer use."
+}

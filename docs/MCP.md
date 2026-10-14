@@ -41,7 +41,7 @@ The exposed `morning_review` prompt contains a more detailed version. A good hos
 | Scripted stdio client | SDK/protocol integration and tool results | Autonomous tool choice |
 | Model-enabled host run | Actual model tool choice and response behavior for that run | General reliability or business impact |
 
-Only the first two are checked into v0.1. No API credential, paid inference or model-generated benchmark result is included. If you run the third, publish it as an additional artifact with the model, host, date, prompt and complete tool trace.
+The first two were checked into v0.1. Version 0.5 adds [three local model attempts](LOCAL_MODEL.md) with model revisions, prompts, generated actions, tool results and review notes. Two stopped before tool execution; one completed the requested calls but its final explanation needs revision. No paid inference or independent model benchmark result is included.
 
 ## Product feedback workflow
 

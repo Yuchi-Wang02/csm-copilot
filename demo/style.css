@@ -1061,6 +1061,79 @@ details pre {
     padding: 35px 0;
   }
 }
+.model-section {
+  padding: 55px 0;
+  border-top: 1px solid var(--line);
+}
+.model-verdict {
+  padding: 22px 26px;
+  background: #f4e8dc;
+  border-radius: 12px;
+}
+.model-verdict > strong {
+  font-size: 21px;
+}
+.model-verdict p {
+  margin: 10px 0;
+}
+.model-verdict span {
+  font-size: 12px;
+}
+.model-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 25px 0;
+}
+.model-grid > * {
+  min-width: 0;
+}
+.model-grid h3 {
+  margin-bottom: 15px;
+}
+.model-calls {
+  padding-left: 20px;
+}
+.model-calls li {
+  margin-bottom: 12px;
+}
+.model-calls span {
+  display: block;
+  font-size: 12px;
+  margin: 5px 0;
+}
+.model-final-title {
+  margin-top: 25px;
+}
+.model-output {
+  padding: 20px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 10px;
+}
+.model-review {
+  padding: 24px;
+  background: #eef2e9;
+  border-radius: 12px;
+}
+.model-finding {
+  margin-top: 18px;
+}
+.model-finding p {
+  margin-top: 8px;
+}
+.model-section pre {
+  max-height: 400px;
+  overflow: auto;
+}
+@media (max-width: 700px) {
+  .model-grid {
+    grid-template-columns: 1fr;
+  }
+  .model-section {
+    padding: 35px 0;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

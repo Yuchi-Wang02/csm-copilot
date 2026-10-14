@@ -28,11 +28,10 @@ Show the counterfactual update. Two settings change, but the failed device check
 
 ## 1:50–2:30 — Explain the AI architecture and failure cases
 
-“The server exposes MCP tools so a model-enabled host can orchestrate the workflow. Dates and checklist rules stay deterministic. This website is a replay of the same engine outputs. I verified the real MCP transport with a scripted client; I have not measured live model orchestration quality.”
+“The server exposes MCP tools so a model-enabled host can orchestrate the workflow. Dates and checklist rules stay deterministic. This website replays engine outputs and separately recorded local model attempts. The most complete model attempt chose all four requested calls, but its final explanation still overstated the evidence. I distinguish tool coverage from answer fidelity.”
 
-Show the 14/18 diagnostic result and two failure families.
+Show the 14/18 lexical diagnostic result and two failure families. For the AI-specific extension, open [the recorded local model run](LOCAL_MODEL.md): it completed four tool calls but overstated the evidence in its final response. Explain why successful tool use and faithful summarization need separate checks.
 
-“The lexical baseline misses indirect wording and misreads negation. That is useful evidence for the next iteration. I would compare a semantic approach on separately written cases, with the same information available to each baseline.”
 
 ## 2:30–3:00 — Explain the learning direction honestly
 
@@ -49,7 +48,7 @@ Replace the last sentence only after completing and documenting the relevant exe
 | Is this production-ready? | No. It lacks real CRM integration, auth, conflict resolution, freshness policy and human outcome validation. |
 | What did you measure? | Synthetic category-set retrieval and workflow behavior; not time savings or customer success outcomes. |
 | How do you know a draft is factual? | Its template is tied to structured records, but regex lint is insufficient for arbitrary model rewrites. Human claim-to-evidence review remains necessary. |
-| What would you improve first? | Independent cases and a recorded model-enabled workflow run, then semantic retrieval compared fairly to the baseline. |
+| What would you improve first? | Independent cases and human review of model-written claims, then semantic retrieval compared fairly to the baseline. |
 
 ## Portfolio wording
 

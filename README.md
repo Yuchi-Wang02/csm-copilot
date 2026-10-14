@@ -19,9 +19,11 @@ A publisher wants to launch on Friday. Sales says integration is nearly complete
 
 A fluent message is easy to generate. A useful message must preserve the difference between **confirmed failure**, **missing evidence**, and **a possible explanation**. This project makes that distinction visible all the way from source records to the customer follow-up.
 
-The v0.4 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, and a portfolio feedback review. It does not reproduce a production CRM or Unity's internal process.
+The v0.5 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, a portfolio feedback review, and recorded local model attempts. It does not reproduce a production CRM or Unity's internal process.
 
-**New in v0.4:** explore [recurring checklist friction](https://yuchi-wang02.github.io/csm-copilot/#feedback) and download a [Product feedback review](evidence/product-feedback.md). The eighth MCP tool counts affected accounts separately from integrations, distinguishes missing evidence from failures, and proposes questions to validate with Product. Read the [method and interview exercise](docs/PRODUCT_FEEDBACK.md). The behavior suite now has 69 tests.
+**New in v0.5: real model choices, visible answer failures.** A local Qwen3-4B run executed all four requested MCP calls but produced an explanation that needs revision. Inspect [all three recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including the rejected outputs, [source-based review](evidence/MODEL_RUNS.md), and [reproduction instructions](docs/LOCAL_MODEL.md). Tool coverage is not answer correctness. The behavior suite now has 90 tests.
+
+**Product feedback from v0.4:** explore [recurring checklist friction](https://yuchi-wang02.github.io/csm-copilot/#feedback) and download a [Product feedback review](evidence/product-feedback.md). The eighth MCP tool counts affected accounts separately from integrations, distinguishes missing evidence from failures, and proposes questions to validate with Product. Read the [method and interview exercise](docs/PRODUCT_FEEDBACK.md).
 
 **Portable reviews from v0.3:** take away a readable [English morning-review brief](evidence/morning-review-en.md) or a [brief with Chinese drafts](evidence/morning-review-zh.md). Follow-ups distinguish missing evidence, a recorded issue needing a status check, launch-plan review and a live-account check-in. See [the export and next-action policy](docs/REVIEW_BRIEF.md).
 
@@ -36,7 +38,7 @@ The v0.4 scope is deliberately bounded: Offerwall publisher onboarding, two issu
 5. On Android, open **Handoff**. Known fields carry an evidence reference; missing SDK version, time window and logs stay missing.
 6. Apply the synthetic update below the explorer. Two settings become confirmed, but the failed device check still requires a retest.
 
-The site is a **deterministic replay of actual Python engine outputs**, not a live AI conversation. Its data is regenerated with `python scripts/build_demo.py`.
+The account workspace is a **deterministic replay of actual Python engine outputs**, regenerated with `python scripts/build_demo.py`. The separate AI trace section replays recorded local model attempts, packaged by `python scripts/build_model_replay.py`; neither section is a live AI chat.
 
 ## Where AI fits
 
@@ -54,7 +56,7 @@ flowchart LR
 
 The model-enabled MCP host interprets the request, chooses tools, and can rewrite drafts. The server handles dates, scope, evidence references and checklist states deterministically. Default drafts are transparent templates; the project does not require an embedded paid model API.
 
-**Verified:** real stdio MCP initialization, tool discovery, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. **Not measured:** live model orchestration quality or customer productivity. The checked-in transcript is a scripted MCP client run, not an LLM trace. This distinction keeps protocol verification separate from AI performance.
+**Protocol verification:** real stdio MCP initialization, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. The original `mcp-transcript.json` is a scripted client run. **Model observations:** three separate local Qwen attempts now preserve actual generated tool choices and responses; their review exposes failures. These exploratory runs do not establish general reliability or customer productivity. The browser replays the recordings and never runs a model itself.
 
 ## Tools
 

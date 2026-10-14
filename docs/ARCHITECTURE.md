@@ -23,7 +23,7 @@ Since v0.2, evidence declares account/integration ownership and structured check
 | Deterministic dates and checklist logic | Arithmetic and state rules are auditable | Rules do not understand nuanced prose |
 | Lexical triage baseline | Cheap, inspectable starting point for semantic retrieval comparison | Known negation/paraphrase failures |
 | Host-owned model | Standard MCP interface without a second model bill | Actual host behavior must be evaluated separately |
-| No friction counters in v0.1 | Repeated tool calls must not manufacture customer incidents | Product-feedback aggregation is deferred |
+| Snapshot feedback aggregation | Repeated tool calls must not manufacture customer incidents | v0.4 aggregates existing checklist states, not new customer events |
 
 ## Readiness aggregation
 
@@ -58,7 +58,7 @@ The demo makes a separate copy of the original dataset, appends a customer repor
 
 ## Extending responsibly
 
-A next iteration should add separately authored cases and a model-enabled host trace before expanding product coverage. For real CRM integration, add authorization, evidence freshness, conflict review, idempotency keys, a separate draft/sent state machine and a reviewable send action. The current code intentionally has no external send capability.
+Version 0.5 adds local model traces with visible answer failures. A next iteration should add separately authored cases and independent claim review before expanding product coverage. For real CRM integration, add authorization, evidence freshness, conflict review, idempotency keys, a separate draft/sent state machine and a reviewable send action. The current code intentionally has no external send capability.
 
 ## Portfolio feedback aggregation
 
