@@ -50,7 +50,17 @@ def validate_references(files):
                 raise ValueError(f"Missing packaged link: {name}: {reference}")
 
 
-def start_guide(version, commit):
+def start_guide(version, commit, *, can_resume=False):
+    practice = (
+        "Use Save or resume practice progress to download a local JSON progress file.\n"
+        "On a later visit, choose that file, inspect the preview, then explicitly\n"
+        "replace the current work to resume. Readable Markdown notes are a separate\n"
+        "download and cannot restore progress. No notes are uploaded. The saved file\n"
+        "is editable; it does not verify authorship, timing or personal mastery.\n"
+        if can_resume
+        else "Download readable notes before closing or reloading; this version has no\n"
+        "progress-file restore control.\n"
+    )
     return f"""CSM COPILOT — INTERVIEW DEMO {version}
 
 Extract the entire ZIP and read this guide before opening index.html.
@@ -58,7 +68,8 @@ Start with the three-minute review route, or open project-brief.pdf.
 
 Discuss one customer decision, one recorded AI mistake and one remaining triage
 failure. Write your own reasoning in Practice before revealing the guidance.
-Download notes before closing or reloading; this page does not retain sessions.
+{practice}
+Reloading clears the in-page notes. The package includes no personal responses.
 
 This is an independent, AI-assisted portfolio project with synthetic records.
 It is not affiliated with Unity. The static replay does not run a model, send
@@ -69,6 +80,13 @@ The application has been browser-tested over HTTP. Direct file opening was not
 browser-verified because the automated browser policy disallows file URLs.
 Local script and clipboard behavior depends on the reader's browser. Use the
 PDF or hosted demo if your browser restricts local files.
+
+Hosted review: https://yuchi-wang02.github.io/csm-copilot/#start
+For a local HTTP review, if Python is already installed, open a terminal in the
+extracted csm-copilot-demo folder and run:
+  python -m http.server 8000 --bind 127.0.0.1
+Then open http://127.0.0.1:8000 in your browser. Stop the server with Ctrl+C.
+The PDF is a readable introduction if you do not want to run a local server.
 
 Source: https://github.com/Yuchi-Wang02/csm-copilot
 Source commit: {commit}
@@ -105,7 +123,9 @@ def build_bundle(root=ROOT, ref="HEAD"):
         raise ValueError("Committed demo needs index.html and project-brief.pdf")
     validate_references(files)
     source_hashes = {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}
-    files["START_HERE.txt"] = start_guide(version, commit)
+    files["START_HERE.txt"] = start_guide(
+        version, commit, can_resume="practice-session.js" in files
+    )
     manifest = {
         "bundle_format": FORMAT,
         "project_version": version,

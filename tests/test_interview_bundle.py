@@ -59,11 +59,20 @@ def test_missing_local_asset_fails_instead_of_shipping_a_broken_demo(source_repo
 def test_commit_selection_keeps_old_demo_bytes_after_a_later_commit(source_repo):
     first_commit = command(source_repo, "rev-parse", "HEAD").decode().strip()
     before, _ = build_bundle(source_repo, first_commit)
+    with zipfile.ZipFile(io.BytesIO(before)) as bundle:
+        assert b"this version has no" in bundle.read(PREFIX + "START_HERE.txt")
     (source_repo / "demo/app.js").write_bytes(b"const message = 'new revision';\n")
+    (source_repo / "demo/practice-session.js").write_bytes(b"// New checkpoint module\n")
     command(source_repo, "add", ".")
     command(source_repo, "commit", "-qm", "Change the example")
     assert build_bundle(source_repo, first_commit)[0] == before
-    assert build_bundle(source_repo)[0] != before
+    current = build_bundle(source_repo)[0]
+    assert current != before
+    with zipfile.ZipFile(io.BytesIO(current)) as bundle:
+        guide = bundle.read(PREFIX + "START_HERE.txt")
+        assert b"Save or resume practice progress" in guide
+        assert b"--bind 127.0.0.1" in guide
+        assert b"cannot restore progress" in guide
 
 
 def test_committed_symlinks_are_rejected_without_reading_the_target(source_repo):
