@@ -57,3 +57,7 @@ The model exercise links directly to `qwen4-constrained`, the recording its evid
 The fifth decision uses an actual remaining mismatch in the published triage probes. Before you reveal guidance, the page shows only the customer message and tool result, without the authored expected category. Afterward, its evidence link opens that exact probe and the raw output while retaining your notes. The baseline still fails this wording; adding an exercise does not repair the classifier or improve its diagnostic score.
 
 Explain the distinction between what a customer reports, what a tool retrieves, and what has been independently checked. Draft a reply that acknowledges the invoice request and asks for the missing account or invoice context. Do not infer a Finance owner, invoice defect, service deadline or verified callback health from this record.
+
+## Open the decision you want to discuss
+
+Each decision has a public copy button and a selectable link fallback. For example, [open the tool-disagreement exercise directly](https://yuchi-wang02.github.io/csm-copilot/?practice=question_triage#practice). Shared links select only the exercise; they do not include your choices, notes or guidance state. Back and Forward retain work within the loaded page, while reload starts a fresh session. See [all five direct links and navigation rules](SHARING.md#share-a-practice-decision).

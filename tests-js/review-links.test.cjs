@@ -17,6 +17,42 @@ vm.runInContext(
 );
 const runs = context.window.CSM_MODEL_RUNS.runs;
 const probes = context.window.CSM_DATA.callback_denial.cases;
+const practiceCases = require("../demo/practice-core.js").buildCases(context.window.CSM_DATA, context.window.CSM_MODEL_RUNS);
+
+test("every practice decision has a stable public link independent of catalog order", () => {
+  for (const item of practiceCases) {
+    const link = new URL(api.sharePractice(item.id, practiceCases));
+    assert.equal(link.origin, "https://yuchi-wang02.github.io");
+    assert.equal(link.pathname, "/csm-copilot/");
+    assert.equal(link.hash, "#practice");
+    assert.deepEqual([...link.searchParams.keys()], ["practice"]);
+    assert.deepEqual(api.readPractice(link.search, practiceCases), {practiceId:item.id, invalid:false});
+    assert.equal(api.readPractice(link.search, [...practiceCases].reverse()).practiceId, item.id);
+  }
+});
+
+test("missing practice is normal while unknown, blank and duplicate IDs fall back visibly", () => {
+  assert.deepEqual(api.readPractice("", practiceCases), {practiceId:practiceCases[0].id, invalid:false});
+  for (const search of ["?practice=", "?practice=missing", "?practice=%3Cscript%3E", "?practice=question_triage&practice=question_triage", "?practice=question_triage&practice=android_update"]) {
+    assert.deepEqual(api.readPractice(search, practiceCases), {practiceId:practiceCases[0].id, invalid:true});
+  }
+  assert.throws(() => api.readPractice("", []), /No published practice/);
+  assert.throws(() => api.sharePractice("missing", practiceCases), /not in the public catalog/);
+});
+
+test("practice links exclude responses and restore independently of case, recording and probe", () => {
+  const search = "?case=lantern_ios&view=followup&lang=zh&run=qwen4-constrained&probe=not_failing&practice=question_triage&choice=follow_tool&reasoning=private&reflection=private&reviewed=true";
+  const practice = api.readPractice(search, practiceCases);
+  assert.deepEqual(practice, {practiceId:"question_triage", invalid:false});
+  assert.equal(api.read(search, workflow).integration, 1);
+  assert.equal(api.readRun(search, runs).runId, "qwen4-constrained");
+  assert.equal(api.readProbe(search, probes).probeId, "not_failing");
+  assert.equal(api.sharePractice(practice.practiceId, practiceCases), "https://yuchi-wang02.github.io/csm-copilot/?practice=question_triage#practice");
+  for (const link of [api.share(api.read(search, workflow), workflow), api.shareRun("qwen4-constrained", runs), api.shareProbe("not_failing", probes)]) {
+    assert.ok(!new URL(link).searchParams.has("practice"));
+    assert.ok(!link.includes("private"));
+  }
+});
 
 test("all published triage probes have stable public links", () => {
   for (const probe of probes) {

@@ -99,7 +99,21 @@
   function shareProbe(probeId, probes) {
     return publicBase + probeQuery(probeId, probes) + "#triage-review";
   }
-  const api = { read, query, share, readRun, runQuery, shareRun, readProbe, probeQuery, shareProbe };
+  function readPractice(search, cases) {
+    if (!cases.length) throw new Error("No published practice decisions available");
+    const values = new URLSearchParams(search).getAll("practice");
+    const valid = values.length === 1 && cases.some((item) => item.id === values[0]);
+    return { practiceId: valid ? values[0] : cases[0].id, invalid: values.length > 0 && !valid };
+  }
+  function practiceQuery(practiceId, cases) {
+    if (!cases.some((item) => item.id === practiceId))
+      throw new Error("Practice decision is not in the public catalog");
+    return "?" + new URLSearchParams({ practice: practiceId }).toString();
+  }
+  function sharePractice(practiceId, cases) {
+    return publicBase + practiceQuery(practiceId, cases) + "#practice";
+  }
+  const api = { read, query, share, readRun, runQuery, shareRun, readProbe, probeQuery, shareProbe, readPractice, practiceQuery, sharePractice };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_REVIEW_LINKS = api;
 })(typeof window !== "undefined" ? window : this);

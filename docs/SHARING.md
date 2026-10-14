@@ -1,4 +1,4 @@
-# Share a review, recording or triage example
+# Share a review, recording, triage example or practice decision
 
 The **Copy this review link** button produces a public URL that opens the selected synthetic integration, review step and client language. The comparison toggle is also preserved. The **View share link** control exposes a selectable URL if clipboard permission is unavailable.
 
@@ -41,11 +41,25 @@ The triage explorer has a **Copy this triage link** button and a selectable **Vi
 | [Chinese denial with a separate symptom](https://yuchi-wang02.github.io/csm-copilot/?probe=denied_with_blank_zh#triage-review) | Keep the positive blank-Offerwall symptom while excluding the denied callback mention |
 | [Remaining failure](https://yuchi-wang02.github.io/csm-copilot/?probe=not_failing#triage-review) | A repair has a bounded scope: this wording still produces the unwanted callback category |
 
-Selecting a probe updates the address. Reload, Back and Forward restore its ID. Case and recording changes retain an explicitly selected probe in the browser address. The three copy controls share only their own selection. Missing `probe` uses the first published example; blank, repeated or unknown IDs use the same fallback with a visible notice. In-page evidence navigation preserves practice notes, while reloading starts a fresh practice session.
+Selecting a probe updates the address. Reload, Back and Forward restore its ID. Case and recording changes retain an explicitly selected probe in the browser address. Each copy control shares only its own selection. Missing `probe` uses the first published example; blank, repeated or unknown IDs use the same fallback with a visible notice. In-page evidence navigation preserves practice notes, while reloading starts a fresh practice session.
+
+## Share a practice decision
+
+Use **Copy this practice link** or the selectable **View practice link** to open one decision before guidance. The link contains its stable ID, not its position in the selector. It carries no answer, revealed state, reasoning or reflection.
+
+| Decision | Direct opening |
+|---|---|
+| Android after confirmations | [Choose the next evidence request](https://yuchi-wang02.github.io/csm-copilot/?practice=android_update#practice) |
+| Complete iOS checklist | [Choose the follow-up purpose](https://yuchi-wang02.github.io/csm-copilot/?practice=ios_followup#practice) |
+| Model fields and prose | [Review the explanation separately](https://yuchi-wang02.github.io/csm-copilot/?practice=model_review#practice) |
+| Callback handoff | [Use details already supplied](https://yuchi-wang02.github.io/csm-copilot/?practice=callback_handoff#practice) |
+| Tool disagreement | [Question the callback recommendation](https://yuchi-wang02.github.io/csm-copilot/?practice=question_triage#practice) |
+
+Selecting a decision updates the address. Back and Forward restore the selected decision while retaining this page's in-memory notes. Evidence links and case/recording/triage controls retain an explicitly selected practice ID. Reload or opening a shared URL starts a new, unanswered session with the selected decision; a URL does not restore work. Reset clears all notes and updates the address to the first decision. Missing `practice` selects the first decision normally; blank, unknown or repeated values show it with a visible notice.
 
 ## What a link contains
 
-Copied case links include four allowlisted display settings: `case`, `view`, `lang`, and optional `update=1` or `update=2`. Copied recording links include only `run`; triage links include only `probe`. The account is derived from the integration in the public workflow, so a link cannot combine one customer's identity with another customer's integration. Invalid or duplicated settings fall back to defaults and produce a visible notice. Unrelated query parameters are excluded from all three copied link types.
+Copied case links include four allowlisted display settings: `case`, `view`, `lang`, and optional `update=1` or `update=2`. Copied recording links include only `run`; triage links include only `probe`; practice links include only `practice`. The account is derived from the integration in the public workflow, so a link cannot combine one customer's identity with another customer's integration. Invalid or duplicated settings fall back to defaults and produce a visible notice. Unrelated query parameters are excluded from all four copied link types.
 
 Copied links always use the project's public website address, including when the demo is run locally. They contain no local filesystem path, practice note, drafted free text, identity token, or private account information. Copying prepares a URL; the application does not send it to another person.
 
@@ -53,7 +67,7 @@ These are links to the current published demo, not immutable snapshots. Future f
 
 ## Verification
 
-Eleven routing tests cover every published integration across all review steps, both languages and all three comparison states; every published recording and triage probe; stable selection when a new recording is added; unknown or duplicated settings; independent case/run/probe restoration; public-origin and parameter boundaries; and invalid internal selections. Browser verification separately covers direct links, clipboard contents, history navigation, practice-note retention, the updated comparison, and mobile layout.
+Fourteen routing tests cover every published integration across all review steps, both languages and all three comparison states; every published recording, triage probe and practice decision; stable selection when a new recording is added; unknown or duplicated settings; independent case/run/probe/practice restoration; public-origin and parameter boundaries; and invalid internal selections. Browser verification separately covers direct links, clipboard contents, history navigation, practice-note retention, the updated comparison, and mobile layout.
 
 Run both browser-logic suites with:
 

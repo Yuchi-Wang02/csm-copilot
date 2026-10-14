@@ -5,6 +5,8 @@ const reviewLinks = window.CSM_REVIEW_LINKS;
 const caseReview = window.CSM_CASE_REVIEW;
 const modelRuns = window.CSM_MODEL_RUNS;
 const callbackProbes = window.CSM_DATA.callback_denial;
+const practiceCases = window.CSM_PRACTICE.buildCases(window.CSM_DATA, modelRuns);
+let { practiceId, invalid: practiceInvalid } = reviewLinks.readPractice(location.search, practiceCases);
 let { probeId, invalid: probeInvalid } = reviewLinks.readProbe(location.search, callbackProbes.cases);
 let { runId, invalid: runInvalid } = reviewLinks.readRun(location.search, modelRuns.runs);
 let { selected, integration, activeTab, language, updated, verified, invalid } =
@@ -352,6 +354,7 @@ function syncReviewUrl(anchor = location.hash || "#workspace") {
   invalid = [];
   runInvalid = false;
   probeInvalid = false;
+  practiceInvalid = false;
   $("route-notice").textContent = "";
   $("run-route-notice").textContent = "";
   $("probe-route-notice").textContent = "";
@@ -364,7 +367,9 @@ function syncReviewUrl(anchor = location.hash || "#workspace") {
   const target =
     location.pathname +
     reviewLinks.query(reviewState(), workflow) +
-    runSetting + probeSetting + anchor;
+    runSetting + probeSetting +
+    (new URLSearchParams(location.search).has("practice") || anchor === "#practice"
+      ? "&" + reviewLinks.practiceQuery(practiceId, practiceCases).slice(1) : "") + anchor;
   if (target !== location.pathname + location.search + location.hash) {
     try {
       history.pushState(null, "", target);
@@ -372,18 +377,27 @@ function syncReviewUrl(anchor = location.hash || "#workspace") {
       /* File URLs can restrict history; the share link still works. */
     }
   }
+  window.dispatchEvent(new CustomEvent("csm-practice-route", { detail: { practiceId, invalid: practiceInvalid } }));
 }
 function restoreReview(search = location.search) {
   ({ selected, integration, activeTab, language, updated, verified, invalid } =
     reviewLinks.read(search, workflow));
   ({ runId, invalid: runInvalid } = reviewLinks.readRun(search, modelRuns.runs));
   ({ probeId, invalid: probeInvalid } = reviewLinks.readProbe(search, callbackProbes.cases));
+  ({ practiceId, invalid: practiceInvalid } = reviewLinks.readPractice(search, practiceCases));
   renderQueue();
   renderCase();
   renderCounter();
   renderModelRun();
   renderTriageProbe();
+  window.dispatchEvent(new CustomEvent("csm-practice-route", { detail: { practiceId, invalid: practiceInvalid } }));
 }
+window.addEventListener("csm-practice-selection", (event) => {
+  // The catalog validates the stable ID before it reaches browser history.
+  reviewLinks.practiceQuery(event.detail, practiceCases);
+  practiceId = event.detail;
+  syncReviewUrl("#practice");
+});
 window.addEventListener("popstate", () => restoreReview());
 // In-page evidence links preserve practice notes instead of reloading the document.
 document.addEventListener("click", (event) => {
@@ -405,6 +419,8 @@ document.addEventListener("click", (event) => {
   )
     return;
   event.preventDefault();
+  if (!target.searchParams.has("practice") && new URLSearchParams(location.search).has("practice"))
+    target.searchParams.set("practice", practiceId);
   try {
     history.pushState(null, "", target.pathname + target.search + target.hash);
   } catch {

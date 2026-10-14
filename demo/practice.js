@@ -2,8 +2,10 @@
   "use strict";
   const api = window.CSM_PRACTICE;
   const cases = api.buildCases(window.CSM_DATA, window.CSM_MODEL_RUNS);
+  const links = window.CSM_REVIEW_LINKS;
+  let route = links.readPractice(location.search, cases);
   let session = api.createSession(cases),
-    current = 0;
+    current = cases.findIndex((c) => c.id === route.practiceId);
   const get = (id) => document.getElementById(id);
   const escape = (value) =>
     String(value).replace(
@@ -26,6 +28,12 @@
   function render() {
     const c = cases[current],
       item = session[current];
+    get("practice-select").value = String(current);
+    get("share-practice-url").value = links.sharePractice(c.id, cases);
+    get("copy-practice-link").textContent = "Copy this practice link";
+    get("practice-route-notice").textContent = route.invalid
+      ? "This practice link is invalid or ambiguous. The first decision is shown; no answer or notes were loaded."
+      : "";
     get("practice-progress").textContent =
       `${session.filter((s) => s.reviewed).length} / ${cases.length} decisions reviewed · written reasoning is not graded`;
     updateExportAvailability();
@@ -61,13 +69,29 @@
   }
   get("practice-select").addEventListener("change", (e) => {
     current = Number(e.target.value);
+    window.dispatchEvent(new CustomEvent("csm-practice-selection", { detail: cases[current].id }));
+  });
+  window.addEventListener("csm-practice-route", (event) => {
+    route = event.detail;
+    current = cases.findIndex((c) => c.id === route.practiceId);
     render();
+  });
+  get("copy-practice-link").addEventListener("click", async () => {
+    const url = links.sharePractice(cases[current].id, cases);
+    try {
+      await navigator.clipboard.writeText(url);
+      get("copy-practice-link").textContent = "Practice link copied";
+    } catch {
+      get("practice-link-details").open = true;
+      get("share-practice-url").focus();
+      get("share-practice-url").select();
+      get("copy-practice-link").textContent = "Select the link to copy";
+    }
   });
   get("practice-reset").addEventListener("click", () => {
     session = api.createSession(cases);
     current = 0;
-    get("practice-select").value = "0";
-    render();
+    window.dispatchEvent(new CustomEvent("csm-practice-selection", { detail: cases[current].id }));
     get("practice-progress").textContent =
       `Practice reset. 0 / ${cases.length} decisions reviewed; all session notes cleared.`;
   });

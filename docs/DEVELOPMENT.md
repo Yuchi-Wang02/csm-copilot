@@ -317,3 +317,9 @@ Six focused checks exercise those boundaries using temporary Git repositories. C
 The fifth practice decision presents the preserved `not_failing` customer message alongside the current callback candidate and collection questions. It draws evidence directly from the generated diagnostic report; expected categories are absent from the pre-guidance evidence. The recommended response acknowledges invoicing and clarifies context without claiming callbacks were verified healthy or inventing a Finance deadline.
 
 The source link opens that exact failure in the triage review. Initial reasoning, later reflection and unfinished work remain separately labeled in exports. Two additional JavaScript checks cover source grounding and fifth-case state/export behavior. The classifier, diagnostic scores and historical model recordings are unchanged; this is an opportunity to explain review judgment, not evidence of improved model reliability or completed personal learning.
+
+## v0.21.1: share a decision before guidance
+
+Practice now has a stable public ID per decision, a copy button and a selectable URL fallback. URLs select the exercise only; answers, revealed state and notes remain in page memory. The existing review router preserves an explicit practice selection when opening evidence or changing case/recording/triage controls. Back and Forward select the appropriate decision without discarding the session; reload starts unanswered, and reset clears all work and selects the first decision.
+
+Three additional routing checks cover all five IDs, catalog reordering, invalid/duplicate input and independent restoration with private-note exclusion. Browser verification covers the integrated event flow. During local QA, the previous versioned scripts were still cached; the release asset version was advanced before checking the new behavior. No classifier, model recording or customer evidence changed.
