@@ -12,6 +12,63 @@ from csm_copilot.response_review import review_final
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def compare_batch_claims(trace, findings):
+    """Pair two authored review claims with fields from this historical trace only."""
+    specs = (
+        ("iOS's full compliance", "lantern_ios", None),
+        ("Android's missing evidence", "lantern_android", "device_verified"),
+    )
+    comparisons = []
+    for claim, integration_id, check_id in specs:
+        reviews = [finding for finding in findings if finding["claim"] == claim]
+        if not isinstance(trace["final"], str) or claim not in trace["final"] or len(reviews) != 1:
+            raise ValueError("Claim comparison requires an exact final-response excerpt and review")
+        calls = [
+            (step_index, call_index, call)
+            for step_index, step in enumerate(trace["steps"])
+            for call_index, call in enumerate(step.get("tool_calls", []))
+            if call["action"]["tool"] == "check_readiness"
+            and call["action"]["arguments"].get("integration_id") == integration_id
+        ]
+        if len(calls) != 1:
+            raise ValueError("Claim comparison requires one scoped recorded readiness call")
+        step_index, call_index, call = calls[0]
+        result = call["tool_result"]
+        if call["tool_error"] or result.get("integration_id") != integration_id:
+            raise ValueError("Claim comparison requires a successful result in the requested scope")
+        path = f"steps[{step_index}].tool_calls[{call_index}].tool_result"
+        fields = [
+            {"label": "Decision", "path": f"{path}.decision", "value": result["decision"]},
+            {"label": "Scope boundary", "path": f"{path}.boundary", "value": result["boundary"]},
+        ]
+        if check_id:
+            checks = [(i, c) for i, c in enumerate(result["checks"]) if c["id"] == check_id]
+            if len(checks) != 1:
+                raise ValueError("Claim comparison requires one recorded device check")
+            check_index, check = checks[0]
+            fields = [
+                {
+                    "label": check["label"],
+                    "path": f"{path}.checks[{check_index}].status",
+                    "value": check["status"],
+                },
+                {
+                    "label": "Cited evidence",
+                    "path": f"{path}.checks[{check_index}].evidence_ids",
+                    "value": check["evidence_ids"],
+                },
+            ]
+        comparisons.append(
+            {
+                "claim": claim,
+                "assessment": reviews[0]["assessment"],
+                "source_label": f"Turn {trace['steps'][step_index]['number']} · call {call_index + 1} · {integration_id}",
+                "fields": fields,
+            }
+        )
+    return comparisons
+
+
 def compare_handoffs(runs):
     """Describe two existing traces; do not infer an accuracy gain from their differences."""
     ids = ("qwen4-callback-handoff", "qwen4-callback-input-guard")
@@ -86,6 +143,9 @@ def build():
                 "sha256": hashlib.sha256(raw.encode()).hexdigest(),
                 "promise_lint": lint,
                 "display_final": display_final,
+                "claim_comparisons": compare_batch_claims(trace, entry["findings"])
+                if entry["id"] == "qwen4-batch"
+                else [],
             }
         )
         lines += [

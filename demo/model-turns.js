@@ -44,7 +44,16 @@
       `<ol class="model-turns">${trace.steps.map(turnHTML).join("")}</ol>` +
       `<details><summary>Inspect raw model turns and tool results</summary><pre>${json(trace.steps)}</pre></details></section>`;
   }
-  const api = { render };
+  function renderComparisons(rows) {
+    if (!rows?.length) return "";
+    return `<section class="claim-comparison"><h3>Check the claim against the recorded result</h3>` +
+      `<p>Two excerpts from this attempt's final answer, paired with the tool fields available to the model.</p>` +
+      rows.map((row) => `<div class="claim-pair"><div><span class="small-label">MODEL EXCERPT · UNVERIFIED</span><blockquote>${esc(row.claim)}</blockquote><p>${esc(row.assessment)}</p></div>` +
+        `<div><span class="small-label">RECORDED TOOL FIELDS</span><p class="claim-source">${esc(row.source_label)}</p><dl>${row.fields.map((field) => `<dt>${esc(field.label)}</dt><dd>${esc(typeof field.value === "string" ? field.value : JSON.stringify(field.value))}</dd>`).join("")}</dl>` +
+        `<details><summary>Locate these fields in the raw trace</summary>${row.fields.map((field) => `<p>${esc(field.label)}<br><code>${esc(field.path)}</code></p>`).join("")}</details></div></div>`).join("") +
+      `<p class="boundary">AI-assisted review of a saved attempt, not an automated semantic verdict. These are historical tool returns; current tools and the underlying source truth are separate questions.</p></section>`;
+  }
+  const api = { render, renderComparisons };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_MODEL_TURNS = api;
 })(typeof window !== "undefined" ? window : this);

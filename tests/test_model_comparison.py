@@ -9,6 +9,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 compare = runpy.run_path(str(ROOT / "scripts/build_model_replay.py"))["compare_handoffs"]
+compare_claims = runpy.run_path(str(ROOT / "scripts/build_model_replay.py"))["compare_batch_claims"]
 
 
 def recordings():
@@ -51,3 +52,58 @@ def test_changed_controls_are_reported_instead_of_assumed_identical():
 def test_missing_recording_is_not_silently_replaced_by_another_attempt():
     with pytest.raises(ValueError, match="Both callback"):
         compare(recordings()[:1])
+
+
+def batch_sources():
+    directory = ROOT / "evidence/model-runs"
+    trace = json.loads((directory / "qwen4-batch.json").read_text(encoding="utf-8"))
+    review = json.loads((directory / "review.json").read_text(encoding="utf-8"))
+    findings = next(run["findings"] for run in review["runs"] if run["id"] == "qwen4-batch")
+    return trace, findings
+
+
+def test_claim_cards_extract_exact_historical_values_and_preserve_inputs():
+    trace, findings = batch_sources()
+    before = deepcopy((trace, findings))
+    rows = compare_claims(trace, findings)
+    assert [r["claim"] for r in rows] == ["iOS's full compliance", "Android's missing evidence"]
+    assert [f["value"] for f in rows[0]["fields"]] == [
+        "checklist_complete",
+        "A scoped evidence checklist, not a Unity launch approval or a fill guarantee.",
+    ]
+    assert [f["value"] for f in rows[1]["fields"]] == [
+        "not_met",
+        ["lantern_android_device_verified"],
+    ]
+    assert rows[0]["fields"][0]["path"] == "steps[0].tool_calls[1].tool_result.decision"
+    assert rows[1]["fields"][0]["path"] == "steps[0].tool_calls[0].tool_result.checks[4].status"
+    assert (trace, findings) == before
+
+
+def test_claim_source_locations_follow_recorded_order_not_assumed_positions():
+    trace, findings = batch_sources()
+    trace["steps"][0]["tool_calls"].reverse()
+    for call in trace["steps"][0]["tool_calls"]:
+        if call["action"]["tool"] == "check_readiness":
+            call["tool_result"]["checks"].reverse()
+    rows = compare_claims(trace, findings)
+    assert rows[0]["source_label"] == "Turn 1 · call 3 · lantern_ios"
+    assert rows[1]["fields"][0]["path"] == "steps[0].tool_calls[3].tool_result.checks[1].status"
+
+
+@pytest.mark.parametrize("damage", ["quote", "duplicate_call", "scope", "error", "missing_check"])
+def test_claim_comparison_rejects_missing_or_ambiguous_historical_sources(damage):
+    trace, findings = batch_sources()
+    calls = trace["steps"][0]["tool_calls"]
+    if damage == "quote":
+        trace["final"] = "A different answer."
+    elif damage == "duplicate_call":
+        calls.append(deepcopy(calls[1]))
+    elif damage == "scope":
+        calls[1]["tool_result"]["integration_id"] = "lantern_android"
+    elif damage == "error":
+        calls[1]["tool_error"] = True
+    else:
+        calls[0]["tool_result"]["checks"] = []
+    with pytest.raises(ValueError, match="Claim comparison requires"):
+        compare_claims(trace, findings)

@@ -85,7 +85,8 @@ window.CSM_MODEL_RUNS = {
       },
       "sha256": "d318eef2110fc2853ddcd82f154c61c049a2a19c20e80016debf3236ef490fcb",
       "promise_lint": null,
-      "display_final": null
+      "display_final": null,
+      "claim_comparisons": []
     },
     {
       "id": "qwen4-single",
@@ -167,7 +168,8 @@ window.CSM_MODEL_RUNS = {
       },
       "sha256": "06ad27e1756fe929a815803f1a3bde2b82e66d7e484628c3ebf8a0ac3fe27c97",
       "promise_lint": null,
-      "display_final": null
+      "display_final": null,
+      "claim_comparisons": []
     },
     {
       "id": "qwen4-batch",
@@ -643,7 +645,45 @@ window.CSM_MODEL_RUNS = {
         "human_review_required": true,
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
-      "display_final": "Lantern Android requires confirmation on currency approval, Test Only status, and a non-test device check, along with a callback example. Lantern iOS has a complete checklist but needs confirmation of no changes and current launch plans. The differences arise from Android's missing evidence and iOS's full compliance. No evidence IDs are missing for Android, while iOS has all required evidence. Nothing was sent."
+      "display_final": "Lantern Android requires confirmation on currency approval, Test Only status, and a non-test device check, along with a callback example. Lantern iOS has a complete checklist but needs confirmation of no changes and current launch plans. The differences arise from Android's missing evidence and iOS's full compliance. No evidence IDs are missing for Android, while iOS has all required evidence. Nothing was sent.",
+      "claim_comparisons": [
+        {
+          "claim": "iOS's full compliance",
+          "assessment": "The tool reports checklist_complete for six scoped checks and explicitly says it is not launch approval. Compliance was not evaluated.",
+          "source_label": "Turn 1 · call 2 · lantern_ios",
+          "fields": [
+            {
+              "label": "Decision",
+              "path": "steps[0].tool_calls[1].tool_result.decision",
+              "value": "checklist_complete"
+            },
+            {
+              "label": "Scope boundary",
+              "path": "steps[0].tool_calls[1].tool_result.boundary",
+              "value": "A scoped evidence checklist, not a Unity launch approval or a fill guarantee."
+            }
+          ]
+        },
+        {
+          "claim": "Android's missing evidence",
+          "assessment": "This is incomplete: lantern_android_device_verified supports a not_met state. The final explanation fails to distinguish the recorded failed check from the unknown checks.",
+          "source_label": "Turn 1 · call 1 · lantern_android",
+          "fields": [
+            {
+              "label": "Non-test device verification",
+              "path": "steps[0].tool_calls[0].tool_result.checks[4].status",
+              "value": "not_met"
+            },
+            {
+              "label": "Cited evidence",
+              "path": "steps[0].tool_calls[0].tool_result.checks[4].evidence_ids",
+              "value": [
+                "lantern_android_device_verified"
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "qwen4-grounded",
@@ -1095,7 +1135,8 @@ window.CSM_MODEL_RUNS = {
       },
       "sha256": "05395199c5a5d348351b6960e5f4f2cecfcfe51c318f83992b19c36ea1bdd8f0",
       "promise_lint": null,
-      "display_final": null
+      "display_final": null,
+      "claim_comparisons": []
     },
     {
       "id": "qwen4-grounded-corrections",
@@ -1580,7 +1621,8 @@ window.CSM_MODEL_RUNS = {
       },
       "sha256": "51bb842a48834dd3d33c71fcf39d8801b1b24dff06a0a17c14826f6eddd2433b",
       "promise_lint": null,
-      "display_final": null
+      "display_final": null,
+      "claim_comparisons": []
     },
     {
       "id": "qwen4-constrained",
@@ -3329,7 +3371,8 @@ window.CSM_MODEL_RUNS = {
         "human_review_required": true,
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
-      "display_final": "Lantern Android requires evidence for currency approval, Test Only status, and callback verification, with a failed device verification. Lantern iOS has a complete checklist but no unknown checks. The follow-ups differ because Android needs additional evidence while iOS is ready for launch review."
+      "display_final": "Lantern Android requires evidence for currency approval, Test Only status, and callback verification, with a failed device verification. Lantern iOS has a complete checklist but no unknown checks. The follow-ups differ because Android needs additional evidence while iOS is ready for launch review.",
+      "claim_comparisons": []
     },
     {
       "id": "qwen4-callback-handoff",
@@ -3849,7 +3892,8 @@ window.CSM_MODEL_RUNS = {
         "human_review_required": true,
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
-      "display_final": "Harbor Studio (acc_006) reported a reward callback issue with HTTP 405 in Japan. The callback_verified status is unconfirmed. Missing fields include reproduction steps and redacted logs. The issue is unconfirmed, and no ticket was submitted. Next action: request missing evidence and review the handoff. Evidence ID: msg_issue_callback."
+      "display_final": "Harbor Studio (acc_006) reported a reward callback issue with HTTP 405 in Japan. The callback_verified status is unconfirmed. Missing fields include reproduction steps and redacted logs. The issue is unconfirmed, and no ticket was submitted. Next action: request missing evidence and review the handoff. Evidence ID: msg_issue_callback.",
+      "claim_comparisons": []
     },
     {
       "id": "qwen4-callback-input-guard",
@@ -4355,7 +4399,8 @@ window.CSM_MODEL_RUNS = {
         "human_review_required": true,
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
-      "display_final": "Harbor Studio (acc_006) has a recorded issue (issue_callback) with Android's reward callback returning HTTP 405. The issue was observed in Japan with SDK synthetic-version-1 between 08:30–09:00 UTC on 2026-10-10. Evidence shows callback_verified is not_met, but other checks like currency_approved, device_verified, and sdk_connected are met. The root cause remains unconfirmed, and missing fields include reproduction_steps and redacted_logs. A draft ticket (ticket-issue_callback) was prepared but not sent. Next action: request missing evidence and review the handoff before submitting a ticket. Nothing was sent."
+      "display_final": "Harbor Studio (acc_006) has a recorded issue (issue_callback) with Android's reward callback returning HTTP 405. The issue was observed in Japan with SDK synthetic-version-1 between 08:30–09:00 UTC on 2026-10-10. Evidence shows callback_verified is not_met, but other checks like currency_approved, device_verified, and sdk_connected are met. The root cause remains unconfirmed, and missing fields include reproduction_steps and redacted_logs. A draft ticket (ticket-issue_callback) was prepared but not sent. Next action: request missing evidence and review the handoff before submitting a ticket. Nothing was sent.",
+      "claim_comparisons": []
     },
     {
       "id": "qwen4-triage-scope",
@@ -4574,7 +4619,8 @@ window.CSM_MODEL_RUNS = {
         "human_review_required": true,
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
-      "display_final": "For Message A: The triage identified 'unknown' category, requiring clarification on the affected app/platform. Next action: Request details on the app and platform. Clarification questions: What app and platform is this for? What was expected vs. what happened? For Message B: The triage identified 'no_offers' category, suggesting potential issues with currency approval or placement. Next action: Collect evidence on currency settings and device comparison. Clarification questions: Confirm the affected app and platform. Share currency approval and Test Only settings for that platform. Nothing was sent."
+      "display_final": "For Message A: The triage identified 'unknown' category, requiring clarification on the affected app/platform. Next action: Request details on the app and platform. Clarification questions: What app and platform is this for? What was expected vs. what happened? For Message B: The triage identified 'no_offers' category, suggesting potential issues with currency approval or placement. Next action: Collect evidence on currency settings and device comparison. Clarification questions: Confirm the affected app and platform. Share currency approval and Test Only settings for that platform. Nothing was sent.",
+      "claim_comparisons": []
     },
     {
       "id": "qwen4-triage-neutral-questions",
@@ -4794,7 +4840,8 @@ window.CSM_MODEL_RUNS = {
         "human_review_required": true,
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
-      "display_final": "For Message A: The candidate is 'unknown' and requires clarification on the account or product involved. Next action: Request details about the account or product. Questions: 'Which account or product does this request concern?', 'What specific information or outcome do you need, and which relevant details should we review?' For Message B: The candidate is 'no_offers' with sources. Next action: Collect evidence on currency approval, Test Only settings, placement, SDK connection, and device verification. Questions: 'Confirm the affected app and platform.', 'Share currency approval and Test Only settings for that platform.' Nothing was sent."
+      "display_final": "For Message A: The candidate is 'unknown' and requires clarification on the account or product involved. Next action: Request details about the account or product. Questions: 'Which account or product does this request concern?', 'What specific information or outcome do you need, and which relevant details should we review?' For Message B: The candidate is 'no_offers' with sources. Next action: Collect evidence on currency approval, Test Only settings, placement, SDK connection, and device verification. Questions: 'Confirm the affected app and platform.', 'Share currency approval and Test Only settings for that platform.' Nothing was sent.",
+      "claim_comparisons": []
     }
   ],
   "review_method": "AI-assisted comparison with recorded tool results; not independent human review",

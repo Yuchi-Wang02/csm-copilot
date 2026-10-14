@@ -906,6 +906,36 @@ details pre {
 .empty h3 {
   font-size: 19px;
 }
+.claim-comparison {
+  margin: 24px 0;
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 13px;
+}
+.claim-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.claim-pair > div { min-width: 0; }
+.claim-pair blockquote {
+  margin: 12px 0;
+  padding-left: 14px;
+  border-left: 3px solid var(--amber);
+  font-size: 18px;
+}
+.claim-pair dt { font-weight: 600; }
+.claim-pair dd { margin: 4px 0 12px; }
+.claim-source { margin: 10px 0; color: var(--muted); font-size: 12px; }
+@media (max-width: 700px) {
+  .claim-comparison { padding: 18px; }
+  .claim-pair { grid-template-columns: 1fr; gap: 12px; }
+}
 @media (max-width: 1000px) {
   .hero {
     grid-template-columns: 1fr 240px;

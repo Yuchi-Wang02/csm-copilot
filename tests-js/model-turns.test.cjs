@@ -6,6 +6,24 @@ const api = require("../demo/model-turns.js");
 const directory = path.join(__dirname, "../evidence/model-runs");
 const trace = (id) => JSON.parse(fs.readFileSync(path.join(directory, id + ".json"), "utf8"));
 
+test("claim comparison keeps quoted source fields and review separate and escaped", () => {
+  const rows = [{claim: '<img src=x>', assessment: 'Authored review <script>', source_label: 'Turn 1 · call 2',
+    fields: [{label: 'Decision', path: 'steps[0].tool_calls[1].tool_result.decision', value: 'checklist_complete'},
+      {label: 'Evidence', path: 'raw <path>', value: ['record_1', '<img>']}]}];
+  const before = JSON.stringify(rows);
+  const html = api.renderComparisons(rows);
+  assert.match(html, /MODEL EXCERPT · UNVERIFIED/);
+  assert.match(html, /RECORDED TOOL FIELDS/);
+  assert.match(html, /checklist_complete/);
+  assert.match(html, /steps\[0\].tool_calls\[1\].tool_result.decision/);
+  assert.match(html, /not an automated semantic verdict/);
+  assert.match(html, /&lt;img/);
+  assert.doesNotMatch(html, /<img|<script/);
+  assert.equal(JSON.stringify(rows), before);
+  assert.equal(api.renderComparisons([]), '');
+  assert.equal(api.renderComparisons(undefined), '');
+});
+
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
   assert.equal(names.length, 10);

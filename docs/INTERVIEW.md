@@ -24,7 +24,7 @@ Before presenting, open [Android evidence](https://yuchi-wang02.github.io/csm-co
 
 ## 1:50–2:30 — Explain the AI architecture and failure cases
 
-**Show:** Switch to the original AI recording. In **How this recorded AI run unfolded**, expand Turn 2 and find “full compliance” in the final explanation. Leave the corrected attempt for a deeper discussion.
+**Show:** Switch to the original AI recording. In **Check the claim against the recorded result**, compare “iOS's full compliance” with the recorded `checklist_complete` decision and its scope boundary. The adjacent Android example distinguishes a recorded failure from missing evidence. Use the expandable field locations or the full turn transcript for a follow-up question; leave the corrected attempt for a deeper discussion.
 
 > The MCP server gives a model tools to inspect the workflow. Checklist decisions remain deterministic. In this recording, the model completed four requested calls but described a scoped iOS checklist as full compliance. Successful tool use did not make its explanation faithful. This browser replays saved outputs; it does not run live inference.
 
