@@ -87,7 +87,7 @@ print("Original again:", original.check_readiness("meadow_ios")["decision"])
 
 Change only `observed_state` for experiment 3. For experiment 4, change the record's `integration_id` to `"lantern_ios"`; keep the account and referenced fact unchanged. Inspect the validation error rather than removing the check to force the example to run. Each execution begins with a fresh copy.
 
-Explain why the original remains unchanged, why a recorded failure and an unknown lead to different actions, and why a complete checklist still is not launch approval. Find the relevant ownership checks in [test_evidence_scope.py](../tests/test_evidence_scope.py) and the readiness behavior in [test_workflow.py](../tests/test_workflow.py). Keep this local exercise file and your notes outside any public commit until you have reviewed what you want to share.
+Explain why the original remains unchanged, why a recorded failure and missing evidence lead to different readiness decisions, and why a complete checklist still is not launch approval. The extension below checks whether the customer wording also changes. Find the relevant ownership checks in [test_evidence_scope.py](../tests/test_evidence_scope.py) and the readiness behavior in [test_workflow.py](../tests/test_workflow.py). Keep this local exercise file and your notes outside any public commit until you have reviewed what you want to share.
 
 Evidence to keep: prediction, output, explanation and a small test you can defend.
 
