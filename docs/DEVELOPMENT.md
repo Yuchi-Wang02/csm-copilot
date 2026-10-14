@@ -1,5 +1,11 @@
 # Development notes
 
+## Preserve source comparisons in downloadable briefs
+
+The Markdown briefs retained copied handoff values and source IDs but did not flag disagreements with scoped records. A missing field-source entry also raised a `KeyError` and stopped the export. Four failing-before checks covered disagreement, unavailable/ambiguous/mis-scoped sources, matching attribution and source markup.
+
+Each handoff now includes a field-source comparison table. Configuration records remain distinct from dated issue details, unavailable sources are labeled rather than substituted, and the original copied values remain visible. The rebuilt English and Chinese briefs use the same renderer as the CLI. Full Python verification passed with 321 tests, including byte comparisons of the committed briefs. This is an export integrity repair, not independent verification of source truth or completed personal practice.
+
 ## Keep field-source warnings in portable handoffs
 
 The on-screen handoff source view displayed a mismatch when a draft field differed from its scoped record. The plain-text copy previously retained the draft value and a source ID, but omitted that specific warning and the recorded value. Three new tests failed against that exporter before the repair: changed values, unavailable or ambiguous sources, and matching attributed fields.

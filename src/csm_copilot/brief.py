@@ -67,6 +67,44 @@ def _case_packet(workflow: dict, integration_id: str) -> dict:
     return packet
 
 
+def _field_record(packet, ticket, key):
+    """Attribute a field only to one issue and one record in its account/platform."""
+    context = packet["context"]
+    issues = [i for i in context["issues"] if "ticket-" + i["id"] == ticket["draft_id"]]
+    if len(issues) != 1:
+        return None
+    issue = issues[0]
+    integrations = [
+        i
+        for i in context["integrations"]
+        if i["id"] == issue["integration_id"] and i["account_id"] == context["account"]["id"]
+    ]
+    if len(integrations) != 1:
+        return None
+    integration = integrations[0]
+    reference = ticket.get("field_sources", {}).get(key, {})
+    if reference.get("source_kind") == "integration_record":
+        if (
+            reference.get("source_id") == integration["id"]
+            and key in ("app", "platform")
+            and integration.get(key) is not None
+        ):
+            return integration[key], "Integration record; no per-field observation date"
+    elif reference.get("source_kind") == "issue_evidence":
+        source = _issue_source(packet, ticket)
+        details = issue.get("details", {})
+        if (
+            source
+            and reference.get("source_id") == issue["evidence_id"]
+            and details.get(key) is not None
+        ):
+            label = {"customer_report": "Customer report", "test_record": "Test record"}.get(
+                source.get("kind"), "Source type unavailable"
+            )
+            return details[key], f"{label}; {source['at']}"
+    return None
+
+
 def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | None = None) -> str:
     """Export synthetic findings and drafts; do not rerun or mutate the workflow."""
     if lang not in ("en", "zh"):
@@ -189,9 +227,35 @@ def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | 
                 "|---|---|---|",
             ]
             for key, value in ticket["fields"].items():
+                reference = ticket.get("field_sources", {}).get(key, {})
                 lines.append(
-                    f"| {cell(key)} | {cell(value)} | {cell(ticket['field_sources'][key]['source_id'])} |"
+                    f"| {cell(key)} | {cell(value)} | {cell(reference.get('source_id', 'Unavailable'))} |"
                 )
+            lines += [
+                "",
+                "**Field-source comparison**",
+                "",
+                "Compare the copied values above with their scoped structured records. This does not verify source truth, current status or extraction from the original message. Disagreements remain visible; values are not silently corrected.",
+                "",
+                "| Field | Recorded value | Attribution | Review |",
+                "|---|---|---|---|",
+            ]
+            for key, value in ticket["fields"].items():
+                recorded = _field_record(packet, ticket, key)
+                if recorded is None:
+                    lines.append(
+                        f"| {cell(key)} | Unavailable | No unique scoped source | WARNING: Scoped field source unavailable; review missing, ambiguous or mis-scoped records. |"
+                    )
+                else:
+                    recorded_value, attribution = recorded
+                    review = (
+                        "Matches structured record; not independently verified"
+                        if value == recorded_value
+                        else "WARNING: Differs from the copied handoff value; review before use"
+                    )
+                    lines.append(
+                        f"| {cell(key)} | {cell(recorded_value)} | {cell(attribution)} | {review} |"
+                    )
             if ticket["handoff_state"] == "needs_scope":
                 lines += [
                     "",

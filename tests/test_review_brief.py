@@ -53,6 +53,90 @@ def test_export_is_repeatable_and_read_only():
     assert workflow == original
 
 
+def test_export_retains_handoff_disagreement_beside_the_scoped_record():
+    workflow = build_demo()
+    packet = workflow["packets"][0]
+    packet["tickets"][0]["fields"]["region"] = "Copied elsewhere"
+    packet["context"]["issues"][0]["details"]["region"] = "Recorded region"
+    original = copy.deepcopy(workflow)
+    for lang in ("en", "zh"):
+        brief = render_review_brief(workflow, lang, "lantern_android")
+        comparison = brief.split("**Field-source comparison**", 1)[1].split(
+            "**Missing information:**", 1
+        )[0]
+        assert "Copied elsewhere" in brief
+        assert "Recorded region" in comparison
+        assert "WARNING: Differs from the copied handoff value" in comparison
+        assert "2026-10-09T09:00:00Z" in comparison
+    assert workflow == original
+
+
+def test_export_does_not_substitute_missing_ambiguous_or_misscoped_field_sources():
+    for fault in (
+        "missing_map",
+        "wrong_ref",
+        "duplicate_issue",
+        "duplicate_source",
+        "wrong_account",
+        "wrong_platform",
+        "missing_detail",
+    ):
+        workflow = build_demo()
+        packet = workflow["packets"][0]
+        issue = packet["context"]["issues"][0]
+        source = next(r for r in packet["context"]["evidence"] if r["id"] == issue["evidence_id"])
+        issue["details"]["region"] = "DO NOT ATTRIBUTE THIS VALUE"
+        if fault == "missing_map":
+            del packet["tickets"][0]["field_sources"]["region"]
+        elif fault == "wrong_ref":
+            packet["tickets"][0]["field_sources"]["region"]["source_id"] = "other"
+        elif fault == "duplicate_issue":
+            packet["context"]["issues"].append(copy.deepcopy(issue))
+        elif fault == "duplicate_source":
+            packet["context"]["evidence"].append(copy.deepcopy(source))
+        elif fault == "wrong_account":
+            source["account_id"] = "other"
+        elif fault == "wrong_platform":
+            source["integration_id"] = "lantern_ios"
+        else:
+            del issue["details"]["region"]
+        original = copy.deepcopy(workflow)
+        brief = render_review_brief(workflow, integration_id="lantern_android")
+        comparison = brief.split("**Field-source comparison**", 1)[1].split(
+            "**Missing information:**", 1
+        )[0]
+        assert "| region | Unavailable |" in comparison
+        assert "WARNING: Scoped field source unavailable" in comparison
+        assert "DO NOT ATTRIBUTE THIS VALUE" not in comparison
+        assert workflow == original
+
+
+def test_export_matching_fields_keep_configuration_and_issue_attribution_distinct():
+    brief = render_review_brief(build_demo(), integration_id="harbor_android")
+    comparison = brief.split("**Field-source comparison**", 1)[1].split(
+        "**Missing information:**", 1
+    )[0]
+    assert "Pocket Harbor" in comparison
+    assert "Integration record; no per-field observation date" in comparison
+    assert "Customer report; 2026-10-10T09:00:00Z" in comparison
+    assert "Matches structured record; not independently verified" in comparison
+    assert "WARNING:" not in comparison
+
+
+def test_export_field_comparison_keeps_recorded_markup_as_literal_text():
+    workflow = build_demo()
+    workflow["packets"][0]["context"]["issues"][0]["details"]["region"] = (
+        "<script>run()</script> | [click](javascript:run())\nFake row"
+    )
+    brief = render_review_brief(workflow, integration_id="lantern_android")
+    comparison = brief.split("**Field-source comparison**", 1)[1].split(
+        "**Missing information:**", 1
+    )[0]
+    assert "<script>" not in comparison and "[click](javascript:" not in comparison
+    assert r"\| \[click\]" in comparison
+    assert " / Fake row" in comparison
+
+
 @pytest.mark.parametrize("lang", ["en", "zh"])
 def test_brief_timing_withholds_a_duplicate_source_date_but_keeps_records_for_review(lang):
     workflow = build_demo()

@@ -115,6 +115,17 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 | region | Singapore | msg\_issue\_blank |
 | reproduction\_steps | Open the reward screen on a non-test Android device. | msg\_issue\_blank |
 
+**Field-source comparison**
+
+Compare the copied values above with their scoped structured records. This does not verify source truth, current status or extraction from the original message. Disagreements remain visible; values are not silently corrected.
+
+| Field | Recorded value | Attribution | Review |
+|---|---|---|---|
+| app | Moon Garden | Integration record; no per-field observation date | Matches structured record; not independently verified |
+| platform | Android | Integration record; no per-field observation date | Matches structured record; not independently verified |
+| region | Singapore | Customer report; 2026-10-09T09:00:00Z | Matches structured record; not independently verified |
+| reproduction\_steps | Open the reward screen on a non-test Android device. | Customer report; 2026-10-09T09:00:00Z | Matches structured record; not independently verified |
+
 **Missing information:** sdk\_version, time\_window, redacted\_logs
 
 **Next action:** Request missing evidence, then review the handoff; no ticket was submitted.
@@ -248,6 +259,18 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 | sdk\_version | synthetic-version-1 | msg\_issue\_callback |
 | region | Japan | msg\_issue\_callback |
 | time\_window | 2026-10-10 08:30–09:00 UTC | msg\_issue\_callback |
+
+**Field-source comparison**
+
+Compare the copied values above with their scoped structured records. This does not verify source truth, current status or extraction from the original message. Disagreements remain visible; values are not silently corrected.
+
+| Field | Recorded value | Attribution | Review |
+|---|---|---|---|
+| app | Pocket Harbor | Integration record; no per-field observation date | Matches structured record; not independently verified |
+| platform | Android | Integration record; no per-field observation date | Matches structured record; not independently verified |
+| sdk\_version | synthetic-version-1 | Customer report; 2026-10-10T09:00:00Z | Matches structured record; not independently verified |
+| region | Japan | Customer report; 2026-10-10T09:00:00Z | Matches structured record; not independently verified |
+| time\_window | 2026-10-10 08:30–09:00 UTC | Customer report; 2026-10-10T09:00:00Z | Matches structured record; not independently verified |
 
 **Missing information:** reproduction\_steps, redacted\_logs
 

@@ -76,6 +76,17 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 | region | Singapore | msg\_issue\_blank |
 | reproduction\_steps | Open the reward screen on a non-test Android device. | msg\_issue\_blank |
 
+**Field-source comparison**
+
+Compare the copied values above with their scoped structured records. This does not verify source truth, current status or extraction from the original message. Disagreements remain visible; values are not silently corrected.
+
+| Field | Recorded value | Attribution | Review |
+|---|---|---|---|
+| app | Moon Garden | Integration record; no per-field observation date | Matches structured record; not independently verified |
+| platform | Android | Integration record; no per-field observation date | Matches structured record; not independently verified |
+| region | Singapore | Customer report; 2026-10-09T09:00:00Z | Matches structured record; not independently verified |
+| reproduction\_steps | Open the reward screen on a non-test Android device. | Customer report; 2026-10-09T09:00:00Z | Matches structured record; not independently verified |
+
 **Missing information:** sdk\_version, time\_window, redacted\_logs
 
 **Next action:** Request missing evidence, then review the handoff; no ticket was submitted.

@@ -72,6 +72,8 @@ The builder generates eight files: four queued integrations in two languages. CI
 
 Platform briefs use UTF-8 with LF line endings. Artifact tests and installed CLI checks compare bytes, so Windows and Linux exports match the files served by GitHub Pages.
 
+Each handoff in the Markdown briefs includes a **Field-source comparison** after its copied-value table. It resolves integration configuration and dated issue details separately, displays their recorded values, and warns when a copied value differs or its scoped source is unavailable. Missing field-source entries no longer prevent the brief from rendering. The comparison retains the original draft and does not interpret free text, refresh records or establish their truth. These checks apply to both the whole-queue and selected-platform exports; English/Chinese selection changes the customer draft language, while the review context stays in English.
+
 ## Use it in an interview
 
 The Handoff panel also offers **Copy handoff** and **Preview handoff text** for each recorded issue. The plain-text draft carries the fixed snapshot, account/integration/issue IDs, original source text when uniquely available, copied fields with source references, focused missing-information requests, triage notes, proposed owner and next action. It keeps the unconfirmed-cause and nothing-sent boundaries. This compact copy is for review; the platform Markdown brief supplies the fuller evidence index.
