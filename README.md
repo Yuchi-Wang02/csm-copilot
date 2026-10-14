@@ -67,7 +67,7 @@ The model-enabled MCP host interprets the request, chooses tools, and can rewrit
 
 **Protocol verification:** real stdio MCP initialization, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. The original `mcp-transcript.json` is a scripted client run. **Model observations:** ten separate local Qwen attempts across three prescribed tasks preserve actual generated tool choices and responses; their review exposes failures. These exploratory runs do not establish general reliability or customer productivity. The browser replays the recordings and never runs a model itself.
 
-The newest recording reviews an invoice request and a blank Offerwall message without a supplied account ID. Both tool calls preserve the input text and unknown identity; the final answer proposes different next actions and says nothing was sent. Its invoice questions still repeat generic technical prompts. Use [the unedited response](evidence/model-runs/qwen4-triage-scope.json) and [AI-assisted review](evidence/MODEL_RUNS.md) to distinguish tool correctness, answer fidelity and customer fit.
+Two inbound-message recordings illustrate customer-fit review. The [earlier attempt](evidence/model-runs/qwen4-triage-scope.json) repeated generic technical questions for an invoice request. The [neutral-question attempt](evidence/model-runs/qwen4-triage-neutral-questions.json) used account/product and requested-outcome questions instead; those questions still remain broad. Both preserve the original messages and unknown identity. The [paired AI-assisted review](evidence/MODEL_RUNS.md) distinguishes tool correctness, answer fidelity and customer fit without claiming independent validation.
 
 ## Tools
 
@@ -110,6 +110,7 @@ Then install and verify:
 
 ```sh
 python -m pip install -e ".[dev]"
+csm-demo --format summary
 python -m pytest -q
 python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
 python scripts/build_demo.py
@@ -126,6 +127,8 @@ python scripts/verify_wheel.py
 ```
 
 This creates a temporary clean environment, installs the built wheel and its dependencies, and runs both installed commands outside the repository. It checks the JSON workflow, English and Chinese exports, and real MCP results against the published artifacts. Dependency installation requires package-index access; no model or API key is needed. Both CI operating systems run this check. See [verification details](docs/VERIFICATION.md#installed-package-check).
+
+For a first terminal walkthrough, run `csm-demo --format summary`. It prints the original queue, each platform's decision, unknown/failed check IDs, next actions and handoff missing fields in English. [Preview the generated summary](evidence/morning-summary.txt). No model or API key is required; the snapshot is fixed and nothing is sent. Use `--output morning-summary.txt` to save it. Summary format covers the full queue; platform selection and Chinese customer drafts use Markdown.
 
 To print the full review packet without a browser:
 

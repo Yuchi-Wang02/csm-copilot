@@ -8,6 +8,7 @@ from pathlib import Path
 from .brief import render_review_brief
 from .engine import Copilot
 from .models import Dataset
+from .summary import render_summary
 from .timing import evidence_timing
 
 
@@ -101,7 +102,7 @@ def build_demo():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, help="Write the export; default prints to stdout")
-    parser.add_argument("--format", choices=("json", "markdown"), default="json")
+    parser.add_argument("--format", choices=("json", "markdown", "summary"), default="json")
     parser.add_argument(
         "--integration",
         help="Export one platform from the review queue; requires --format markdown",
@@ -115,13 +116,18 @@ def main():
     args = parser.parse_args()
     if args.integration is not None and args.format != "markdown":
         parser.error("--integration requires --format markdown; JSON preserves the full workflow")
+    if args.format == "summary" and args.lang != "en":
+        parser.error(
+            "--format summary is English; use --format markdown --lang zh for Chinese drafts"
+        )
     workflow = build_demo()
     try:
-        content = (
-            render_review_brief(workflow, args.lang, args.integration)
-            if args.format == "markdown"
-            else json.dumps(workflow, ensure_ascii=False, indent=2) + "\n"
-        )
+        if args.format == "markdown":
+            content = render_review_brief(workflow, args.lang, args.integration)
+        elif args.format == "summary":
+            content = render_summary(workflow)
+        else:
+            content = json.dumps(workflow, ensure_ascii=False, indent=2) + "\n"
     except ValueError as exc:
         parser.error(str(exc))
     if args.output:

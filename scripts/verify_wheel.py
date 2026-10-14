@@ -73,6 +73,8 @@ def main():
         actual = json.loads(execute([demo]))
         expected = json.loads((ROOT / "evidence/workflow.json").read_text(encoding="utf-8"))
         assert actual == expected, "Installed CLI JSON differs from the published workflow"
+        summary = execute([demo, "--format", "summary"])
+        assert summary == (ROOT / "evidence/morning-summary.txt").read_text(encoding="utf-8")
         for lang in ("en", "zh"):
             target = outside / "exports" / f"review-{lang}.md"
             execute([demo, "--format", "markdown", "--lang", lang, "--output", target])
@@ -119,7 +121,7 @@ def main():
         assert observed == baseline, "Installed MCP behavior differs from the published transcript"
         print(
             f"PASS: wheel {origin['metadata_version']}; isolated installed module; "
-            "CLI JSON, both queue exports and all platform briefs match; eight-tool MCP console entry point "
+            "CLI JSON and summary, both queue exports and all platform briefs match; eight-tool MCP console entry point "
             "matches the published transcript. No model inference."
         )
 

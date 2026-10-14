@@ -1,0 +1,35 @@
+CSM Copilot - morning review
+Snapshot: 2026-10-14T09:00:00+00:00
+Synthetic data | deterministic replay | no model inference | nothing sent
+Queue: 3 accounts, 4 platforms.
+Order: planned launch date. Original snapshot; comparison updates are excluded.
+
+1. Lantern Games (acc_014)
+   Last contact: 5 days ago; planned launch: 2026-10-16T09:00:00Z
+   Moon Garden / Android: blocked
+     currency_approved: unknown [no applicable record]
+     test_only_off: unknown [no applicable record]
+     device_verified: not_met [lantern_android_device_verified]
+     callback_verified: unknown [no applicable record]
+     Next: Review and send the evidence request, then reassess when new records arrive.
+     Handoff issue_blank: needs_information; missing: sdk_version, time_window, redacted_logs
+     Proposed owner: Technical support after CSM evidence review (project policy)
+   Moon Garden / iOS: checklist_complete
+     Next: Review the launch plan and confirm any changes since the recorded checks.
+
+2. Meadow Works (acc_018)
+   Last contact: 5 days ago; planned launch: 2026-10-18T09:00:00Z
+   Meadow Notes / iOS: needs_evidence
+     device_verified: unknown [no applicable record]
+     Next: Review and send the evidence request, then reassess when new records arrive.
+
+3. Harbor Studio (acc_006)
+   Last contact: 4 days ago; planned launch: 2026-10-19T09:00:00Z
+   Pocket Harbor / Android: blocked
+     callback_verified: not_met [harbor_android_callback_verified]
+     Next: Review and send the evidence request, then reassess when new records arrive.
+     Handoff issue_callback: needs_information; missing: reproduction_steps, redacted_logs
+     Proposed owner: Technical support after CSM evidence review (project policy)
+
+Checklist completion is not launch approval or issue resolution.
+For full drafts and evidence, run: csm-demo --format markdown --output morning-review.md

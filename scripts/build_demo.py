@@ -8,6 +8,7 @@ from csm_copilot.brief import render_review_brief
 from csm_copilot.demo import build_demo
 from csm_copilot.engine import Copilot
 from csm_copilot.friction import render_friction_brief
+from csm_copilot.summary import render_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 report = runpy.run_path(str(ROOT / "evaluation/run.py"))["evaluate"]()
@@ -27,6 +28,9 @@ payload = {
     json.dumps(payload["workflow"], ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
 )
 print("Built demo/data.js and evidence/workflow.json from engine outputs.")
+(ROOT / "evidence/morning-summary.txt").write_text(
+    render_summary(payload["workflow"]), encoding="utf-8", newline="\n"
+)
 for language in ("en", "zh"):
     brief = render_review_brief(payload["workflow"], language)
     for directory in ("demo", "evidence"):

@@ -4,6 +4,24 @@ The project is a starting point for demonstrated understanding. These exercises 
 
 **A small current exercise:** compare the two [inbound-message recordings](LOCAL_MODEL.md#v0111-neutral-questions-for-an-unknown-request). Before reading the annotations, explain why a correct `unknown` category can still produce a poor invoice follow-up. Propose one more specific customer question without inventing billing policy. Then trace the changed question through the engine, tool result and unedited model response. Record your reasoning separately from the AI-assisted review.
 
+## First run — read the decision before the full packet
+
+After the README's installation steps, run:
+
+```sh
+csm-demo --format summary
+```
+
+The [published output](../evidence/morning-summary.txt) contains three accounts and four platforms at the fixed synthetic snapshot. Find `Moon Garden / Android: blocked` and trace `lantern_android_device_verified` back to the evidence. Contrast it with `Moon Garden / iOS: checklist_complete`. Explain why Meadow's unknown device evidence leads to a different state from a recorded failure.
+
+Next, inspect a complete platform brief:
+
+```sh
+csm-demo --format markdown --integration lantern_android --output android-review.md
+```
+
+Compare the summary's missing handoff fields with the detailed brief. Write your explanation before reading the implementation in `src/csm_copilot/summary.py`. The summary consumes existing workflow results; it does not change the decision rule, contact history or source records. Its counterfactual updates are excluded. This is a suggested exercise, not a record of completed personal work.
+
 ## Session 1 — Trace one account (30–45 minutes)
 
 - Find `acc_014` in `src/csm_copilot/data/accounts.json`.
