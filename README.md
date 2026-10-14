@@ -112,6 +112,15 @@ python -m http.server 8000 --directory demo
 
 Open `http://localhost:8000`. The static demo also works by opening `demo/index.html`; clipboard support may vary on file URLs. The optional Google Fonts request falls back to local system fonts when offline. No account data leaves the page.
 
+To check the distributable package as well as the editable checkout:
+
+```sh
+python -m build
+python scripts/verify_wheel.py
+```
+
+This creates a temporary clean environment, installs the built wheel and its dependencies, and runs both installed commands outside the repository. It checks the JSON workflow, English and Chinese exports, and real MCP results against the published artifacts. Dependency installation requires package-index access; no model or API key is needed. Both CI operating systems run this check. See [verification details](docs/VERIFICATION.md#installed-package-check).
+
 To print the full review packet without a browser:
 
 ```sh

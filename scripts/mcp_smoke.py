@@ -10,8 +10,11 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 
-async def run():
-    params = StdioServerParameters(command=sys.executable, args=["-m", "csm_copilot.server"])
+async def run(server_command: Path | None = None):
+    params = StdioServerParameters(
+        command=str(server_command) if server_command else sys.executable,
+        args=[] if server_command else ["-m", "csm_copilot.server"],
+    )
     calls = [
         ("list_accounts", {}),
         ("get_account_context", {"account_id": "acc_014"}),
@@ -71,8 +74,11 @@ async def run():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--server-command", type=Path, help="Optional installed console entry point"
+    )
     args = parser.parse_args()
-    result = asyncio.run(run())
+    result = asyncio.run(run(args.server_command))
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(

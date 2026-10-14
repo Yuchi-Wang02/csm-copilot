@@ -33,3 +33,4 @@ jobs:
       - run: python scripts/build_project_brief.py
       - run: git diff --exit-code -- demo/project-brief.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/product-feedback.md evidence
       - run: python -m build
+      - run: python scripts/verify_wheel.py

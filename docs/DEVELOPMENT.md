@@ -95,3 +95,11 @@ Four regression checks failed before the repair. Construction now validates a fr
 This was an in-process Python ownership bug. MCP's JSON transport already separates a client's result objects from the server's Python objects. The fix does not make engine attributes immutable or establish a security sandbox.
 
 **Lesson:** read-only behavior includes what happens after a function returns. Returning a nested mutable reference can undermine validation even when the function itself performs no assignment to source data.
+
+## Verify what a reviewer installs
+
+The existing CI built a wheel after testing an editable checkout, but did not execute the installed wheel. That left the packaged-resource and console-entry-point claims indirectly checked. A new verifier installs the wheel into a fresh temporary environment, verifies the imported module's location, and runs from outside the repository. It compares the installed CLI's JSON and bilingual Markdown exports and the real MCP console command's transcript with the published artifacts.
+
+The complete wheel passed locally. A disposable wheel with `accounts.json` removed installed successfully but failed when loading the workflow; the new verifier rejected it. The incomplete wheel and its raw local log are not distributed. CI now performs the positive installation check on Windows and Ubuntu. This adds verification without changing the customer workflow or the recorded model results.
+
+**Lesson:** a successful build does not prove that an installed artifact works. Check the path a reviewer actually uses, including packaged data, console commands, and a working directory that cannot supply missing source files.
