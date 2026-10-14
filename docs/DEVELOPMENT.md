@@ -1,5 +1,11 @@
 # Development notes
 
+## Make follow-up drafts usable when clipboard access fails
+
+The follow-up copy button previously reported "Select text to copy" after failure without providing a keyboard-friendly text field. A collapsed manual-copy view now contains the exact selected draft in a labeled, read-only textarea. Clipboard failure opens it, focuses the field and selects its contents. The app assigns the draft as a textarea value; changing language or platform rebuilds the view from that selection. The existing clipboard helper suppresses late feedback from replaced controls.
+
+Edge QA used a local server with `Permissions-Policy: clipboard-write=()` to exercise actual browser denial without changing browser permissions. The fallback selected all 621 English characters and all 237 Chinese characters for Android. Switching to iOS replaced the field with its 132-character Chinese draft; Enter, Tab and Ctrl+A also reached and selected the manual field. Each value matched the displayed draft exactly. All 100 JavaScript tests passed, including denial and stale-callback checks. This verifies these interactions and selection contents, not an external paste destination or a complete accessibility audit. The fixed v0.29.7 package predates this change.
+
 ## Attribute the model's contribution to what the recordings show
 
 The README and interview guide now distinguish the working deterministic baseline from the model layer's intended benefit. A linked architecture table traces platform follow-up, inbound-message review and correction handling to their saved runs. Source inspection confirmed that the platform task supplies both integration IDs, the batch model proposes four readiness/draft calls, the inbound task supplies the exact messages, and the constrained run contains two correction requests before structured fields match. The first correction supplies expected evidence IDs; prose verification remains absent. This is an explanation of existing evidence, not a new baseline experiment, autonomous account-discovery result or measured productivity benefit.

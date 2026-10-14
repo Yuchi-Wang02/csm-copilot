@@ -635,7 +635,8 @@ select {
   font-size: 12px;
   gap: 8px;
 }
-.handoff-copy-preview textarea {
+.handoff-copy-preview textarea,
+.draft-copy-preview textarea {
   display: block;
   width: 100%;
   margin-top: 8px;

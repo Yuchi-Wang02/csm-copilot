@@ -48,6 +48,7 @@ Use Tab to move between controls; the blue outline shows the focused control, in
 
 - In **Review steps**, Left/Right Arrow switches tabs and wraps at either end. Home selects Evidence; End selects Handoff. Focus remains on the selected tab.
 - From **Follow-up**, Tab enters the **Client language** selector. Changing language keeps focus on that selector so you can continue to Copy draft and the evidence disclosures.
+- **Select draft text manually** exposes a read-only field for the selected platform and language. Tab into it, then use Ctrl+A / Command+A and copy. If **Copy draft** cannot access the clipboard, this section opens and selects the text automatically; nothing is sent.
 - Use Enter or Space on a disclosure heading to expand or collapse it. Tab then reaches the controls inside an expanded section, including nested source headings.
 - In the saved-practice preview, Tab reaches each saved decision heading. Escape from inside that preview, or **Keep current work**, cancels the pending resume and returns focus to the file chooser without replacing current notes.
 

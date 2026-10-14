@@ -108,13 +108,24 @@ function renderCase() {
     const draft = item[`followup_${language}`];
     $("panel").innerHTML =
       `<div class="toolbar"><label for="language-select">Client language</label><select id="language-select"><option value="en" ${language === "en" ? "selected" : ""}>English</option><option value="zh" ${language === "zh" ? "selected" : ""}>中文</option></select><button class="copy" id="copy-draft">Copy draft</button></div><div class="draft-purpose"><strong>Purpose: ${esc(draft.intent.replaceAll("_", " "))}</strong><p>${esc(draft.next_action)}</p></div><pre class="draft" lang="${language === "zh" ? "zh-CN" : "en"}">${esc(draft.body)}</pre><div class="notice"><b>DRAFT · NOT SENT</b> — Contact history is unchanged. Deterministic template; a host model may rewrite it with evidence-bound review.</div>${caseReview.followupSourcesHTML(draft, r, p.context)}<details><summary>Inspect draft provenance and review limits</summary><pre>${esc(JSON.stringify({ evidence_ids: draft.evidence_ids, issue_ids: draft.issue_ids, review: draft.review, requests: draft.requests }, null, 2))}</pre></details>`;
+    const draftPreview = document.createElement("details");
+    draftPreview.id = "draft-copy-preview";
+    draftPreview.className = "draft-copy-preview";
+    draftPreview.innerHTML = `<summary>Select draft text manually</summary><label for="draft-copy-text">${esc(r.app)} / ${esc(r.platform)} follow-up · ${language === "zh" ? "Chinese" : "English"}</label><textarea id="draft-copy-text" rows="12" readonly lang="${language === "zh" ? "zh-CN" : "en"}"></textarea><p class="boundary">Select the field, then use Ctrl+A / Command+A and copy. Draft only; nothing is sent.</p>`;
+    $("panel").querySelector(".notice").after(draftPreview);
+    $("draft-copy-text").value = draft.body;
+    $("copy-draft").setAttribute("aria-controls", "draft-copy-preview");
     $("language-select").addEventListener("change", (e) => {
       language = e.target.value;
       syncReviewUrl();
       renderCase();
     });
     $("copy-draft").addEventListener("click", (event) =>
-      copyFeedback.copy(event.currentTarget, draft.body, "Copied", "Select text to copy"),
+      copyFeedback.copy(event.currentTarget, draft.body, "Copied", "Select text to copy", () => {
+        $("draft-copy-preview").open = true;
+        $("draft-copy-text").focus();
+        $("draft-copy-text").select();
+      }),
     );
   } else {
     $("panel").innerHTML =
