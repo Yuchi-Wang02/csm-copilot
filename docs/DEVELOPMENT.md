@@ -421,3 +421,11 @@ Four regression cases first reproduced the absent distinction and then passed wi
 The follow-up panel previously exposed its evidence IDs and request metadata only as raw JSON. A collapsed source view now pairs each evidence request with its checklist state, original scoped records and selected-language request text. It reuses the existing readable checklist-source renderer, so source dates, missing records and conflicting claims remain visible in both places. Only requested checks appear; a draft with no evidence requests adds no empty section.
 
 Four JavaScript checks cover both languages, request/check mismatches and duplicate check definitions, missing draft citations, wrong-account sources, escaped text and non-mutation. Local browser checks opened the dated Android failure and the unknown approval check, switched the request language to Chinese, and confirmed that iOS launch-plan review has no evidence-request section. The feature explains why a request was assembled; it does not validate every draft sentence, establish current readiness or change any recorded model result.
+
+## v0.29.1: withhold ambiguous source quotations
+
+The readable checklist and original-message views used the first matching evidence record, while the handoff field view already required one unique scoped match. A deliberately duplicated record in a copied replay packet exposed that inconsistency: array order could determine which text a reviewer saw as the source. The published dataset did not contain these duplicates.
+
+Checklist and follow-up source views now display an ambiguity notice when multiple records match the citation, account and integration. Original issue views also withhold an unavailable or ambiguous quotation. The existing checklist state and requested action remain visible; the renderer does not resolve the conflict or recalculate readiness.
+
+Two new regression cases failed before the repair and pass afterward. They cover identical and conflicting device records, reversed array order, both draft languages, original messages in evidence and handoff views, and non-mutation. A third control confirms that an unrelated same-ID record cannot displace one uniquely matching scoped source. This is defensive rendering for malformed replay data, not evidence of production conflict resolution or independently verified source truth.

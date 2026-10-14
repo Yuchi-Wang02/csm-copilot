@@ -7,6 +7,67 @@ function readinessFixture() {
   return structuredClone(workflow.packets[0]);
 }
 
+test("ambiguous check citations do not select a record by array order", () => {
+  for (const sameText of [false, true]) {
+    for (const reverse of [false, true]) {
+      const data = readinessFixture(), item = data.integrations[0];
+      const source = data.context.evidence.find((r) => r.id === "lantern_android_device_verified");
+      source.text = "FIRST AMBIGUOUS DEVICE RECORD";
+      const duplicate = structuredClone(source);
+      if (!sameText) {
+        duplicate.text = "SECOND AMBIGUOUS DEVICE RECORD";
+        duplicate.claims.device_verified = "met";
+      }
+      data.context.evidence.push(duplicate);
+      if (reverse) data.context.evidence.reverse();
+      const before = JSON.stringify(data);
+      for (const html of [
+        api.readinessSourcesHTML(item.readiness, data.context),
+        api.followupSourcesHTML(item.followup_en, item.readiness, data.context),
+        api.followupSourcesHTML(item.followup_zh, item.readiness, data.context),
+      ]) {
+        assert.match(html, /Multiple matching records make this citation ambiguous/);
+        assert.doesNotMatch(html, /FIRST AMBIGUOUS DEVICE RECORD|SECOND AMBIGUOUS DEVICE RECORD/);
+        assert.match(html, /Non-test device verification · not met/);
+        assert.match(html, /Requested evidence:/);
+      }
+      assert.equal(JSON.stringify(data), before);
+    }
+  }
+});
+
+test("ambiguous original messages stay unavailable in both issue views", () => {
+  for (const reverse of [false, true]) {
+    const data = readinessFixture();
+    const source = data.context.evidence.find((r) => r.id === "msg_issue_blank");
+    source.text = "FIRST AMBIGUOUS CUSTOMER MESSAGE";
+    data.context.evidence.push({...structuredClone(source), text: "SECOND AMBIGUOUS CUSTOMER MESSAGE"});
+    if (reverse) data.context.evidence.reverse();
+    const before = JSON.stringify(data);
+    const records = api.issuesFor(data, "lantern_android");
+    const evidence = api.evidenceHTML(records), handoff = api.handoffHTML(records);
+    assert.match(evidence, /missing or duplicate records require review/);
+    assert.match(handoff, /missing or duplicate records require review/);
+    assert.doesNotMatch(evidence + handoff, /FIRST AMBIGUOUS CUSTOMER MESSAGE|SECOND AMBIGUOUS CUSTOMER MESSAGE/);
+    assert.match(handoff, /Scoped field source unavailable: msg_issue_blank/);
+    assert.equal(JSON.stringify(data), before);
+  }
+});
+
+test("one correctly scoped record remains usable beside an unrelated same-ID record", () => {
+  const data = readinessFixture(), item = data.integrations[0];
+  for (const id of ["lantern_android_device_verified", "msg_issue_blank"]) {
+    const source = data.context.evidence.find((r) => r.id === id);
+    data.context.evidence.unshift({...structuredClone(source), account_id: "another_account", text: "UNRELATED DUPLICATE ID"});
+  }
+  const html = api.readinessSourcesHTML(item.readiness, data.context) +
+    api.followupSourcesHTML(item.followup_en, item.readiness, data.context) +
+    api.evidenceHTML(api.issuesFor(data, "lantern_android"));
+  assert.match(html, /Synthetic Android test record/);
+  assert.match(html, /Read original customer message/);
+  assert.doesNotMatch(html, /UNRELATED DUPLICATE ID|citation ambiguous/);
+});
+
 test("follow-up requests expose only their check sources in the selected language", () => {
   const data = readinessFixture(), item = data.integrations[0];
   const before = JSON.stringify(data);

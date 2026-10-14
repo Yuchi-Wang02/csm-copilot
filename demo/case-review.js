@@ -17,6 +17,10 @@
     `<span class="badge ${esc(status)}">${esc(status.replaceAll("_", " "))}</span>`;
   const sourceLabel = (kind) => kind === "customer_report" ? "Customer report" : kind === "test_record" ? "Test record" : "Source type unavailable";
   const sourceDisclosure = (kind) => kind === "customer_report" ? "Read original customer message" : kind === "test_record" ? "Read original test record" : "Read original issue record";
+  const one = (items, predicate) => {
+    const matches = (items || []).filter(predicate);
+    return matches.length === 1 ? matches[0] : null;
+  };
 
   function issuesFor(packet, integrationId) {
     return packet.context.issues
@@ -24,7 +28,7 @@
       .map((issue) => ({
         issue,
         context: packet.context,
-        evidence: packet.context.evidence.find(
+        evidence: one(packet.context.evidence,
           (record) =>
             packet.context.account?.id &&
             record.id === issue.evidence_id &&
@@ -46,7 +50,7 @@
           `<article class="quote issue-review"><p>${esc(issue.summary)}</p>` +
           (evidence
             ? `<details><summary>${sourceDisclosure(evidence.kind)} · ${esc(issue.id)}</summary><p lang="${evidence.language === "zh" ? "zh-CN" : "en"}">${esc(evidence.text)}</p></details><small>${sourceLabel(evidence.kind)} · ${esc(evidence.id)} · ${esc(evidence.at.slice(0, 10))}</small>`
-            : `<p class="boundary">Source record unavailable for ${esc(issue.id)}. Do not infer the original message from its summary.</p>`) +
+            : `<p class="boundary">Source record unavailable for ${esc(issue.id)}. Expected one scoped source; missing or duplicate records require review. Do not infer the original message from its summary.</p>`) +
           "</article>",
       )
       .join("");
@@ -66,10 +70,6 @@
   }
 
   function fieldSourcesHTML({ issue, ticket, context }) {
-    const one = (items, predicate) => {
-      const matches = (items || []).filter(predicate);
-      return matches.length === 1 ? matches[0] : null;
-    };
     const integration = context?.account?.id && one(context.integrations,
       (i) => i.id === issue.integration_id && i.account_id === context.account.id);
     return `<details class="handoff-sources"><summary>Trace each handoff field to its record · ${esc(issue.id)}</summary><p class="boundary">Compare copied values with the structured records. Issue details are attributed to the original issue record shown above; this is not automatic extraction from its wording or independent verification. Missing fields remain in the intake review.</p>` +
@@ -122,7 +122,7 @@
       (t.collection_boundary ? `<p class="boundary">${esc(t.collection_boundary)}</p>` : "") +
       (evidence
         ? `<details><summary>Original issue record · ${esc(evidence.id)}</summary><p class="boundary">${sourceLabel(evidence.kind)} · ${esc(evidence.at)}</p><p lang="${evidence.language === "zh" ? "zh-CN" : "en"}">${esc(evidence.text)}</p></details>`
-        : '<p class="boundary">Original issue record unavailable for this platform.</p>') +
+        : '<p class="boundary">Original issue record unavailable for this platform. Expected one scoped source; missing or duplicate records require review.</p>') +
       `<details class="handoff-questions"${t.handoff_state === "needs_scope" ? " open" : ""}><summary>Questions to review before handoff</summary><p class="boundary">Broader suggestions from lexical triage. Some details may already be recorded above; these do not establish a root cause. Review the original report before requesting additional evidence.</p>${(t.triage.candidates || []).map(candidateHTML).join("") || '<p>No candidate questions recorded.</p>'}</details>` +
       t.triage.notes.map((note) => `<p class="boundary">${esc(note)}</p>`).join("") +
       `<details><summary>Inspect candidate checks and source URLs · ${esc(issue.id)}</summary><pre>${esc(JSON.stringify(t.triage, null, 2))}</pre></details>` +
@@ -145,8 +145,9 @@
   }
   function checkSourceHTML(check, readiness, context, requestText = check.request) {
     const sources = check.evidence_ids.map((id) => {
-      const record = context.evidence.find((r) => r.id === id && r.account_id === context.account.id && r.integration_id === readiness.integration_id);
-      if (!record) return `<p class="notice">Scoped source unavailable: ${esc(id)}. Do not substitute another account or platform's record.</p>`;
+      const matches = context.evidence.filter((r) => r.id === id && r.account_id === context.account.id && r.integration_id === readiness.integration_id);
+      if (matches.length !== 1) return `<p class="notice">Scoped source unavailable: ${esc(id)}. ${matches.length > 1 ? "Multiple matching records make this citation ambiguous. " : ""}Do not substitute another account or platform's record.</p>`;
+      const record = matches[0];
       const claim = record.claims?.[check.id];
       return `<article class="readiness-source"><h4>${esc(record.id)}</h4><p class="boundary">${esc((record.kind || "source type unavailable").replaceAll("_", " "))} · ${esc(record.at)}<br>Account: ${esc(record.account_id)} · Integration: ${esc(record.integration_id)}</p>` +
         `<blockquote lang="${record.language === "zh" ? "zh-CN" : "en"}">${esc(record.text)}</blockquote>` +

@@ -48,6 +48,8 @@ Expand **Trace each handoff field to its record** to compare the copied value wi
 
 In **Follow-up**, expand **Why this draft asks for evidence** to trace each request to its checklist state and scoped source. Compare Android's dated failed-device record with an unknown approval check that has no supporting citation. The request text follows the selected client language; this view explains evidence requests without verifying every sentence in the draft.
 
+Readable checklist sources and original issue messages require exactly one matching record within the account/platform scope. If a malformed replay contains duplicate matches, the view withholds the quotation and asks for review instead of choosing whichever record appears first. This display safeguard does not reconcile conflicting records or change the engine's decision.
+
 | Portfolio question | Open this artifact |
 |---|---|
 | Can the workflow turn evidence into a useful next action? | [Android case](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace), [Chinese iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace), and [technical handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) |
