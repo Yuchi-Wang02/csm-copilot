@@ -74,7 +74,8 @@ Reloading clears the in-page notes. The package includes no personal responses.
 This is an independent, AI-assisted portfolio project with synthetic records.
 It is not affiliated with Unity. The static replay does not run a model, send
 messages or connect to customer systems. External documentation links require
-internet access. Copy controls prepare public URLs, not local-file links.
+internet access. Share-link controls prepare public URLs, not local-file links.
+Draft copy controls prepare text for review; they do not submit it.
 
 The application has been browser-tested over HTTP. Direct file opening was not
 browser-verified because the automated browser policy disallows file URLs.
