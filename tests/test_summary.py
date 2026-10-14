@@ -45,6 +45,31 @@ def test_unknown_contact_and_absent_handoff_do_not_become_success_claims():
     assert "No accounts in this review queue." in render_summary(workflow)
 
 
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("conflicting", [False, True])
+def test_summary_withholds_duplicate_handoffs_without_selecting_by_order(reverse, conflicting):
+    workflow = build_demo()
+    packet = next(p for p in workflow["packets"] if p["context"]["account"]["id"] == "acc_014")
+    duplicate = copy.deepcopy(packet["tickets"][0])
+    if conflicting:
+        duplicate["handoff_state"] = "conflicting_state_must_not_be_selected"
+        duplicate["suggested_owner"] = "conflicting_owner_must_not_be_selected"
+    packet["tickets"].append(duplicate)
+    if reverse:
+        packet["tickets"].reverse()
+    before = copy.deepcopy(workflow)
+
+    result = render_summary(workflow)
+
+    assert "issue_blank: handoff unavailable; 2 matching drafts. Review the packet." in result
+    assert "Handoff issue_blank:" not in result
+    assert "conflicting_state_must_not_be_selected" not in result
+    assert "conflicting_owner_must_not_be_selected" not in result
+    assert "Moon Garden / Android: blocked" in result
+    assert "Handoff issue_callback: needs_information" in result
+    assert workflow == before
+
+
 def test_record_text_cannot_inject_terminal_controls_or_new_lines():
     workflow = build_demo()
     workflow["packets"][0]["selection"]["name"] = "Studio\nFAKE STATUS\x1b[2J"

@@ -1,5 +1,11 @@
 # Development notes
 
+## Keep ambiguous handoffs out of the terminal summary
+
+The compact `csm-demo --format summary` output selected the first draft matching an issue. This disagreed with the browser and Markdown brief, which already withheld duplicate matches. Four failing-before regression variants reproduced the problem with identical and conflicting duplicates in both array orders.
+
+The summary now requires exactly one matching draft before displaying its handoff state, missing fields and proposed owner. Multiple matches retain the issue ID and report the match count with a request to review the packet. Missing drafts keep their existing explicit notice. The checks also preserve readiness, a different account's valid handoff and the input packet. All 329 Python tests passed, and the normal committed 1,879-byte summary remained byte-identical. The duplicated packets are authored diagnostic cases, not defects observed in real customer data. The fixed v0.29.6 package predates this repair.
+
 ## Keep the navigation within a narrow viewport
 
 At a 320-pixel Edge viewport, the header navigation extended to about 328 pixels and widened the page beyond its 305-pixel content area (the scrollbar occupied the remaining width). The mobile header and its navigation now allow flex wrapping. Links move onto another line when space is insufficient instead of extending past the page edge.

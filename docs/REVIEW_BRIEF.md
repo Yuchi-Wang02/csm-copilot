@@ -76,6 +76,8 @@ Each handoff in the Markdown briefs includes a **Field-source comparison** after
 
 Handoffs are resolved from the recorded issues. Exactly one matching draft is required: a missing or duplicate match produces an unavailable-draft notice while retaining the issue's identity and evidence index. The exporter never chooses a duplicate by list order. In a whole-queue export, a draft with no matching issue is identified as withheld without presenting its title, fields or proposed actions. Selected-platform exports exclude drafts that cannot be attributed to an issue on that platform. These checks do not reconstruct a missing draft or resolve conflicting records automatically.
 
+The compact terminal view (`csm-demo --format summary`) also requires one matching draft. Duplicate matches produce an unavailable-handoff notice and count, while the issue ID and readiness remain visible. It does not choose a handoff state or proposed owner by array order. Use the full brief to inspect the recorded evidence; neither format resolves the conflict for you.
+
 ## Use it in an interview
 
 The Handoff panel also offers **Copy handoff** and **Preview handoff text** for each recorded issue. The plain-text draft carries the fixed snapshot, account/integration/issue IDs, original source text when uniquely available, copied fields with source references, focused missing-information requests, triage notes, proposed owner and next action. It keeps the unconfirmed-cause and nothing-sent boundaries. This compact copy is for review; the platform Markdown brief supplies the fuller evidence index.

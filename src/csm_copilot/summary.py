@@ -42,13 +42,16 @@ def render_summary(workflow: dict) -> str:
             for issue in packet["context"]["issues"]:
                 if issue["integration_id"] != ready["integration_id"]:
                     continue
-                ticket = next(
-                    (t for t in packet["tickets"] if t["draft_id"] == f"ticket-{issue['id']}"),
-                    None,
-                )
-                if ticket is None:
+                matches = [t for t in packet["tickets"] if t["draft_id"] == f"ticket-{issue['id']}"]
+                if not matches:
                     lines.append(f"     {_text(issue['id'])}: no handoff draft in this packet")
                     continue
+                if len(matches) != 1:
+                    lines.append(
+                        f"     {_text(issue['id'])}: handoff unavailable; {len(matches)} matching drafts. Review the packet."
+                    )
+                    continue
+                ticket = matches[0]
                 missing = ", ".join(ticket["missing_fields"]) or "none"
                 lines += [
                     f"     Handoff {_text(issue['id'])}: {_text(ticket['handoff_state'])}; missing: {_text(missing)}",
