@@ -22,6 +22,21 @@
     return matches.length === 1 ? matches[0] : null;
   };
 
+  function queueTimingHTML(selection) {
+    const age = selection.days_since_contact, days = selection.days_to_launch;
+    const contact = selection.contact_state !== "recorded" || !Number.isFinite(age) || age < 0
+      ? "Contact history unknown"
+      : age === 0 ? "Contact <0.01d ago" : `Contact ${age}d ago`;
+    let launch = "Launch timing unknown";
+    if (selection.stage === "live") launch = "Recorded as live";
+    else if (Number.isFinite(days)) {
+      if (selection.launch_overdue === true || days < 0)
+        launch = `Planned date passed (${days === 0 ? "<0.01" : Math.abs(days)}d)`;
+      else launch = days === 0 ? "Planned launch within 0.01d" : `Planned launch in ${days}d`;
+    }
+    return `<small${selection.stage === "live" || !Number.isFinite(days) ? "" : ' class="urgent"'}>${esc(launch)}</small><small>${esc(contact)}</small>`;
+  }
+
   function issuesFor(packet, integrationId) {
     return packet.context.issues
       .filter((issue) => issue.integration_id === integrationId)
@@ -224,7 +239,7 @@
           checkSourceHTML(check, readiness, context, request.request);
       }).join("") + `</details>`;
   }
-  const api = { issuesFor, evidenceHTML, handoffHTML, handoffText, timingHTML, readinessSourcesHTML, followupSourcesHTML };
+  const api = { issuesFor, evidenceHTML, handoffHTML, handoffText, queueTimingHTML, timingHTML, readinessSourcesHTML, followupSourcesHTML };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_CASE_REVIEW = api;
 })(typeof window !== "undefined" ? window : this);

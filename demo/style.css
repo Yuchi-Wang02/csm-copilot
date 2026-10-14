@@ -424,6 +424,8 @@ main {
 }
 .account .queue-meta {
   display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
   justify-content: space-between;
   margin-top: 12px;
 }

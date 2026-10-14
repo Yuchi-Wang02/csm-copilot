@@ -2,6 +2,47 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const api = require("../demo/case-review.js");
 
+test("queue timing labels the bundled target as a plan without changing its selection", () => {
+  const selection = structuredClone(require("../evidence/workflow.json").packets[0].selection);
+  const before = JSON.stringify(selection);
+  const html = api.queueTimingHTML(selection);
+  assert.match(html, /Planned launch in 2d/);
+  assert.match(html, /Contact 5d ago/);
+  assert.equal(JSON.stringify(selection), before);
+});
+
+test("unknown or unavailable contact ages cannot become elapsed contact claims", () => {
+  for (const age of [null, undefined, NaN, Infinity, -1, '5', '<img src=x>']) {
+    const html = api.queueTimingHTML({contact_state:'recorded', days_since_contact:age});
+    assert.match(html, /Contact history unknown/);
+    assert.doesNotMatch(html, /Contact .*d ago|nulld|undefinedd|NaN|<img/);
+  }
+  assert.match(api.queueTimingHTML({contact_state:'unknown', days_since_contact:5}), /Contact history unknown/);
+  assert.match(api.queueTimingHTML({contact_state:'recorded', days_since_contact:0}), /Contact &lt;0.01d ago/);
+});
+
+test("exact overdue state survives rounded zero and negative day counts never look upcoming", () => {
+  const selection = {stage:'validation', contact_state:'unknown', days_since_contact:null, days_to_launch:-0, launch_overdue:true};
+  const past = api.queueTimingHTML(selection);
+  assert.match(past, /Planned date passed \(&lt;0.01d\)/);
+  assert.doesNotMatch(past, /launch in|launch within/);
+  const imminent = api.queueTimingHTML({...selection, days_to_launch:0, launch_overdue:false});
+  assert.match(imminent, /Planned launch within 0.01d/);
+  assert.doesNotMatch(imminent, /date passed/);
+  assert.match(api.queueTimingHTML({...selection, days_to_launch:-2}), /Planned date passed \(2d\)/);
+});
+
+test("recorded live stage and unavailable launch timing do not become countdowns", () => {
+  const live = api.queueTimingHTML({stage:'live', days_to_launch:null, launch_overdue:false, contact_state:'recorded', days_since_contact:6});
+  assert.match(live, /Recorded as live/);
+  assert.doesNotMatch(live, /launch in|urgent|nulld/);
+  for (const days of [null, undefined, NaN, '2']) {
+    const unknown = api.queueTimingHTML({stage:'validation', days_to_launch:days});
+    assert.match(unknown, /Launch timing unknown/);
+    assert.doesNotMatch(unknown, /launch in|urgent|nulld/);
+  }
+});
+
 test("copyable Harbor handoff retains supplied facts, focused requests and review boundaries", () => {
   const workflow = structuredClone(require("../evidence/workflow.json"));
   const data = workflow.packets.find((p) => p.context.account.id === "acc_006");

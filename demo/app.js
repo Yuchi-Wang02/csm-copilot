@@ -27,7 +27,7 @@ function renderQueue() {
   $("accounts").innerHTML = workflow.packets
     .map(
       (p, n) =>
-        `<button class="account ${n === selected ? "active" : ""}" data-account="${n}" aria-pressed="${n === selected}"><b>${esc(p.selection.name)}</b><span>${esc(p.context.integrations[0].app)}</span><span class="queue-meta"><small class="urgent">Launch in ${p.selection.days_to_launch}d</small><small>Contact ${p.selection.days_since_contact}d ago</small></span></button>`,
+        `<button class="account ${n === selected ? "active" : ""}" data-account="${n}" aria-pressed="${n === selected}"><b>${esc(p.selection.name)}</b><span>${esc(p.context.integrations[0].app)}</span><span class="queue-meta">${caseReview.queueTimingHTML(p.selection)}</span></button>`,
     )
     .join("");
   document.querySelectorAll("[data-account]").forEach((button) =>

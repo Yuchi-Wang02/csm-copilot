@@ -8,17 +8,17 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.29.5" />
+    <link rel="stylesheet" href="style.css?v=0.29.5-timing" />
     <script defer src="data.js?v=0.29.5"></script>
     <script defer src="model-runs.js?v=0.29.5"></script>
     <script defer src="model-turns.js?v=0.29.5"></script>
     <script defer src="review-links.js?v=0.29.5"></script>
-    <script defer src="case-review.js?v=0.29.5"></script>
+    <script defer src="case-review.js?v=0.29.5-timing"></script>
     <script defer src="triage-review.js?v=0.29.5"></script>
     <script defer src="practice-core.js?v=0.29.5"></script>
     <script defer src="practice-session.js?v=0.29.5"></script>
     <script defer src="copy-feedback.js?v=0.29.5"></script>
-    <script defer src="app.js?v=0.29.5"></script>
+    <script defer src="app.js?v=0.29.5-timing"></script>
     <script defer src="practice.js?v=0.29.5"></script>
   </head>
   <body>
@@ -130,8 +130,8 @@
             <h2>Three accounts need a follow-up.</h2>
           </div>
           <p>
-            Snapshot: 14 Oct 2026 · 09:00 UTC<br />Strictly more than 3 days
-            since actual contact.
+            Snapshot: 14 Oct 2026 · 09:00 UTC<br />More than 3 days since recorded
+            contact; unknown history also included.
           </p>
         </div>
         <div class="brief-downloads" aria-label="Download the morning review">
@@ -149,7 +149,7 @@
         </div>
         <div class="workspace">
           <aside class="queue">
-            <div class="queue-head">UPCOMING LAUNCHES <span>3</span></div>
+            <div class="queue-head">REVIEW QUEUE <span>3</span></div>
             <div id="accounts"></div>
             <div class="queue-foot">
               <strong>Why these three?</strong>
@@ -157,6 +157,7 @@
                 Pine Pixel is already live. Orbit Play was contacted yesterday.
                 Drafting a message does not reset the clock.
               </p>
+              <p>Day counts are rounded at this snapshot. Planned dates and recorded stages do not confirm current launch status.</p>
             </div>
           </aside>
           <article class="case-panel">
