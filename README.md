@@ -131,6 +131,17 @@ csm-demo --format markdown --lang en --output morning-review.md
 csm-demo --format markdown --lang zh --output morning-review-zh.md
 ```
 
+For a focused leave-behind, use the **selected platform brief** links inside the case panel. Each contains only that platform's findings, follow-up, handoffs and source records, plus its account's contact evidence. Choose English or Chinese customer drafts independently of the displayed review step. The brief preserves the original snapshot; the separate synthetic-update comparison is excluded.
+
+The same export is available from the CLI:
+
+```sh
+csm-demo --format markdown --integration harbor_android --lang en --output harbor-handoff.md
+csm-demo --format markdown --integration lantern_ios --lang zh --output ios-review-zh.md
+```
+
+An unknown or unqueued integration produces an error before writing the output. `--integration` requires Markdown format; JSON continues to export the complete workflow. See [export scope and examples](docs/REVIEW_BRIEF.md#export-one-platform).
+
 ### Connect an MCP host
 
 After installation, configure a stdio server with the **absolute Python path inside the environment**:

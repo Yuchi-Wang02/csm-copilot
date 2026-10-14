@@ -1,0 +1,93 @@
+# CSM Copilot — Platform review brief
+
+> Independent portfolio prototype. All customer records are synthetic. Nothing was sent or submitted.
+
+Snapshot: **2026-10-14T09:00:00\+00:00**
+Execution: deterministic workflow replay; no model inference.
+Client draft language: Chinese.
+
+Scope: **harbor\_android**. Original snapshot only; the separate synthetic-update comparison is excluded. Other platforms and accounts are excluded; account contact records are retained.
+
+## Selected platform
+
+Selection: strictly more than three days since actual contact; missing contact history is included as unknown. Live accounts are excluded from this bundled morning queue.
+
+| Account | Days since contact | Planned launch | Included integrations |
+|---|---:|---|---|
+| Harbor Studio (acc\_006) | 4.0 | 2026-10-19T09:00:00Z | 1 |
+
+Priority is the planned launch date, not a predicted risk or revenue score. All next steps are proposals for CSM review; no deadline or customer agreement is inferred.
+
+## Harbor Studio — acc\_006
+
+Recorded stage: integration. Last actual contact: 2026-10-10T09:00:00\+00:00.
+
+### Pocket Harbor / Android
+
+**Scoped readiness:** blocked.
+**Follow-up purpose:** Collect evidence. **Proposed owner:** CSM.
+**Next action:** 复核并发送证据请求，收到新记录后重新评估。
+
+| Check | State | Source record IDs |
+|---|---|---|
+| Platform currency approval | met | harbor\_android\_currency\_approved |
+| Production visibility setting | met | harbor\_android\_test\_only\_off |
+| Placement and content | met | harbor\_android\_placement\_linked |
+| SDK connection sequence | met | harbor\_android\_sdk\_connected |
+| Non-test device verification | met | harbor\_android\_device\_verified |
+| Reward callback verification | not\_met | harbor\_android\_callback\_verified |
+
+A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
+
+**Customer follow-up draft — not sent**
+
+> Harbor Studio 团队好，
+> 跟进 Pocket Harbor（Android）的接入进展，目前记录还需要以下证据：
+> - 请提供脱敏回调样例，注明 HTTP 状态和时间。
+> 收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。
+> 上线时间仍需核验；本消息不代表审核通过或广告供应承诺。
+
+Draft evidence: harbor\_android\_callback\_verified, harbor\_android\_currency\_approved, harbor\_android\_device\_verified, harbor\_android\_placement\_linked, harbor\_android\_sdk\_connected, harbor\_android\_test\_only\_off, msg\_issue\_callback. Contact history unchanged.
+
+### Technical handoff — ticket-issue\_callback
+
+**\[Android\] Reward callback returns HTTP 405.**
+
+Handoff state: needs\_information. Root cause: unconfirmed.
+Suggested owner: Technical support after CSM evidence review \(project policy\).
+
+| Known field | Value | Source record |
+|---|---|---|
+| app | Pocket Harbor | harbor\_android |
+| platform | Android | harbor\_android |
+| sdk\_version | synthetic-version-1 | msg\_issue\_callback |
+| region | Japan | msg\_issue\_callback |
+| time\_window | 2026-10-10 08:30–09:00 UTC | msg\_issue\_callback |
+
+**Missing information:** reproduction\_steps, redacted\_logs
+
+**Next action:** Request missing evidence, then review the handoff; no ticket was submitted.
+
+## Evidence index
+
+These are declared synthetic source records, not independent verification. Structured claims must match account, integration and checklist scope.
+
+| Record | Account / integration | Recorded at | Source text |
+|---|---|---|---|
+| contact\_acc\_006 | acc\_006 / account contact | 2026-10-10T09:00:00Z | Synthetic CSM contact: received onboarding progress update. |
+| harbor\_android\_callback\_verified | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Synthetic Android test record: Reward callback verification = not\_met. |
+| harbor\_android\_currency\_approved | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Synthetic Android test record: Platform currency approval = met. |
+| harbor\_android\_device\_verified | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Synthetic Android test record: Non-test device verification = met. |
+| harbor\_android\_placement\_linked | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Synthetic Android test record: Placement and content = met. |
+| harbor\_android\_sdk\_connected | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Synthetic Android test record: SDK connection sequence = met. |
+| harbor\_android\_test\_only\_off | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Synthetic Android test record: Production visibility setting = met. |
+| msg\_issue\_callback | acc\_006 / harbor\_android | 2026-10-10T09:00:00Z | Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10. |
+
+## Product sources and review boundaries
+
+- https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq
+- https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures
+
+The rule register distinguishes official product documentation from project operating policies. Checklist completion is not vendor launch approval. Triage candidates are not confirmed root causes. Promise-pattern lint does not verify arbitrary model-written claims.
+
+This export is a deterministic review artifact, not evidence of a live model run, independent human validation, customer impact or actual outreach.

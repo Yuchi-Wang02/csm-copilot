@@ -71,18 +71,27 @@ def main():
     parser.add_argument("--output", type=Path, help="Write the export; default prints to stdout")
     parser.add_argument("--format", choices=("json", "markdown"), default="json")
     parser.add_argument(
+        "--integration",
+        help="Export one platform from the review queue; requires --format markdown",
+    )
+    parser.add_argument(
         "--lang",
         choices=("en", "zh"),
         default="en",
         help="Client draft language for the Markdown export; JSON always includes both",
     )
     args = parser.parse_args()
+    if args.integration is not None and args.format != "markdown":
+        parser.error("--integration requires --format markdown; JSON preserves the full workflow")
     workflow = build_demo()
-    content = (
-        render_review_brief(workflow, args.lang)
-        if args.format == "markdown"
-        else json.dumps(workflow, ensure_ascii=False, indent=2) + "\n"
-    )
+    try:
+        content = (
+            render_review_brief(workflow, args.lang, args.integration)
+            if args.format == "markdown"
+            else json.dumps(workflow, ensure_ascii=False, indent=2) + "\n"
+        )
+    except ValueError as exc:
+        parser.error(str(exc))
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(content, encoding="utf-8", newline="\n")

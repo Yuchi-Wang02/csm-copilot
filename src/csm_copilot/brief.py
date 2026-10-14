@@ -2,6 +2,7 @@
 
 import html
 import re
+from copy import deepcopy
 
 INTENTS = {
     "evidence_request": "Collect evidence",
@@ -21,12 +22,45 @@ def cell(value):
     return text(value).replace("\r\n", "\n").replace("\r", "\n").replace("\n", " / ")
 
 
-def render_review_brief(workflow: dict, lang: str = "en") -> str:
+def _case_packet(workflow: dict, integration_id: str) -> dict:
+    matches = [
+        (packet, item)
+        for packet in workflow["packets"]
+        for item in packet["integrations"]
+        if item["readiness"]["integration_id"] == integration_id
+    ]
+    if len(matches) != 1:
+        raise ValueError("integration_id must identify exactly one platform in the review queue")
+    original, item = matches[0]
+    packet = deepcopy(original)
+    packet["integrations"] = [deepcopy(item)]
+    packet["selection"]["integration_ids"] = [integration_id]
+    context = packet["context"]
+    context["integrations"] = [i for i in context["integrations"] if i["id"] == integration_id]
+    context["issues"] = [i for i in context["issues"] if i["integration_id"] == integration_id]
+    ticket_ids = {f"ticket-{issue['id']}" for issue in context["issues"]}
+    packet["tickets"] = [t for t in packet["tickets"] if t["draft_id"] in ticket_ids]
+    context["evidence"] = [
+        record
+        for record in context["evidence"]
+        if record["account_id"] == context["account"]["id"]
+        and record["integration_id"] in (None, integration_id)
+    ]
+    return packet
+
+
+def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | None = None) -> str:
     """Export synthetic findings and drafts; do not rerun or mutate the workflow."""
     if lang not in ("en", "zh"):
         raise ValueError("lang must be en or zh")
+    packets = (
+        [_case_packet(workflow, integration_id)]
+        if integration_id is not None
+        else workflow["packets"]
+    )
     lines = [
-        "# CSM Copilot — Morning review brief",
+        "# CSM Copilot — "
+        + ("Platform review brief" if integration_id is not None else "Morning review brief"),
         "",
         "> Independent portfolio prototype. All customer records are synthetic. Nothing was sent or submitted.",
         "",
@@ -34,14 +68,23 @@ def render_review_brief(workflow: dict, lang: str = "en") -> str:
         f"Execution: {text(workflow['execution_mode'])}.",
         f"Client draft language: {'English' if lang == 'en' else 'Chinese'}.",
         "",
-        "## Today's review queue",
+    ]
+    if integration_id is not None:
+        lines += [
+            f"Scope: **{text(integration_id)}**. Original snapshot only; the separate synthetic-update comparison is excluded. Other platforms and accounts are excluded; account contact records are retained.",
+            "",
+        ]
+    lines += [
+        "## Selected platform" if integration_id is not None else "## Today's review queue",
         "",
         "Selection: strictly more than three days since actual contact; missing contact history is included as unknown. Live accounts are excluded from this bundled morning queue.",
         "",
-        "| Account | Days since contact | Planned launch | Integrations |",
+        "| Account | Days since contact | Planned launch | Included integrations |"
+        if integration_id is not None
+        else "| Account | Days since contact | Planned launch | Integrations |",
         "|---|---:|---|---|",
     ]
-    for packet in workflow["packets"]:
+    for packet in packets:
         account = packet["context"]["account"]
         age = packet["selection"]["days_since_contact"]
         lines.append(
@@ -51,7 +94,7 @@ def render_review_brief(workflow: dict, lang: str = "en") -> str:
         "",
         "Priority is the planned launch date, not a predicted risk or revenue score. All next steps are proposals for CSM review; no deadline or customer agreement is inferred.",
     ]
-    for packet in workflow["packets"]:
+    for packet in packets:
         account = packet["context"]["account"]
         lines += [
             "",
@@ -88,6 +131,11 @@ def render_review_brief(workflow: dict, lang: str = "en") -> str:
             lines += [
                 "",
                 f"Draft evidence: {text(', '.join(draft['evidence_ids']) or 'No evidence records')}. Contact history unchanged.",
+            ]
+        if integration_id is not None and not packet["context"]["issues"]:
+            lines += [
+                "",
+                "**Recorded issues:** None for this platform in the snapshot. This does not establish that no issue exists or that a previous issue was resolved.",
             ]
         for ticket in packet["tickets"]:
             lines += [
@@ -126,7 +174,7 @@ def render_review_brief(workflow: dict, lang: str = "en") -> str:
         "| Record | Account / integration | Recorded at | Source text |",
         "|---|---|---|---|",
     ]
-    for packet in workflow["packets"]:
+    for packet in packets:
         for record in packet["context"]["evidence"]:
             scope = record["account_id"] + " / " + (record["integration_id"] or "account contact")
             lines.append(
@@ -135,7 +183,7 @@ def render_review_brief(workflow: dict, lang: str = "en") -> str:
     sources = sorted(
         {
             check["source_url"]
-            for p in workflow["packets"]
+            for p in packets
             for i in p["integrations"]
             for check in i["readiness"]["checks"]
         }

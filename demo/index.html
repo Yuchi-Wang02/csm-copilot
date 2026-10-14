@@ -8,12 +8,12 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.9.2" />
+    <link rel="stylesheet" href="style.css?v=0.10.0" />
     <script defer src="data.js?v=0.8.0"></script>
-    <script defer src="model-runs.js?v=0.9.2"></script>
+    <script defer src="model-runs.js?v=0.10.0"></script>
     <script defer src="review-links.js?v=0.8.0"></script>
     <script defer src="case-review.js?v=0.8.3"></script>
-    <script defer src="app.js?v=0.9.2"></script>
+    <script defer src="app.js?v=0.10.0"></script>
     <script defer src="practice-core.js?v=0.8.0"></script>
     <script defer src="practice.js?v=0.8.0"></script>
   </head>
@@ -26,7 +26,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.9.2</span>
+      <span class="version">PORTFOLIO / V0.10.0</span>
     </header>
     <main>
       <section class="hero">
@@ -137,6 +137,14 @@
               </details>
             </div>
             <p id="route-notice" role="status"></p>
+            <div class="case-downloads" aria-label="Download selected platform">
+              <strong id="case-download-label">Selected platform brief</strong>
+              <div>
+                <a id="case-download-en">English ↓</a
+                ><a id="case-download-zh">Chinese drafts ↓</a>
+              </div>
+              <p>Original snapshot · this platform only · Markdown</p>
+            </div>
             <div class="case-nav" role="tablist" aria-label="Review steps">
               <button
                 role="tab"
@@ -210,7 +218,8 @@
         <p class="integrity-intro">
           Compare platform follow-ups with a separate callback handoff task.
           Inspect rejected attempts, recorded corrections, inappropriate tool
-          inputs, and the distinction between checked fields and unverified prose.
+          inputs, and the distinction between checked fields and unverified
+          prose.
         </p>
         <p class="disclosure">
           Recorded local inference · synthetic customer data · no model runs in
@@ -220,7 +229,10 @@
           <label for="model-run">Inspect a recorded attempt</label
           ><select id="model-run"></select>
         </div>
-        <details class="model-comparison"><summary>Compare the two callback handoff attempts</summary><div id="model-comparison"></div></details>
+        <details class="model-comparison">
+          <summary>Compare the two callback handoff attempts</summary>
+          <div id="model-comparison"></div>
+        </details>
         <div id="model-result" aria-live="polite" tabindex="-1"></div>
       </section>
       <section id="integrity" class="integrity-section">

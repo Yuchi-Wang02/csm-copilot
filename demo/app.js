@@ -41,6 +41,16 @@ function renderCase() {
   const p = workflow.packets[selected],
     item = p.integrations[integration],
     r = item.readiness;
+  $("case-download-label").textContent = `${r.app} / ${r.platform} brief`;
+  for (const lang of ["en", "zh"]) {
+    const link = $(`case-download-${lang}`);
+    link.href = `case-briefs/${encodeURIComponent(r.integration_id)}-${lang}.md`;
+    link.download = `csm-${r.integration_id}-${lang}.md`;
+    link.setAttribute(
+      "aria-label",
+      `Download ${r.app} / ${r.platform} brief ${lang === "en" ? "in English" : "with Chinese drafts"}`,
+    );
+  }
   const records = caseReview.issuesFor(p, r.integration_id);
   const issueCount =
     records.length > 1

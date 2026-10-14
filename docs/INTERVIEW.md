@@ -14,6 +14,8 @@ Open the [case explorer](https://yuchi-wang02.github.io/csm-copilot/). Point out
 
 The download links above the queue provide a portable review brief with findings, drafts, next actions and evidence. Use it as a leave-behind or backup when you cannot run the live demo.
 
+For a single example, use the selected-platform brief links inside the case panel. Harbor's Android export includes its callback handoff; Lantern's iOS export keeps the launch-plan review separate from Android's failed test. Both retain the original snapshot and offer English or Chinese customer drafts.
+
 ## 0:30–1:10 — Show the evidence boundary
 
 Select Lantern Games. Show Android's unknown currency approval and failed device check. Switch to iOS and back.

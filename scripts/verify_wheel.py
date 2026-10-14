@@ -80,6 +80,15 @@ def main():
                 encoding="utf-8"
             )
             assert target.read_text(encoding="utf-8") == expected_text, lang
+        case_files = sorted((ROOT / "demo/case-briefs").glob("*.md"))
+        expected_case_count = sum(len(p["integrations"]) for p in expected["packets"]) * 2
+        assert len(case_files) == expected_case_count, "Missing or stale platform briefs"
+        for case_file in case_files:
+            integration_id, lang = case_file.stem.rsplit("-", 1)
+            actual_text = execute(
+                [demo, "--format", "markdown", "--integration", integration_id, "--lang", lang]
+            )
+            assert actual_text == case_file.read_text(encoding="utf-8"), case_file.name
         smoke = outside / "mcp_smoke.py"
         shutil.copyfile(ROOT / "scripts/mcp_smoke.py", smoke)
         transcript = outside / "mcp-transcript.json"
@@ -99,7 +108,7 @@ def main():
         assert observed == baseline, "Installed MCP behavior differs from the published transcript"
         print(
             f"PASS: wheel {origin['metadata_version']}; isolated installed module; "
-            "CLI JSON and both Markdown exports match; eight-tool MCP console entry point "
+            "CLI JSON, both queue exports and all platform briefs match; eight-tool MCP console entry point "
             "matches the published transcript. No model inference."
         )
 

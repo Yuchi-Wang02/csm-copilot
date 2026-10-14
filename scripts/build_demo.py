@@ -32,6 +32,16 @@ for language in ("en", "zh"):
     for directory in ("demo", "evidence"):
         (ROOT / directory / f"morning-review-{language}.md").write_text(brief, encoding="utf-8")
 print("Built English and Chinese review briefs from the same workflow packet.")
+case_directory = ROOT / "demo/case-briefs"
+case_directory.mkdir(exist_ok=True)
+for packet in payload["workflow"]["packets"]:
+    for item in packet["integrations"]:
+        integration_id = item["readiness"]["integration_id"]
+        for language in ("en", "zh"):
+            (case_directory / f"{integration_id}-{language}.md").write_text(
+                render_review_brief(payload["workflow"], language, integration_id), encoding="utf-8"
+            )
+print("Built separate English and Chinese briefs for each queued platform.")
 (ROOT / "evidence/friction.json").write_text(
     json.dumps(friction, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
 )

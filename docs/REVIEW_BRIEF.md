@@ -1,6 +1,6 @@
 # A review packet a person can take away
 
-The static explorer offers two downloadable Markdown briefs. Both are generated from the exact workflow packet used by the page; the second contains Chinese customer drafts while keeping the review structure in English.
+The static explorer offers full-queue and selected-platform Markdown briefs. All are generated from the exact workflow packet used by the page; Chinese variants contain Chinese customer drafts while keeping the review structure in English.
 
 - [English review brief](../evidence/morning-review-en.md)
 - [Review brief with Chinese drafts](../evidence/morning-review-zh.md)
@@ -35,9 +35,29 @@ python scripts/build_demo.py
 
 CI regenerates the files and compares them with the committed versions. The exporter does not change source records or contact timestamps. Customer strings are escaped as text in Markdown; they cannot become raw HTML or executable Markdown links in the export.
 
+## Export one platform
+
+The case panel offers two download links for the selected app/platform. They update when the account or platform changes, including when returning through browser history. Each file includes the selected platform's readiness and next action, customer draft, every recorded handoff on that platform, and an evidence index. Account-level contact evidence is retained to explain selection; other accounts and platforms are excluded. A platform without a recorded issue says so without claiming that no issue exists or that an old issue was resolved.
+
+- [Harbor Android handoff and evidence](../demo/case-briefs/harbor_android-en.md)
+- [Lantern iOS review with Chinese customer draft](../demo/case-briefs/lantern_ios-zh.md)
+
+```sh
+csm-demo --format markdown --integration harbor_android --lang en --output harbor-handoff.md
+csm-demo --format markdown --integration lantern_ios --lang zh --output ios-review-zh.md
+```
+
+Only integrations present in the morning queue can be exported. Unknown, ambiguous or unqueued IDs fail before writing a file. `--integration` requires `--format markdown`; the JSON workflow remains complete. The optional argument on the Python renderer is `render_review_brief(workflow, lang="en", integration_id="harbor_android")`.
+
+**Snapshot boundary:** the case export always uses the original evidence. The separate synthetic-update toggle does not change it. Each file labels this boundary and its snapshot date. Exporting does not refresh evidence, send a message or reset contact history.
+
+The builder generates eight files: four queued integrations in two languages. CI checks their contents against the renderer and repeats all eight CLI exports from an isolated installed wheel. Scope tests check that iOS cannot inherit Android evidence or handoffs, that all issues on the selected platform survive export, and that rendering leaves the input unchanged.
+
 ## Use it in an interview
 
 Open the brief and point to one account. Explain why it was selected, which platform needs evidence, which next action is proposed and which source records support the decision. Then switch to its other platform and explain why the follow-up purpose changes.
+
+For a focused leave-behind, download the selected platform instead of the entire queue. Explain why its account contact record is included but the other platform's readiness evidence is absent.
 
 For a learning exercise, write your own follow-up for a complete checklist with an old recorded issue. Compare it with the generated draft. Identify which statements are supported by records, which are questions, and which would require new information.
 

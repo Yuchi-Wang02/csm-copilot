@@ -145,3 +145,13 @@ Switching between two long recordings made the changes hard to assess. The repla
 The comparison exposes a tradeoff: the newer answer preserves the failed-check/cause distinction and says nothing was sent, but loses the earlier source citation. Both answers omit the proposed owner and specific hypothesis. Buttons open either full recording and move keyboard focus to it. Three Python checks cover the recorded counts, changed controls and missing-record handling; the full suite has 132 checks. No new inference was run for this presentation change.
 
 **Lesson:** a useful portfolio comparison should let a reviewer challenge an improvement claim. Show unchanged conditions, changed conditions, gains, losses and remaining gaps rather than reducing the two answers to a winner label.
+
+## v0.10: take away one platform without borrowing another's evidence
+
+The page could share a selected platform but its download contained the full morning queue. A reviewer discussing one handoff had to locate it again inside a larger brief. The case panel now offers English and Chinese-draft exports of the selected platform. The CLI accepts the same scope through `--integration` in Markdown mode.
+
+The renderer selects the platform, all its recorded issues and matching handoffs, and its evidence. It retains that account's contact records to explain queue selection. It excludes other platforms, other accounts and the separate counterfactual branch. A missing issue is described as absent from the snapshot, not resolved. Unknown, unqueued and duplicate platform IDs are rejected before writing. The original workflow is not mutated.
+
+The tests exercise all four platforms in both languages, cross-platform evidence exclusion, multiple handoffs, no-issue wording, invalid scopes and preservation of an existing output file on CLI errors. The package verifier also runs all eight scoped exports from the installed wheel outside the checkout and compares them with the website's downloads.
+
+**Lesson:** a portable handoff needs an explicit scope as well as complete fields. Removing irrelevant records must not remove the evidence that explains the decision, and exporting an old snapshot must not make it appear current.

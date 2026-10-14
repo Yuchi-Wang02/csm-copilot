@@ -1,12 +1,13 @@
 # Verification record
 
-Verified through the v0.9.2 paired handoff comparison on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.10 selected-platform exports on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 15 passed locally | Five practice, five routing and five scoped issue-rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 132 passed locally | Workflow, source scope, next-action selection, readable exports, UTF-8 output and caller isolation |
+| Python behavior tests | 150 passed locally | Workflow, source scope, next-action selection, queue/platform exports, UTF-8 output and caller isolation |
+| Selected-platform briefs | Eight generated exports match the isolated installed CLI | Four queued integrations in two languages; tests check scope exclusion, multiple handoffs and non-mutation |
 | Unrecognized handoff scope | Four regression checks failed before the fix and passed afterward | English/Chinese summaries with complete/incomplete generic fields remain with the CSM for clarification |
 | Snapshot isolation regressions | Four failed before the fix and passed after it | Returned readiness/digest lists, constructor input ownership and revalidation of mutated input |
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
@@ -54,6 +55,8 @@ The v0.9 browser check opened the callback handoff recording, expanded its task,
 The v0.9.1 browser check displayed the rejected triage call separately from the successful handoff, retained the unedited explanation, and showed no browser errors. Both updated PDF pages were visually reviewed. [Identifier-check run screenshot](assets/demo-identifier-check-run.png).
 
 The v0.9.2 browser check expanded the paired comparison, inspected the differing system message and tool-error counts, and opened both recordings with focus moved to the selected result. At the inspected 360-pixel viewport, document and scroll widths both measured 345 CSS pixels. No browser errors were recorded. [Comparison screenshot](assets/demo-handoff-comparison.png).
+
+The v0.10 browser check downloaded Lantern iOS with Chinese drafts and Harbor Android in English; each SHA-256 matched its generated file. Account selection, platform selection and browser Back restored the expected download targets. Applying the separate synthetic update left the original-snapshot export target unchanged. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels, and the focused download row was visually inspected. No browser errors were recorded. [Selected-platform download screenshot](assets/demo-case-export.png).
 
 ## Reproduction
 
