@@ -61,7 +61,11 @@ Validation requires every current decision exactly once, allowed option IDs, con
 
 When any choice, nonblank reasoning or reviewed decision exists, **Reset all practice and clear notes** opens a confirmation without changing the session. Keyboard focus moves to **Keep my work**. That button or Escape closes the confirmation and returns focus to Reset. **Clear all practice work** clears the choices, original notes and later reflections across all five decisions, cancels pending imports and returns to the first decision. Existing downloaded files are unaffected.
 
-Changing the practice decision, revealing guidance or applying a saved session dismisses an open reset confirmation, so it does not remain attached to a newly rendered view. A blank session resets immediately. This confirmation applies to the Reset control; reload and leaving the page still discard in-page work. Keep a progress file if you want to resume later.
+Changing the practice decision, revealing guidance or applying a saved session dismisses an open reset confirmation, so it does not remain attached to a newly rendered view. A blank session resets immediately. This confirmation applies to the Reset control.
+
+While practice work exists, the page also requests the browser's native warning before reloading or leaving. Choose the browser's stay/cancel option to retain the current page, then save a progress JSON file if you want to resume later. Leaving still discards the in-page session. The warning remains active after a download request because the page cannot confirm that you kept the file. Clearing all work removes the warning; switching between sections or decisions within the page does not invoke it.
+
+Browsers control the wording and availability of this warning, usually require prior interaction, and may suppress it. It does not protect against a crash or forced shutdown and does not save anything automatically. Keep a progress file rather than relying on the warning.
 
 The restored page and its Markdown export disclose that the session came from an editable local file. An imported "before guidance" label describes saved state; it does not establish actual timing, authorship, unaided work or mastery. You can still revise unfinished drafts and add later reflections, while reviewed initial responses remain read-only in the interface. No grading, certification or identity verification is added.
 

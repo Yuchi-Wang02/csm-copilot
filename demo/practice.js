@@ -25,9 +25,17 @@
   get("practice-select").innerHTML = cases
     .map((c, i) => `<option value="${i}">${i + 1}. ${escape(c.title)}</option>`)
     .join("");
+  function warnBeforeLeaving(event) {
+    if (!api.hasWork(session)) return;
+    event.preventDefault();
+    event.returnValue = "";
+  }
   function updateExportAvailability() {
-    get("practice-export").disabled = !api.hasWork(session);
-    get("practice-save").disabled = !api.hasWork(session);
+    const hasWork = api.hasWork(session);
+    get("practice-export").disabled = !hasWork;
+    get("practice-save").disabled = !hasWork;
+    if (hasWork) window.addEventListener("beforeunload", warnBeforeLeaving);
+    else window.removeEventListener("beforeunload", warnBeforeLeaving);
   }
   function render() {
     hideResetConfirmation();
