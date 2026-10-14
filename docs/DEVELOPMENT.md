@@ -403,3 +403,9 @@ App and platform handoff fields cited integration IDs, but the exported Evidence
 Six added regression variants cover full-queue and selected-platform exports in both draft languages, source values that differ from copied handoff values, unavailable/ambiguous or mis-scoped records, escaped content and non-mutation. The tests first failed because the index was absent. Regenerating the existing briefs carries this source trail into the downloads without changing readiness, follow-up decisions or historical model recordings.
 
 The public-download comparison also exposed a local Windows artifact difference: full-queue briefs used CRLF while the renderer, CLI, platform briefs and committed files used LF. The builder now writes LF explicitly. Two byte-level checks failed on the Windows-generated files and pass after regeneration; CI repeats them immediately after building the demo so Git's line-ending normalization cannot hide that particular mismatch.
+
+## v0.28.2: review before resetting personal practice
+
+The published Reset button cleared an unfinished QA note in one click. It now opens an inline confirmation whenever practice work exists. Keep my work and Escape preserve the session; the explicit clear action resets all decisions and pending imports. Focus starts on the keep action, returns to Reset after cancellation, and moves to the decision selector after clearing. Rendering a different practice view dismisses an outstanding confirmation. Blank sessions still reset immediately.
+
+Browser verification used explicitly labeled QA notes, a reviewed answer, a later reflection and an unfinished second decision. It checked cancellation, Escape, view changes, confirmed clearing, disabled downloads after reset, keyboard focus and mobile layout. This is interface verification, not personal learning evidence. Reload behavior and the local save/resume format are unchanged.

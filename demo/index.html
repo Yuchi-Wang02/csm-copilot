@@ -8,18 +8,18 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.28.1" />
-    <script defer src="data.js?v=0.28.1"></script>
-    <script defer src="model-runs.js?v=0.28.1"></script>
-    <script defer src="model-turns.js?v=0.28.1"></script>
-    <script defer src="review-links.js?v=0.28.1"></script>
-    <script defer src="case-review.js?v=0.28.1"></script>
-    <script defer src="triage-review.js?v=0.28.1"></script>
-    <script defer src="practice-core.js?v=0.28.1"></script>
-    <script defer src="practice-session.js?v=0.28.1"></script>
-    <script defer src="copy-feedback.js?v=0.28.1"></script>
-    <script defer src="app.js?v=0.28.1"></script>
-    <script defer src="practice.js?v=0.28.1"></script>
+    <link rel="stylesheet" href="style.css?v=0.28.2" />
+    <script defer src="data.js?v=0.28.2"></script>
+    <script defer src="model-runs.js?v=0.28.2"></script>
+    <script defer src="model-turns.js?v=0.28.2"></script>
+    <script defer src="review-links.js?v=0.28.2"></script>
+    <script defer src="case-review.js?v=0.28.2"></script>
+    <script defer src="triage-review.js?v=0.28.2"></script>
+    <script defer src="practice-core.js?v=0.28.2"></script>
+    <script defer src="practice-session.js?v=0.28.2"></script>
+    <script defer src="copy-feedback.js?v=0.28.2"></script>
+    <script defer src="app.js?v=0.28.2"></script>
+    <script defer src="practice.js?v=0.28.2"></script>
   </head>
   <body>
     <a class="skip" href="#workspace">Skip to case explorer</a>
@@ -30,7 +30,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.28.1</span>
+      <span class="version">PORTFOLIO / V0.28.2</span>
     </header>
     <main>
       <section class="hero">
@@ -471,9 +471,17 @@
         <div class="practice-actions">
           <button class="button primary" id="practice-export" disabled>
             Download notes and reflection ↓</button
-          ><button class="button" id="practice-reset">
+          ><button class="button" id="practice-reset" aria-controls="practice-reset-confirm" aria-expanded="false">
             Reset all practice and clear notes
           </button>
+        </div>
+        <div id="practice-reset-confirm" class="practice-reset-confirm" role="group" aria-labelledby="practice-reset-title" hidden>
+          <h3 id="practice-reset-title">Clear all practice work?</h3>
+          <p>This clears choices, original reasoning and later reflections for all five decisions in this page. Download your notes or save a progress file first if you want to keep them. Existing downloaded files are not deleted.</p>
+          <div class="practice-actions">
+            <button class="button primary" id="practice-reset-cancel" type="button">Keep my work</button>
+            <button class="button" id="practice-reset-apply" type="button">Clear all practice work</button>
+          </div>
         </div>
         <details class="practice-checkpoint">
           <summary>Save or resume practice progress</summary>

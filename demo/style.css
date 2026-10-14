@@ -1407,6 +1407,14 @@ input:focus-visible {
 .practice-checkpoint {
   margin-top: 24px;
 }
+.practice-reset-confirm {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper, #f8f9f5);
+}
+.practice-reset-confirm h3 { margin-top: 0; }
 .practice-checkpoint input[type="file"] {
   max-width: 100%;
 }

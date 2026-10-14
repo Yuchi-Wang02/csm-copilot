@@ -39,7 +39,7 @@ Completing the interface alone does not prove that you understand the code. Pair
 
 ## Data and verification
 
-Practice notes are held only in page memory unless you explicitly download them. There is no note upload, model call, analytics event, automatic browser storage, or backend persistence in the practice feature. Reloading or resetting clears the in-page session. Downloading creates a local file that you decide whether to share. Resuming reads the file locally; it does not submit it to a service. As with other parts of the site, hosting and the optional font request may generate ordinary network traffic; practice notes are not included in those requests.
+Practice notes are held only in page memory unless you explicitly download them. There is no note upload, model call, analytics event, automatic browser storage, or backend persistence in the practice feature. Reloading or confirming a reset clears the in-page session. Downloading creates a local file that you decide whether to share. Resuming reads the file locally; it does not submit it to a service. As with other parts of the site, hosting and the optional font request may generate ordinary network traffic; practice notes are not included in those requests.
 
 The interface uses native radio inputs and labeled text areas. Revealing guidance moves keyboard focus to the feedback. The downloadable report quotes and escapes user-authored notes so they cannot inject active HTML or report headings.
 
@@ -55,7 +55,13 @@ You do not have to reveal guidance to save your reasoning. A choice without a no
 
 The progress file stores only decision IDs, selected option IDs, notes, guidance-revealed state and the selected decision, alongside the evidence-snapshot date and a SHA-256 signature of the current exercise content. The signature checks compatibility, not authenticity. Case and option reordering remains compatible; changes to evidence, option wording, policy or prompts require keeping the old file as a separate record. Imported files cannot supply new evidence, guidance, source links or executable content.
 
-Validation requires every current decision exactly once, allowed option IDs, consistent original/reviewed state, text notes of at most 4,000 characters, and a file no larger than 512 KiB. A rejected file leaves the current session unchanged. A valid file first opens a preview and replacement notice; applying it replaces the whole in-page session rather than merging potentially conflicting notes. Save current work before replacing it. Reset also cancels any pending import.
+Validation requires every current decision exactly once, allowed option IDs, consistent original/reviewed state, text notes of at most 4,000 characters, and a file no larger than 512 KiB. A rejected file leaves the current session unchanged. A valid file first opens a preview and replacement notice; applying it replaces the whole in-page session rather than merging potentially conflicting notes. Save current work before replacing it. Confirming reset also cancels any pending import.
+
+## Review before clearing practice
+
+When any choice, nonblank reasoning or reviewed decision exists, **Reset all practice and clear notes** opens a confirmation without changing the session. Keyboard focus moves to **Keep my work**. That button or Escape closes the confirmation and returns focus to Reset. **Clear all practice work** clears the choices, original notes and later reflections across all five decisions, cancels pending imports and returns to the first decision. Existing downloaded files are unaffected.
+
+Changing the practice decision, revealing guidance or applying a saved session dismisses an open reset confirmation, so it does not remain attached to a newly rendered view. A blank session resets immediately. This confirmation applies to the Reset control; reload and leaving the page still discard in-page work. Keep a progress file if you want to resume later.
 
 The restored page and its Markdown export disclose that the session came from an editable local file. An imported "before guidance" label describes saved state; it does not establish actual timing, authorship, unaided work or mastery. You can still revise unfinished drafts and add later reflections, while reviewed initial responses remain read-only in the interface. No grading, certification or identity verification is added.
 

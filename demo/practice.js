@@ -30,6 +30,7 @@
     get("practice-save").disabled = !api.hasWork(session);
   }
   function render() {
+    hideResetConfirmation();
     const c = cases[current],
       item = session[current];
     get("practice-select").value = String(current);
@@ -91,7 +92,17 @@
       get("share-practice-url").select();
     });
   });
-  get("practice-reset").addEventListener("click", () => {
+  function hideResetConfirmation() {
+    get("practice-reset-confirm").hidden = true;
+    get("practice-reset").setAttribute("aria-expanded", "false");
+  }
+  function cancelReset() {
+    hideResetConfirmation();
+    get("practice-progress").textContent = "Reset cancelled. Your practice work is unchanged.";
+    get("practice-reset").focus();
+  }
+  function resetPractice() {
+    hideResetConfirmation();
     clearPending();
     restored = false;
     get("practice-file-status").textContent = "";
@@ -100,6 +111,26 @@
     window.dispatchEvent(new CustomEvent("csm-practice-selection", { detail: cases[current].id }));
     get("practice-progress").textContent =
       `Practice reset. 0 / ${cases.length} decisions reviewed; all session notes cleared.`;
+    get("practice-select").focus();
+  }
+  get("practice-reset").addEventListener("click", () => {
+    if (!api.hasWork(session)) {
+      resetPractice();
+      return;
+    }
+    get("practice-reset-confirm").hidden = false;
+    get("practice-reset").setAttribute("aria-expanded", "true");
+    get("practice-reset-cancel").focus();
+  });
+  get("practice-reset-cancel").addEventListener("click", cancelReset);
+  get("practice-reset-confirm").addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      cancelReset();
+    }
+  });
+  get("practice-reset-apply").addEventListener("click", () => {
+    if (!get("practice-reset-confirm").hidden) resetPractice();
   });
   get("practice-export").addEventListener("click", () => {
     const content = api.exportReflection(
