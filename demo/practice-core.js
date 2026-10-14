@@ -7,6 +7,9 @@
       .flatMap((p) => p.integrations)
       .find((i) => i.readiness.integration_id === "lantern_ios");
     const run = modelRuns.runs.find((r) => r.id === "qwen4-constrained");
+    const harbor = data.workflow.packets.find((p) => p.context.account.id === "acc_006");
+    const callback = harbor.tickets.find((t) => t.draft_id === "ticket-issue_callback");
+    const report = harbor.context.evidence.find((e) => e.id === "msg_issue_callback");
     return [
       {
         id: "android_update",
@@ -140,6 +143,46 @@
           "Valid structure, agreement with recorded tools, and a faithful explanation are different properties. No general model-quality score follows from this example.",
         prompt:
           "Identify two missing elements in the explanation. Explain why correction feedback changes how you would describe this result in an interview.",
+      },
+      {
+        id: "callback_handoff",
+        title: "The customer already gave details. What should you ask next?",
+        situation:
+          "Harbor reports a reward callback problem. Read the original record and existing handoff fields, then choose a focused follow-up. Nothing has been sent or submitted.",
+        evidence: [
+          {label: "Original issue record", value: report.text, sources: [report.id]},
+          {label: "Declared source type and date", value: `${report.kind} · ${report.at}`, sources: [report.id]},
+          {label: "Recorded SDK, region and time window", value: `${callback.fields.sdk_version}; ${callback.fields.region}; ${callback.fields.time_window}`, sources: [report.id]},
+          {label: "Missing handoff fields", value: callback.missing_fields.join(", "), sources: [callback.draft_id]},
+          {label: "Root cause", value: callback.root_cause, sources: [callback.draft_id]},
+        ],
+        options: [
+          {
+            id: "repeat_all",
+            text: "Ask for currency mode, SDK version, region and time window again before proceeding.",
+            feedback:
+              "The report already gives self-managed currency, SDK version, Japan and the observation window. Reuse those details unless clarification or a fresh confirmation is needed; the generic questions are a review aid, not a script to send unchanged.",
+          },
+          {
+            id: "collect_missing",
+            text: "Acknowledge the supplied details; request reproduction steps and a redacted callback example with logs and endpoint method.",
+            feedback:
+              "The handoff lacks reproduction steps and redacted logs. A callback example and endpoint method address the existing candidate checks without treating HTTP 405 as a confirmed cause. Keep the recorded time window and ask whether the new example comes from that attempt or a later one.",
+          },
+          {
+            id: "diagnose",
+            text: "Tell the customer the endpoint method is wrong and promise that changing it will restore rewards.",
+            feedback:
+              "HTTP 405 makes a method mismatch worth investigating, but this record does not confirm the cause or the outcome of a change. Do not turn a candidate into a diagnosis or a resolution promise.",
+          },
+        ],
+        expected: "collect_missing",
+        source: "?case=harbor_android&view=handoff&lang=en#workspace",
+        sourceLabel: "Inspect Harbor's original report and handoff questions",
+        explanation:
+          "Use what the customer already supplied, request the specific gaps, and preserve uncertainty about the cause. A useful handoff combines source-linked facts with focused investigation questions.",
+        prompt:
+          "Draft a two-sentence follow-up in your own words. Which supplied details would you acknowledge, what would you request, and how would you avoid stating a diagnosis?",
       },
     ];
   }

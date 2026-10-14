@@ -265,3 +265,11 @@ The data model permits an issue to reference a customer report or a test record,
 The Markdown exporter previously quoted `ticket.customer_report`, a copied string whose legacy name does not establish source type. It now resolves the issue's original record using the issue ID, evidence ID, account and platform. A missing, ambiguous or differently scoped source produces an unavailable-source message instead of quoting the copied field. This is a presentation-layer consistency check; it does not authenticate the underlying record or verify its meaning. Tool schemas and historical model recordings are unchanged.
 
 Seven focused regression checks failed before the change and pass afterward. They cover customer/test labels, missing type, original-versus-copied wording, and missing or differently scoped records. Existing markup tests now insert their probe into the original source record as well as its copied field. The two bundled customer reports remain customer reports; no example was relabeled to manufacture test evidence.
+
+## v0.18 — practice a focused callback handoff
+
+A fourth practice decision now draws from Harbor's original issue record, existing handoff fields, missing-field list and unconfirmed root cause. It asks the reviewer to distinguish redundant questions, a focused evidence request and a premature diagnosis. Guidance explains why the supplied currency mode, SDK, region and time window should be reused, and why a new callback example should be tied to the relevant attempt.
+
+The existing reflection flow preserves initial choice/reasoning and later revision separately. The new source link opens Harbor's exact handoff in-page. Reset now derives its count from the case collection instead of announcing three decisions. The earlier three cases and historical model outputs remain unchanged. Two added tests verify evidence grounding and fourth-case export preservation; existing export-count assertions now follow the case collection.
+
+The teaching text is AI-assisted project guidance. It does not grade prose, certify personal mastery or establish customer usefulness. Browser-test notes explicitly identify themselves as QA material; Yuchi's own exercise has not been completed on their behalf.

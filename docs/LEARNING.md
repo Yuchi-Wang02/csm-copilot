@@ -135,6 +135,8 @@ Predict whether `2026-10-14T05:00:00-04:00` represents the dataset snapshot or a
 
 ## Turn generic triage questions into a focused handoff
 
+This is also available as decision 4 in [interactive Practice](https://yuchi-wang02.github.io/csm-copilot/#practice). The exercise presents Harbor's original record and handoff gaps before guidance, then lets you save your first reasoning separately from your later reflection.
+
 Open [Harbor's handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) and expand its original issue record. Before reading the candidate questions, list what is known, what is missing and what remains a hypothesis. Then compare the suggested questions with the record: which facts would be redundant to ask for again?
 
 Write a short customer follow-up that requests only the missing details. Trace each retained question to either a missing handoff field or a candidate check, and explain why HTTP 405 alone does not establish the cause. Download the platform brief and verify that another reviewer could find the same original report and questions. Save your own first reasoning and later revision separately; this guide does not supply or certify your personal answer.

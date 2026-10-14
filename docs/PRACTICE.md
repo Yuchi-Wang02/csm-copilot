@@ -2,15 +2,16 @@
 
 [Open the interactive practice](https://yuchi-wang02.github.io/csm-copilot/#practice).
 
-This exercise turns three existing project decisions into a conversation about customer-success judgment. It is self-directed practice with published guidance, not a blinded test, hiring assessment, certification, or measurement of personal mastery. The application compares selected options with the project policy; it does not grade written reasoning.
+This exercise turns four existing project decisions into a conversation about customer-success judgment. It is self-directed practice with published guidance, not a blinded test, hiring assessment, certification, or measurement of personal mastery. The application compares selected options with the project policy; it does not grade written reasoning.
 
-## Three decisions
+## Four decisions
 
 | Decision | Evidence used | What to explain |
 |---|---|---|
 | Android after two new confirmations | The actual counterfactual engine output in `workflow.counterfactual.after` | Why a failed device check needs a retest while an unknown callback check needs evidence |
 | iOS after checklist completion | Lantern iOS readiness and English follow-up from the workflow packet | Why the next action changes to launch-plan review without approving launch |
 | Model fields after two corrections | The published `qwen4-constrained` recording and its response review | Why matching fields do not certify the model's prose or establish general accuracy |
+| Callback handoff with details already supplied | Harbor's original issue record, known fields and missing-field list | How to acknowledge known facts, request unresolved details and avoid a premature diagnosis |
 
 The displayed evidence comes from the same artifacts used by the case explorer and model replay. Option wording and explanations are authored teaching material based on the project's operating policy. They are not official vendor training or independently validated assessment items. Automated checks detect changes to the key fixture conditions on which these lessons depend.
 
@@ -40,7 +41,7 @@ Practice notes are held only in page memory. There is no note upload, model call
 
 The interface uses native radio inputs and labeled text areas. Revealing guidance moves keyboard focus to the feedback. The downloadable report quotes and escapes user-authored notes so they cannot inject active HTML or report headings.
 
-Run `node --test tests-js/practice.test.cjs` with Node 24. The eight checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished report content, note escaping, a clean reset, pre-guidance export availability, and the exact model-recording link. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
+Run `node --test tests-js/practice.test.cjs` with Node 24. The ten checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished report content, note escaping, a clean reset, pre-guidance export availability, the exact model-recording link, and the callback exercise's source grounding and reflection export. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
 
 ## Save unfinished work
 

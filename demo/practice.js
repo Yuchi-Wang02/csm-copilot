@@ -69,7 +69,7 @@
     get("practice-select").value = "0";
     render();
     get("practice-progress").textContent =
-      "Practice reset. 0 / 3 decisions reviewed; all session notes cleared.";
+      `Practice reset. 0 / ${cases.length} decisions reviewed; all session notes cleared.`;
   });
   get("practice-export").addEventListener("click", () => {
     const content = api.exportReflection(
