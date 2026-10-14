@@ -60,6 +60,8 @@ The v0.10 browser check downloaded Lantern iOS with Chinese drafts and Harbor An
 
 ## Reproduction
 
+Public-download follow-up: the initial Harbor file differed only by CRLF/LF line endings. After explicit LF generation, its local SHA-256 matched the public download: `B0CB3FE295A1452372E3EE9F086D36FBEEEFA6086BA86E9969786918AB5D29DF`. The stronger byte comparison failed before regeneration and passed afterward; installed platform exports are now compared as bytes as well.
+
 ```sh
 python -m pip install -e ".[dev,brief]"
 python -m pytest -q

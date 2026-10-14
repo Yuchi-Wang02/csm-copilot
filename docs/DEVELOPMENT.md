@@ -155,3 +155,5 @@ The renderer selects the platform, all its recorded issues and matching handoffs
 The tests exercise all four platforms in both languages, cross-platform evidence exclusion, multiple handoffs, no-issue wording, invalid scopes and preservation of an existing output file on CLI errors. The package verifier also runs all eight scoped exports from the installed wheel outside the checkout and compares them with the website's downloads.
 
 **Lesson:** a portable handoff needs an explicit scope as well as complete fields. Removing irrelevant records must not remove the evidence that explains the decision, and exporting an old snapshot must not make it appear current.
+
+The public-download check then exposed a byte-level difference: Windows generated 93 CRLF line endings in the Harbor brief, while GitHub served LF. The text matched after normalization, but the SHA-256 did not. Platform-file generation now explicitly uses UTF-8/LF, and both the artifact tests and isolated CLI check compare bytes. The strengthened test failed on the previous generated files and passed after regeneration. The public download then matched the local source without normalization.

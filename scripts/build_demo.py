@@ -39,7 +39,9 @@ for packet in payload["workflow"]["packets"]:
         integration_id = item["readiness"]["integration_id"]
         for language in ("en", "zh"):
             (case_directory / f"{integration_id}-{language}.md").write_text(
-                render_review_brief(payload["workflow"], language, integration_id), encoding="utf-8"
+                render_review_brief(payload["workflow"], language, integration_id),
+                encoding="utf-8",
+                newline="\n",
             )
 print("Built separate English and Chinese briefs for each queued platform.")
 (ROOT / "evidence/friction.json").write_text(

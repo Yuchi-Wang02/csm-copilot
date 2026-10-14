@@ -53,6 +53,8 @@ Only integrations present in the morning queue can be exported. Unknown, ambiguo
 
 The builder generates eight files: four queued integrations in two languages. CI checks their contents against the renderer and repeats all eight CLI exports from an isolated installed wheel. Scope tests check that iOS cannot inherit Android evidence or handoffs, that all issues on the selected platform survive export, and that rendering leaves the input unchanged.
 
+Platform briefs use UTF-8 with LF line endings. Artifact tests and installed CLI checks compare bytes, so Windows and Linux exports match the files served by GitHub Pages.
+
 ## Use it in an interview
 
 Open the brief and point to one account. Explain why it was selected, which platform needs evidence, which next action is proposed and which source records support the decision. Then switch to its other platform and explain why the follow-up purpose changes.

@@ -85,10 +85,21 @@ def main():
         assert len(case_files) == expected_case_count, "Missing or stale platform briefs"
         for case_file in case_files:
             integration_id, lang = case_file.stem.rsplit("-", 1)
-            actual_text = execute(
-                [demo, "--format", "markdown", "--integration", integration_id, "--lang", lang]
+            case_target = outside / "exports" / case_file.name
+            execute(
+                [
+                    demo,
+                    "--format",
+                    "markdown",
+                    "--integration",
+                    integration_id,
+                    "--lang",
+                    lang,
+                    "--output",
+                    case_target,
+                ]
             )
-            assert actual_text == case_file.read_text(encoding="utf-8"), case_file.name
+            assert case_target.read_bytes() == case_file.read_bytes(), case_file.name
         smoke = outside / "mcp_smoke.py"
         shutil.copyfile(ROOT / "scripts/mcp_smoke.py", smoke)
         transcript = outside / "mcp-transcript.json"

@@ -41,9 +41,7 @@ def test_export_keeps_only_selected_platform_and_account_contact_evidence(integr
                 issue["integration_id"] == integration_id
             )
     assert workflow == original
-    assert (ROOT / f"demo/case-briefs/{integration_id}-{lang}.md").read_text(
-        encoding="utf-8"
-    ) == brief
+    assert (ROOT / f"demo/case-briefs/{integration_id}-{lang}.md").read_bytes() == brief.encode("utf-8")
 
 
 def test_ios_brief_has_no_android_failure_or_handoff_and_preserves_launch_plan():
