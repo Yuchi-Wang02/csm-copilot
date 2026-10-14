@@ -1,12 +1,12 @@
 # Verification record
 
-Local checks recorded through the v0.21.1 practice-sharing iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.22 text/action-boundary iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 45 passed locally | Fifteen practice, fourteen routing, twelve scoped rendering and four triage-replay checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 257 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
+| Python behavior tests | 263 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and two remaining counterexamples retained; frozen inputs unchanged |
 | Callback denial | 11 failed-before checks now pass; 20 checks total | Seven repaired messages and four handoff variants; six positive controls and three preserved limitations; developer-authored probes |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |
@@ -14,6 +14,7 @@ Local checks recorded through the v0.21.1 practice-sharing iteration on 2026-10-
 | Selected-platform briefs | Eight generated exports match the isolated installed CLI | Four queued integrations in two languages; tests check scope exclusion, multiple handoffs and non-mutation |
 | Unrecognized handoff scope | Four regression checks failed before the fix and passed afterward | English/Chinese summaries with complete/incomplete generic fields remain with the CSM for clarification |
 | Snapshot isolation regressions | Four failed before the fix and passed after it | Returned readiness/digest lists, constructor input ownership and revalidation of mutated input |
+| Text/action boundaries | Six deterministic probes reproduced | Instruction-bearing English/Chinese text, unavailable action names, cross-account reads and unsupported final prose; no model inference or injection benchmark |
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
 | Ruff lint and format | Passed | Python source checks |
 | Package build | Source distribution and wheel built | Includes packaged JSON fixtures |
@@ -135,3 +136,5 @@ The v0.20.1 browser check opened the known-failure probe directly, selected the 
 The v0.21 browser check selected the fifth decision, inspected the customer text and actual tool output before guidance, chose the tool-following option, and entered explicitly QA-only initial reasoning and reflection. Its evidence link opened `not_failing`; Back preserved both notes and the read-only initial response. The actual UTF-8 download matched the exporter byte-for-byte (5,040 bytes), with one reviewed and four unreviewed decisions. Reset announced 0 / 5 and disabled download. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels. These checks verify application behavior, not a personal reflection by Yuchi or an independently validated learning outcome.
 
 The v0.21.1 browser check opened `practice=question_triage` directly, switched decisions and verified Back/Forward note retention. The evidence link retained the selected practice ID while opening `not_failing`; subsequent triage and recording changes retained the original read-only reasoning. The clipboard contained exactly the public practice-only URL, without the QA note. Reload retained the decision with empty notes and 0 / 5 reviewed. Repeated practice parameters showed the first decision and a visible fallback notice; selecting a valid decision cleared it. Reset updated the URL to `android_update`. At a 360-pixel viewport with link details expanded, document and scroll widths both measured 345 CSS pixels. The mobile screenshot was visually inspected and the browser error log was empty. These checks establish navigation and privacy boundaries, not personal learning.
+
+The v0.22 browser check inspected all six text/action examples and expanded each observed result. English and Chinese source instructions remained visible; the two unavailable-action proposals showed parser rejection; the other-account read and unsupported final statement remained accepted limitations. The latter exposed zero lint flags and `semantic_verification: not_performed`. With that result expanded at a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels. The mobile layout was visually inspected and the browser error log was empty. Six Python checks reproduce the report and preserve both the observed protections and limits. This is deterministic replay verification, not a model-level prompt-injection experiment.

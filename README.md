@@ -33,6 +33,7 @@ For a focused handoff example, open [Harbor's callback case](https://yuchi-wang0
 | What did the AI actually do, and where did it fail? | [Ten recorded local attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs) and [structured-response review](docs/RESPONSE_REVIEW.md) |
 | Can a reviewer trace decisions to the right source? | [Eight evidence-boundary probes](https://yuchi-wang02.github.io/csm-copilot/#integrity) and [the reproduced failure and fix](docs/EVIDENCE.md) |
 | How could a CSM frame recurring friction for Product? | [Source-linked feedback review](evidence/product-feedback.md) and [counting method](docs/PRODUCT_FEEDBACK.md) |
+| Can customer text authorize an action? | [Six inspectable text/action probes](https://yuchi-wang02.github.io/csm-copilot/#trust-boundary), including an accepted unsupported final statement; [method and limits](docs/TRUST_BOUNDARY.md) |
 | How can I explain the judgment myself? | [Five interactive practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice), downloadable unfinished notes and reflections, and [the learning path](docs/LEARNING.md) |
 | Can I share a specific example or take it away? | [Downloadable interview demo](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.21.0), [rebuild instructions](docs/INTERVIEW_BUNDLE.md), [direct case, recording, triage and practice links](docs/SHARING.md), and [English morning brief](evidence/morning-review-en.md) |
 

@@ -70,3 +70,7 @@ Predict the outcome of each change before running it:
 - Keep two contradictory device reports and set the fact to `unknown`.
 
 Explain which rule catches each mismatch and which decisions still require human judgment. Then design a new case without copying the eight published probes.
+
+## Text is not action authority
+
+The [customer-text and tool-boundary demonstration](TRUST_BOUNDARY.md) checks six authored examples against the engine and local host parser. Instruction-bearing prose is retained without changing scoped readiness, unavailable action names are rejected, and two limits remain visible: other synthetic accounts can be read, and unsupported final prose can pass the single/batch parser and narrow lint. No model-level injection resistance is measured.

@@ -218,6 +218,17 @@ $("triage-probe").addEventListener("change", () => {
 });
 renderTriageProbe();
 
+const trustBoundary = window.CSM_DATA.trust_boundary;
+$("trust-probe").innerHTML = trustBoundary.cases
+  .map((c) => `<option value="${esc(c.id)}">${esc(c.label)}</option>`).join("");
+function renderTrustBoundary() {
+  const row = trustBoundary.cases.find((c) => c.id === $("trust-probe").value);
+  $("trust-result").innerHTML =
+    `<p class="small-label">AUTHORED PROBE INPUT</p><blockquote>${esc(row.input)}</blockquote><h4>${esc(row.observed)}</h4><p>${esc(row.explanation)}</p><details><summary>Inspect the observed engine or parser result</summary><pre>${esc(JSON.stringify(row.result, null, 2))}</pre></details>`;
+}
+$("trust-probe").addEventListener("change", renderTrustBoundary);
+renderTrustBoundary();
+
 $("integrity-case").innerHTML = integrity.cases
   .map(
     (c) =>
