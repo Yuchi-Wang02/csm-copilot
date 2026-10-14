@@ -1,0 +1,396 @@
+{
+  "commit": "063583e9704af1a2583aac9ea229703510926d42",
+  "boundary": "AI-assisted, inspected development probes captured before the present-tense callback-health rule. Authored expectations, not a holdout or model benchmark.",
+  "cases": [
+    {
+      "id": "plain",
+      "kind": "repair",
+      "text": "Callbacks are not failing. Please explain invoicing.",
+      "expected": [
+        "unknown"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "contraction",
+      "kind": "repair",
+      "text": "Callbacks aren’t failing. Please explain invoicing.",
+      "expected": [
+        "unknown"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "singular",
+      "kind": "repair",
+      "text": "The callback is not failing",
+      "expected": [
+        "unknown"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "reward_prefix",
+      "kind": "repair",
+      "text": "Reward callbacks are not failing; please explain invoicing.",
+      "expected": [
+        "unknown"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "with_offerwall",
+      "kind": "repair",
+      "text": "Callbacks are not failing. The offerwall is blank.",
+      "expected": [
+        "no_offers"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          },
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "separate_callback",
+      "kind": "control",
+      "text": "Callbacks are not failing. A later callback returned HTTP 405.",
+      "expected": [
+        "reward_callback"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [
+          "HTTP 405 makes an endpoint method mismatch worth checking; it is not a confirmed cause."
+        ],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "qualified_consistently",
+      "kind": "control",
+      "text": "Callbacks are not failing consistently; some attempts fail.",
+      "expected": [
+        "reward_callback"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "qualified_always",
+      "kind": "control",
+      "text": "Callbacks are not always failing.",
+      "expected": [
+        "reward_callback"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "question",
+      "kind": "control",
+      "text": "Callbacks are not failing? Please check.",
+      "expected": [
+        "reward_callback"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "past",
+      "kind": "control",
+      "text": "Callbacks were not failing yesterday. Check the current status.",
+      "expected": [
+        "reward_callback"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "quoted",
+      "kind": "known_limit",
+      "text": "Search for 'callbacks are not failing' in the documentation.",
+      "expected": [
+        "unknown"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "cannot_fix",
+      "kind": "control",
+      "text": "We cannot fix the failing callbacks.",
+      "expected": [
+        "reward_callback"
+      ],
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    }
+  ]
+}

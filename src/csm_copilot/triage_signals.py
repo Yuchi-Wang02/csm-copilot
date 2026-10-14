@@ -19,6 +19,8 @@ CALLBACK_DENIAL = re.compile(
     r"(?<![a-z])(?:(?:reward\s+)?callbacks?|rewards?)(?![a-z])"
     rf"\s+{NEGATIVE_COPULA}\s+(?:our|my|the|a|an|this)\s+(?:problem|issue)(?![a-z])"
     r"|(?:不是|并非)(?:奖励回调|回调|奖励|到账|发币)(?:的)?(?:问题|故障)"
+    r"|(?<![a-z])(?:reward\s+)?callbacks?(?![a-z])"
+    r"\s+(?:(?:is|are)\s+not|(?:isn|aren)['’]t)\s+failing(?=[ \t]*(?:[.!;]|\n|$))"
 )
 
 

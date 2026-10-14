@@ -15,6 +15,7 @@ report = runpy.run_path(str(ROOT / "evaluation/run.py"))["evaluate"]()
 integrity = runpy.run_path(str(ROOT / "evaluation/integrity.py"))["write_report"]()
 friction = Copilot().friction_digest()
 callback_denial = runpy.run_path(str(ROOT / "evaluation/callback_denial.py"))["evaluate"]()
+runpy.run_path(str(ROOT / "evaluation/callback_health.py"))["evaluate"]()
 trust_boundary = runpy.run_path(str(ROOT / "evaluation/trust_boundary.py"))["write_report"]()
 payload = {
     "workflow": build_demo(),

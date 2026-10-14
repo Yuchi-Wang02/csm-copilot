@@ -19,7 +19,7 @@ BEFORE = json.loads(
 def test_callback_mentions_preserve_separate_positive_signals(case):
     result = Copilot().triage_issue(case["text"])
     categories = [c["category"] for c in result["candidates"]]
-    if case["kind"] == "known_limit":
+    if case["kind"] == "known_limit" and case["id"] != "not_failing":
         assert result == case["result"]
         assert categories != case["expected"]
     else:
@@ -27,7 +27,7 @@ def test_callback_mentions_preserve_separate_positive_signals(case):
         assert result["route"] == (
             "clarify_scope" if categories == ["unknown"] else "collect_evidence"
         )
-    if case["kind"] == "repair":
+    if case["kind"] == "repair" or case["id"] == "not_failing":
         assert [c["category"] for c in case["result"]["candidates"]] != case["expected"]
         assert any("callback" in note and "excluded" in note for note in result["notes"])
     assert result["root_cause"] == "unconfirmed"

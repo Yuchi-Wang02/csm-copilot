@@ -1153,6 +1153,34 @@
         "method": "bilingual lexical retrieval baseline",
         "limitations": "Can miss paraphrases and misread negation; a host or human must review."
       }
+    },
+    {
+      "tool": "triage_issue",
+      "arguments": {
+        "issue_text": "Callbacks are not failing. Please explain invoicing."
+      },
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "Which account or product does this request concern?",
+              "What specific information or outcome do you need, and which relevant details should we review?"
+            ]
+          }
+        ],
+        "notes": [
+          "Explicitly denied callback/reward wording was excluded; other mentions were evaluated separately."
+        ],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
     }
   ]
 }

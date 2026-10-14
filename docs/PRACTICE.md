@@ -12,7 +12,7 @@ This exercise turns five existing project decisions into a conversation about cu
 | iOS after checklist completion | Lantern iOS readiness and English follow-up from the workflow packet | Why the next action changes to launch-plan review without approving launch |
 | Model fields after two corrections | The published `qwen4-constrained` recording and its response review | Why matching fields do not certify the model's prose or establish general accuracy |
 | Callback handoff with details already supplied | Harbor's original issue record, known fields and missing-field list | How to acknowledge known facts, request unresolved details and avoid a premature diagnosis |
-| Customer intent disagrees with the tool | The preserved `not_failing` probe: customer text, current callback candidate, route and questions | Why to clarify invoicing instead of blindly sending callback questions or claiming verified callback health |
+| Customer intent disagrees with the tool | The preserved `not_failing` probe: customer text and the recorded before-repair callback candidate, route and questions | Why to clarify invoicing instead of blindly sending callback questions or claiming verified callback health |
 
 The displayed evidence comes from the same artifacts used by the case explorer and model replay. Option wording and explanations are authored teaching material based on the project's operating policy. They are not official vendor training or independently validated assessment items. Automated checks detect changes to the key fixture conditions on which these lessons depend.
 
@@ -54,7 +54,7 @@ The model exercise links directly to `qwen4-constrained`, the recording its evid
 
 ## Question a tool recommendation
 
-The fifth decision uses an actual remaining mismatch in the published triage probes. Before you reveal guidance, the page shows only the customer message and tool result, without the authored expected category. Afterward, its evidence link opens that exact probe and the raw output while retaining your notes. The baseline still fails this wording; adding an exercise does not repair the classifier or improve its diagnostic score.
+The fifth decision uses an actual recorded mismatch from before the present-tense denial repair. Before you reveal guidance, the page shows only the customer message and tool result, without the authored expected category. Afterward, its evidence link opens that exact probe and the raw output while retaining your notes. The current baseline now handles this specific wording. The exercise preserves the original output and links to the before/current comparison; it does not present that historical result as current behavior. See [the failure and bounded repair](CALLBACK_HEALTH.md).
 
 Explain the distinction between what a customer reports, what a tool retrieves, and what has been independently checked. Draft a reply that acknowledges the invoice request and asks for the missing account or invoice context. Do not infer a Finance owner, invoice defect, service deadline or verified callback health from this record.
 

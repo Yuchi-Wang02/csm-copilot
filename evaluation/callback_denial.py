@@ -21,6 +21,9 @@ def evaluate():
         rows.append(
             {
                 **{key: case[key] for key in ("id", "kind", "text", "expected")},
+                "original_kind": case["kind"],
+                "kind": "repair" if case["id"] == "not_failing" else case["kind"],
+                "before_result": case["result"],
                 "before": [c["category"] for c in case["result"]["candidates"]],
                 "after": [c["category"] for c in result["candidates"]],
                 "after_result": result,
@@ -69,9 +72,9 @@ def evaluate():
         )
     lines += [
         "",
-        "Seven selected messages change categories. Eleven checks failed before the repair: those seven message cases and four English/Chinese handoff variants with complete or incomplete generic fields. All twenty focused checks now pass, including assertions preserving three known failures.",
+        "Eight selected messages now change categories. The original explicit-denial iteration changed seven; its eleven failed-before checks and historical results remain documented. The later [present-tense health-denial repair](../docs/CALLBACK_HEALTH.md) also changes `not_failing`. The frozen source retains its original known-limit label and raw result; the current replay labels it as a repair.",
         "",
-        "Qualified denial, `callbacks are not failing`, and quoted documentation topics still produce unwanted callback candidates. The old no-offers probes also retain qualified-negation and quoted-topic failures. This does not solve negation, temporal scope, reported speech or multilingual understanding generally.",
+        "Qualified denial and quoted documentation topics still produce unwanted callback candidates in this set. The old no-offers probes also retain qualified-negation and quoted-topic failures. This does not solve negation, temporal scope, reported speech or multilingual understanding generally.",
         "",
         "These sixteen probes were authored and inspected during development. The old twenty-probe file and original thirty-message diagnostic were not relabelled. The original diagnostic remains 16/18 after earlier adaptation; this repair does not improve that number. Historical model recordings are unchanged, with no new inference or independent human/customer validation.",
         "",

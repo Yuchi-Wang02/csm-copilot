@@ -39,6 +39,7 @@ async def run(server_command: Path | None = None):
             {"issue_text": "The reward callback is not our problem. Please explain invoicing."},
         ),
         ("triage_issue", {"issue_text": "不是奖励回调的问题，广告墙空白。"}),
+        ("triage_issue", {"issue_text": "Callbacks are not failing. Please explain invoicing."}),
     ]
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
@@ -82,6 +83,9 @@ async def run(server_command: Path | None = None):
             assert results[14]["result"]["dataset_as_of"] == results[0]["result"]["dataset_as_of"]
             assert results[15]["result"]["route"] == "clarify_scope"
             assert [c["category"] for c in results[16]["result"]["candidates"]] == ["no_offers"]
+            assert results[17]["result"]["route"] == "clarify_scope"
+            assert results[17]["result"]["candidates"][0]["category"] == "unknown"
+            assert results[17]["result"]["root_cause"] == "unconfirmed"
             empty_date = await session.call_tool("list_accounts", {"as_of": ""})
             assert empty_date.isError
             invalid = await session.call_tool("check_readiness", {"integration_id": "missing"})

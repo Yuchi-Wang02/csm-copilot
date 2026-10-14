@@ -24,12 +24,12 @@ Frozen before commit: `b1a7ca2059a4fea529bb3c433ceb8b7e1f33db8c`. [Original outp
 | positive | Reward callback returns HTTP 405. | reward\_callback | reward\_callback | reward\_callback |
 | negative\_result | The reward has not arrived. | reward\_callback | reward\_callback | reward\_callback |
 | qualified | The callback isn't exactly our problem. Please explain invoicing. | unknown | reward\_callback | reward\_callback |
-| not\_failing | Callbacks are not failing. Please explain invoicing. | unknown | reward\_callback | reward\_callback |
+| not\_failing | Callbacks are not failing. Please explain invoicing. | unknown | reward\_callback | unknown |
 | quoted | Please search for 'reward callback' in the documentation index. | unknown | reward\_callback | reward\_callback |
 
-Seven selected messages change categories. Eleven checks failed before the repair: those seven message cases and four English/Chinese handoff variants with complete or incomplete generic fields. All twenty focused checks now pass, including assertions preserving three known failures.
+Eight selected messages now change categories. The original explicit-denial iteration changed seven; its eleven failed-before checks and historical results remain documented. The later [present-tense health-denial repair](../docs/CALLBACK_HEALTH.md) also changes `not_failing`. The frozen source retains its original known-limit label and raw result; the current replay labels it as a repair.
 
-Qualified denial, `callbacks are not failing`, and quoted documentation topics still produce unwanted callback candidates. The old no-offers probes also retain qualified-negation and quoted-topic failures. This does not solve negation, temporal scope, reported speech or multilingual understanding generally.
+Qualified denial and quoted documentation topics still produce unwanted callback candidates in this set. The old no-offers probes also retain qualified-negation and quoted-topic failures. This does not solve negation, temporal scope, reported speech or multilingual understanding generally.
 
 These sixteen probes were authored and inspected during development. The old twenty-probe file and original thirty-message diagnostic were not relabelled. The original diagnostic remains 16/18 after earlier adaptation; this repair does not improve that number. Historical model recordings are unchanged, with no new inference or independent human/customer validation.
 

@@ -13,6 +13,7 @@
       `<p class="triage-status ${matches ? "matches" : "differs"}" role="status">${status}</p>` +
       `<p><strong>Current route:</strong> ${esc(row.after_result.route.replaceAll("_", " "))}. <strong>Root cause:</strong> ${esc(row.after_result.root_cause)}.</p>` +
       (row.after_result.notes.length ? `<ul>${row.after_result.notes.map((note) => `<li>${esc(note)}</li>`).join("")}</ul>` : '<p class="boundary">No exclusion note was returned for this message.</p>') +
+      `<details><summary>Inspect the preserved before-repair tool result</summary><pre>${esc(JSON.stringify(row.before_result, null, 2))}</pre></details>` +
       `<details><summary>Inspect this recorded current tool result</summary><pre>${esc(JSON.stringify(row.after_result, null, 2))}</pre></details>`;
   }
   const api = { render };

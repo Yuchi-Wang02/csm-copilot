@@ -39,7 +39,8 @@ The triage explorer has a **Copy this triage link** button and a selectable **Vi
 |---|---|
 | [Repaired English denial](https://yuchi-wang02.github.io/csm-copilot/?probe=callback_denial_en#triage-review) | An explicitly denied callback should not trigger callback troubleshooting |
 | [Chinese denial with a separate symptom](https://yuchi-wang02.github.io/csm-copilot/?probe=denied_with_blank_zh#triage-review) | Keep the positive blank-Offerwall symptom while excluding the denied callback mention |
-| [Remaining failure](https://yuchi-wang02.github.io/csm-copilot/?probe=not_failing#triage-review) | A repair has a bounded scope: this wording still produces the unwanted callback category |
+| [Preserved failure and current repair](https://yuchi-wang02.github.io/csm-copilot/?probe=not_failing#triage-review) | The old callback recommendation remains inspectable after a bounded rule changes the current route to clarification |
+| [Remaining quoted-topic failure](https://yuchi-wang02.github.io/csm-copilot/?probe=quoted#triage-review) | The tool still mistakes a documentation-topic mention for a callback symptom |
 
 Selecting a probe updates the address. Reload, Back and Forward restore its ID. Case and recording changes retain an explicitly selected probe in the browser address. Each copy control shares only its own selection. Missing `probe` uses the first published example; blank, repeated or unknown IDs use the same fallback with a visible notice. In-page evidence navigation preserves practice notes, while reloading starts a fresh practice session.
 

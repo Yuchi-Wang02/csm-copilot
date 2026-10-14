@@ -189,20 +189,20 @@
         id: "question_triage",
         title: "The tool suggests callbacks. What is the customer asking for?",
         situation:
-          "Review this synthetic customer message alongside the current triage output. Choose the next action you would take before drafting a reply.",
+          "Review this synthetic customer message alongside the tool output recorded before the present-tense denial repair. Choose the next action you would have taken before drafting a reply.",
         evidence: [
           {label: "Customer message", value: denial.text, sources: ["callback-denial-review.json: not_failing.text"]},
-          {label: "Tool candidate categories", value: denial.after_result.candidates.map((c) => c.category).join(", "), sources: ["not_failing.after_result.candidates"]},
-          {label: "Tool route", value: denial.after_result.route, sources: ["not_failing.after_result.route"]},
-          {label: "Tool follow-up questions", value: denial.after_result.candidates.flatMap((c) => c.questions).join(" "), sources: ["not_failing.after_result.candidates"]},
-          {label: "Root cause", value: denial.after_result.root_cause, sources: ["not_failing.after_result.root_cause"]},
+          {label: "Recorded tool candidate categories", value: denial.before_result.candidates.map((c) => c.category).join(", "), sources: ["not_failing.before_result.candidates"]},
+          {label: "Recorded tool route", value: denial.before_result.route, sources: ["not_failing.before_result.route"]},
+          {label: "Recorded tool follow-up questions", value: denial.before_result.candidates.flatMap((c) => c.questions).join(" "), sources: ["not_failing.before_result.candidates"]},
+          {label: "Root cause", value: denial.before_result.root_cause, sources: ["not_failing.before_result.root_cause"]},
         ],
         options: [
           {
             id: "follow_tool",
             text: "Send the callback questions: request currency mode, HTTP status and redacted logs.",
             feedback:
-              "Those questions follow the retrieved callback category but overlook the invoice request. The tool misreads this denial wording. Review the customer's intent before adopting the generated next step.",
+              "Those questions follow the retrieved callback category but overlook the invoice request. The recorded tool output misread this denial wording. Review the customer's intent before adopting the generated next step.",
           },
           {
             id: "clarify_invoice",
@@ -219,9 +219,9 @@
         ],
         expected: "clarify_invoice",
         source: "?probe=not_failing#triage-review",
-        sourceLabel: "Inspect the preserved triage mismatch and raw tool output",
+        sourceLabel: "Inspect the preserved failure and current repair",
         explanation:
-          "This wording remains a documented limitation of the lexical baseline. Keep the customer's stated intent separate from a tool's retrieved category, and keep a reported absence of trouble separate from verified technical health. The comparison is project-authored guidance, not independent validation.",
+          "This recorded failure was later repaired by a bounded present-tense rule; the original output remains available for review. Keep the customer's stated intent separate from a tool's retrieved category, and keep a reported absence of trouble separate from verified technical health. The comparison is project-authored guidance, not independent validation.",
         prompt:
           "Write a two-sentence reply that addresses invoicing without certifying callback health or promising a resolution. Which part of the tool output would you question, and what information would you request next?",
       },

@@ -13,8 +13,8 @@ test("browser replay matches the published sixteen-case report exactly", () => {
   vm.runInContext(fs.readFileSync(path.join(root, "demo/data.js"), "utf8"), context);
   assert.equal(JSON.stringify(context.window.CSM_DATA.callback_denial), JSON.stringify(report));
   assert.equal(report.cases.length, 16);
-  assert.equal(report.changed_cases.length, 7);
-  assert.equal(report.remaining_mismatches.length, 3);
+  assert.equal(report.changed_cases.length, 8);
+  assert.equal(report.remaining_mismatches.length, 2);
 });
 
 test("a repaired denial shows both categories and the clarification route without diagnosing", () => {
@@ -30,10 +30,14 @@ test("a repaired denial shows both categories and the clarification route withou
 });
 
 test("known failures remain mismatches and separate positive symptoms remain visible", () => {
-  const failure = api.render(row("not_failing"));
+  const failure = api.render(row("quoted"));
   assert.match(failure, /Still differs from project expectation/);
   assert.match(failure, /Current categories<\/h4><p>reward callback/);
   assert.match(failure, /Project expectation<\/h4><p>unknown/);
+  const repaired = api.render(row("not_failing"));
+  assert.match(repaired, /Before repair<\/h4><p>reward callback/);
+  assert.match(repaired, /Current categories<\/h4><p>unknown/);
+  assert.match(repaired, /Changed; matches project expectation/);
   const positive = api.render(row("separate_callback"));
   assert.match(positive, /Unchanged; matches project expectation/);
   assert.match(positive, /Current categories<\/h4><p>reward callback/);
