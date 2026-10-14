@@ -2,9 +2,9 @@
 
 [Open the interactive practice](https://yuchi-wang02.github.io/csm-copilot/#practice).
 
-This exercise turns four existing project decisions into a conversation about customer-success judgment. It is self-directed practice with published guidance, not a blinded test, hiring assessment, certification, or measurement of personal mastery. The application compares selected options with the project policy; it does not grade written reasoning.
+This exercise turns five existing project decisions into a conversation about customer-success judgment. It is self-directed practice with published guidance, not a blinded test, hiring assessment, certification, or measurement of personal mastery. The application compares selected options with the project policy; it does not grade written reasoning.
 
-## Four decisions
+## Five decisions
 
 | Decision | Evidence used | What to explain |
 |---|---|---|
@@ -12,6 +12,7 @@ This exercise turns four existing project decisions into a conversation about cu
 | iOS after checklist completion | Lantern iOS readiness and English follow-up from the workflow packet | Why the next action changes to launch-plan review without approving launch |
 | Model fields after two corrections | The published `qwen4-constrained` recording and its response review | Why matching fields do not certify the model's prose or establish general accuracy |
 | Callback handoff with details already supplied | Harbor's original issue record, known fields and missing-field list | How to acknowledge known facts, request unresolved details and avoid a premature diagnosis |
+| Customer intent disagrees with the tool | The preserved `not_failing` probe: customer text, current callback candidate, route and questions | Why to clarify invoicing instead of blindly sending callback questions or claiming verified callback health |
 
 The displayed evidence comes from the same artifacts used by the case explorer and model replay. Option wording and explanations are authored teaching material based on the project's operating policy. They are not official vendor training or independently validated assessment items. Automated checks detect changes to the key fixture conditions on which these lessons depend.
 
@@ -43,10 +44,16 @@ The interface uses native radio inputs and labeled text areas. Revealing guidanc
 
 Evidence labels, values and source IDs are also escaped in the Markdown download. A customer message's formatting remains source text instead of becoming a heading, HTML element or authored Markdown link in the report. Evidence line breaks are flattened for the list; your own notes retain quoted line breaks. Escaping changes the file's Markdown syntax, not the stored source record.
 
-Run `node --test tests-js/practice.test.cjs` with Node 24. The thirteen checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished report content, note escaping, a clean reset, pre-guidance export availability, the exact model-recording link, the callback exercise's source grounding and reflection export, and literal-text handling for evidence labels, values and source IDs. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
+Run `node --test tests-js/practice.test.cjs` with Node 24. The fifteen checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished report content, note escaping, a clean reset, pre-guidance export availability, the exact model-recording link, the callback exercise's source grounding and reflection export, literal-text handling for evidence labels, values and source IDs, and the fifth decision's preserved failure, direct probe link and separate draft/reflection export. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
 
 ## Save unfinished work
 
 You do not have to reveal guidance to save your reasoning. A choice without a note, a note without a choice, or a mix of reviewed and unfinished decisions can be downloaded. Blank sessions keep the download disabled. Saving does not reveal an answer, mark an item reviewed, freeze an unfinished draft or claim a completed exercise. Reload still starts a new browser session; keep the Markdown file if you want to return to your reasoning later.
 
 The model exercise links directly to `qwen4-constrained`, the recording its evidence describes. It does not depend on which model attempt was most recently added to the portfolio.
+
+## Question a tool recommendation
+
+The fifth decision uses an actual remaining mismatch in the published triage probes. Before you reveal guidance, the page shows only the customer message and tool result, without the authored expected category. Afterward, its evidence link opens that exact probe and the raw output while retaining your notes. The baseline still fails this wording; adding an exercise does not repair the classifier or improve its diagnostic score.
+
+Explain the distinction between what a customer reports, what a tool retrieves, and what has been independently checked. Draft a reply that acknowledges the invoice request and asks for the missing account or invoice context. Do not infer a Finance owner, invoice defect, service deadline or verified callback health from this record.

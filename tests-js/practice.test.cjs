@@ -33,7 +33,7 @@ for (const field of ["label", "value", "sources"]) {
     assert.ok(out.includes('&lt;img'));
     assert.ok(out.includes('\\# Forged heading'));
     assert.ok(out.includes('\\*\\*approved\\*\\*'));
-    assert.equal((out.match(/^## /gm) || []).length, 4);
+    assert.equal((out.match(/^## /gm) || []).length, cases.length);
     assert.equal(JSON.stringify(probeCases), before);
   });
 }
@@ -160,7 +160,7 @@ test("callback practice is grounded in the original report and scoped handoff ga
   assert.equal(decision.evidence[3].value, "reproduction_steps, redacted_logs");
   assert.equal(decision.evidence[4].value, "unconfirmed");
   assert.equal(decision.expected, "collect_missing");
-  assert.equal(new Set(cases.map((c) => c.id)).size, 4);
+  assert.equal(new Set(cases.map((c) => c.id)).size, cases.length);
   assert.equal(decision.source, "?case=harbor_android&view=handoff&lang=en#workspace");
 });
 
@@ -177,5 +177,46 @@ test("fourth decision preserves first reasoning, later reflection and its eviden
   assert.match(out, /Option comparison: differs from the project policy/);
   assert.ok(out.includes("msg\\_issue\\_callback"));
   assert.match(out, /case=harbor_android&view=handoff&lang=en#workspace/);
-  assert.equal((out.match(/Status: not reviewed/g) || []).length, 3);
+  assert.equal((out.match(/Status: not reviewed/g) || []).length, cases.length - 1);
+});
+
+test("tool-disagreement decision uses the actual preserved failure without revealing expected categories", () => {
+  const decision = cases.find((c) => c.id === "question_triage");
+  const probe = context.window.CSM_DATA.callback_denial.cases.find((c) => c.id === "not_failing");
+  assert.equal(cases.length, 5);
+  assert.equal(probe.kind, "known_limit");
+  assert.deepEqual(Array.from(probe.expected), ["unknown"]);
+  assert.deepEqual(Array.from(probe.after), ["reward_callback"]);
+  assert.equal(decision.evidence[0].value, probe.text);
+  assert.equal(decision.evidence[1].value, probe.after_result.candidates.map((c) => c.category).join(", "));
+  assert.equal(decision.evidence[2].value, probe.after_result.route);
+  assert.equal(decision.evidence[3].value, probe.after_result.candidates.flatMap((c) => c.questions).join(" "));
+  assert.equal(decision.evidence[4].value, probe.after_result.root_cause);
+  assert.ok(!JSON.stringify(decision.evidence).includes("unknown"));
+  assert.ok(!JSON.stringify(decision.evidence).includes("expected"));
+  assert.equal(decision.expected, "clarify_invoice");
+  const source = new URL(decision.source, "https://yuchi-wang02.github.io/csm-copilot/");
+  assert.equal(source.searchParams.get("probe"), probe.id);
+  assert.equal(source.hash, "#triage-review");
+});
+
+test("fifth decision exports unfinished reasoning, then preserves original work separately from reflection", () => {
+  const session = api.createSession(cases), index = cases.findIndex((c) => c.id === "question_triage");
+  session[index].choice = "follow_tool";
+  session[index].reasoning = "QA-only: initial interpretation.";
+  const draft = api.exportReflection(cases, session, "2026-10-14");
+  assert.match(draft, /QA\\-only: initial interpretation/);
+  assert.ok(!draft.includes("Project guidance:"));
+  assert.equal((draft.match(/Status: not reviewed/g) || []).length, 5);
+  session[index] = api.reveal(session[index], cases[index]);
+  session[index].reflection = "QA-only: reconsider the invoice request.";
+  const reviewed = api.exportReflection(cases, session, "2026-10-14");
+  assert.equal(session[index].initial.choice, "follow_tool");
+  assert.match(reviewed, /QA\\-only: initial interpretation/);
+  assert.match(reviewed, /QA\\-only: reconsider the invoice request/);
+  assert.match(reviewed, /Option comparison: differs from the project policy/);
+  assert.match(reviewed, /Callbacks are not failing/);
+  assert.match(reviewed, /probe=not_failing#triage-review/);
+  assert.equal((reviewed.match(/Status: not reviewed/g) || []).length, 4);
+  assert.equal(api.createSession(cases).filter((s) => s.reviewed).length, 0);
 });

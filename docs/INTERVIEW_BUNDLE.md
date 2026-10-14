@@ -1,6 +1,6 @@
 # Build a portable interview demo
 
-The [v0.20.1 prerelease](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.20.1) provides a fixed downloadable demo and PDF brief. Its demo files were checked against the tagged Git source. That first ZIP was packaged manually; the repository builder below introduces a separate, reproducible archive format. It does not reproduce the historical ZIP's bytes or replace its assets.
+The [v0.21.0 prerelease](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.21.0) provides the five-decision demo and PDF brief using the repository builder below. The earlier [v0.20.1 ZIP](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.20.1) was packaged manually, with demo files checked against its tagged source. The reproducible archive format does not reproduce that historical ZIP's bytes or replace its assets.
 
 From a checkout containing the builder, run with Python 3.11 or newer and Git:
 

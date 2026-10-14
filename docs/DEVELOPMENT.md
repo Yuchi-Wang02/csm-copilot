@@ -311,3 +311,9 @@ Upload and deployment now use the same artifact name containing the workflow run
 The initial downloadable demo was packaged outside the repository. Its first byte comparison caught Windows line-ending conversion; conversion was disabled before the verified package was published. A checked-in builder now reads the selected committed tree directly and creates a deterministic archive with fixed metadata. Dirty worktree changes and untracked notes stay out, and missing static references stop packaging.
 
 Six focused checks exercise those boundaries using temporary Git repositories. CI now builds and uploads the same selected commit on Windows and Ubuntu so the inner ZIP hashes can be compared. This introduces a new bundle format rather than rewriting the first release asset. [Build instructions and verification limits](INTERVIEW_BUNDLE.md).
+
+## v0.21: practice questioning a tool recommendation
+
+The fifth practice decision presents the preserved `not_failing` customer message alongside the current callback candidate and collection questions. It draws evidence directly from the generated diagnostic report; expected categories are absent from the pre-guidance evidence. The recommended response acknowledges invoicing and clarifies context without claiming callbacks were verified healthy or inventing a Finance deadline.
+
+The source link opens that exact failure in the triage review. Initial reasoning, later reflection and unfinished work remain separately labeled in exports. Two additional JavaScript checks cover source grounding and fifth-case state/export behavior. The classifier, diagnostic scores and historical model recordings are unchanged; this is an opportunity to explain review judgment, not evidence of improved model reliability or completed personal learning.

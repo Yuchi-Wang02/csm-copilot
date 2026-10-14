@@ -10,6 +10,7 @@
     const harbor = data.workflow.packets.find((p) => p.context.account.id === "acc_006");
     const callback = harbor.tickets.find((t) => t.draft_id === "ticket-issue_callback");
     const report = harbor.context.evidence.find((e) => e.id === "msg_issue_callback");
+    const denial = data.callback_denial.cases.find((c) => c.id === "not_failing");
     return [
       {
         id: "android_update",
@@ -183,6 +184,46 @@
           "Use what the customer already supplied, request the specific gaps, and preserve uncertainty about the cause. A useful handoff combines source-linked facts with focused investigation questions.",
         prompt:
           "Draft a two-sentence follow-up in your own words. Which supplied details would you acknowledge, what would you request, and how would you avoid stating a diagnosis?",
+      },
+      {
+        id: "question_triage",
+        title: "The tool suggests callbacks. What is the customer asking for?",
+        situation:
+          "Review this synthetic customer message alongside the current triage output. Choose the next action you would take before drafting a reply.",
+        evidence: [
+          {label: "Customer message", value: denial.text, sources: ["callback-denial-review.json: not_failing.text"]},
+          {label: "Tool candidate categories", value: denial.after_result.candidates.map((c) => c.category).join(", "), sources: ["not_failing.after_result.candidates"]},
+          {label: "Tool route", value: denial.after_result.route, sources: ["not_failing.after_result.route"]},
+          {label: "Tool follow-up questions", value: denial.after_result.candidates.flatMap((c) => c.questions).join(" "), sources: ["not_failing.after_result.candidates"]},
+          {label: "Root cause", value: denial.after_result.root_cause, sources: ["not_failing.after_result.root_cause"]},
+        ],
+        options: [
+          {
+            id: "follow_tool",
+            text: "Send the callback questions: request currency mode, HTTP status and redacted logs.",
+            feedback:
+              "Those questions follow the retrieved callback category but overlook the invoice request. The tool misreads this denial wording. Review the customer's intent before adopting the generated next step.",
+          },
+          {
+            id: "clarify_invoice",
+            text: "Acknowledge the invoice question and ask which account, invoice or billing detail needs explanation.",
+            feedback:
+              "The customer asks about invoicing and denies a callback failure. Clarify that request before proposing an owner or a resolution. This demo has no billing classifier or verified Finance routing policy.",
+          },
+          {
+            id: "certify_healthy",
+            text: "Confirm that callbacks are verified healthy and promise Finance will correct the invoice today.",
+            feedback:
+              "A customer's denial is not a technical verification. No invoice error, Finance owner or resolution time has been established, so these claims go beyond the evidence.",
+          },
+        ],
+        expected: "clarify_invoice",
+        source: "?probe=not_failing#triage-review",
+        sourceLabel: "Inspect the preserved triage mismatch and raw tool output",
+        explanation:
+          "This wording remains a documented limitation of the lexical baseline. Keep the customer's stated intent separate from a tool's retrieved category, and keep a reported absence of trouble separate from verified technical health. The comparison is project-authored guidance, not independent validation.",
+        prompt:
+          "Write a two-sentence reply that addresses invoicing without certifying callback health or promising a resolution. Which part of the tool output would you question, and what information would you request next?",
       },
     ];
   }
