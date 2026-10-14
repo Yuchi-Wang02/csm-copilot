@@ -154,6 +154,64 @@ def test_every_issue_on_the_selected_platform_keeps_its_handoff():
     assert brief.count("### Technical handoff") == 2
 
 
+def test_duplicate_handoff_drafts_are_withheld_without_choosing_by_order():
+    for reverse in (False, True):
+        workflow = build_demo()
+        packet = workflow["packets"][0]
+        first = packet["tickets"][0]
+        second = deepcopy(first)
+        first["title"] = "FIRST DRAFT MUST NOT BE PRESENTED"
+        second["title"] = "SECOND DRAFT MUST NOT BE PRESENTED"
+        packet["tickets"].append(second)
+        if reverse:
+            packet["tickets"].reverse()
+        original = deepcopy(workflow)
+        for scope in (None, "lantern_android"):
+            for lang in ("en", "zh"):
+                brief = render_review_brief(workflow, lang, scope)
+                assert r"Handoff draft unavailable for ticket-issue\_blank" in brief
+                assert "Expected one matching draft; found 2" in brief
+                assert "FIRST DRAFT MUST NOT BE PRESENTED" not in brief
+                assert "SECOND DRAFT MUST NOT BE PRESENTED" not in brief
+                assert r"msg\_issue\_blank" in brief
+        assert workflow == original
+
+
+def test_missing_handoff_draft_does_not_erase_its_recorded_issue_or_other_handoffs():
+    workflow = build_demo()
+    packet = workflow["packets"][0]
+    issue = deepcopy(packet["context"]["issues"][0])
+    issue["id"] = "issue_second"
+    packet["context"]["issues"].append(issue)
+    original = deepcopy(workflow)
+    for scope in (None, "lantern_android"):
+        brief = render_review_brief(workflow, integration_id=scope)
+        assert r"Handoff draft unavailable for ticket-issue\_second" in brief
+        assert "Expected one matching draft; found 0" in brief
+        assert "The issue remains recorded" in brief
+        assert "**Questions to review before handoff**" in brief
+        assert r"### Technical handoff — ticket-issue\_blank" in brief
+        assert "**Recorded issues:** None" not in brief
+    assert workflow == original
+
+
+def test_unmatched_handoff_is_flagged_in_queue_export_without_presenting_its_contents():
+    workflow = build_demo()
+    orphan = deepcopy(workflow["packets"][0]["tickets"][0])
+    orphan["draft_id"] = "ticket-unmatched<script>"
+    orphan["title"] = "UNMATCHED TITLE MUST NOT APPEAR"
+    orphan["fields"]["app"] = "UNMATCHED APP MUST NOT APPEAR"
+    workflow["packets"][0]["tickets"].append(orphan)
+    original = deepcopy(workflow)
+    brief = render_review_brief(workflow)
+    assert "Unmatched handoff draft withheld: ticket-unmatched&lt;script&gt;" in brief
+    assert "No recorded issue in this account context identifies it" in brief
+    assert "UNMATCHED TITLE MUST NOT APPEAR" not in brief
+    assert "UNMATCHED APP MUST NOT APPEAR" not in brief
+    assert "<script>" not in brief
+    assert workflow == original
+
+
 @pytest.mark.parametrize("identifier", ["missing", "orbit_android", "", "../lantern_android"])
 def test_unknown_or_unqueued_platform_is_not_replaced_with_another_case(identifier):
     with pytest.raises(ValueError, match="exactly one platform"):

@@ -213,7 +213,30 @@ def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | 
                 "",
                 "**Recorded issues:** None for this platform in the snapshot. This does not establish that no issue exists or that a previous issue was resolved.",
             ]
-        for ticket in packet["tickets"]:
+        expected_drafts = dict.fromkeys(
+            "ticket-" + issue["id"] for issue in packet["context"]["issues"]
+        )
+        unmatched = dict.fromkeys(
+            ticket["draft_id"]
+            for ticket in packet["tickets"]
+            if ticket["draft_id"] not in expected_drafts
+        )
+        for identifier in unmatched:
+            lines += [
+                "",
+                f"Unmatched handoff draft withheld: {text(identifier)}. No recorded issue in this account context identifies it. Review the packet before using this draft.",
+            ]
+        for identifier in expected_drafts:
+            matches = [t for t in packet["tickets"] if t["draft_id"] == identifier]
+            if len(matches) != 1:
+                lines += [
+                    "",
+                    f"### Technical handoff — {text(identifier)}",
+                    "",
+                    f"Handoff draft unavailable for {text(identifier)}. Expected one matching draft; found {len(matches)}. The issue remains recorded; review its source in the evidence index before preparing a draft. No duplicate draft was selected by list order.",
+                ]
+                continue
+            ticket = matches[0]
             lines += [
                 "",
                 f"### Technical handoff — {text(ticket['draft_id'])}",

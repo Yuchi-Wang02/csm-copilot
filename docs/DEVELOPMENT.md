@@ -1,5 +1,11 @@
 # Development notes
 
+## Do not turn ambiguous handoff packets into usable drafts
+
+The browser withheld duplicate matching drafts, but the Markdown renderer iterated directly over the ticket list. Three failing-before tests reproduced duplicate drafts being printed, a recorded issue with no draft disappearing from the handoff section, and an unmatched draft being presented without a recorded issue.
+
+The export now starts from recorded issue IDs and requires one matching draft. Missing or duplicate matches produce an explicit notice, retaining the issue identity and evidence index; unmatched drafts in whole-queue exports are flagged without copying their content. Selected-platform filtering excludes drafts that cannot be attributed to that platform's issues. The tests reverse duplicate order, exercise both languages and export scopes, preserve other valid handoffs, and check escaped identifiers and unchanged inputs. Existing bundled briefs remain byte-identical because their issue/draft pairing is unambiguous. These are authored packet-integrity cases, not evidence that real customer records have been validated.
+
 ## Preserve source comparisons in downloadable briefs
 
 The Markdown briefs retained copied handoff values and source IDs but did not flag disagreements with scoped records. A missing field-source entry also raised a `KeyError` and stopped the export. Four failing-before checks covered disagreement, unavailable/ambiguous/mis-scoped sources, matching attribution and source markup.
