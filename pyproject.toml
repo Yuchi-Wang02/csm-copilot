@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "csm-copilot"
+version = "0.1.0"
+description = "Evidence-grounded customer onboarding tools for MCP hosts"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "Yuchi Wang"}]
+dependencies = ["mcp==1.30.0", "pydantic>=2.11,<3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.12,<1", "build>=1,<2"]
+
+[project.scripts]
+csm-copilot = "csm_copilot.server:main"
+csm-demo = "csm_copilot.demo:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+csm_copilot = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

@@ -1,0 +1,566 @@
+{
+  "synthetic": true,
+  "as_of": "2026-10-14T09:00:00+00:00",
+  "accounts": [
+    {
+      "id": "acc_014",
+      "name": "Lantern Games",
+      "stage": "validation",
+      "target_launch": "2026-10-16T09:00:00+00:00",
+      "contact_ids": [
+        "contact_acc_014"
+      ]
+    },
+    {
+      "id": "acc_006",
+      "name": "Harbor Studio",
+      "stage": "integration",
+      "target_launch": "2026-10-19T09:00:00+00:00",
+      "contact_ids": [
+        "contact_acc_006"
+      ]
+    },
+    {
+      "id": "acc_009",
+      "name": "Pine Pixel",
+      "stage": "live",
+      "target_launch": "2026-10-01T09:00:00+00:00",
+      "contact_ids": [
+        "contact_acc_009"
+      ]
+    },
+    {
+      "id": "acc_011",
+      "name": "Orbit Play",
+      "stage": "validation",
+      "target_launch": "2026-10-20T09:00:00+00:00",
+      "contact_ids": [
+        "contact_acc_011"
+      ]
+    },
+    {
+      "id": "acc_018",
+      "name": "Meadow Works",
+      "stage": "validation",
+      "target_launch": "2026-10-18T09:00:00+00:00",
+      "contact_ids": [
+        "contact_acc_018"
+      ]
+    }
+  ],
+  "integrations": [
+    {
+      "id": "lantern_android",
+      "account_id": "acc_014",
+      "app": "Moon Garden",
+      "platform": "Android",
+      "currency_mode": "self_managed",
+      "facts": {
+        "currency_approved": {
+          "status": "unknown",
+          "evidence_ids": []
+        },
+        "test_only_off": {
+          "status": "unknown",
+          "evidence_ids": []
+        },
+        "placement_linked": {
+          "status": "met",
+          "evidence_ids": [
+            "lantern_android_placement_linked"
+          ]
+        },
+        "sdk_connected": {
+          "status": "met",
+          "evidence_ids": [
+            "lantern_android_sdk_connected"
+          ]
+        },
+        "device_verified": {
+          "status": "not_met",
+          "evidence_ids": [
+            "lantern_android_device_verified"
+          ]
+        },
+        "callback_verified": {
+          "status": "unknown",
+          "evidence_ids": []
+        }
+      }
+    },
+    {
+      "id": "lantern_ios",
+      "account_id": "acc_014",
+      "app": "Moon Garden",
+      "platform": "iOS",
+      "currency_mode": "self_managed",
+      "facts": {
+        "currency_approved": {
+          "status": "met",
+          "evidence_ids": [
+            "lantern_ios_currency_approved"
+          ]
+        },
+        "test_only_off": {
+          "status": "met",
+          "evidence_ids": [
+            "lantern_ios_test_only_off"
+          ]
+        },
+        "placement_linked": {
+          "status": "met",
+          "evidence_ids": [
+            "lantern_ios_placement_linked"
+          ]
+        },
+        "sdk_connected": {
+          "status": "met",
+          "evidence_ids": [
+            "lantern_ios_sdk_connected"
+          ]
+        },
+        "device_verified": {
+          "status": "met",
+          "evidence_ids": [
+            "lantern_ios_device_verified"
+          ]
+        },
+        "callback_verified": {
+          "status": "met",
+          "evidence_ids": [
+            "lantern_ios_callback_verified"
+          ]
+        }
+      }
+    },
+    {
+      "id": "harbor_android",
+      "account_id": "acc_006",
+      "app": "Pocket Harbor",
+      "platform": "Android",
+      "currency_mode": "self_managed",
+      "facts": {
+        "currency_approved": {
+          "status": "met",
+          "evidence_ids": [
+            "harbor_android_currency_approved"
+          ]
+        },
+        "test_only_off": {
+          "status": "met",
+          "evidence_ids": [
+            "harbor_android_test_only_off"
+          ]
+        },
+        "placement_linked": {
+          "status": "met",
+          "evidence_ids": [
+            "harbor_android_placement_linked"
+          ]
+        },
+        "sdk_connected": {
+          "status": "met",
+          "evidence_ids": [
+            "harbor_android_sdk_connected"
+          ]
+        },
+        "device_verified": {
+          "status": "met",
+          "evidence_ids": [
+            "harbor_android_device_verified"
+          ]
+        },
+        "callback_verified": {
+          "status": "not_met",
+          "evidence_ids": [
+            "harbor_android_callback_verified"
+          ]
+        }
+      }
+    },
+    {
+      "id": "pine_ios",
+      "account_id": "acc_009",
+      "app": "Pine Trails",
+      "platform": "iOS",
+      "currency_mode": "tapjoy_managed",
+      "facts": {
+        "currency_approved": {
+          "status": "met",
+          "evidence_ids": [
+            "pine_ios_currency_approved"
+          ]
+        },
+        "test_only_off": {
+          "status": "met",
+          "evidence_ids": [
+            "pine_ios_test_only_off"
+          ]
+        },
+        "placement_linked": {
+          "status": "met",
+          "evidence_ids": [
+            "pine_ios_placement_linked"
+          ]
+        },
+        "sdk_connected": {
+          "status": "met",
+          "evidence_ids": [
+            "pine_ios_sdk_connected"
+          ]
+        },
+        "device_verified": {
+          "status": "met",
+          "evidence_ids": [
+            "pine_ios_device_verified"
+          ]
+        },
+        "callback_verified": {
+          "status": "met",
+          "evidence_ids": [
+            "pine_ios_callback_verified"
+          ]
+        }
+      }
+    },
+    {
+      "id": "orbit_android",
+      "account_id": "acc_011",
+      "app": "Orbit Hop",
+      "platform": "Android",
+      "currency_mode": "tapjoy_managed",
+      "facts": {
+        "currency_approved": {
+          "status": "met",
+          "evidence_ids": [
+            "orbit_android_currency_approved"
+          ]
+        },
+        "test_only_off": {
+          "status": "met",
+          "evidence_ids": [
+            "orbit_android_test_only_off"
+          ]
+        },
+        "placement_linked": {
+          "status": "met",
+          "evidence_ids": [
+            "orbit_android_placement_linked"
+          ]
+        },
+        "sdk_connected": {
+          "status": "met",
+          "evidence_ids": [
+            "orbit_android_sdk_connected"
+          ]
+        },
+        "device_verified": {
+          "status": "met",
+          "evidence_ids": [
+            "orbit_android_device_verified"
+          ]
+        },
+        "callback_verified": {
+          "status": "met",
+          "evidence_ids": [
+            "orbit_android_callback_verified"
+          ]
+        }
+      }
+    },
+    {
+      "id": "meadow_ios",
+      "account_id": "acc_018",
+      "app": "Meadow Notes",
+      "platform": "iOS",
+      "currency_mode": "tapjoy_managed",
+      "facts": {
+        "currency_approved": {
+          "status": "met",
+          "evidence_ids": [
+            "meadow_ios_currency_approved"
+          ]
+        },
+        "test_only_off": {
+          "status": "met",
+          "evidence_ids": [
+            "meadow_ios_test_only_off"
+          ]
+        },
+        "placement_linked": {
+          "status": "met",
+          "evidence_ids": [
+            "meadow_ios_placement_linked"
+          ]
+        },
+        "sdk_connected": {
+          "status": "met",
+          "evidence_ids": [
+            "meadow_ios_sdk_connected"
+          ]
+        },
+        "device_verified": {
+          "status": "unknown",
+          "evidence_ids": []
+        },
+        "callback_verified": {
+          "status": "unknown",
+          "evidence_ids": []
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "contact_acc_014",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "contact_record",
+      "text": "Synthetic CSM contact: received onboarding progress update."
+    },
+    {
+      "id": "lantern_android_placement_linked",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Placement and content = met."
+    },
+    {
+      "id": "lantern_android_sdk_connected",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: SDK connection sequence = met."
+    },
+    {
+      "id": "lantern_android_device_verified",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Non-test device verification = not_met."
+    },
+    {
+      "id": "lantern_ios_currency_approved",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Platform currency approval = met."
+    },
+    {
+      "id": "lantern_ios_test_only_off",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Production visibility setting = met."
+    },
+    {
+      "id": "lantern_ios_placement_linked",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Placement and content = met."
+    },
+    {
+      "id": "lantern_ios_sdk_connected",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: SDK connection sequence = met."
+    },
+    {
+      "id": "lantern_ios_device_verified",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Non-test device verification = met."
+    },
+    {
+      "id": "lantern_ios_callback_verified",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Reward callback verification = met."
+    },
+    {
+      "id": "msg_issue_blank",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "customer_report",
+      "text": "测试机能看到广告，Android 正式设备打开 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。"
+    },
+    {
+      "id": "contact_acc_006",
+      "at": "2026-10-10T09:00:00+00:00",
+      "kind": "contact_record",
+      "text": "Synthetic CSM contact: received onboarding progress update."
+    },
+    {
+      "id": "harbor_android_currency_approved",
+      "at": "2026-10-10T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Platform currency approval = met."
+    },
+    {
+      "id": "harbor_android_test_only_off",
+      "at": "2026-10-10T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Production visibility setting = met."
+    },
+    {
+      "id": "harbor_android_placement_linked",
+      "at": "2026-10-10T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Placement and content = met."
+    },
+    {
+      "id": "harbor_android_sdk_connected",
+      "at": "2026-10-10T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: SDK connection sequence = met."
+    },
+    {
+      "id": "harbor_android_device_verified",
+      "at": "2026-10-10T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Non-test device verification = met."
+    },
+    {
+      "id": "harbor_android_callback_verified",
+      "at": "2026-10-10T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Reward callback verification = not_met."
+    },
+    {
+      "id": "msg_issue_callback",
+      "at": "2026-10-10T09:00:00+00:00",
+      "kind": "customer_report",
+      "text": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user."
+    },
+    {
+      "id": "contact_acc_009",
+      "at": "2026-10-08T09:00:00+00:00",
+      "kind": "contact_record",
+      "text": "Synthetic CSM contact: received onboarding progress update."
+    },
+    {
+      "id": "pine_ios_currency_approved",
+      "at": "2026-10-08T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Platform currency approval = met."
+    },
+    {
+      "id": "pine_ios_test_only_off",
+      "at": "2026-10-08T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Production visibility setting = met."
+    },
+    {
+      "id": "pine_ios_placement_linked",
+      "at": "2026-10-08T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Placement and content = met."
+    },
+    {
+      "id": "pine_ios_sdk_connected",
+      "at": "2026-10-08T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: SDK connection sequence = met."
+    },
+    {
+      "id": "pine_ios_device_verified",
+      "at": "2026-10-08T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Non-test device verification = met."
+    },
+    {
+      "id": "pine_ios_callback_verified",
+      "at": "2026-10-08T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Reward callback verification = met."
+    },
+    {
+      "id": "contact_acc_011",
+      "at": "2026-10-13T09:00:00+00:00",
+      "kind": "contact_record",
+      "text": "Synthetic CSM contact: received onboarding progress update."
+    },
+    {
+      "id": "orbit_android_currency_approved",
+      "at": "2026-10-13T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Platform currency approval = met."
+    },
+    {
+      "id": "orbit_android_test_only_off",
+      "at": "2026-10-13T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Production visibility setting = met."
+    },
+    {
+      "id": "orbit_android_placement_linked",
+      "at": "2026-10-13T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Placement and content = met."
+    },
+    {
+      "id": "orbit_android_sdk_connected",
+      "at": "2026-10-13T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: SDK connection sequence = met."
+    },
+    {
+      "id": "orbit_android_device_verified",
+      "at": "2026-10-13T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Non-test device verification = met."
+    },
+    {
+      "id": "orbit_android_callback_verified",
+      "at": "2026-10-13T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic Android test record: Reward callback verification = met."
+    },
+    {
+      "id": "contact_acc_018",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "contact_record",
+      "text": "Synthetic CSM contact: received onboarding progress update."
+    },
+    {
+      "id": "meadow_ios_currency_approved",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Platform currency approval = met."
+    },
+    {
+      "id": "meadow_ios_test_only_off",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Production visibility setting = met."
+    },
+    {
+      "id": "meadow_ios_placement_linked",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: Placement and content = met."
+    },
+    {
+      "id": "meadow_ios_sdk_connected",
+      "at": "2026-10-09T09:00:00+00:00",
+      "kind": "test_record",
+      "text": "Synthetic iOS test record: SDK connection sequence = met."
+    }
+  ],
+  "issues": [
+    {
+      "id": "issue_blank",
+      "integration_id": "lantern_android",
+      "evidence_id": "msg_issue_blank",
+      "summary": "Test device shows offers; non-test Android device has a blank offerwall.",
+      "details": {
+        "region": "Singapore",
+        "reproduction_steps": "Open the reward screen on a non-test Android device."
+      }
+    },
+    {
+      "id": "issue_callback",
+      "integration_id": "harbor_android",
+      "evidence_id": "msg_issue_callback",
+      "summary": "Reward callback returns HTTP 405.",
+      "details": {
+        "time_window": "2026-10-10 08:30–09:00 UTC",
+        "sdk_version": "synthetic-version-1",
+        "region": "Japan"
+      }
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+# Learning path: make the project yours
+
+The project is a starting point for demonstrated understanding. These exercises are **not marked complete**. Keep personal notes and small commits as you work through them; that is stronger evidence of learning than an oversized feature list.
+
+## Session 1 — Trace one account (30–45 minutes)
+
+- Find `acc_014` in `src/csm_copilot/data/accounts.json`.
+- Draw its two integration records and trace one evidence ID.
+- Explain why iOS has a complete checklist and Android does not.
+- Run `csm-demo --output review-packet.json` and locate the same records.
+- Write five sentences explaining `unknown` versus `not_met` without looking at this guide.
+
+Evidence to keep: a short note linking the exact record and rule you explained.
+
+## Session 2 — Change one rule input (30–45 minutes)
+
+- In a local experiment, remove Meadow's device evidence. Predict the result before running.
+- In a separate experiment, make the device check `not_met` with a valid evidence reference.
+- Explain why the overall decision changes from `needs_evidence` to `blocked`.
+- Find the test that prevents iOS evidence from being applied to Android.
+- Revert the experiments or keep them in a clearly named test fixture.
+
+Evidence to keep: prediction, output, explanation and a small test you can defend.
+
+## Session 3 — Understand the MCP boundary (45 minutes)
+
+- Read `server.py`; explain what the decorators expose.
+- Run the real stdio smoke test and inspect `evidence/mcp-transcript.json`.
+- Explain why tool transport success does not measure the host model's reasoning.
+- Connect a model-enabled host if available and run `morning_review`.
+- Record host/model/version, prompt, tool calls and final output. Redact any private environment information.
+
+Evidence to keep: a transparent live trace labeled with its actual execution mode. Do not relabel the scripted transcript as a model run.
+
+## Session 4 — Investigate a failure (45–60 minutes)
+
+- Pick one negation or paraphrase failure in the evaluation.
+- Explain why the lexical method fails.
+- Ask a person unfamiliar with the implementation to write new cases, without showing them your keyword patterns.
+- Define the expected categories before running the tool.
+- Compare a proposed improvement against the current baseline using the same cases and available information.
+
+Evidence to keep: case authorship, expected outputs, actual outputs and examples where the improvement still fails. Do not tune on the existing holdout phrases and claim a new unbiased score.
+
+## Session 5 — Practice the customer conversation (30 minutes)
+
+- Rewrite one template in your own English and Chinese.
+- Underline every factual claim and match it to an evidence ID.
+- Circle each deadline or promise and explain whether it is supported.
+- Explain the issue to a nontechnical teammate in under one minute.
+- Then explain the technical handoff to an engineer in under one minute.
+
+Evidence to keep: your two versions and the claim-to-evidence annotation.
+
+## Personal mastery checklist
+
+- [ ] I can explain the customer problem without saying “AI automation” as a substitute.
+- [ ] I can trace one output back to a source record and public documentation.
+- [ ] I can explain all four readiness states and the aggregation rule.
+- [ ] I can explain why a draft must not update contact history.
+- [ ] I can run the tests and explain one failure.
+- [ ] I can distinguish deterministic replay, scripted MCP transport and live model orchestration.
+- [ ] I can explain at least two limits of the evaluation.
+- [ ] I can point to one improvement I personally made and verified.
+
+## Short reflection template
+
+```text
+Date:
+Question I investigated:
+My prediction:
+Code or record I inspected:
+Observed result:
+What I misunderstood:
+What I changed:
+How I checked it:
+What remains uncertain:
+```
