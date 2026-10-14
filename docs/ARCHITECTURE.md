@@ -8,6 +8,8 @@ Issues refer to an integration and a customer evidence record. Contact timestamp
 
 The engine uses an immutable-by-convention in-memory snapshot loaded from packaged JSON. Its public tools do not mutate it. A database would add migrations and state management without improving this five-account demonstration. Persistent CRM storage belongs in a later integration.
 
+Since v0.8.1, constructing an engine from a caller-owned `Dataset` revalidates its current contents and creates a separate snapshot. Readiness results copy evidence-ID lists, including those consumed by the Product digest. Editing these returned lists or the original constructor input cannot change later engine results. This protects ordinary in-process use; it does not prevent deliberate mutation of the engine's own public attributes. MCP clients already receive separately serialized JSON objects.
+
 Since v0.2, evidence declares account/integration ownership and structured check claims. Validation rejects cross-account contacts, cross-platform or wrong-check citations, and known facts that contradict their referenced claims. Ticket detail fields cannot overwrite integration identity; each output field carries a source pointer. These constraints validate declared provenance, not the truth of the underlying text. See [evidence boundaries](EVIDENCE.md).
 
 ## Decisions that matter

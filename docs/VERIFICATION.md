@@ -1,12 +1,13 @@
 # Verification record
 
-Verified through the v0.8 shareable reviews and portable PDF brief on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.8.1 snapshot isolation fix on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 10 passed locally | Five practice checks plus five routing checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 109 passed locally | Workflow, source scope, next-action selection, readable exports and UTF-8 output |
+| Python behavior tests | 113 passed locally | Workflow, source scope, next-action selection, readable exports, UTF-8 output and caller isolation |
+| Snapshot isolation regressions | Four failed before the fix and passed after it | Returned readiness/digest lists, constructor input ownership and revalidation of mutated input |
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
 | Ruff lint and format | Passed | Python source checks |
 | Package build | Source distribution and wheel built | Includes packaged JSON fixtures |

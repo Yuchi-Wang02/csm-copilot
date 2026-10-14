@@ -85,3 +85,13 @@ A two-page PDF now provides a short introduction for someone who has not explore
 The first layout overflowed onto a third page; spacing was revised and both rendered pages were inspected. Repeated builds then exposed a metadata issue: setting invariant mode only on a partial canvas factory was overridden by the document template's default. Setting invariant mode on the document itself fixed the byte differences. CI now rebuilds and compares the PDF on both supported operating systems.
 
 **Lesson:** a useful interview artifact needs readable presentation and traceable claims. Reproducibility must be checked on the actual exported file, not inferred from a generation flag.
+
+## v0.8.1: keep caller edits out of the evidence snapshot
+
+An audit found that readiness results exposed the source fact's mutable evidence-ID list. Clearing that list in Python also cleared the engine's source references, leaving a known fact without supporting evidence. The Product digest inherited the same reference. A supplied `Dataset` was also retained directly, so later caller edits could change the engine, and a previously validated but subsequently modified dataset bypassed validation at construction.
+
+Four regression checks failed before the repair. Construction now validates a fresh model dump, which both checks the current contents and creates a separate model tree. Readiness results copy their evidence IDs. All 113 Python tests pass, including checks that a second tool call returns the original result after a caller edits the first result. Existing generated evidence and the portable PDF remain unchanged.
+
+This was an in-process Python ownership bug. MCP's JSON transport already separates a client's result objects from the server's Python objects. The fix does not make engine attributes immutable or establish a security sandbox.
+
+**Lesson:** read-only behavior includes what happens after a function returns. Returning a nested mutable reference can undermine validation even when the function itself performs no assignment to source data.

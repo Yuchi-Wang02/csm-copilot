@@ -25,7 +25,10 @@ def load_json(name):
 
 class Copilot:
     def __init__(self, dataset: Dataset | None = None):
-        self.data = dataset or Dataset.model_validate(load_json("accounts.json"))
+        # Revalidate caller-owned models and retain a separate snapshot of their contents.
+        self.data = Dataset.model_validate(
+            dataset.model_dump(mode="python") if dataset is not None else load_json("accounts.json")
+        )
         self.rules = load_json("rules.json")
         self.accounts = {a.id: a for a in self.data.accounts}
         self.integrations = {i.id: i for i in self.data.integrations}
@@ -110,7 +113,7 @@ class Copilot:
         for rule in self.rules:
             fact = i.facts.get(rule["id"])
             status = fact.status if fact else "unknown"
-            refs = fact.evidence_ids if fact else []
+            refs = list(fact.evidence_ids) if fact else []
             if rule["id"] == "callback_verified" and i.currency_mode == "tapjoy_managed":
                 status, refs = "not_applicable", []
             elif status == "not_applicable":
