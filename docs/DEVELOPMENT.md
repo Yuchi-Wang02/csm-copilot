@@ -231,3 +231,15 @@ The AI exercise's evidence link also pointed to the model section's default (lat
 The CLI's default JSON is useful for inspection but too large for a quick first explanation. `--format summary` now provides a compact English view of the original workflow queue, app/platform decisions, unknown and failed checks with record IDs, next actions, and scoped handoff missing fields and owners. It consumes existing workflow results without model inference or state changes. Markdown and JSON remain the detailed exports; unsupported summary/language or summary/platform combinations fail before writing.
 
 The generated plain-text artifact is verified against the installed CLI on both CI operating systems. Behavioral checks cover platform separation, original-snapshot scope, unknown contact history, a missing handoff draft, an empty queue, terminal-control characters, UTF-8 stdout/file agreement and incompatible options. The learning guide introduces a source-tracing exercise using this short output. A stale README paragraph describing the earlier inbound-message attempt as newest was also corrected against the preserved recordings.
+
+## v0.16.1 — keep rounded display values out of queue ordering
+
+Input-boundary inspection reproduced a chronological sorting error. Two planned launches at 09:01 and 09:02 UTC both displayed as `2.0` days away; sorting that rounded value then used account ID to put the later launch first. The engine now sorts exact timezone-aware timestamps and uses account IDs only for actual timestamp ties. Optional live accounts remain at the end.
+
+| Synthetic case | Before repair | After repair |
+|---|---|---|
+| Future launches one minute apart | Later launch first because both rounded to 2.0 days | Earlier timestamp first |
+| Overdue launches one minute apart | Later launch first because both rounded to zero days | Earlier timestamp first |
+| Nearby launches expressed with different UTC offsets | Rounded values caused an artificial tie | Actual instants determine order |
+
+[The original three outputs](../evidence/queue-order-before.json) were captured at `e4773be` before the change. Each case changes only two target timestamps in a copy of the bundled fixture; the file records the original fixture hash and expected order. Three focused tests failed before the repair and passed afterward. A fourth check retains account-ID ordering for actual ties and keeps live accounts last. Tests also confirm that returned values, selected accounts and input records are unchanged; only their order differs. The default portfolio queue and recorded model traces are unchanged. These are developer-authored regression cases, not customer outcome evidence.

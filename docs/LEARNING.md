@@ -116,3 +116,13 @@ Describe the work as an AI-assisted development experiment with inspectable fail
 ## v0.7: keep a before-and-after reflection
 
 Use [the interactive practice](PRACTICE.md) to choose an action and explain your reasoning before revealing guidance. The download keeps that original response separate from your later reflection. These are your notes, not an automated evaluation. Complete the exercise yourself before describing it as personal learning evidence. The public site and repository contain no claimed completion by Yuchi.
+
+## Trace a small arithmetic-to-workflow bug
+
+Use the [queue-order regression](DEVELOPMENT.md#v0161--keep-rounded-display-values-out-of-queue-ordering) as a source-reading exercise. Two accounts launch at 09:01 and 09:02 UTC, but both display as 2.0 days away. Predict what happens if account ID breaks a tie in those displayed values. Then read `list_accounts` in `engine.py`, compare the preserved pre-change output, and run:
+
+```sh
+python -m pytest -q tests/test_queue_order.py
+```
+
+Explain why rounding is appropriate for display but loses information needed for prioritization. Describe how timezone offsets and true ties should behave. Keep your prediction separate from what you learn after reading the fix; this exercise is not marked complete for you.

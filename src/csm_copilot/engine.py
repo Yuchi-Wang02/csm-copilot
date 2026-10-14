@@ -77,7 +77,14 @@ class Copilot:
                 }
             )
         results.sort(
-            key=lambda a: (a["days_to_launch"] is None, a["days_to_launch"] or 0, a["account_id"])
+            # Rounded day counts are display values, not chronological sort keys.
+            key=lambda a: (
+                a["days_to_launch"] is None,
+                self.accounts[a["account_id"]].target_launch
+                if a["days_to_launch"] is not None
+                else now,
+                a["account_id"],
+            )
         )
         return {
             "as_of": now.isoformat(),

@@ -44,7 +44,7 @@ Since v0.10.1, English no-offers phrases use Latin-letter boundaries to avoid su
 
 `contact_age_days = (as_of - latest_actual_contact) / 86,400 seconds`
 
-Selection uses a strict `>` threshold. Missing contact history is included with `contact_state: unknown`. Live accounts are excluded by default and never shown as pending-launch overdue. Selected accounts are ordered by target launch date; this is a simple project policy, not a predictive risk score or revenue-weighted business prioritizer.
+Selection uses a strict `>` threshold. Missing contact history is included with `contact_state: unknown`. Live accounts are excluded by default and never shown as pending-launch overdue. Selected non-live accounts are ordered by the exact timezone-aware target launch timestamp, with account ID breaking actual timestamp ties. Optional live accounts follow the non-live queue. Rounded `days_to_launch` values are for display only: rounding can collapse launches minutes apart into an artificial tie. This is a simple project policy, not a predictive risk score or revenue-weighted business prioritizer.
 
 ## What each layer owns
 

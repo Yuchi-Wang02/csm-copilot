@@ -1,0 +1,187 @@
+{
+  "before_commit": "e4773be478c852dc85059e47a7ece44f46eeaa59",
+  "fixture_sha256": "a479c8b3932ae65b9a21548db4e96c99547f76297d41eb50d58943823f1f3552",
+  "boundary": "Synthetic developer-authored regression examples. Only two target launch timestamps differ from the bundled snapshot. These are not customer outcomes or a benchmark.",
+  "cases": [
+    {
+      "id": "close_future",
+      "target_launch_overrides": {
+        "acc_014": "2026-10-16T09:01:00Z",
+        "acc_006": "2026-10-16T09:02:00Z"
+      },
+      "expected_order": [
+        "acc_014",
+        "acc_006",
+        "acc_018"
+      ],
+      "before_result": {
+        "as_of": "2026-10-14T09:00:00+00:00",
+        "selection_policy": "contact age > threshold; unknown included",
+        "stale_days": 3,
+        "policy_type": "project_policy",
+        "accounts": [
+          {
+            "account_id": "acc_006",
+            "name": "Harbor Studio",
+            "stage": "integration",
+            "days_since_contact": 4.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-10T09:00:00+00:00",
+            "days_to_launch": 2.0,
+            "launch_overdue": false,
+            "integration_ids": [
+              "harbor_android"
+            ]
+          },
+          {
+            "account_id": "acc_014",
+            "name": "Lantern Games",
+            "stage": "validation",
+            "days_since_contact": 5.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-09T09:00:00+00:00",
+            "days_to_launch": 2.0,
+            "launch_overdue": false,
+            "integration_ids": [
+              "lantern_android",
+              "lantern_ios"
+            ]
+          },
+          {
+            "account_id": "acc_018",
+            "name": "Meadow Works",
+            "stage": "validation",
+            "days_since_contact": 5.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-09T09:00:00+00:00",
+            "days_to_launch": 4.0,
+            "launch_overdue": false,
+            "integration_ids": [
+              "meadow_ios"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "close_overdue",
+      "target_launch_overrides": {
+        "acc_014": "2026-10-14T08:58:00Z",
+        "acc_006": "2026-10-14T08:59:00Z"
+      },
+      "expected_order": [
+        "acc_014",
+        "acc_006",
+        "acc_018"
+      ],
+      "before_result": {
+        "as_of": "2026-10-14T09:00:00+00:00",
+        "selection_policy": "contact age > threshold; unknown included",
+        "stale_days": 3,
+        "policy_type": "project_policy",
+        "accounts": [
+          {
+            "account_id": "acc_006",
+            "name": "Harbor Studio",
+            "stage": "integration",
+            "days_since_contact": 4.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-10T09:00:00+00:00",
+            "days_to_launch": -0.0,
+            "launch_overdue": true,
+            "integration_ids": [
+              "harbor_android"
+            ]
+          },
+          {
+            "account_id": "acc_014",
+            "name": "Lantern Games",
+            "stage": "validation",
+            "days_since_contact": 5.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-09T09:00:00+00:00",
+            "days_to_launch": -0.0,
+            "launch_overdue": true,
+            "integration_ids": [
+              "lantern_android",
+              "lantern_ios"
+            ]
+          },
+          {
+            "account_id": "acc_018",
+            "name": "Meadow Works",
+            "stage": "validation",
+            "days_since_contact": 5.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-09T09:00:00+00:00",
+            "days_to_launch": 4.0,
+            "launch_overdue": false,
+            "integration_ids": [
+              "meadow_ios"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "different_offsets",
+      "target_launch_overrides": {
+        "acc_014": "2026-10-16T11:01:00+02:00",
+        "acc_006": "2026-10-16T04:02:00-05:00"
+      },
+      "expected_order": [
+        "acc_014",
+        "acc_006",
+        "acc_018"
+      ],
+      "before_result": {
+        "as_of": "2026-10-14T09:00:00+00:00",
+        "selection_policy": "contact age > threshold; unknown included",
+        "stale_days": 3,
+        "policy_type": "project_policy",
+        "accounts": [
+          {
+            "account_id": "acc_006",
+            "name": "Harbor Studio",
+            "stage": "integration",
+            "days_since_contact": 4.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-10T09:00:00+00:00",
+            "days_to_launch": 2.0,
+            "launch_overdue": false,
+            "integration_ids": [
+              "harbor_android"
+            ]
+          },
+          {
+            "account_id": "acc_014",
+            "name": "Lantern Games",
+            "stage": "validation",
+            "days_since_contact": 5.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-09T09:00:00+00:00",
+            "days_to_launch": 2.0,
+            "launch_overdue": false,
+            "integration_ids": [
+              "lantern_android",
+              "lantern_ios"
+            ]
+          },
+          {
+            "account_id": "acc_018",
+            "name": "Meadow Works",
+            "stage": "validation",
+            "days_since_contact": 5.0,
+            "contact_state": "recorded",
+            "last_contact": "2026-10-09T09:00:00+00:00",
+            "days_to_launch": 4.0,
+            "launch_overdue": false,
+            "integration_ids": [
+              "meadow_ios"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
