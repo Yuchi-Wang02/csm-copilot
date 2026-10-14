@@ -172,9 +172,43 @@
           "assessment": "One fresh generation used the same task and sampling configuration, but the tool description and error behavior changed. The first action batch matches the earlier recording. No host correction requests were sent. This is an observed development iteration, not a controlled estimate of general improvement or independent human validation."
         }
       ]
+    },
+    {
+      "id": "qwen4-triage-scope",
+      "label": "Qwen3-4B · two inbound messages",
+      "protocol": "batch",
+      "verdict": "Correct tool split; invoice questions still generic",
+      "summary": "The model triages both exact messages with no invented integration, proposes different next actions and states that nothing was sent. Its invoice follow-up repeats generic app/platform troubleshooting questions. The response needs a CSM review for customer fit and clearer candidate-versus-diagnosis wording.",
+      "findings": [
+        {
+          "kind": "supported",
+          "claim": "Both messages preserved without invented identity",
+          "assessment": "Two successful triage_issue calls use the exact task messages and integration_id=null. The invoice returns unknown / clarify_scope; the blank Offerwall returns no_offers / collect_evidence. There are no extra calls, retries or host correction requests."
+        },
+        {
+          "kind": "supported",
+          "claim": "Different proposed actions and nothing sent",
+          "assessment": "The answer asks for clarification on Message A and proposes currency-setting evidence and a device comparison for Message B. Those actions reflect the returned routes. It supplies two clarification prompts for each message and explicitly says nothing was sent; it does not invent account or evidence IDs."
+        },
+        {
+          "kind": "needs review",
+          "claim": "Invoice questions repeat a generic technical fallback",
+          "assessment": "For the invoice request, the answer asks which app/platform is affected and what was expected versus what happened. This follows the tool's unknown-scope fallback, but does little to clarify the requested invoice. This is an AI-assisted editorial assessment of customer fit, not an independently measured quality score or a verified billing workflow."
+        },
+        {
+          "kind": "qualification",
+          "claim": "Tentative wording is present; diagnostic limits could be clearer",
+          "assessment": "The phrase potential issues avoids stating a confirmed cause, and currency approval and placement are listed candidate checks. However, the answer does not explicitly explain that no_offers is a lexical retrieval candidate or repeat root_cause=unconfirmed. The named route codes are not quoted, although its proposed actions reflect them. Human review is still required."
+        },
+        {
+          "kind": "boundary",
+          "claim": "One development task after the lexical repair",
+          "assessment": "The invoice message reuses a published development probe. One local generation used the batch protocol, a four-step cap and 768-token output cap with no host corrections. This is a third prescribed task, not a held-out evaluation or a controlled estimate of model improvement."
+        }
+      ]
     }
   ],
-  "boundary": "Eight exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Nine exploratory attempts across three prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

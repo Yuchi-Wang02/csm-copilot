@@ -167,3 +167,15 @@ The repair adds Latin-letter boundaries around the English no-offers phrases. Co
 Six regression checks failed before the repair and passed afterward, including ticket variants with complete/incomplete generic fields. The blanket-invoice example now stays with the CSM for clarification instead of receiving a proposed technical owner. This does not establish a billing diagnosis or a Finance routing rule. Real MCP calls exercise both the invoice rejection and a mixed Chinese/English positive message.
 
 **Lesson:** inspect why a term matched before adding more categories. A small lexical repair can prevent a specific bad handoff without solving semantic triage. Preserve both the corrected examples and the unresolved failures. The [paired report](../evidence/TRIAGE_BOUNDARIES.md) is a development diagnostic, not independent validation.
+
+## v0.11: observe whether the model turns correct routes into useful questions
+
+A third prescribed task asks the model to triage two exact inbound messages without supplied account IDs: the blanket-invoice development example and a blank Android Offerwall. Coverage requires two successful calls on the original messages with no assigned integration. Repeating one message or assigning it to a known account cannot satisfy that coverage check.
+
+One actual local Qwen3-4B attempt made both calls in a batch and then produced a final answer. No extra calls, tool errors, schema constraints or host correction requests occurred. The final response separates clarification from evidence collection and states nothing was sent. It uses tentative wording and invents no account IDs, evidence IDs or confirmed internal owner.
+
+The invoice questions follow the tool's generic app/platform and expected-versus-observed fallback, which fits a technical symptom better than an invoice request. This is an AI-assisted customer-fit judgment, not an independent score. The answer could also explain more explicitly that a lexical candidate is not a diagnosis. The task reuses a development probe; it is not held out and no paired model comparison against the older engine was performed.
+
+The original eight traces remain unchanged. The new task, actual calls, unedited response and review are visible in the replay. The PDF count updates to nine attempts, and the interview/learning guides ask the reader to assess the invoice questions before reading the annotations.
+
+**Lesson:** a model can follow tool output and still ask a poorly matched question. Review tool execution, factual support and customer usefulness separately. Fixing the lexical input boundary did not establish that every downstream question is useful.

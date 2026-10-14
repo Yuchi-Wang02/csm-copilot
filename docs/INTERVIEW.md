@@ -38,6 +38,8 @@ Show the counterfactual update. Two settings change, but the failed device check
 
 Show the 14/18 lexical diagnostic result and two failure families. For the AI-specific extension, open [the recorded local model run](LOCAL_MODEL.md): it completed four tool calls but overstated the evidence in its final response. Explain why successful tool use and faithful summarization need separate checks.
 
+For a customer-communication alternative, select **Qwen3-4B · two inbound messages**. The model uses the right input text and different routes, but its invoice questions repeat a generic troubleshooting template. Discuss what you would ask instead and distinguish a proposed question from an invented company billing procedure. The review is AI-assisted; no customer usefulness score is claimed.
+
 
 ## 2:30–3:00 — Explain the learning direction honestly
 

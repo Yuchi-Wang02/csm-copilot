@@ -1,12 +1,12 @@
 # Verification record
 
-Verified through the v0.10.1 triage phrase-boundary repair on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.11 inbound-message model task on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 15 passed locally | Five practice, five routing and five scoped issue-rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 165 passed locally | Workflow, source scope, phrase boundaries, next-action selection, queue/platform exports, UTF-8 output and caller isolation |
+| Python behavior tests | 168 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
 | Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original 14/18 diagnostic and its failures unchanged |
 | Selected-platform briefs | Eight generated exports match the isolated installed CLI | Four queued integrations in two languages; tests check scope exclusion, multiple handoffs and non-mutation |
 | Unrecognized handoff scope | Four regression checks failed before the fix and passed afterward | English/Chinese summaries with complete/incomplete generic fields remain with the CSM for clarification |
@@ -16,7 +16,7 @@ Verified through the v0.10.1 triage phrase-boundary repair on 2026-10-14. For th
 | Package build | Source distribution and wheel built | Includes packaged JSON fixtures |
 | Installed wheel | Fresh environment outside the checkout; CLI and MCP results match published artifacts | Installed module location checked; a disposable wheel missing its account fixture was rejected locally |
 | Real MCP stdio client | Eight tools, three follow-up intents, both prompts and invalid-ID error passed | Scripted client, no model inference |
-| Local model attempts | Eight recordings retained across two tasks; latest handoff completed 2/2 required actions and rejected one extra triage call | New answer still omits citations, owner and hypothesis; no independent validation |
+| Local model attempts | Nine recordings retained across three tasks; newest run completed two exact-message triage calls with no assigned identity, extra calls, errors or corrections | Invoice questions remain generic; AI-assisted review, not independent customer validation |
 | Portable morning review | English and Chinese-draft Markdown generated and checked for consistency | Same workflow packet as the browser; draft-only |
 | Product feedback digest | Ten targeted tests cover counts, applicability, deduplication, empty cohorts, sources, ordering and export | Fixed synthetic snapshot; no measured Product outcome |
 | Synthetic diagnostics | 12/12 dev; 14/18 family-separated cases | Same-session authored, not independently validated |
@@ -58,6 +58,8 @@ The v0.9.1 browser check displayed the rejected triage call separately from the 
 The v0.9.2 browser check expanded the paired comparison, inspected the differing system message and tool-error counts, and opened both recordings with focus moved to the selected result. At the inspected 360-pixel viewport, document and scroll widths both measured 345 CSS pixels. No browser errors were recorded. [Comparison screenshot](assets/demo-handoff-comparison.png).
 
 The v0.10 browser check downloaded Lantern iOS with Chinese drafts and Harbor Android in English; each SHA-256 matched its generated file. Account selection, platform selection and browser Back restored the expected download targets. Applying the separate synthetic update left the original-snapshot export target unchanged. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels, and the focused download row was visually inspected. No browser errors were recorded. [Selected-platform download screenshot](assets/demo-case-export.png).
+
+The v0.11 local browser check displayed both original inbound messages, their successful triage calls, the unedited final answer and the separate customer-fit review. Switching to the older constrained recording and back preserved both views. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels; no browser errors were recorded. Both updated PDF pages were visually reviewed with nine model attempts. [Inbound-message replay screenshot](assets/demo-inbound-model-run.png).
 
 ## Reproduction
 

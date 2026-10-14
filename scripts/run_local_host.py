@@ -13,7 +13,12 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 from csm_copilot import __version__
-from csm_copilot.host_protocol import parse_action, parse_actions, trace_coverage
+from csm_copilot.host_protocol import (
+    TRIAGE_SCOPE_MESSAGES,
+    parse_action,
+    parse_actions,
+    trace_coverage,
+)
 from csm_copilot.response_review import final_response_schema, parse_grounded_actions, review_final
 
 TASK = (
@@ -24,6 +29,16 @@ TASK = (
     "State that nothing was sent."
 )
 TASKS = {
+    "triage_scope": (
+        "Review two unrelated synthetic inbound messages. No account or integration ID has been provided. "
+        "Message A: " + TRIAGE_SCOPE_MESSAGES["invoice_request"] + " "
+        "Message B: " + TRIAGE_SCOPE_MESSAGES["blank_offerwall"] + " "
+        "Use triage_issue on each exact original message separately, without assigning an integration. "
+        "Then explain in at most 200 words one proposed next action and two customer clarification "
+        "questions for each message. Distinguish a retrieved candidate from a confirmed diagnosis. "
+        "Refer to the tool's route for each message. Do not invent account IDs, evidence IDs, "
+        "company procedures or a confirmed owner outside the tool results. State that nothing was sent."
+    ),
     "platform_followups": TASK,
     "callback_handoff": (
         "Review Harbor Studio (account acc_006) and its recorded issue issue_callback. "

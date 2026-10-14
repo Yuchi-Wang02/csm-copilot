@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Eight exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Nine exploratory attempts across three prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -151,6 +151,28 @@ Observed requested tool actions: 2/2. Final response present: True.
 ### Unedited model response — needs review
 
 > Harbor Studio \(acc\_006\) has a recorded issue \(issue\_callback\) with Android's reward callback returning HTTP 405. The issue was observed in Japan with SDK synthetic-version-1 between 08:30–09:00 UTC on 2026-10-10. Evidence shows callback\_verified is not\_met, but other checks like currency\_approved, device\_verified, and sdk\_connected are met. The root cause remains unconfirmed, and missing fields include reproduction\_steps and redacted\_logs. A draft ticket \(ticket-issue\_callback\) was prepared but not sent. Next action: request missing evidence and review the handoff before submitting a ticket. Nothing was sent.
+
+Narrow promise lint flags: []. No flags does not establish fidelity.
+
+## Qwen3-4B · two inbound messages
+
+**Review verdict:** Correct tool split; invoice questions still generic.
+The model triages both exact messages with no invented integration, proposes different next actions and states that nothing was sent. Its invoice follow-up repeats generic app/platform troubleshooting questions. The response needs a CSM review for customer fit and clearer candidate-versus-diagnosis wording.
+
+**Task:** Review two unrelated synthetic inbound messages. No account or integration ID has been provided. Message A: Please send the blanket invoice for our annual plan. Message B: The offerwall is blank on Android. Use triage\_issue on each exact original message separately, without assigning an integration. Then explain in at most 200 words one proposed next action and two customer clarification questions for each message. Distinguish a retrieved candidate from a confirmed diagnosis. Refer to the tool's route for each message. Do not invent account IDs, evidence IDs, company procedures or a confirmed owner outside the tool results. State that nothing was sent.
+
+Observed requested tool actions: 2/2. Final response present: True.
+[Complete trace](model-runs/qwen4-triage-scope.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+- **supported: Both messages preserved without invented identity.** Two successful triage\_issue calls use the exact task messages and integration\_id=null. The invoice returns unknown / clarify\_scope; the blank Offerwall returns no\_offers / collect\_evidence. There are no extra calls, retries or host correction requests.
+- **supported: Different proposed actions and nothing sent.** The answer asks for clarification on Message A and proposes currency-setting evidence and a device comparison for Message B. Those actions reflect the returned routes. It supplies two clarification prompts for each message and explicitly says nothing was sent; it does not invent account or evidence IDs.
+- **needs review: Invoice questions repeat a generic technical fallback.** For the invoice request, the answer asks which app/platform is affected and what was expected versus what happened. This follows the tool's unknown-scope fallback, but does little to clarify the requested invoice. This is an AI-assisted editorial assessment of customer fit, not an independently measured quality score or a verified billing workflow.
+- **qualification: Tentative wording is present; diagnostic limits could be clearer.** The phrase potential issues avoids stating a confirmed cause, and currency approval and placement are listed candidate checks. However, the answer does not explicitly explain that no\_offers is a lexical retrieval candidate or repeat root\_cause=unconfirmed. The named route codes are not quoted, although its proposed actions reflect them. Human review is still required.
+- **boundary: One development task after the lexical repair.** The invoice message reuses a published development probe. One local generation used the batch protocol, a four-step cap and 768-token output cap with no host corrections. This is a third prescribed task, not a held-out evaluation or a controlled estimate of model improvement.
+
+### Unedited model response — needs review
+
+> For Message A: The triage identified 'unknown' category, requiring clarification on the affected app/platform. Next action: Request details on the app and platform. Clarification questions: What app and platform is this for? What was expected vs. what happened? For Message B: The triage identified 'no\_offers' category, suggesting potential issues with currency approval or placement. Next action: Collect evidence on currency settings and device comparison. Clarification questions: Confirm the affected app and platform. Share currency approval and Test Only settings for that platform. Nothing was sent.
 
 Narrow promise lint flags: []. No flags does not establish fidelity.
 

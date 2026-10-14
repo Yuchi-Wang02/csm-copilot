@@ -2,6 +2,11 @@
 
 import json
 
+TRIAGE_SCOPE_MESSAGES = {
+    "invoice_request": "Please send the blanket invoice for our annual plan.",
+    "blank_offerwall": "The offerwall is blank on Android.",
+}
+
 
 def unique_keys(pairs):
     result = {}
@@ -61,6 +66,10 @@ def trace_coverage(trace: dict) -> dict:
         "callback_handoff": {
             "account_context": ("get_account_context", {"account_id": "acc_006"}),
             "issue_handoff": ("draft_ticket", {"issue_id": "issue_callback"}),
+        },
+        "triage_scope": {
+            label: ("triage_issue", {"issue_text": message, "integration_id": None})
+            for label, message in TRIAGE_SCOPE_MESSAGES.items()
         },
     }
     task_id = trace.get("task_id", "platform_followups")

@@ -26,7 +26,7 @@ The current scope is deliberately bounded: Offerwall publisher onboarding, two i
 | Portfolio question | Open this artifact |
 |---|---|
 | Can the workflow turn evidence into a useful next action? | [Android case](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace), [Chinese iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace), and [technical handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) |
-| What did the AI actually do, and where did it fail? | [Eight recorded local attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs) and [structured-response review](docs/RESPONSE_REVIEW.md) |
+| What did the AI actually do, and where did it fail? | [Nine recorded local attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs) and [structured-response review](docs/RESPONSE_REVIEW.md) |
 | Can a reviewer trace decisions to the right source? | [Eight evidence-boundary probes](https://yuchi-wang02.github.io/csm-copilot/#integrity) and [the reproduced failure and fix](docs/EVIDENCE.md) |
 | How could a CSM frame recurring friction for Product? | [Source-linked feedback review](evidence/product-feedback.md) and [counting method](docs/PRODUCT_FEEDBACK.md) |
 | How can I explain the judgment myself? | [Three interactive practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice), a downloadable reflection, and [the learning path](docs/LEARNING.md) |
@@ -63,7 +63,9 @@ flowchart LR
 
 The model-enabled MCP host interprets the request, chooses tools, and can rewrite drafts. The server handles dates, scope, evidence references and checklist states deterministically. Default drafts are transparent templates; the project does not require an embedded paid model API.
 
-**Protocol verification:** real stdio MCP initialization, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. The original `mcp-transcript.json` is a scripted client run. **Model observations:** eight separate local Qwen attempts across two prescribed tasks preserve actual generated tool choices and responses; their review exposes failures. These exploratory runs do not establish general reliability or customer productivity. The browser replays the recordings and never runs a model itself.
+**Protocol verification:** real stdio MCP initialization, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. The original `mcp-transcript.json` is a scripted client run. **Model observations:** nine separate local Qwen attempts across three prescribed tasks preserve actual generated tool choices and responses; their review exposes failures. These exploratory runs do not establish general reliability or customer productivity. The browser replays the recordings and never runs a model itself.
+
+The newest recording reviews an invoice request and a blank Offerwall message without a supplied account ID. Both tool calls preserve the input text and unknown identity; the final answer proposes different next actions and says nothing was sent. Its invoice questions still repeat generic technical prompts. Use [the unedited response](evidence/model-runs/qwen4-triage-scope.json) and [AI-assisted review](evidence/MODEL_RUNS.md) to distinguish tool correctness, answer fidelity and customer fit.
 
 ## Tools
 

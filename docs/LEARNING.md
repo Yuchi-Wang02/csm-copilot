@@ -54,6 +54,8 @@ Evidence to keep: your two versions and the claim-to-evidence annotation.
 
 ## Personal mastery checklist
 
+Additional v0.11 exercise: select **Qwen3-4B · two inbound messages** and read its unedited answer before the review panel. Separate three judgments: were the correct tools called, does the answer follow their results, and do its questions fit the customer's request? Rewrite only the invoice questions in your own words. Do not invent billing procedures or imply that an invoice was sent. Keep your initial assessment and later reflection separate.
+
 Additional v0.10.1 exercise: before opening the [phrase-boundary report](../evidence/TRIAGE_BOUNDARIES.md), predict the categories for `blanket invoice`, `blank invoice`, `The Offerwall keeps blanking` and `Android页面blank`. Run the tool and explain which result depends on spelling boundaries and which requires understanding the sentence. Explain why a general Unicode word-boundary expression could lose the mixed Chinese/English signal. Write down one remaining failure before proposing a broader classifier. This exercise is not recorded as completed.
 
 Additional v0.5 exercise: inspect [the unedited local model response](LOCAL_MODEL.md) before opening the review notes. Mark supported, unsupported and omitted claims. Explain how all four requested tool calls can succeed while the final explanation remains unsuitable for use, and why the narrow promise lint returned zero flags.

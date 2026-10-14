@@ -88,6 +88,28 @@ def test_unknown_recorded_task_cannot_silently_use_default_coverage():
         trace_coverage({"task_id": "invented_task", "steps": []})
 
 
+def test_inbound_triage_coverage_preserves_the_two_messages_and_unknown_identity():
+    from csm_copilot.host_protocol import TRIAGE_SCOPE_MESSAGES
+
+    calls = [
+        {
+            "action": {"tool": "triage_issue", "arguments": {"issue_text": message}},
+            "tool_result": {},
+        }
+        for message in TRIAGE_SCOPE_MESSAGES.values()
+    ]
+    trace = {"task_id": "triage_scope", "steps": [{"tool_calls": calls}]}
+    assert trace_coverage(trace)["observed"] == trace_coverage(trace)["required"] == 2
+    calls[0]["action"]["arguments"]["integration_id"] = "lantern_android"
+    assert trace_coverage(trace)["observed"] == 1
+    calls[0]["action"]["arguments"]["integration_id"] = None
+    calls[1]["action"]["arguments"]["issue_text"] = TRIAGE_SCOPE_MESSAGES["invoice_request"]
+    assert trace_coverage(trace)["observed"] == 1
+    calls[0]["tool_error"] = True
+    calls[1]["tool_error"] = True
+    assert trace_coverage(trace)["observed"] == 0
+
+
 def test_failed_calls_and_wrong_language_do_not_satisfy_coverage():
     trace = {
         "steps": [

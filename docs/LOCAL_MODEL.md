@@ -1,6 +1,8 @@
 # An actual model run, including the failures
 
-The project contains eight exploratory local model attempts across two synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
+The project contains nine exploratory local model attempts across three synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
+
+The newest attempt triages two inbound messages without a supplied account ID. Both exact-message calls succeed, and the answer distinguishes clarification from evidence collection. Its invoice questions still copy a generic technical fallback. This adds a customer-fit question alongside the earlier evidence-fidelity failures; it is not a general model-quality result.
 
 **The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
@@ -59,7 +61,7 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 `python scripts/build_model_replay.py` packages the checked-in traces and review annotations into the website. It does not perform inference. CI checks structural coverage consistency, regenerates the replay and compares the artifact with Git; it does not certify the review annotations as independent truth or rerun a GPU model.
 
-The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff. The separate source review examines the final prose. Do not combine these into one unqualified accuracy number.
+The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, and two exact-message triage calls for inbound scope review. The separate source review examines the final prose. Do not combine these into one unqualified accuracy number.
 
 For an interview exercise, hide the review panel, annotate every claim in the unedited response, then compare your findings. Explain why the model can choose the correct tools yet still overstate their results, and why a zero-flag lint result should not approve the answer.
 
@@ -86,3 +88,15 @@ The server now rejects text that, after trimming whitespace, exactly equals a kn
 One fresh run repeated the same initial four-call batch. The extra triage call now returned an error; the model did not retry it. Both required calls succeeded. The final answer preserved the failed callback check separately from the unconfirmed cause and explicitly stated that nothing was sent, but omitted source evidence IDs, the proposed owner and the specific endpoint-method hypothesis. The unedited result remains labeled incomplete.
 
 The run used `--task callback_handoff --protocol batch --max-steps 4 --max-new-tokens 768`, without host correction requests. Its trace records project version 0.9.1. The tool description and error behavior differ from the preceding run, so this is an observed development iteration, not a controlled improvement estimate. Older traces retain their historical tool results, including the formerly accepted identifier. Replaying an old action against the current server can intentionally produce a different result. [New raw trace](../evidence/model-runs/qwen4-callback-input-guard.json).
+
+## v0.11: two inbound messages with no account identity
+
+The ninth attempt asks the model to triage an annual-plan blanket-invoice request and a blank Android Offerwall message separately. Neither has a supplied account or integration ID. The task asks for one next action and two customer clarification prompts per message, the tool's route, a distinction between candidate and diagnosis, and a nothing-sent statement.
+
+Run this task with `--task triage_scope --protocol batch --max-steps 4 --max-new-tokens 768`. It uses the same cached Qwen3-4B revision and local runtime as the callback recordings, without schema-constrained generation or host correction requests. The invoice wording reuses a published development probe. It is not held out, and there was no paired model run against the earlier engine.
+
+**Observed:** one batch contains two calls with exact original text and `integration_id=null`. The tool returns `unknown / clarify_scope` for the invoice and `no_offers / collect_evidence` for the blank Offerwall. The model then provides a final answer. There are no extra calls, tool errors or corrections. The coverage check requires both messages and no assigned integration; two calls on the same message do not satisfy it.
+
+**Answer review:** the response gives different next actions, two prompts per message and an explicit nothing-sent sentence. It does not invent IDs or a confirmed internal owner. The invoice prompts ask for an app/platform and expected versus actual behavior, following the tool's generic unknown-scope fallback but offering limited help with the invoice request. The phrase potential issues is tentative; the answer could more clearly distinguish lexical candidates from a confirmed diagnosis. Its actions reflect the two routes without quoting the route codes.
+
+That customer-fit assessment is AI-assisted editorial review, not independent validation. A result can follow tool output and still ask a poorly matched question. [Unedited recording](../evidence/model-runs/qwen4-triage-scope.json) · [Published review](../evidence/MODEL_RUNS.md).
