@@ -194,6 +194,17 @@ renderQueue();
 renderCase();
 renderCounter();
 
+const callbackProbes = window.CSM_DATA.callback_denial;
+$("triage-probe").innerHTML = callbackProbes.cases.map((row) =>
+  `<option value="${esc(row.id)}">${esc(row.kind === "known_limit" ? "Known limitation" : row.kind === "repair" ? "Repair probe" : "Positive control")} · ${esc(row.id.replaceAll("_", " "))}</option>`
+).join("");
+function renderTriageProbe() {
+  const row = callbackProbes.cases.find((c) => c.id === $("triage-probe").value);
+  $("triage-probe-result").innerHTML = window.CSM_TRIAGE_REVIEW.render(row);
+}
+$("triage-probe").addEventListener("change", renderTriageProbe);
+renderTriageProbe();
+
 $("integrity-case").innerHTML = integrity.cases
   .map(
     (c) =>

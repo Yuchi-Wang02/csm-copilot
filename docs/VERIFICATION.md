@@ -1,10 +1,10 @@
 # Verification record
 
-Verified through the v0.19 callback-denial iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.20 triage-explorer iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 33 passed locally | Thirteen practice, eight routing and twelve scoped rendering checks; not learning outcomes |
+| JavaScript browser-logic tests | 37 passed locally | Thirteen practice, eight routing, twelve scoped rendering and four triage-replay checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 251 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and two remaining counterexamples retained; frozen inputs unchanged |
@@ -127,3 +127,5 @@ The v0.18 browser check selected the fourth callback decision, chose the redunda
 The v0.18.1 exporter probes failed before the change for evidence labels, values and source IDs, then passed after literal-text escaping. They check raw HTML, Markdown links/emphasis, carriage returns, forged headings, the four-decision structure and non-mutation. A real browser download containing an unreviewed QA-only English/Chinese note matched the UTF-8 exporter output exactly (3,681 bytes), with escaped evidence IDs and no revealed guidance. This is a controlled formatting check, not a third-party renderer audit or a personal reflection by Yuchi.
 
 The v0.19 callback repair preserves sixteen pre-change tool outputs and the prior twenty-probe file. Eleven new checks failed before the change; all twenty focused checks now pass, including assertions that three unsupported forms still fail. The full Python suite includes unchanged historical-model comparisons. Two additional real stdio MCP calls verify denial-only clarification and retention of a separate Chinese no-offers symptom. The original thirty-message diagnostic remains 16/18 after prior adaptation. Both rebuilt PDF pages were visually inspected. These are development regressions and protocol checks, not independent model-quality or customer-usefulness evidence.
+
+The v0.20 browser check exercised the repaired English denial, an unchanged separate callback, the Chinese denied-callback/positive-Offerwall case, and the unsupported `callbacks are not failing` form. The last displayed an explicit mismatch, and its expanded tool result retained the unwanted callback candidate. At a 360-pixel viewport, comparison columns stacked and document/scroll widths both measured 345 CSS pixels. Desktop and mobile screenshots were inspected; no browser error was recorded. Four new rendering/data tests match the embedded report exactly and preserve uncertainty, known failures and literal customer text. This verifies replay presentation, not general triage accuracy or audience usefulness.

@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: node --test tests-js/practice.test.cjs tests-js/review-links.test.cjs tests-js/case-review.test.cjs
+      - run: node --test tests-js/practice.test.cjs tests-js/review-links.test.cjs tests-js/case-review.test.cjs tests-js/triage-review.test.cjs
       - run: python -m pip install -e ".[dev,brief]"
       - run: python -m ruff check .
       - run: python -m ruff format --check .
@@ -31,7 +31,6 @@ jobs:
       - run: python scripts/build_demo.py
       - run: python evaluation/triage_boundaries.py
       - run: python evaluation/negation.py
-      - run: python evaluation/callback_denial.py
       - run: python scripts/build_model_replay.py
       - run: python scripts/build_project_brief.py
       - run: git diff --exit-code -- demo/project-brief.pdf demo/data.js demo/model-runs.js demo/morning-review-en.md demo/morning-review-zh.md demo/case-briefs demo/product-feedback.md evidence

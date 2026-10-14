@@ -766,6 +766,25 @@ select {
   grid-template-columns: 1fr 1.5fr;
   gap: 25px;
 }
+.triage-explorer { margin-top: 28px; padding: 28px; background: white; border: 1px solid var(--line); border-radius: 9px; }
+.triage-explorer h3 { font-size: 23px; margin-bottom: 12px; }
+.triage-explorer > p { color: var(--muted); font-size: 13px; }
+.triage-explorer label { display: block; margin: 20px 0 8px; font-size: 13px; }
+.triage-explorer select { width: 100%; max-width: 560px; min-width: 0; padding: 10px; }
+.triage-explorer blockquote { margin: 20px 0; padding: 16px; background: var(--soft); border-left: 3px solid var(--green); font-size: 17px; }
+.triage-comparison { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.triage-comparison h4 { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.triage-comparison p { font-size: 17px; }
+.triage-status { display: inline-block; padding: 8px 12px; border-radius: 4px; font-size: 13px; }
+.triage-status.matches { background: #eef2e9; color: #20564a; }
+.triage-status.differs { background: #fae5d8; color: #964a28; }
+#triage-probe-result { margin-top: 20px; overflow-wrap: anywhere; }
+#triage-probe-result > p, #triage-probe-result li { font-size: 13px; }
+.triage-links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 18px; font-size: 12px; }
+@media (max-width: 720px) {
+  .triage-explorer { padding: 18px; }
+  .triage-comparison { grid-template-columns: 1fr; gap: 0; }
+}
 .score-card {
   background: var(--green);
   color: #f9fff2;

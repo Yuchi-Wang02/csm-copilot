@@ -8,14 +8,15 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.19.0" />
-    <script defer src="data.js?v=0.19.0"></script>
-    <script defer src="model-runs.js?v=0.19.0"></script>
-    <script defer src="review-links.js?v=0.19.0"></script>
-    <script defer src="case-review.js?v=0.19.0"></script>
-    <script defer src="app.js?v=0.19.0"></script>
-    <script defer src="practice-core.js?v=0.19.0"></script>
-    <script defer src="practice.js?v=0.19.0"></script>
+    <link rel="stylesheet" href="style.css?v=0.20.0" />
+    <script defer src="data.js?v=0.20.0"></script>
+    <script defer src="model-runs.js?v=0.20.0"></script>
+    <script defer src="review-links.js?v=0.20.0"></script>
+    <script defer src="case-review.js?v=0.20.0"></script>
+    <script defer src="triage-review.js?v=0.20.0"></script>
+    <script defer src="app.js?v=0.20.0"></script>
+    <script defer src="practice-core.js?v=0.20.0"></script>
+    <script defer src="practice.js?v=0.20.0"></script>
   </head>
   <body>
     <a class="skip" href="#workspace">Skip to case explorer</a>
@@ -26,7 +27,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.19.0</span>
+      <span class="version">PORTFOLIO / V0.20.0</span>
     </header>
     <main>
       <section class="hero">
@@ -389,6 +390,19 @@
               supplies the model; this replay does not call one.
             </p>
           </div>
+        </div>
+      </section>
+      <section id="triage-review" class="triage-explorer" aria-labelledby="triage-review-title">
+        <h3 id="triage-review-title">Follow one triage decision.</h3>
+        <p>Select a preserved callback-denial probe. Compare categories before the repair with the current rule output, then inspect what still fails.</p>
+        <p>Sixteen inspected development messages: seven category changes, six positive controls and three remaining mismatches. These are project-authored expectations, not an independent accuracy score. This page replays recorded tool results; it does not run a model.</p>
+        <label for="triage-probe">Choose a triage probe</label>
+        <select id="triage-probe"></select>
+        <div id="triage-probe-result"></div>
+        <p class="boundary">A matching category does not establish a root cause, resolve a customer issue or approve a message for sending.</p>
+        <div class="triage-links">
+          <a href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/CALLBACK_DENIAL.md">Read the development comparison ↗</a>
+          <a href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/callback-denial-before.json">Inspect the frozen original outputs ↗</a>
         </div>
       </section>
       <section id="practice" class="practice-section">

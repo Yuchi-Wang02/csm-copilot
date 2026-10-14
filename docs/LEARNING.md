@@ -151,4 +151,6 @@ Inspect `test_export_identifies_issue_source_kind_and_uses_the_original_record` 
 
 Read the [callback-denial comparison](../evidence/CALLBACK_DENIAL.md). Predict the routes for a denied callback alone, a denied callback plus a blank Offerwall, and a denied iOS callback plus a positive Android callback. Trace the signal occurrences that the rule excludes and retains, then compare your predictions with the frozen and current outputs.
 
+The [interactive triage explorer](https://yuchi-wang02.github.io/csm-copilot/#triage-review) shows the same preserved cases. Use a repair, a positive control and a known limitation to explain what changed and what the rule still cannot establish. Its status compares categories with the project's expectations, not with independent ground truth.
+
 Choose one remaining failure and explain why it falls outside the implemented pattern. Describe what a CSM should clarify instead of claiming that the system understands the sentence. Run `python -m pytest tests/test_callback_denial.py -q` and distinguish a passing regression suite from a general accuracy estimate. This is an exercise for your own reasoning; no personal completion is recorded.
