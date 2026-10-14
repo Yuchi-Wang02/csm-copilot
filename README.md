@@ -8,7 +8,24 @@ A working MCP server and interactive case explorer for a customer-success mornin
 
 **[Start the three-minute review](https://yuchi-wang02.github.io/csm-copilot/#start)** · **[Two-page project brief (PDF)](demo/project-brief.pdf)** · **[Three-minute interview walkthrough](docs/INTERVIEW.md)** · **[Evaluation results](evidence/EVALUATION.md)** · **[Learning path](docs/LEARNING.md)** · **[Practice the decisions](https://yuchi-wang02.github.io/csm-copilot/#practice)**
 
-![CSM Copilot case explorer](docs/assets/demo-case.png)
+[![Morning review with three queued accounts and an Android follow-up requesting missing confirmations, a fresh device check, and callback evidence. The draft is explicitly unsent.](docs/assets/demo-workflow-current.png)](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=followup&lang=en#workspace)
+
+**From account to next action:** select an app/platform, review its evidence, and prepare a focused customer draft or technical handoff. [Open this Android follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=followup&lang=en#workspace).
+
+<details>
+<summary>See the evidence trail and recorded AI review</summary>
+
+**Why is Android blocked?** The readable source view retains the original synthetic device record, its timestamp and scope, its `not_met` claim, and the request for a fresh check. [Inspect this evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace).
+
+![Expanded Android device-verification source with account and integration identifiers, the recorded failure, and the requested follow-up evidence.](docs/assets/demo-readable-evidence.png)
+
+**What did the AI actually do?** Four tool calls returned results, two structured responses were rejected, and the final fields matched after host-assisted corrections. The explanation still needs human review. [Inspect the recorded turns](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs).
+
+![Four-turn recorded AI conversation showing tool execution, two host rejections, and a structured-field match with prose still requiring review.](docs/assets/demo-model-turns.png)
+
+</details>
+
+Screenshots captured from v0.27.1. Synthetic customer data and saved model recordings; the browser does not run inference or send messages.
 
 [![Verify workflow](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml)
 [![Publish case explorer](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml/badge.svg)](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml)
