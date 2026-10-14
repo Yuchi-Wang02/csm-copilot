@@ -1,36 +1,38 @@
 # Build a portable interview demo
 
-The [v0.28.0 prerelease](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.28.0) includes focused handoff intake requests, local practice save/resume, five practice decisions, text/action-boundary probes, preserved callback failures and repairs, and the two-page PDF brief. It is pinned to commit `f843f8fc36168bc59329538191133e8217797392`.
+The [v0.28.2 prerelease](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.28.2) includes focused handoff intake requests, local practice save/resume, five practice decisions, text/action-boundary probes, preserved callback failures and repairs, and the two-page PDF brief. It is pinned to commit `261d9afd7197f9af588a29867f0cce08b9ace94f`.
 
-This package also includes readable handoff-field provenance, checklist source records, recorded model conversations presented turn by turn, preserved keyboard focus, and selection-scoped clipboard feedback. The extracted package's handoff-provenance and model-turn views were checked over localhost HTTP. The hosted site may advance later; this package remains pinned to its source commit.
+This package also includes readable handoff-field provenance, checklist source records, recorded model conversations presented turn by turn, preserved keyboard focus, and selection-scoped clipboard feedback. Since v0.28.0, the portable review briefs include an integration-record index, full-queue exports use explicit LF line endings, and Reset asks before clearing practice work. The hosted site may advance later; this package remains pinned to its source commit.
 
-The full learning guide and revised interview script are part of the repository/source archive. The demo ZIP links to the learning guide but does not include these documents as separate files. For stable references, read the [learning guide](https://github.com/Yuchi-Wang02/csm-copilot/blob/f843f8fc36168bc59329538191133e8217797392/docs/LEARNING.md) and [interview script](https://github.com/Yuchi-Wang02/csm-copilot/blob/f843f8fc36168bc59329538191133e8217797392/docs/INTERVIEW.md) at the release source. The Python export repair for requests needing scope clarification is also in the source archive; the static demo retains its existing technical examples.
+The extracted v0.28.2 package was checked over localhost HTTP. Cancelling Reset preserved a QA-only note; explicit clearing removed it. The downloaded English morning brief matched the packaged file's hash and contained the integration-record index. No browser errors were recorded during these checks. The full source commit passed 296 Python and 74 JavaScript tests; the reset confirmation itself was checked in the browser, not covered by those unit-test counts.
+
+The full learning guide and revised interview script are part of the repository/source archive. The demo ZIP links to the learning guide but does not include these documents as separate files. For stable references, read the [learning guide](https://github.com/Yuchi-Wang02/csm-copilot/blob/261d9afd7197f9af588a29867f0cce08b9ace94f/docs/LEARNING.md) and [interview script](https://github.com/Yuchi-Wang02/csm-copilot/blob/261d9afd7197f9af588a29867f0cce08b9ace94f/docs/INTERVIEW.md) at the release source. The Python export repair for requests needing scope clarification is also in the source archive; the static demo retains its existing technical examples.
 
 ## Choose the right take-away
 
 | Item | Use it for |
 |---|---|
 | [Hosted portfolio](https://yuchi-wang02.github.io/csm-copilot/) | Open the interactive review with no setup; it may advance after this release |
-| `csm-copilot-demo-v0.28.0.zip` under release Assets | Keep a fixed copy of the static demo, PDF, review briefs and recorded results |
+| `csm-copilot-demo-v0.28.2.zip` under release Assets | Keep a fixed copy of the static demo, PDF, review briefs and recorded results |
 | GitHub's Source code archives | Inspect the full repository, Python implementation, tests and documentation at the tag |
 
 Extract the entire demo ZIP, read `START_HERE.txt`, and begin with `project-brief.pdf` or the three-minute route in `index.html`. Local browser restrictions may affect the interactive files; the application was browser-tested over HTTP, and direct file opening remains unverified. The hosted portfolio provides the browser-tested route. Write your own practice reasoning and save it before closing or reloading the page; the package does not include personal notes. Download Markdown for reading and a progress JSON file for resuming. Choosing a JSON file previews it locally; explicit confirmation is required before it replaces the current in-page work. See [practice-file compatibility and limits](PRACTICE.md#resume-without-rewriting-the-learning-record).
 
 ## Verify the fixed package
 
-The published ZIP is **819,924 bytes**. Its SHA-256 is:
+The published ZIP is **826,340 bytes**. Its SHA-256 is:
 
 ```text
-0b9d248e9dff79899881b1a91acf3111824d9a0758c693bc5722f916c1726827
+4d55bcb0b1a24506c13076ef72082937cb514b814e006b7cff1b67299d89508f
 ```
 
 In PowerShell, from the folder containing the download:
 
 ```powershell
-Get-FileHash -LiteralPath .\csm-copilot-demo-v0.28.0.zip -Algorithm SHA256
+Get-FileHash -LiteralPath .\csm-copilot-demo-v0.28.2.zip -Algorithm SHA256
 ```
 
-The release also provides a `.zip.sha256` file. All 25 demo files were checked byte-for-byte against the pinned Git tree, the guide matched its manifest hash, and ZIP integrity passed. The local, Windows and Ubuntu builds produced the same inner ZIP checksum in [the source commit's CI run](https://github.com/Yuchi-Wang02/csm-copilot/actions/runs/38619538143). This is file-identity evidence, not independent validation of the underlying customer scenarios.
+The release also provides a `.zip.sha256` file. All 25 demo files were checked byte-for-byte against the pinned Git tree, the guide matched its manifest hash, and ZIP integrity passed. The local, Windows and Ubuntu builds produced the same inner ZIP checksum in [the source commit's CI run](https://github.com/Yuchi-Wang02/csm-copilot/actions/runs/38622800029). This is file-identity evidence, not independent validation of the underlying customer scenarios.
 
 ## Rebuild from source
 
@@ -50,6 +52,6 @@ Both Windows and Ubuntu CI build a bundle from the checked-out commit and upload
 
 Six focused checks cover identical output despite dirty worktree edits and CRLF settings, original Git bytes and manifest hashes, missing local assets, pinned older commits and their appropriate practice instructions, committed symlinks, reserved filenames, and query/fragment/external-link handling.
 
-The earlier [v0.20.1 ZIP](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.20.1) was packaged manually, with demo files checked against its tagged source. The reproducible archive format does not reproduce that historical ZIP's bytes or replace its assets. The v0.21.0, v0.23.0, v0.25.0 and v0.27.1 releases remain separate fixed snapshots.
+The earlier [v0.20.1 ZIP](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.20.1) was packaged manually, with demo files checked against its tagged source. The reproducible archive format does not reproduce that historical ZIP's bytes or replace its assets. The v0.21.0, v0.23.0, v0.25.0, v0.27.1 and v0.28.0 releases remain separate fixed snapshots.
 
 The static application has been browser-tested over HTTP. Direct file opening was not browser-verified because the automated browser policy disallows `file://` navigation. Local script and clipboard behavior can vary; use the included PDF or hosted demo if local-file restrictions prevent the interactive walkthrough. Practice notes are not part of the package and are not uploaded by the builder.
