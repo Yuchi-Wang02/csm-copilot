@@ -160,6 +160,8 @@ Evidence to keep: case authorship, expected outputs, actual outputs and examples
 
 ## Session 5 — Practice the customer conversation (30 minutes)
 
+Start with the customer question in [Explain a blank Offerwall to a new publisher](CLIENT_EDUCATION.md). Write your own explanation before comparing it with the sample. Separate product guidance, synthetic customer facts and project operating choices.
+
 - Rewrite one template in your own English and Chinese.
 - Underline every factual claim and match it to an evidence ID.
 - Circle each deadline or promise and explain whether it is supported.
