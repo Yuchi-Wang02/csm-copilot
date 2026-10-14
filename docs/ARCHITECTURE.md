@@ -27,6 +27,22 @@ Since v0.2, evidence declares account/integration ownership and structured check
 | Host-owned model | Standard MCP interface without a second model bill | Actual host behavior must be evaluated separately |
 | Snapshot feedback aggregation | Repeated tool calls must not manufacture customer incidents | v0.4 aggregates existing checklist states, not new customer events |
 
+## What the model layer contributes
+
+The deterministic workflow is a usable baseline for this fixed task. [build_demo](../src/csm_copilot/demo.py) selects the queue, obtains account context, checks each integration and assembles bilingual follow-ups and handoffs without a model. The CLI and static explorer make those outputs reviewable. A model is not required to perform the arithmetic, apply the checklist or fill the existing templates.
+
+The model layer explores whether a natural-language request can lead to appropriate tool calls and a useful explanation. The recordings support narrower observations:
+
+| Work being examined | What the tools already supply | What the recorded model did | What remains unproven |
+|---|---|---|---|
+| Two-platform follow-up | Scoped readiness, source references and a template for each platform | The [batch attempt](../evidence/model-runs/qwen4-batch.json) executed the four requested calls, then added an explanation that overstated iOS compliance and misrepresented Android evidence | Better communication, time savings or autonomous account discovery; the task explicitly supplied both integration IDs |
+| Two unrelated inbound messages | Lexical candidates, routes and clarification questions | The [neutral-question attempt](../evidence/model-runs/qwen4-triage-neutral-questions.json) called triage for each supplied message and incorporated the returned questions into its explanation | General intent understanding or a verified billing workflow; the exact messages were prescribed and the tool's invoice questions remained broad |
+| Recovery after an output error | Host checks against observed structured tool results and correction feedback | The [constrained attempt](../evidence/model-runs/qwen4-constrained.json) matched structured fields after two host correction requests | Independent self-correction or faithful free prose; the feedback supplied expected values and the explanation still required review |
+
+These are role attributions within saved runs, not a controlled comparison between a human, a deterministic script and an AI assistant. Tool coverage measures the requested actions observed in that recording. It does not measure customer usefulness or the truth of the source records. The current examples also do not show an end-to-end model-led morning queue selection: the platform task begins with named integrations.
+
+In an interview, explain the intended benefit as a hypothesis: a conversational layer might make an established workflow easier to access or summarize. Then show the observed cost of that layer—an unsupported claim—and how a reviewer can trace it back to the tool result. A future usefulness comparison would need separately defined tasks, a baseline, independent review and an explicit measure of useful output or effort. None has been completed here. [Learning Session 3](LEARNING.md#session-3--understand-the-mcp-boundary-45-minutes) provides a no-model protocol exercise before comparing an actual model recording.
+
 ## Readiness aggregation
 
 1. A required check with `not_met` makes the integration `blocked`.

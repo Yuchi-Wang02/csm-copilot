@@ -38,6 +38,8 @@ An AI host can choose tools and rewrite drafts. The Python server handles dates,
 
 The repository preserves **ten local Qwen attempts across three prescribed tasks**. In one, four tool calls succeeded but the explanation described iOS as having “full compliance.” Later host-assisted corrections brought structured fields into agreement with tool results; free prose still required review. These are exploratory attempts with changing prompts and settings, not an independent benchmark.
 
+The deterministic workflow is the working baseline: it already selects accounts, checks readiness and assembles drafts. The model experiments explore tool orchestration and explanation. The platform task supplies both integration IDs, so its successful calls do not demonstrate autonomous account discovery. No comparison has established that adding the model saves time or improves customer outcomes. [Inspect the division of work and the evidence for it](docs/ARCHITECTURE.md#what-the-model-layer-contributes).
+
 [Inspect the original AI mistake](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) · [Follow the recorded corrections](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs) · [Read the raw-run review](evidence/MODEL_RUNS.md)
 
 [![Two saved model claims compared with recorded tool results: iOS full compliance overstates a scoped checklist, and Android missing evidence omits a recorded unmet device check.](docs/assets/ai-claim-review-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs)

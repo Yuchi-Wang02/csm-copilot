@@ -1,5 +1,9 @@
 # Development notes
 
+## Attribute the model's contribution to what the recordings show
+
+The README and interview guide now distinguish the working deterministic baseline from the model layer's intended benefit. A linked architecture table traces platform follow-up, inbound-message review and correction handling to their saved runs. Source inspection confirmed that the platform task supplies both integration IDs, the batch model proposes four readiness/draft calls, the inbound task supplies the exact messages, and the constrained run contains two correction requests before structured fields match. The first correction supplies expected evidence IDs; prose verification remains absent. This is an explanation of existing evidence, not a new baseline experiment, autonomous account-discovery result or measured productivity benefit.
+
 ## Preserve keyboard position when cancelling a practice resume
 
 Activating **Keep current work** with Enter hid the focused button and left browser focus on `BODY`. The notes survived, but the keyboard user lost the active control. Cancellation now returns focus to the saved-file chooser. Escape within the preview uses the same cancellation path; the shortcut is scoped to that preview and described beside the replacement controls.
