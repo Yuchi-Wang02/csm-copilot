@@ -16,6 +16,45 @@ vm.runInContext(
   context,
 );
 const runs = context.window.CSM_MODEL_RUNS.runs;
+const probes = context.window.CSM_DATA.callback_denial.cases;
+
+test("all published triage probes have stable public links", () => {
+  for (const probe of probes) {
+    const link = new URL(api.shareProbe(probe.id, probes));
+    assert.equal(link.origin, "https://yuchi-wang02.github.io");
+    assert.equal(link.pathname, "/csm-copilot/");
+    assert.equal(link.hash, "#triage-review");
+    assert.deepEqual([...link.searchParams.keys()], ["probe"]);
+    assert.deepEqual(api.readProbe(link.search, probes), {probeId: probe.id, invalid: false});
+    assert.equal(api.readProbe(link.search, [{id: "future-example"}, ...probes]).probeId, probe.id);
+  }
+});
+
+test("invalid or ambiguous probes fall back visibly without selecting arbitrary text", () => {
+  assert.deepEqual(api.readProbe("", probes), {probeId: probes[0].id, invalid: false});
+  for (const search of ["?probe=", "?probe=missing", "?probe=%3Cscript%3E", `?probe=${probes[1].id}&probe=${probes[1].id}`]) {
+    assert.deepEqual(api.readProbe(search, probes), {probeId: probes[0].id, invalid: true});
+  }
+  assert.throws(() => api.readProbe("", []), /No published triage probes/);
+  assert.throws(() => api.shareProbe("missing", probes), /not in the public catalog/);
+});
+
+test("case, recording and triage selections restore independently and share only their own fields", () => {
+  const search = `?case=lantern_ios&view=followup&lang=zh&run=${runs[0].id}&probe=not_failing&note=private&path=C:/private`;
+  const probe = api.readProbe(search, probes);
+  const review = api.read(search, workflow);
+  const recording = api.readRun(search, runs);
+  assert.deepEqual(probe, {probeId: "not_failing", invalid: false});
+  assert.equal(review.integration, 1);
+  assert.equal(review.activeTab, "followup");
+  assert.equal(review.language, "zh");
+  assert.equal(recording.runId, runs[0].id);
+  const link = new URL(api.shareProbe(probe.probeId, probes));
+  assert.deepEqual([...link.searchParams.keys()], ["probe"]);
+  assert.ok(!link.href.includes("private"));
+  assert.ok(!new URL(api.share(review, workflow)).searchParams.has("probe"));
+  assert.ok(!new URL(api.shareRun(recording.runId, runs)).searchParams.has("probe"));
+});
 
 test("each published recording has a stable direct link independent of the latest attempt", () => {
   for (const run of runs) {

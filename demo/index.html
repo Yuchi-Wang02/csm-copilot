@@ -8,15 +8,15 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.20.0" />
-    <script defer src="data.js?v=0.20.0"></script>
-    <script defer src="model-runs.js?v=0.20.0"></script>
-    <script defer src="review-links.js?v=0.20.0"></script>
-    <script defer src="case-review.js?v=0.20.0"></script>
-    <script defer src="triage-review.js?v=0.20.0"></script>
-    <script defer src="app.js?v=0.20.0"></script>
-    <script defer src="practice-core.js?v=0.20.0"></script>
-    <script defer src="practice.js?v=0.20.0"></script>
+    <link rel="stylesheet" href="style.css?v=0.20.1" />
+    <script defer src="data.js?v=0.20.1"></script>
+    <script defer src="model-runs.js?v=0.20.1"></script>
+    <script defer src="review-links.js?v=0.20.1"></script>
+    <script defer src="case-review.js?v=0.20.1"></script>
+    <script defer src="triage-review.js?v=0.20.1"></script>
+    <script defer src="app.js?v=0.20.1"></script>
+    <script defer src="practice-core.js?v=0.20.1"></script>
+    <script defer src="practice.js?v=0.20.1"></script>
   </head>
   <body>
     <a class="skip" href="#workspace">Skip to case explorer</a>
@@ -27,7 +27,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.20.0</span>
+      <span class="version">PORTFOLIO / V0.20.1</span>
     </header>
     <main>
       <section class="hero">
@@ -398,6 +398,15 @@
         <p>Sixteen inspected development messages: seven category changes, six positive controls and three remaining mismatches. These are project-authored expectations, not an independent accuracy score. This page replays recorded tool results; it does not run a model.</p>
         <label for="triage-probe">Choose a triage probe</label>
         <select id="triage-probe"></select>
+        <div class="review-sharing">
+          <button class="copy" id="copy-probe-link" type="button">Copy this triage link</button>
+          <details id="probe-link-details">
+            <summary>View triage link</summary>
+            <label for="share-probe-url">Public triage example URL</label>
+            <input id="share-probe-url" type="text" readonly />
+          </details>
+        </div>
+        <p id="probe-route-notice" class="boundary" role="status"></p>
         <div id="triage-probe-result"></div>
         <p class="boundary">A matching category does not establish a root cause, resolve a customer issue or approve a message for sending.</p>
         <div class="triage-links">

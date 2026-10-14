@@ -293,3 +293,9 @@ The original thirty-message diagnostic stays at 16/18 after earlier adaptation, 
 The callback-denial comparison was available as a Markdown/JSON report but required leaving the case explorer. A new on-page selector presents all sixteen preserved messages with before/current category sets, project expectations, the current route, uncertainty and exclusion notes. A status distinguishes changed matches, unchanged matches and remaining mismatches. Original outputs and the development report remain linked; a disclosure exposes the current tool result.
 
 The demo builder now regenerates and embeds the same comparison report in one step. The browser renders recorded outputs without running triage or a model. Four checks verify exact report equality, repaired routing, known failures/separate positive symptoms, non-mutation and escaped text. The original diagnostic, expectations and model recordings are unchanged. This improves inspectability; no audience-usability or customer-outcome measurement is claimed.
+
+## v0.20.1 — share an exact triage example
+
+The explorer now gives each published probe a public URL. Selection, reload and browser history use the same catalog allowlist; invalid or duplicated IDs show an explicit fallback notice. Case and recording controls retain a selected probe in the browser address, while each copy button includes only its own public selection. In-page evidence navigation continues to preserve practice notes.
+
+Three added routing tests cover all sixteen probes, stability when the catalog grows, malformed IDs, independent case/run/probe restoration and exclusion of unrelated content. The sharing guide now links directly to a repaired English denial, a Chinese message with a separate positive symptom and a remaining failure. This changes review navigation, not the triage algorithm, expectations or historical model recordings.

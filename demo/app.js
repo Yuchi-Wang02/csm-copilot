@@ -4,6 +4,8 @@ const { workflow, evaluation: report, integrity, friction } = window.CSM_DATA;
 const reviewLinks = window.CSM_REVIEW_LINKS;
 const caseReview = window.CSM_CASE_REVIEW;
 const modelRuns = window.CSM_MODEL_RUNS;
+const callbackProbes = window.CSM_DATA.callback_denial;
+let { probeId, invalid: probeInvalid } = reviewLinks.readProbe(location.search, callbackProbes.cases);
 let { runId, invalid: runInvalid } = reviewLinks.readRun(location.search, modelRuns.runs);
 let { selected, integration, activeTab, language, updated, verified, invalid } =
   reviewLinks.read(location.search, workflow);
@@ -194,15 +196,24 @@ renderQueue();
 renderCase();
 renderCounter();
 
-const callbackProbes = window.CSM_DATA.callback_denial;
 $("triage-probe").innerHTML = callbackProbes.cases.map((row) =>
   `<option value="${esc(row.id)}">${esc(row.kind === "known_limit" ? "Known limitation" : row.kind === "repair" ? "Repair probe" : "Positive control")} · ${esc(row.id.replaceAll("_", " "))}</option>`
 ).join("");
 function renderTriageProbe() {
-  const row = callbackProbes.cases.find((c) => c.id === $("triage-probe").value);
+  $("triage-probe").value = probeId;
+  $("share-probe-url").value = reviewLinks.shareProbe(probeId, callbackProbes.cases);
+  $("copy-probe-link").textContent = "Copy this triage link";
+  $("probe-route-notice").textContent = probeInvalid
+    ? "The triage example in this link was invalid or ambiguous. The first published example is shown."
+    : "";
+  const row = callbackProbes.cases.find((c) => c.id === probeId);
   $("triage-probe-result").innerHTML = window.CSM_TRIAGE_REVIEW.render(row);
 }
-$("triage-probe").addEventListener("change", renderTriageProbe);
+$("triage-probe").addEventListener("change", () => {
+  probeId = $("triage-probe").value;
+  syncReviewUrl("#triage-review");
+  renderTriageProbe();
+});
 renderTriageProbe();
 
 $("integrity-case").innerHTML = integrity.cases
@@ -340,15 +351,20 @@ function renderShareLink() {
 function syncReviewUrl(anchor = location.hash || "#workspace") {
   invalid = [];
   runInvalid = false;
+  probeInvalid = false;
   $("route-notice").textContent = "";
   $("run-route-notice").textContent = "";
+  $("probe-route-notice").textContent = "";
   const runSetting = new URLSearchParams(location.search).has("run") || anchor === "#model-runs"
     ? "&" + reviewLinks.runQuery(runId, modelRuns.runs).slice(1)
+    : "";
+  const probeSetting = new URLSearchParams(location.search).has("probe") || anchor === "#triage-review"
+    ? "&" + reviewLinks.probeQuery(probeId, callbackProbes.cases).slice(1)
     : "";
   const target =
     location.pathname +
     reviewLinks.query(reviewState(), workflow) +
-    runSetting + anchor;
+    runSetting + probeSetting + anchor;
   if (target !== location.pathname + location.search + location.hash) {
     try {
       history.pushState(null, "", target);
@@ -361,10 +377,12 @@ function restoreReview(search = location.search) {
   ({ selected, integration, activeTab, language, updated, verified, invalid } =
     reviewLinks.read(search, workflow));
   ({ runId, invalid: runInvalid } = reviewLinks.readRun(search, modelRuns.runs));
+  ({ probeId, invalid: probeInvalid } = reviewLinks.readProbe(search, callbackProbes.cases));
   renderQueue();
   renderCase();
   renderCounter();
   renderModelRun();
+  renderTriageProbe();
 }
 window.addEventListener("popstate", () => restoreReview());
 // In-page evidence links preserve practice notes instead of reloading the document.
@@ -422,5 +440,17 @@ $("copy-run-link").addEventListener("click", async () => {
     $("share-run-url").focus();
     $("share-run-url").select();
     $("copy-run-link").textContent = "Select the link to copy";
+  }
+});
+$("copy-probe-link").addEventListener("click", async () => {
+  const url = reviewLinks.shareProbe(probeId, callbackProbes.cases);
+  try {
+    await navigator.clipboard.writeText(url);
+    $("copy-probe-link").textContent = "Triage link copied";
+  } catch {
+    $("probe-link-details").open = true;
+    $("share-probe-url").focus();
+    $("share-probe-url").select();
+    $("copy-probe-link").textContent = "Select the link to copy";
   }
 });

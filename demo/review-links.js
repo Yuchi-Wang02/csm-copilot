@@ -82,7 +82,24 @@
   function shareRun(runId, runs) {
     return publicBase + runQuery(runId, runs) + "#model-runs";
   }
-  const api = { read, query, share, readRun, runQuery, shareRun };
+  function readProbe(search, probes) {
+    if (!probes.length) throw new Error("No published triage probes available");
+    const values = new URLSearchParams(search).getAll("probe");
+    const valid = values.length === 1 && probes.some((probe) => probe.id === values[0]);
+    return {
+      probeId: valid ? values[0] : probes[0].id,
+      invalid: values.length > 0 && !valid,
+    };
+  }
+  function probeQuery(probeId, probes) {
+    if (!probes.some((probe) => probe.id === probeId))
+      throw new Error("Triage probe is not in the public catalog");
+    return "?" + new URLSearchParams({ probe: probeId }).toString();
+  }
+  function shareProbe(probeId, probes) {
+    return publicBase + probeQuery(probeId, probes) + "#triage-review";
+  }
+  const api = { read, query, share, readRun, runQuery, shareRun, readProbe, probeQuery, shareProbe };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_REVIEW_LINKS = api;
 })(typeof window !== "undefined" ? window : this);
