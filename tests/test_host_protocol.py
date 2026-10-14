@@ -58,6 +58,36 @@ def test_final_text_does_not_substitute_for_required_tool_evidence():
     assert result["final_response_present"] is True
 
 
+def test_handoff_coverage_requires_its_own_account_and_issue_calls():
+    calls = [
+        {
+            "action": {"tool": "get_account_context", "arguments": {"account_id": "acc_006"}},
+            "tool_result": {},
+        },
+        {
+            "action": {"tool": "draft_ticket", "arguments": {"issue_id": "issue_blank"}},
+            "tool_result": {},
+        },
+        {
+            "action": {"tool": "draft_ticket", "arguments": {"issue_id": "issue_callback"}},
+            "tool_result": {},
+            "tool_error": True,
+        },
+    ]
+    trace = {"task_id": "callback_handoff", "steps": [{"tool_calls": calls}]}
+    assert trace_coverage(trace)["observed"] == 1
+    assert trace_coverage(trace)["required"] == 2
+    calls[-1]["tool_error"] = False
+    assert trace_coverage(trace)["observed"] == 2
+    trace["task_id"] = "platform_followups"
+    assert trace_coverage(trace)["observed"] == 0
+
+
+def test_unknown_recorded_task_cannot_silently_use_default_coverage():
+    with pytest.raises(ValueError, match="Unknown recorded task"):
+        trace_coverage({"task_id": "invented_task", "steps": []})
+
+
 def test_failed_calls_and_wrong_language_do_not_satisfy_coverage():
     trace = {
         "steps": [

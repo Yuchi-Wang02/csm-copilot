@@ -121,3 +121,11 @@ The browser now renders every issue for the selected integration, pairing each s
 The local browser preview displayed both Android reports and drafts, while switching to iOS showed only its own report. The inspected 360-pixel viewport had equal document and scroll widths of 345 CSS pixels, and no browser errors were recorded. [Local regression screenshot](assets/demo-multiple-issues-probe.png). The additional records are clearly labeled local test cases; the public five-account fixture and historical model recordings remain unchanged.
 
 **Lesson:** correct backend output does not guarantee a complete customer review. When the data allows multiple records, inspect whether the interface preserves them rather than silently selecting one.
+
+## v0.9: inspect a second model task
+
+The local host and coverage checker originally hardcoded the four-action platform-follow-up task. They now identify the task explicitly and check its own required actions, while old recordings without a task ID retain their original interpretation. Unknown task IDs are rejected, and the platform-specific structured response contract cannot be used for the handoff task.
+
+One new Qwen3-4B attempt retrieved Harbor's account context and drafted its callback handoff. It also made two extra calls, including triage on an issue identifier rather than customer prose. The explanation cited the issue and preserved several facts, but blurred a failed check with an unconfirmed cause and omitted the owner and specific hypothesis. The trace is retained without correction or rewriting. The replay now exposes each attempt's task and shows account/issue arguments as well as integration IDs.
+
+**Lesson:** successful tool execution can hide an input-meaning error. Coverage, argument suitability, recorded check status, causal uncertainty and final-answer completeness need separate review. A second development task is more evidence to inspect, not an independent benchmark.

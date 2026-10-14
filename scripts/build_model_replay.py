@@ -45,6 +45,8 @@ def build():
             f"**Review verdict:** {text(entry['verdict'])}.",
             entry["summary"],
             "",
+            f"**Task:** {text(trace['task'])}",
+            "",
             f"Observed requested tool actions: {coverage['observed']}/{coverage['required']}. Final response present: {coverage['final_response_present']}.",
             f"[Complete trace](model-runs/{entry['id']}.json). Model revision: `{trace['revision']}`.",
             "",

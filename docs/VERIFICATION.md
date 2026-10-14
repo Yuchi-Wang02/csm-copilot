@@ -1,12 +1,12 @@
 # Verification record
 
-Verified through the v0.8.3 multiple-issue display fix on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.9 second model task on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 15 passed locally | Five practice, five routing and five scoped issue-rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 117 passed locally | Workflow, source scope, next-action selection, readable exports, UTF-8 output and caller isolation |
+| Python behavior tests | 121 passed locally | Workflow, source scope, next-action selection, readable exports, UTF-8 output and caller isolation |
 | Unrecognized handoff scope | Four regression checks failed before the fix and passed afterward | English/Chinese summaries with complete/incomplete generic fields remain with the CSM for clarification |
 | Snapshot isolation regressions | Four failed before the fix and passed after it | Returned readiness/digest lists, constructor input ownership and revalidation of mutated input |
 | Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
@@ -14,7 +14,7 @@ Verified through the v0.8.3 multiple-issue display fix on 2026-10-14. For the la
 | Package build | Source distribution and wheel built | Includes packaged JSON fixtures |
 | Installed wheel | Fresh environment outside the checkout; CLI and MCP results match published artifacts | Installed module location checked; a disposable wheel missing its account fixture was rejected locally |
 | Real MCP stdio client | Eight tools, three follow-up intents, both prompts and invalid-ID error passed | Scripted client, no model inference |
-| Local model attempts | Six recordings retained; latest structured fields match after two corrections | One task, changed configurations and feedback supplying expected values; free prose remains unverified |
+| Local model attempts | Seven recordings retained across two tasks; handoff run completed 2/2 requested actions plus two extra calls | Separate AI-assisted review finds an inappropriate triage input and answer omissions; no independent validation |
 | Portable morning review | English and Chinese-draft Markdown generated and checked for consistency | Same workflow packet as the browser; draft-only |
 | Product feedback digest | Ten targeted tests cover counts, applicability, deduplication, empty cohorts, sources, ordering and export | Fixed synthetic snapshot; no measured Product outcome |
 | Synthetic diagnostics | 12/12 dev; 14/18 family-separated cases | Same-session authored, not independently validated |
@@ -47,9 +47,11 @@ The v0.8 browser check opened a Chinese iOS follow-up and Harbor handoff directl
 
 The portable brief was rendered and visually reviewed on both pages. Its seven link annotations were extracted and checked, repeated builds produced identical bytes, and the browser-downloaded PDF matched the reviewed file's SHA-256. The new download link fit the inspected mobile layout (360 CSS pixels for both document and scroll width), with no browser errors. Rebuild instructions and metadata conventions are in [the brief guide](PROJECT_BRIEF.md).
 
-## Reproduction
-
 The v0.8.2 browser check used two clearly labeled local regression cases derived from actual engine outputs. An unrecognized request remained `needs_scope` with a CSM owner both with complete and incomplete generic fields. Both views displayed scope clarification instead of readiness for technical review, and the inspected browser session had no errors. [Complete-fields regression screenshot](assets/demo-handoff-scope-probe.png). These local cases are not additions to the published five-account fixture.
+
+The v0.9 browser check opened the callback handoff recording, expanded its task, inspected all four tool calls and the source comparison, and returned to the earlier constrained platform attempt. The new task has two required actions, not the original four. The PDF was rebuilt and both pages visually reviewed with the updated seven-attempt count. [Callback run screenshot](assets/demo-callback-model-run.png).
+
+## Reproduction
 
 ```sh
 python -m pip install -e ".[dev,brief]"

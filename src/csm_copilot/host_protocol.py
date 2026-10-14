@@ -48,20 +48,35 @@ def trace_coverage(trace: dict) -> dict:
     """Check requested actions were observed; this is not semantic grading of final prose."""
     calls = [call for step in trace.get("steps", []) for call in step.get("tool_calls", [step])]
     successful = [call for call in calls if "tool_result" in call and not call.get("tool_error")]
-    required = {
-        "android_readiness": ("check_readiness", "lantern_android"),
-        "ios_readiness": ("check_readiness", "lantern_ios"),
-        "android_followup": ("draft_followup", "lantern_android"),
-        "ios_followup": ("draft_followup", "lantern_ios"),
+    tasks = {
+        "platform_followups": {
+            "android_readiness": ("check_readiness", {"integration_id": "lantern_android"}),
+            "ios_readiness": ("check_readiness", {"integration_id": "lantern_ios"}),
+            "android_followup": (
+                "draft_followup",
+                {"integration_id": "lantern_android", "lang": "en"},
+            ),
+            "ios_followup": ("draft_followup", {"integration_id": "lantern_ios", "lang": "en"}),
+        },
+        "callback_handoff": {
+            "account_context": ("get_account_context", {"account_id": "acc_006"}),
+            "issue_handoff": ("draft_ticket", {"issue_id": "issue_callback"}),
+        },
     }
+    task_id = trace.get("task_id", "platform_followups")
+    if task_id not in tasks:
+        raise ValueError(f"Unknown recorded task: {task_id}")
+    required = tasks[task_id]
     checks = {
         label: any(
             step["action"]["tool"] == tool
-            and step["action"]["arguments"].get("integration_id") == integration
-            and (tool != "draft_followup" or step["action"]["arguments"].get("lang", "en") == "en")
+            and all(
+                step["action"]["arguments"].get(key, "en" if key == "lang" else None) == value
+                for key, value in arguments.items()
+            )
             for step in successful
         )
-        for label, (tool, integration) in required.items()
+        for label, (tool, arguments) in required.items()
     }
     return {
         "checks": checks,

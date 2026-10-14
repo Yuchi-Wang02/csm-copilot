@@ -64,14 +64,14 @@ endobj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/MODEL_RUNS.md)
->> /Border [ 0 0 0 ] /Rect [ 54 151 198.49 163 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 54 151 219.62 163 ] /Subtype /Link /Type /Annot
 >>
 endobj
 11 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://github.com/Yuchi-Wang02/csm-copilot/blob/main/docs/VERIFICATION.md)
->> /Border [ 0 0 0 ] /Rect [ 217.77 151 298.35 163 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 238.9 151 319.48 163 ] /Subtype /Link /Type /Annot
 >>
 endobj
 12 0 obj
@@ -111,7 +111,7 @@ q
 n 48 42 m 564 42 l S
 .372549 .439216 .419608 rg
 BT /F1 7.5 Tf 9 TL ET
-BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence 1e50be5a0939) Tj T* ET
+BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence f2d0d5b8840c) Tj T* ET
 BT 1 0 0 1 549.405 29 Tm (1 / 2) Tj T* ET
 Q
 q
@@ -151,7 +151,7 @@ BT /F1 10 Tf 12 TL ET
 q
 1 0 0 1 13 26 cm
 q
-BT 1 0 0 1 0 4 Tm 14 TL /F2 10 Tf .098039 .172549 .168627 rg (5 synthetic accounts) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (8 MCP tools) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (6 recorded model attempts) Tj T* ET
+BT 1 0 0 1 0 4 Tm 14 TL /F2 10 Tf .098039 .172549 .168627 rg (5 synthetic accounts) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (8 MCP tools) Tj /F1 10 Tf (   /   ) Tj /F2 10 Tf (7 recorded model attempts) Tj T* ET
 Q
 Q
 q
@@ -358,7 +358,7 @@ endstream
 endobj
 17 0 obj
 <<
-/Length 5983
+/Length 5985
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -367,7 +367,7 @@ q
 n 48 42 m 564 42 l S
 .372549 .439216 .419608 rg
 BT /F1 7.5 Tf 9 TL ET
-BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence 1e50be5a0939) Tj T* ET
+BT 1 0 0 1 48 29 Tm (Yuchi Wang | CSM Copilot | Evidence f2d0d5b8840c) Tj T* ET
 BT 1 0 0 1 549.405 29 Tm (2 / 2) Tj T* ET
 Q
 q
@@ -571,9 +571,9 @@ q
 1 0 0 1 54 149 cm
 q
 .12549 .337255 .290196 RG
-n 0 2.75 m 144.49 2.75 l S
-n 163.77 2.75 m 244.35 2.75 l S
-BT 1 0 0 1 0 4 Tm 14 TL /F1 10 Tf .12549 .337255 .290196 rg (Six model recordings and review) Tj .098039 .172549 .168627 rg (   |   ) Tj .12549 .337255 .290196 rg (Verification record) Tj T* ET
+n 0 2.75 m 165.62 2.75 l S
+n 184.9 2.75 m 265.48 2.75 l S
+BT 1 0 0 1 0 4 Tm 14 TL /F1 10 Tf .12549 .337255 .290196 rg (Recorded model attempts and review) Tj .098039 .172549 .168627 rg (   |   ) Tj .12549 .337255 .290196 rg (Verification record) Tj T* ET
 Q
 Q
 q
@@ -600,12 +600,12 @@ xref
 0000001346 00000 n 
 0000001536 00000 n 
 0000001747 00000 n 
-0000001960 00000 n 
-0000002200 00000 n 
-0000002284 00000 n 
-0000002636 00000 n 
-0000002703 00000 n 
-0000008643 00000 n 
+0000001959 00000 n 
+0000002199 00000 n 
+0000002283 00000 n 
+0000002635 00000 n 
+0000002702 00000 n 
+0000008642 00000 n 
 trailer
 <<
 /ID 
@@ -617,5 +617,5 @@ trailer
 /Size 18
 >>
 startxref
-14678
+14679
 %%EOF

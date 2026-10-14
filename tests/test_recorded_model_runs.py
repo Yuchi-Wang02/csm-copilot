@@ -22,6 +22,7 @@ DIRECTORY = Path(__file__).resolve().parents[1] / "evidence/model-runs"
         "qwen4-grounded",
         "qwen4-grounded-corrections",
         "qwen4-constrained",
+        "qwen4-callback-handoff",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):
@@ -61,3 +62,16 @@ def test_recorded_corrections_and_field_reviews_are_reproducible():
     assert trace["status"] == "structured_fields_match"
     assert review_final(trace["final"], trace) == trace["response_review"]
     assert trace["response_review"]["free_text_verification"] == "not_performed"
+
+
+def test_callback_handoff_recording_matches_actual_tools_without_approving_prose():
+    trace = json.loads((DIRECTORY / "qwen4-callback-handoff.json").read_text(encoding="utf-8"))
+    assert trace["task_id"] == "callback_handoff"
+    assert trace["coverage"]["observed"] == trace["coverage"]["required"] == 2
+    engine = Copilot()
+    calls = [c for step in trace["steps"] for c in step.get("tool_calls", [])]
+    assert len(calls) == 4
+    for call in calls:
+        action = call["action"]
+        assert getattr(engine, action["tool"])(**action["arguments"]) == call["tool_result"]
+    assert not any("correction_feedback" in step for step in trace["steps"])

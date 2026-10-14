@@ -26,7 +26,7 @@ The current scope is deliberately bounded: Offerwall publisher onboarding, two i
 | Portfolio question | Open this artifact |
 |---|---|
 | Can the workflow turn evidence into a useful next action? | [Android case](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace), [Chinese iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=zh#workspace), and [technical handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) |
-| What did the AI actually do, and where did it fail? | [Six recorded local attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs) and [structured-response review](docs/RESPONSE_REVIEW.md) |
+| What did the AI actually do, and where did it fail? | [Seven recorded local attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs) and [structured-response review](docs/RESPONSE_REVIEW.md) |
 | Can a reviewer trace decisions to the right source? | [Eight evidence-boundary probes](https://yuchi-wang02.github.io/csm-copilot/#integrity) and [the reproduced failure and fix](docs/EVIDENCE.md) |
 | How could a CSM frame recurring friction for Product? | [Source-linked feedback review](evidence/product-feedback.md) and [counting method](docs/PRODUCT_FEEDBACK.md) |
 | How can I explain the judgment myself? | [Three interactive practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice), a downloadable reflection, and [the learning path](docs/LEARNING.md) |
@@ -61,7 +61,7 @@ flowchart LR
 
 The model-enabled MCP host interprets the request, chooses tools, and can rewrite drafts. The server handles dates, scope, evidence references and checklist states deterministically. Default drafts are transparent templates; the project does not require an embedded paid model API.
 
-**Protocol verification:** real stdio MCP initialization, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. The original `mcp-transcript.json` is a scripted client run. **Model observations:** six separate local Qwen attempts preserve actual generated tool choices and responses; their review exposes failures. These exploratory runs do not establish general reliability or customer productivity. The browser replays the recordings and never runs a model itself.
+**Protocol verification:** real stdio MCP initialization, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. The original `mcp-transcript.json` is a scripted client run. **Model observations:** seven separate local Qwen attempts across two prescribed tasks preserve actual generated tool choices and responses; their review exposes failures. These exploratory runs do not establish general reliability or customer productivity. The browser replays the recordings and never runs a model itself.
 
 ## Tools
 
@@ -170,7 +170,7 @@ Created for **Yuchi Wang**, connecting business analytics and AI study with cust
 | Translate an ambiguous customer situation into next actions | [Case walkthrough](docs/INTERVIEW.md) |
 | Design controls around incomplete information | [Architecture and decisions](docs/ARCHITECTURE.md) |
 | Communicate across customer and technical audiences | Bilingual drafts and structured handoffs in the demo |
-| Evaluate an AI-adjacent workflow honestly | [Failure cases and raw results](evidence/EVALUATION.md) |
+| Evaluate model tool use and answer fidelity | [Actual model attempts](evidence/MODEL_RUNS.md) and [baseline diagnostics](evidence/EVALUATION.md) |
 | Learn beyond a generated prototype | [Exercises and mastery checklist](docs/LEARNING.md) |
 
 **Contribution transparency:** Yuchi selected the project direction, intended audience and realistic CSM workflow, and commissioned the build. Implementation, tests, documentation and synthetic cases were produced with substantial AI assistance. The repository does not claim unaided coding, completed personal mastery exercises, or human validation that has not happened. [Development notes](docs/DEVELOPMENT.md) record a real integration failure and fix.

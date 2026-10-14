@@ -114,7 +114,36 @@
           "assessment": "The final explanation describes the platform difference but omits inline source IDs and the explicit nothing-sent sentence requested in the task. Those facts appear in structured fields and the separate system-rendered summary. A field match does not establish full instruction compliance."
         }
       ]
+    },
+    {
+      "id": "qwen4-callback-handoff",
+      "label": "Qwen3-4B · callback handoff task",
+      "protocol": "batch",
+      "verdict": "Handoff facts partly preserved; scope and ownership need review",
+      "summary": "A second task: two requested tool actions completed, plus two extra calls. The answer cites the issue source and names both missing fields, but blurs a failed check with an unconfirmed cause and omits the proposed owner. No correction requests were made.",
+      "findings": [
+        {
+          "kind": "supported",
+          "claim": "HTTP 405, Japan, missing fields and issue citation",
+          "assessment": "The answer reports the recorded symptom and region, names reproduction steps and redacted logs, cites msg_issue_callback, and says no ticket was submitted. These statements agree with the handoff output."
+        },
+        {
+          "kind": "mismatched",
+          "claim": "The callback_verified status is unconfirmed",
+          "assessment": "The account context records callback_verified as not_met, supported by harbor_android_callback_verified. The root cause is unconfirmed. Combining these separate states obscures an observed failure."
+        },
+        {
+          "kind": "omitted",
+          "claim": "Proposed owner and specific unconfirmed hypothesis",
+          "assessment": "The answer omits Technical support after CSM evidence review and the endpoint-method-mismatch hypothesis. It says no ticket was submitted, but does not explicitly state that nothing was sent as the task requested."
+        },
+        {
+          "kind": "input error",
+          "claim": "Triage receives an identifier instead of customer prose",
+          "assessment": "The extra triage_issue call receives issue_text=\"issue_callback\" and no integration scope. A lexical match retrieves the callback category, but this is not evidence that the customer message was triaged. The separate draft_ticket call correctly uses the recorded issue and supplies its actual summary."
+        }
+      ]
     }
   ],
-  "boundary": "Exploratory attempts on one task with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use."
+  "boundary": "Seven exploratory attempts across two prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use."
 }

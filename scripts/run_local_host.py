@@ -22,6 +22,17 @@ TASK = (
     "for recorded facts; say when evidence is missing. Do not promise launch approval. "
     "State that nothing was sent."
 )
+TASKS = {
+    "platform_followups": TASK,
+    "callback_handoff": (
+        "Review Harbor Studio (account acc_006) and its recorded issue issue_callback. "
+        "Retrieve the account context and prepare the issue handoff using tools. "
+        "Then explain in at most 180 words the reported observation, any hypothesis that remains "
+        "unconfirmed, the missing handoff fields, and the proposed next owner and action. "
+        "Cite evidence IDs for recorded facts. Do not claim the cause is confirmed, "
+        "the issue is resolved, or a ticket was submitted. State that nothing was sent."
+    ),
+}
 SYSTEM = (
     "You are a CSM assistant using read-only tools on synthetic records. "
     "Choose your own next tools from the provided tool schemas. Return a JSON object "
@@ -65,6 +76,7 @@ async def readline(process, timeout):
 
 
 async def run(args):
+    task = TASKS[args.task]
     env = dict(os.environ)
     env.update(
         HF_HUB_OFFLINE="1",
@@ -89,7 +101,8 @@ async def run(args):
         "model_id": args.model_id,
         "revision": args.revision,
         "started_at": datetime.now(timezone.utc).isoformat(),
-        "task": TASK,
+        "task": task,
+        "task_id": args.task,
         "host": "csm-copilot custom JSON-action host",
         "protocol_version": {
             "single": "1-single-action",
@@ -158,7 +171,7 @@ async def run(args):
                         }[args.protocol]
                         + json.dumps(tools, ensure_ascii=False),
                     },
-                    {"role": "user", "content": TASK},
+                    {"role": "user", "content": task},
                 ]
                 trace["initial_messages"] = messages.copy()
                 trace["prompt_sha256"] = hashlib.sha256(
@@ -255,6 +268,7 @@ def main():
     parser.add_argument("--model-id", required=True)
     parser.add_argument("--revision", required=True)
     parser.add_argument("--protocol", choices=("single", "batch", "grounded"), default="batch")
+    parser.add_argument("--task", choices=tuple(TASKS), default="platform_followups")
     parser.add_argument("--max-steps", type=int, default=8)
     parser.add_argument("--repair-attempts", type=int, choices=(0, 1, 2), default=0)
     parser.add_argument(
@@ -265,6 +279,8 @@ def main():
     parser.add_argument("--max-new-tokens", type=int, default=768)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.task != "platform_followups" and args.protocol == "grounded":
+        parser.error("The grounded final contract currently supports only platform_followups")
     if args.constrain_final and args.protocol != "grounded":
         parser.error("--constrain-final requires --protocol grounded")
     if not 1 <= args.max_steps <= 12 or not 32 <= args.max_new_tokens <= 2048:

@@ -1,8 +1,8 @@
 # An actual model run, including the failures
 
-The project contains six exploratory local model attempts on one synthetic CSM task. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
+The project contains seven exploratory local model attempts across two synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
 
-**The initial batch attempt completed four requested tool actions but overstated the evidence. The latest run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
+**The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
 [Inspect the browser replay](https://yuchi-wang02.github.io/csm-copilot/#model-runs) · [Read the reviewed results](../evidence/MODEL_RUNS.md) · [Review annotations](../evidence/model-runs/review.json)
 
@@ -59,7 +59,7 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 `python scripts/build_model_replay.py` packages the checked-in traces and review annotations into the website. It does not perform inference. CI checks structural coverage consistency, regenerates the replay and compares the artifact with Git; it does not certify the review annotations as independent truth or rerun a GPU model.
 
-The automated coverage check only asks whether the four requested successful tool actions occurred. The separate source review examines the final prose. Do not combine these into one unqualified accuracy number.
+The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff. The separate source review examines the final prose. Do not combine these into one unqualified accuracy number.
 
 For an interview exercise, hide the review panel, annotate every claim in the unedited response, then compare your findings. Explain why the model can choose the correct tools yet still overstate their results, and why a zero-flag lint result should not approve the answer.
 
@@ -70,3 +70,11 @@ Three further recordings use a structured final contract. The first returned mal
 The last explanation still omits inline source IDs and the explicit nothing-sent sentence requested in the task. Structured fields and the separately rendered summary retain those facts; the prose is not approved. See [the contract and review boundaries](RESPONSE_REVIEW.md).
 
 To reproduce the constrained configuration, install `lm-format-enforcer==0.11.3` in the model worker environment and add `--protocol grounded --max-new-tokens 1536 --repair-attempts 2 --constrain-final` to the command above. The schema controls structure; the field reviewer checks values. The recorded correction feedback contains expected values, so the final match is assisted recovery on a single task, not a held-out score or fair comparison with the earlier configurations.
+
+## v0.9: a separate callback handoff task
+
+The seventh recording asks for Harbor Studio's account context and a handoff for `issue_callback`, followed by a short explanation of the observation, unconfirmed hypothesis, missing fields, owner and next action. Run it with `--task callback_handoff --protocol batch --max-steps 4 --max-new-tokens 768`. The recorded attempt used no correction requests and the same cached Qwen3-4B revision as before. The grounded platform-response schema does not apply to this task; the CLI rejects that combination.
+
+The model completed both requested actions and added a portfolio lookup and a triage call. The triage call passed the issue identifier as free-text input, rather than the customer's message. Its final answer preserved HTTP 405, Japan, both missing fields and the issue evidence ID, but described the recorded failed callback check as unconfirmed, omitted the proposed owner and endpoint-method hypothesis, and did not explicitly state that nothing was sent. It did state that no ticket was submitted.
+
+This gives a second failure mode to inspect: valid tool arguments can still be semantically inappropriate. The two-action coverage count measures the required calls, not the quality of the extra calls or final explanation. The new task was authored during development and has not been independently reviewed. [Raw recording](../evidence/model-runs/qwen4-callback-handoff.json) and [AI-assisted comparison](../evidence/MODEL_RUNS.md).

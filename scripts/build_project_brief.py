@@ -308,7 +308,7 @@ def build():
                 ),
                 para(
                     link(
-                        "Six model recordings and review",
+                        "Recorded model attempts and review",
                         REPO + "/blob/main/evidence/MODEL_RUNS.md",
                     )
                     + " &nbsp; | &nbsp; "
