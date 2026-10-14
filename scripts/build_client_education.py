@@ -37,9 +37,9 @@ def build():
         "device_verified": "not_met",
         "callback_verified": "unknown",
     }
-    assert {k: v["status"] for k, v in integrations["lantern_ios"]["facts"].items()} == dict.fromkeys(
-        integrations["lantern_android"]["facts"], "met"
-    )
+    assert {
+        k: v["status"] for k, v in integrations["lantern_ios"]["facts"].items()
+    } == dict.fromkeys(integrations["lantern_android"]["facts"], "met")
     assert data["as_of"] == "2026-10-14T09:00:00+00:00"
 
     question = next(
