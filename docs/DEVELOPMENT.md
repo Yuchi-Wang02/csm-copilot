@@ -1,5 +1,11 @@
 # Development notes
 
+## Make the MCP learning exercise observable
+
+Session 3 previously asked the learner to run and inspect the smoke transcript without specifying a fresh output path or a focused inspection sequence. It now asks for predictions, writes the real stdio result under ignored `dist/`, and provides a small inspector for available tools, successful calls, retrieved prompts, review/data timestamps and an expected-error flag. It distinguishes scripted call selection from model-proposed actions and explains why a pre-existing file cannot establish a failed run's success.
+
+Documentation QA ran the stated command and executed the exact published Python block. It observed eight available tools, 18 successful calls, two prompts, Android's blocked result and unchanged dataset time in both queue calls. The new JSON matched the reference transcript, the inspector preserved the fixture and reference-file hashes, and Git confirmed the output path is ignored. This checks the exercise, not Yuchi's predictions, personal understanding or model reliability. No model inference was performed and no personal response was supplied.
+
 ## Clarify the request before judging technical intake in the summary
 
 The compact terminal summary preserved `needs_scope` but paired it with generic missing-field status and omitted the issue's next action. With the same synthetic request, "Please explain invoicing.", it showed either `missing: reproduction_steps, redacted_logs` or `missing: none` after all intake fields were populated with unreviewed placeholders. The engine requested scope clarification in both cases; no triage rule changed.

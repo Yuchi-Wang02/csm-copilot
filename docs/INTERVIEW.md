@@ -114,7 +114,7 @@ Replace the last sentence only after completing and documenting the relevant exe
 
 | Interviewer question | A defensible answer |
 |---|---|
-| Why MCP? | It gives model-enabled clients a typed interface to a reusable workflow; it is not itself the language model. |
+| Why MCP? | It gives model-enabled clients a typed interface to a reusable workflow; it is not itself the language model. Use [Session 3](LEARNING.md#session-3--understand-the-mcp-boundary-45-minutes) to inspect a fresh scripted transcript and explain who selected its calls. |
 | Why not let the LLM decide readiness? | Evidence state and scope should remain inspectable; the model can explain them without silently changing the rule. |
 | Is this production-ready? | No. It lacks real CRM integration, auth, conflict resolution, freshness policy and human outcome validation. |
 | What did you measure? | Synthetic category-set retrieval and workflow behavior; not time savings or customer success outcomes. |

@@ -140,13 +140,55 @@ Finish with a short explanation in your own words: **what changed in the evidenc
 
 ## Session 3 — Understand the MCP boundary (45 minutes)
 
-- Read `server.py`; explain what the decorators expose.
-- Run the real stdio smoke test and inspect `evidence/mcp-transcript.json`.
-- Explain why tool transport success does not measure the host model's reasoning.
-- Connect a model-enabled host if available and run `morning_review`.
-- Record host/model/version, prompt, tool calls and final output. Redact any private environment information.
+Before running anything, write your predictions: who chooses the calls in the smoke test, whether eight available tools means eight calls, and whether a later review date means new customer evidence arrived. Read the `calls` list in [mcp_smoke.py](../scripts/mcp_smoke.py) only after recording those predictions.
 
-Evidence to keep: a transparent live trace labeled with its actual execution mode. Do not relabel the scripted transcript as a model run.
+After [installing the Python workflow](LOCAL_SETUP.md#install-the-python-workflow), run this from the repository root:
+
+```sh
+python scripts/mcp_smoke.py --output dist/my-mcp-session.json
+```
+
+This starts a real server subprocess and a scripted client. It needs no model or API credential. The `dist/` folder is ignored by Git, so the exercise does not replace the published [reference transcript](../evidence/mcp-transcript.json). Check that the command exits successfully and prints `PASS` before treating the file as a new result. A failed run does not update the file; an existing file could be from an earlier run. Use a fresh output filename for a separate attempt. See [response timeouts and their limits](MCP.md#when-a-verification-request-stops-responding) if the check fails.
+
+<details>
+<summary>Inspect your fresh transcript after recording your predictions</summary>
+
+Save this as a local `inspect_mcp_session.py` and run `python inspect_mcp_session.py` from the repository root after the successful command above. If you chose another output filename, update the path. The script reads that file; it does not call a tool or a model.
+
+```python
+import json
+from pathlib import Path
+
+trace = json.loads(Path("dist/my-mcp-session.json").read_text(encoding="utf-8"))
+print("Transport:", trace["transport"])
+print("Model inference:", trace["model_inference"])
+print("Available tools:", trace["tool_count"])
+print("Recorded successful calls:", len(trace["calls"]))
+print("Retrieved prompts:", [p["name"] for p in trace["prompts"]])
+
+for call in trace["calls"]:
+    if call["tool"] == "list_accounts":
+        result = call["result"]
+        print("\nQueue arguments:", call["arguments"])
+        print("Review time:", result["as_of"])
+        print("Dataset time:", result["dataset_as_of"])
+        print("Records refreshed:", result["records_refreshed"])
+    elif call["tool"] == "check_readiness":
+        print("\nReadiness arguments:", call["arguments"])
+        print("Returned decision:", call["result"]["decision"])
+
+print("\nInvalid integration returned an error:", trace["invalid_id_returns_error"])
+```
+
+In the current script, eight tools are discovered and 18 successful calls are recorded, including repeated calls with different arguments. The script separately asserts three expected error results; those are summarized by flags rather than stored as entries in `calls`. Prompt retrieval is also separate. These counts describe this verification sequence, not task success, model accuracy or a complete raw protocol log.
+
+</details>
+
+Trace one `check_readiness` call through [the server wrapper](../src/csm_copilot/server.py) to [the engine](../src/csm_copilot/engine.py). Explain which part transports the request and which part decides readiness. Then inspect the two queue calls: identify what changed in their arguments and dates, and which output says the records were not refreshed. A successful transport check does not establish that a model would select the right call or summarize its result faithfully.
+
+For the model comparison, use [the preserved four-call recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs). Find one model-proposed action and one final claim. Explain why those require review beyond this scripted check. A new model-enabled host run is an optional extension; if you conduct one, record the host/model/version, prompt, tool calls and final output separately, and redact private environment information.
+
+Evidence to keep: your predictions, command outcome, fresh scripted transcript and explanation of one request/result pair. Keep the inspector and personal notes outside public commits until reviewed. The supplied script and its `PASS` line do not establish personal mastery; do not relabel this transcript as a model run.
 
 ## Session 4 — Investigate a failure (45–60 minutes)
 
