@@ -19,7 +19,9 @@ A publisher wants to launch on Friday. Sales says integration is nearly complete
 
 A fluent message is easy to generate. A useful message must preserve the difference between **confirmed failure**, **missing evidence**, and **a possible explanation**. This project makes that distinction visible all the way from source records to the customer follow-up.
 
-The v0.1 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups. It does not reproduce a production CRM or Unity's internal process.
+The v0.2 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups. It does not reproduce a production CRM or Unity's internal process.
+
+**New in v0.2:** source ownership and structured-claim agreement are enforced before tools use the data. A valid iOS evidence ID cannot certify Android; another customer's contact cannot reset this account's clock; ticket details cannot overwrite the affected app/platform. Explore the [eight-case evidence-boundary replay](https://yuchi-wang02.github.io/csm-copilot/#integrity) or read [the reproduced failure and fix](docs/EVIDENCE.md). The full behavior suite now has 44 tests.
 
 ## Start with one case
 

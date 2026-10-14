@@ -201,7 +201,11 @@ class Copilot:
         issue = self._lookup(self.issues, issue_id, "issue")
         i = self.integrations[issue.integration_id]
         required = ["sdk_version", "region", "time_window", "reproduction_steps", "redacted_logs"]
-        fields = {"app": i.app, "platform": i.platform, **issue.details}
+        fields = {
+            "app": i.app,
+            "platform": i.platform,
+            **issue.details.model_dump(exclude_none=True),
+        }
         missing = [f for f in required if not fields.get(f)]
         triage = self.triage_issue(issue.summary, i.id)
         return {
@@ -210,6 +214,15 @@ class Copilot:
             "sent": False,
             "title": f"[{i.platform}] {issue.summary}",
             "fields": fields,
+            "field_sources": {
+                key: {
+                    "source_kind": "integration_record"
+                    if key in ("app", "platform")
+                    else "issue_evidence",
+                    "source_id": i.id if key in ("app", "platform") else issue.evidence_id,
+                }
+                for key in fields
+            },
             "customer_report": self.evidence[issue.evidence_id].text,
             "evidence_ids": [issue.evidence_id],
             "missing_fields": missing,

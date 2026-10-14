@@ -8,7 +8,8 @@ from csm_copilot.demo import build_demo
 
 ROOT = Path(__file__).resolve().parents[1]
 report = runpy.run_path(str(ROOT / "evaluation/run.py"))["evaluate"]()
-payload = {"workflow": build_demo(), "evaluation": report}
+integrity = runpy.run_path(str(ROOT / "evaluation/integrity.py"))["write_report"]()
+payload = {"workflow": build_demo(), "evaluation": report, "integrity": integrity}
 (ROOT / "demo/data.js").write_text(
     "window.CSM_DATA = " + json.dumps(payload, ensure_ascii=False, indent=2) + ";\n",
     encoding="utf-8",

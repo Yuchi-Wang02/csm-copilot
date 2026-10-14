@@ -36,8 +36,11 @@ def build_demo():
     updated["evidence"].append(
         {
             "id": "reply_android_settings",
+            "account_id": "acc_014",
+            "integration_id": "lantern_android",
             "at": updated["as_of"],
             "kind": "customer_report",
+            "claims": {"currency_approved": "met", "test_only_off": "met"},
             "text": "Synthetic update: Android currency is approved and Test Only is off. No new device test yet.",
         }
     )

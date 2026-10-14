@@ -65,6 +65,8 @@ Evidence to keep: your two versions and the claim-to-evidence annotation.
 
 ## Short reflection template
 
+Additional v0.2 exercise: read [the evidence-scope failure and fix](EVIDENCE.md), predict the eight probe outcomes, then write a new provenance test in your own words. Explain why validating source ownership does not prove that the source is true.
+
 ```text
 Date:
 Question I investigated:

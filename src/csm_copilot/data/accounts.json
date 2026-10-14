@@ -315,229 +315,443 @@
       "id": "contact_acc_014",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "contact_record",
-      "text": "Synthetic CSM contact: received onboarding progress update."
+      "text": "Synthetic CSM contact: received onboarding progress update.",
+      "account_id": "acc_014",
+      "integration_id": null,
+      "claims": {},
+      "language": "en"
     },
     {
       "id": "lantern_android_placement_linked",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Placement and content = met."
+      "text": "Synthetic Android test record: Placement and content = met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_android",
+      "claims": {
+        "placement_linked": "met"
+      },
+      "language": "en"
     },
     {
       "id": "lantern_android_sdk_connected",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: SDK connection sequence = met."
+      "text": "Synthetic Android test record: SDK connection sequence = met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_android",
+      "claims": {
+        "sdk_connected": "met"
+      },
+      "language": "en"
     },
     {
       "id": "lantern_android_device_verified",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Non-test device verification = not_met."
+      "text": "Synthetic Android test record: Non-test device verification = not_met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_android",
+      "claims": {
+        "device_verified": "not_met"
+      },
+      "language": "en"
     },
     {
       "id": "lantern_ios_currency_approved",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Platform currency approval = met."
+      "text": "Synthetic iOS test record: Platform currency approval = met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_ios",
+      "claims": {
+        "currency_approved": "met"
+      },
+      "language": "en"
     },
     {
       "id": "lantern_ios_test_only_off",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Production visibility setting = met."
+      "text": "Synthetic iOS test record: Production visibility setting = met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_ios",
+      "claims": {
+        "test_only_off": "met"
+      },
+      "language": "en"
     },
     {
       "id": "lantern_ios_placement_linked",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Placement and content = met."
+      "text": "Synthetic iOS test record: Placement and content = met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_ios",
+      "claims": {
+        "placement_linked": "met"
+      },
+      "language": "en"
     },
     {
       "id": "lantern_ios_sdk_connected",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: SDK connection sequence = met."
+      "text": "Synthetic iOS test record: SDK connection sequence = met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_ios",
+      "claims": {
+        "sdk_connected": "met"
+      },
+      "language": "en"
     },
     {
       "id": "lantern_ios_device_verified",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Non-test device verification = met."
+      "text": "Synthetic iOS test record: Non-test device verification = met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_ios",
+      "claims": {
+        "device_verified": "met"
+      },
+      "language": "en"
     },
     {
       "id": "lantern_ios_callback_verified",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Reward callback verification = met."
+      "text": "Synthetic iOS test record: Reward callback verification = met.",
+      "account_id": "acc_014",
+      "integration_id": "lantern_ios",
+      "claims": {
+        "callback_verified": "met"
+      },
+      "language": "en"
     },
     {
       "id": "msg_issue_blank",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "customer_report",
-      "text": "我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。"
+      "text": "我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。",
+      "account_id": "acc_014",
+      "integration_id": "lantern_android",
+      "claims": {},
+      "language": "zh"
     },
     {
       "id": "contact_acc_006",
       "at": "2026-10-10T09:00:00+00:00",
       "kind": "contact_record",
-      "text": "Synthetic CSM contact: received onboarding progress update."
+      "text": "Synthetic CSM contact: received onboarding progress update.",
+      "account_id": "acc_006",
+      "integration_id": null,
+      "claims": {},
+      "language": "en"
     },
     {
       "id": "harbor_android_currency_approved",
       "at": "2026-10-10T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Platform currency approval = met."
+      "text": "Synthetic Android test record: Platform currency approval = met.",
+      "account_id": "acc_006",
+      "integration_id": "harbor_android",
+      "claims": {
+        "currency_approved": "met"
+      },
+      "language": "en"
     },
     {
       "id": "harbor_android_test_only_off",
       "at": "2026-10-10T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Production visibility setting = met."
+      "text": "Synthetic Android test record: Production visibility setting = met.",
+      "account_id": "acc_006",
+      "integration_id": "harbor_android",
+      "claims": {
+        "test_only_off": "met"
+      },
+      "language": "en"
     },
     {
       "id": "harbor_android_placement_linked",
       "at": "2026-10-10T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Placement and content = met."
+      "text": "Synthetic Android test record: Placement and content = met.",
+      "account_id": "acc_006",
+      "integration_id": "harbor_android",
+      "claims": {
+        "placement_linked": "met"
+      },
+      "language": "en"
     },
     {
       "id": "harbor_android_sdk_connected",
       "at": "2026-10-10T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: SDK connection sequence = met."
+      "text": "Synthetic Android test record: SDK connection sequence = met.",
+      "account_id": "acc_006",
+      "integration_id": "harbor_android",
+      "claims": {
+        "sdk_connected": "met"
+      },
+      "language": "en"
     },
     {
       "id": "harbor_android_device_verified",
       "at": "2026-10-10T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Non-test device verification = met."
+      "text": "Synthetic Android test record: Non-test device verification = met.",
+      "account_id": "acc_006",
+      "integration_id": "harbor_android",
+      "claims": {
+        "device_verified": "met"
+      },
+      "language": "en"
     },
     {
       "id": "harbor_android_callback_verified",
       "at": "2026-10-10T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Reward callback verification = not_met."
+      "text": "Synthetic Android test record: Reward callback verification = not_met.",
+      "account_id": "acc_006",
+      "integration_id": "harbor_android",
+      "claims": {
+        "callback_verified": "not_met"
+      },
+      "language": "en"
     },
     {
       "id": "msg_issue_callback",
       "at": "2026-10-10T09:00:00+00:00",
       "kind": "customer_report",
-      "text": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10."
+      "text": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10.",
+      "account_id": "acc_006",
+      "integration_id": "harbor_android",
+      "claims": {},
+      "language": "en"
     },
     {
       "id": "contact_acc_009",
       "at": "2026-10-08T09:00:00+00:00",
       "kind": "contact_record",
-      "text": "Synthetic CSM contact: received onboarding progress update."
+      "text": "Synthetic CSM contact: received onboarding progress update.",
+      "account_id": "acc_009",
+      "integration_id": null,
+      "claims": {},
+      "language": "en"
     },
     {
       "id": "pine_ios_currency_approved",
       "at": "2026-10-08T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Platform currency approval = met."
+      "text": "Synthetic iOS test record: Platform currency approval = met.",
+      "account_id": "acc_009",
+      "integration_id": "pine_ios",
+      "claims": {
+        "currency_approved": "met"
+      },
+      "language": "en"
     },
     {
       "id": "pine_ios_test_only_off",
       "at": "2026-10-08T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Production visibility setting = met."
+      "text": "Synthetic iOS test record: Production visibility setting = met.",
+      "account_id": "acc_009",
+      "integration_id": "pine_ios",
+      "claims": {
+        "test_only_off": "met"
+      },
+      "language": "en"
     },
     {
       "id": "pine_ios_placement_linked",
       "at": "2026-10-08T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Placement and content = met."
+      "text": "Synthetic iOS test record: Placement and content = met.",
+      "account_id": "acc_009",
+      "integration_id": "pine_ios",
+      "claims": {
+        "placement_linked": "met"
+      },
+      "language": "en"
     },
     {
       "id": "pine_ios_sdk_connected",
       "at": "2026-10-08T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: SDK connection sequence = met."
+      "text": "Synthetic iOS test record: SDK connection sequence = met.",
+      "account_id": "acc_009",
+      "integration_id": "pine_ios",
+      "claims": {
+        "sdk_connected": "met"
+      },
+      "language": "en"
     },
     {
       "id": "pine_ios_device_verified",
       "at": "2026-10-08T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Non-test device verification = met."
+      "text": "Synthetic iOS test record: Non-test device verification = met.",
+      "account_id": "acc_009",
+      "integration_id": "pine_ios",
+      "claims": {
+        "device_verified": "met"
+      },
+      "language": "en"
     },
     {
       "id": "pine_ios_callback_verified",
       "at": "2026-10-08T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Reward callback verification = met."
+      "text": "Synthetic iOS test record: Reward callback verification = met.",
+      "account_id": "acc_009",
+      "integration_id": "pine_ios",
+      "claims": {
+        "callback_verified": "met"
+      },
+      "language": "en"
     },
     {
       "id": "contact_acc_011",
       "at": "2026-10-13T09:00:00+00:00",
       "kind": "contact_record",
-      "text": "Synthetic CSM contact: received onboarding progress update."
+      "text": "Synthetic CSM contact: received onboarding progress update.",
+      "account_id": "acc_011",
+      "integration_id": null,
+      "claims": {},
+      "language": "en"
     },
     {
       "id": "orbit_android_currency_approved",
       "at": "2026-10-13T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Platform currency approval = met."
+      "text": "Synthetic Android test record: Platform currency approval = met.",
+      "account_id": "acc_011",
+      "integration_id": "orbit_android",
+      "claims": {
+        "currency_approved": "met"
+      },
+      "language": "en"
     },
     {
       "id": "orbit_android_test_only_off",
       "at": "2026-10-13T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Production visibility setting = met."
+      "text": "Synthetic Android test record: Production visibility setting = met.",
+      "account_id": "acc_011",
+      "integration_id": "orbit_android",
+      "claims": {
+        "test_only_off": "met"
+      },
+      "language": "en"
     },
     {
       "id": "orbit_android_placement_linked",
       "at": "2026-10-13T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Placement and content = met."
+      "text": "Synthetic Android test record: Placement and content = met.",
+      "account_id": "acc_011",
+      "integration_id": "orbit_android",
+      "claims": {
+        "placement_linked": "met"
+      },
+      "language": "en"
     },
     {
       "id": "orbit_android_sdk_connected",
       "at": "2026-10-13T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: SDK connection sequence = met."
+      "text": "Synthetic Android test record: SDK connection sequence = met.",
+      "account_id": "acc_011",
+      "integration_id": "orbit_android",
+      "claims": {
+        "sdk_connected": "met"
+      },
+      "language": "en"
     },
     {
       "id": "orbit_android_device_verified",
       "at": "2026-10-13T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Non-test device verification = met."
+      "text": "Synthetic Android test record: Non-test device verification = met.",
+      "account_id": "acc_011",
+      "integration_id": "orbit_android",
+      "claims": {
+        "device_verified": "met"
+      },
+      "language": "en"
     },
     {
       "id": "orbit_android_callback_verified",
       "at": "2026-10-13T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic Android test record: Reward callback verification = met."
+      "text": "Synthetic Android test record: Reward callback verification = met.",
+      "account_id": "acc_011",
+      "integration_id": "orbit_android",
+      "claims": {
+        "callback_verified": "met"
+      },
+      "language": "en"
     },
     {
       "id": "contact_acc_018",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "contact_record",
-      "text": "Synthetic CSM contact: received onboarding progress update."
+      "text": "Synthetic CSM contact: received onboarding progress update.",
+      "account_id": "acc_018",
+      "integration_id": null,
+      "claims": {},
+      "language": "en"
     },
     {
       "id": "meadow_ios_currency_approved",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Platform currency approval = met."
+      "text": "Synthetic iOS test record: Platform currency approval = met.",
+      "account_id": "acc_018",
+      "integration_id": "meadow_ios",
+      "claims": {
+        "currency_approved": "met"
+      },
+      "language": "en"
     },
     {
       "id": "meadow_ios_test_only_off",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Production visibility setting = met."
+      "text": "Synthetic iOS test record: Production visibility setting = met.",
+      "account_id": "acc_018",
+      "integration_id": "meadow_ios",
+      "claims": {
+        "test_only_off": "met"
+      },
+      "language": "en"
     },
     {
       "id": "meadow_ios_placement_linked",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: Placement and content = met."
+      "text": "Synthetic iOS test record: Placement and content = met.",
+      "account_id": "acc_018",
+      "integration_id": "meadow_ios",
+      "claims": {
+        "placement_linked": "met"
+      },
+      "language": "en"
     },
     {
       "id": "meadow_ios_sdk_connected",
       "at": "2026-10-09T09:00:00+00:00",
       "kind": "test_record",
-      "text": "Synthetic iOS test record: SDK connection sequence = met."
+      "text": "Synthetic iOS test record: SDK connection sequence = met.",
+      "account_id": "acc_018",
+      "integration_id": "meadow_ios",
+      "claims": {
+        "sdk_connected": "met"
+      },
+      "language": "en"
     }
   ],
   "issues": [

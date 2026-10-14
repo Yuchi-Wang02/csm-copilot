@@ -1,0 +1,151 @@
+{
+  "execution_mode": "schema validation replay; no model inference",
+  "scope": "Eight developer-authored mutations of the synthetic fixture, not a general safety benchmark.",
+  "semantic_boundary": "Checks declared scope and structured claims; does not verify source text or external truth.",
+  "cases": [
+    {
+      "id": "valid_same_platform",
+      "label": "Keep correctly scoped evidence",
+      "change": "Use the existing Android device-failure record for its Android device check.",
+      "reason": "Valid provenance is accepted even when the business result is a blocker.",
+      "expected": "accepted",
+      "observed": "accepted",
+      "matches_expectation": true,
+      "result": {
+        "readiness": "blocked",
+        "device_check": "not_met",
+        "ticket_missing_fields": [
+          "sdk_version",
+          "time_window",
+          "redacted_logs"
+        ]
+      }
+    },
+    {
+      "id": "cross_platform",
+      "label": "Reuse an iOS pass for Android",
+      "change": "Set Android currency approval to met using lantern_ios_currency_approved.",
+      "reason": "A real source ID is insufficient when it describes another platform.",
+      "expected": "rejected",
+      "observed": "rejected",
+      "matches_expectation": true,
+      "result": {
+        "errors": [
+          {
+            "location": [],
+            "message": "Value error, Fact evidence integration scope does not match integration"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wrong_check",
+      "label": "Use a connection test to prove approval",
+      "change": "Set Android currency approval to met using lantern_android_sdk_connected.",
+      "reason": "The app matches, but SDK connection does not establish currency approval.",
+      "expected": "rejected",
+      "observed": "rejected",
+      "matches_expectation": true,
+      "result": {
+        "errors": [
+          {
+            "location": [],
+            "message": "Value error, Fact evidence check scope does not match check"
+          }
+        ]
+      }
+    },
+    {
+      "id": "other_customer_contact",
+      "label": "Borrow another customer's contact",
+      "change": "Replace Lantern's last-contact reference with contact_acc_011 from Orbit.",
+      "reason": "Another customer's recent contact must not remove Lantern from the follow-up queue.",
+      "expected": "rejected",
+      "observed": "rejected",
+      "matches_expectation": true,
+      "result": {
+        "errors": [
+          {
+            "location": [],
+            "message": "Value error, Contact evidence account scope does not match account"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ticket_identity",
+      "label": "Overwrite the handoff platform",
+      "change": "Insert platform: iOS into the Android issue's free-form details.",
+      "reason": "App and platform come from the validated integration, not ticket detail fields.",
+      "expected": "rejected",
+      "observed": "rejected",
+      "matches_expectation": true,
+      "result": {
+        "errors": [
+          {
+            "location": [
+              "issues",
+              0,
+              "details",
+              "platform"
+            ],
+            "message": "Extra inputs are not permitted"
+          }
+        ]
+      }
+    },
+    {
+      "id": "reversed_claim",
+      "label": "Turn a recorded failure into a pass",
+      "change": "Change the Android device-check fact to met, leaving its not_met source claim intact.",
+      "reason": "Matching source ownership does not permit reversing what the source asserts.",
+      "expected": "rejected",
+      "observed": "rejected",
+      "matches_expectation": true,
+      "result": {
+        "errors": [
+          {
+            "location": [],
+            "message": "Value error, Evidence claim conflicts with fact state; preserve uncertainty"
+          }
+        ]
+      }
+    },
+    {
+      "id": "conflicting_reports",
+      "label": "Keep disagreement visible",
+      "change": "Add a contrary Android customer report and retain both records under an unknown device-check state.",
+      "reason": "The schema accepts explicit uncertainty; it does not decide which report is true.",
+      "expected": "accepted",
+      "observed": "accepted",
+      "matches_expectation": true,
+      "result": {
+        "readiness": "needs_evidence",
+        "device_check": "unknown",
+        "ticket_missing_fields": [
+          "sdk_version",
+          "time_window",
+          "redacted_logs"
+        ]
+      }
+    },
+    {
+      "id": "empty_detail",
+      "label": "Treat a blank SDK version as missing",
+      "change": "Set the SDK version to whitespace only.",
+      "reason": "Whitespace cannot satisfy the engineering handoff's required information.",
+      "expected": "accepted",
+      "observed": "accepted",
+      "matches_expectation": true,
+      "result": {
+        "readiness": "blocked",
+        "device_check": "not_met",
+        "ticket_missing_fields": [
+          "sdk_version",
+          "time_window",
+          "redacted_logs"
+        ]
+      }
+    }
+  ]
+}

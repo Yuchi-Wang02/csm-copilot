@@ -1,6 +1,6 @@
 /* A transparent replay of Python outputs. No API, hidden AI, or simulated typing. */
 "use strict";
-const { workflow, evaluation: report } = window.CSM_DATA;
+const { workflow, evaluation: report, integrity } = window.CSM_DATA;
 let selected = 0,
   integration = 0,
   activeTab = "evidence",
@@ -60,7 +60,7 @@ function renderCase() {
       : null;
     $("panel").innerHTML =
       (e
-        ? `<div class="quote"><p>${esc(issue.summary)}</p><details><summary>Read original customer message</summary><p lang="zh-CN">${esc(e.text)}</p></details><small>CUSTOMER REPORT · ${esc(e.id)} · ${esc(e.at.slice(0, 10))}</small></div>`
+        ? `<div class="quote"><p>${esc(issue.summary)}</p><details><summary>Read original customer message</summary><p lang="${e.language === "zh" ? "zh-CN" : "en"}">${esc(e.text)}</p></details><small>CUSTOMER REPORT · ${esc(e.id)} · ${esc(e.at.slice(0, 10))}</small></div>`
         : '<div class="quote"><p>No issue message recorded for this integration. Readiness still depends on its own evidence.</p></div>') +
       checksTable(r) +
       `<details><summary>Inspect the supporting evidence records</summary><pre>${esc(
@@ -110,7 +110,7 @@ function renderCase() {
         )
         .join(
           "",
-        )}<dt>Evidence</dt><dd>${esc(t.evidence_ids.join(", "))}</dd><dt>Suggested owner</dt><dd>${esc(t.suggested_owner)}</dd></dl><div class="missing"><strong>Request before technical review</strong>${t.missing_fields.map((f) => `<code>${esc(f)}</code>`).join(" ")}</div><p class="boundary">${esc(t.next_action)}</p>${t.triage.notes.map((n) => `<p class="boundary">${esc(n)}</p>`).join("")}<details><summary>Inspect candidate checks and source URLs</summary><pre>${esc(JSON.stringify(t.triage, null, 2))}</pre></details>`;
+        )}<dt>Evidence</dt><dd>${esc(t.evidence_ids.join(", "))}</dd><dt>Suggested owner</dt><dd>${esc(t.suggested_owner)}</dd></dl><div class="missing"><strong>Request before technical review</strong>${t.missing_fields.map((f) => `<code>${esc(f)}</code>`).join(" ")}</div><p class="boundary">${esc(t.next_action)}</p>${t.triage.notes.map((n) => `<p class="boundary">${esc(n)}</p>`).join("")}<details><summary>Inspect candidate checks and source URLs</summary><pre>${esc(JSON.stringify(t.triage, null, 2))}</pre></details><details><summary>Trace each handoff field to its record</summary><pre>${esc(JSON.stringify(t.field_sources, null, 2))}</pre></details>`;
   }
 }
 document.querySelectorAll("[data-tab]").forEach((b, n, buttons) => {
@@ -176,3 +176,19 @@ $("failures").innerHTML = report.triage_cases
 renderQueue();
 renderCase();
 renderCounter();
+
+$("integrity-case").innerHTML = integrity.cases
+  .map(
+    (c) =>
+      `<option value="${esc(c.id)}" ${c.id === "cross_platform" ? "selected" : ""}>${esc(c.label)}</option>`,
+  )
+  .join("");
+function renderIntegrity() {
+  const c = integrity.cases.find(
+    (item) => item.id === $("integrity-case").value,
+  );
+  $("integrity-result").innerHTML =
+    `<div><span class="small-label">PROPOSED RECORD CHANGE</span><p>${esc(c.change)}</p></div><div><div class="decision">${badge(c.observed)}<strong>${c.observed === "rejected" ? "Stopped before tool output" : "Valid data, scoped conclusion"}</strong></div><p>${esc(c.reason)}</p>${c.result.readiness ? `<p class="boundary">Android readiness: <b>${esc(c.result.readiness.replaceAll("_", " "))}</b>. Acceptance of data does not mean launch approval.</p>` : ""}<details><summary>Inspect the recorded validation result</summary><pre>${esc(JSON.stringify(c.result, null, 2))}</pre></details></div>`;
+}
+$("integrity-case").addEventListener("change", renderIntegrity);
+renderIntegrity();

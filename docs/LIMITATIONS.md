@@ -5,7 +5,7 @@ This is an educational portfolio prototype with synthetic records, not a deploya
 - **No real account integration.** JSON fixtures represent a fixed snapshot. No CRM, Unity dashboard, ticketing or messaging connection exists.
 - **No live model evaluation.** A model-enabled MCP host can use the tools. The published demo and evaluations do not run a language model.
 - **Triage is a baseline.** Lexical matches can miss paraphrases and misread negation; multiple symptoms are returned as candidates.
-- **Evidence is attributed, not independently verified.** Known facts refer to fixture evidence. There is no screenshot verification, contradictory-evidence resolution or stale-evidence expiration policy.
+- **Evidence is attributed, not independently verified.** Account, integration, check scope and structured-claim agreement are validated. The system does not verify that claims match source prose or external truth, verify screenshots, automatically resolve contradictory evidence, or expire stale evidence. Conflicting records can remain explicitly unknown.
 - **Checklist scope is partial.** `checklist_complete` covers six project checks and never certifies production launch, compliance or revenue.
 - **Promise lint is narrow.** Regex patterns have both false positives and false negatives. Absence of flags never establishes factuality.
 - **Evaluation is synthetic and same-session authored.** Family separation helps prevent bilingual duplicate leakage but does not create independent human validation.

@@ -1,10 +1,11 @@
 # Verification record
 
-Verified during the initial build on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified during the initial build and the v0.2 evidence-scope improvement on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| Python behavior tests | 26 passed locally | Deterministic workflow and input boundaries |
+| Python behavior tests | 44 passed locally | Workflow behavior, source scope, claim agreement and handoff field boundaries |
+| Evidence-integrity replay | 8/8 expected acceptance states | Developer-authored probes; no semantic truth verification |
 | Ruff lint and format | Passed | Python source checks |
 | Package build | Source distribution and wheel built | Includes packaged JSON fixtures |
 | Real MCP stdio client | Seven tools, prompt retrieval and invalid-ID error passed | Scripted client, no model inference |
@@ -22,8 +23,9 @@ Verified during the initial build on 2026-10-14. For the latest commit, use the 
 - The copy button reports completion; operating-system clipboard contents were not independently validated.
 - At a mobile viewport, document width and scroll width both measured 375 CSS pixels: no horizontal page overflow.
 - Browser error logs were empty in the inspected local session.
+- The v0.2 evidence selector displays rejected cross-platform and identity-overwrite probes, and accepts an explicitly unknown state with contradictory reports. Its mobile layout also measured 375 CSS pixels for both document and scroll width, without horizontal overflow.
 
-Screenshots: [desktop introduction](assets/demo-desktop.png), [case review](assets/demo-case.png), [Chinese follow-up](assets/demo-followup.png), [mobile evidence view](assets/demo-mobile.png).
+Screenshots: [desktop introduction](assets/demo-desktop.png), [case review](assets/demo-case.png), [Chinese follow-up](assets/demo-followup.png), [mobile evidence view](assets/demo-mobile.png), [v0.2 evidence-boundary replay](assets/demo-integrity.png).
 
 ## Reproduction
 

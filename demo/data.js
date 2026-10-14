@@ -171,77 +171,142 @@ window.CSM_DATA = {
               "evidence_id": "msg_issue_blank",
               "summary": "Test device shows offers; non-test Android device has a blank offerwall.",
               "details": {
+                "sdk_version": null,
                 "region": "Singapore",
-                "reproduction_steps": "Open the reward screen on a non-test Android device."
+                "time_window": null,
+                "reproduction_steps": "Open the reward screen on a non-test Android device.",
+                "redacted_logs": null
               }
             }
           ],
           "evidence": [
             {
               "id": "contact_acc_014",
+              "account_id": "acc_014",
+              "integration_id": null,
               "at": "2026-10-09T09:00:00Z",
               "kind": "contact_record",
-              "text": "Synthetic CSM contact: received onboarding progress update."
+              "text": "Synthetic CSM contact: received onboarding progress update.",
+              "language": "en",
+              "claims": {}
             },
             {
               "id": "lantern_android_device_verified",
+              "account_id": "acc_014",
+              "integration_id": "lantern_android",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: Non-test device verification = not_met."
+              "text": "Synthetic Android test record: Non-test device verification = not_met.",
+              "language": "en",
+              "claims": {
+                "device_verified": "not_met"
+              }
             },
             {
               "id": "lantern_android_placement_linked",
+              "account_id": "acc_014",
+              "integration_id": "lantern_android",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: Placement and content = met."
+              "text": "Synthetic Android test record: Placement and content = met.",
+              "language": "en",
+              "claims": {
+                "placement_linked": "met"
+              }
             },
             {
               "id": "lantern_android_sdk_connected",
+              "account_id": "acc_014",
+              "integration_id": "lantern_android",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: SDK connection sequence = met."
+              "text": "Synthetic Android test record: SDK connection sequence = met.",
+              "language": "en",
+              "claims": {
+                "sdk_connected": "met"
+              }
             },
             {
               "id": "lantern_ios_callback_verified",
+              "account_id": "acc_014",
+              "integration_id": "lantern_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: Reward callback verification = met."
+              "text": "Synthetic iOS test record: Reward callback verification = met.",
+              "language": "en",
+              "claims": {
+                "callback_verified": "met"
+              }
             },
             {
               "id": "lantern_ios_currency_approved",
+              "account_id": "acc_014",
+              "integration_id": "lantern_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: Platform currency approval = met."
+              "text": "Synthetic iOS test record: Platform currency approval = met.",
+              "language": "en",
+              "claims": {
+                "currency_approved": "met"
+              }
             },
             {
               "id": "lantern_ios_device_verified",
+              "account_id": "acc_014",
+              "integration_id": "lantern_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: Non-test device verification = met."
+              "text": "Synthetic iOS test record: Non-test device verification = met.",
+              "language": "en",
+              "claims": {
+                "device_verified": "met"
+              }
             },
             {
               "id": "lantern_ios_placement_linked",
+              "account_id": "acc_014",
+              "integration_id": "lantern_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: Placement and content = met."
+              "text": "Synthetic iOS test record: Placement and content = met.",
+              "language": "en",
+              "claims": {
+                "placement_linked": "met"
+              }
             },
             {
               "id": "lantern_ios_sdk_connected",
+              "account_id": "acc_014",
+              "integration_id": "lantern_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: SDK connection sequence = met."
+              "text": "Synthetic iOS test record: SDK connection sequence = met.",
+              "language": "en",
+              "claims": {
+                "sdk_connected": "met"
+              }
             },
             {
               "id": "lantern_ios_test_only_off",
+              "account_id": "acc_014",
+              "integration_id": "lantern_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: Production visibility setting = met."
+              "text": "Synthetic iOS test record: Production visibility setting = met.",
+              "language": "en",
+              "claims": {
+                "test_only_off": "met"
+              }
             },
             {
               "id": "msg_issue_blank",
+              "account_id": "acc_014",
+              "integration_id": "lantern_android",
               "at": "2026-10-09T09:00:00Z",
               "kind": "customer_report",
-              "text": "我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。"
+              "text": "我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。",
+              "language": "zh",
+              "claims": {}
             }
           ],
           "synthetic": true,
@@ -602,6 +667,24 @@ window.CSM_DATA = {
               "region": "Singapore",
               "reproduction_steps": "Open the reward screen on a non-test Android device."
             },
+            "field_sources": {
+              "app": {
+                "source_kind": "integration_record",
+                "source_id": "lantern_android"
+              },
+              "platform": {
+                "source_kind": "integration_record",
+                "source_id": "lantern_android"
+              },
+              "region": {
+                "source_kind": "issue_evidence",
+                "source_id": "msg_issue_blank"
+              },
+              "reproduction_steps": {
+                "source_kind": "issue_evidence",
+                "source_id": "msg_issue_blank"
+              }
+            },
             "customer_report": "我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。",
             "evidence_ids": [
               "msg_issue_blank"
@@ -716,33 +799,61 @@ window.CSM_DATA = {
           "evidence": [
             {
               "id": "contact_acc_018",
+              "account_id": "acc_018",
+              "integration_id": null,
               "at": "2026-10-09T09:00:00Z",
               "kind": "contact_record",
-              "text": "Synthetic CSM contact: received onboarding progress update."
+              "text": "Synthetic CSM contact: received onboarding progress update.",
+              "language": "en",
+              "claims": {}
             },
             {
               "id": "meadow_ios_currency_approved",
+              "account_id": "acc_018",
+              "integration_id": "meadow_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: Platform currency approval = met."
+              "text": "Synthetic iOS test record: Platform currency approval = met.",
+              "language": "en",
+              "claims": {
+                "currency_approved": "met"
+              }
             },
             {
               "id": "meadow_ios_placement_linked",
+              "account_id": "acc_018",
+              "integration_id": "meadow_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: Placement and content = met."
+              "text": "Synthetic iOS test record: Placement and content = met.",
+              "language": "en",
+              "claims": {
+                "placement_linked": "met"
+              }
             },
             {
               "id": "meadow_ios_sdk_connected",
+              "account_id": "acc_018",
+              "integration_id": "meadow_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: SDK connection sequence = met."
+              "text": "Synthetic iOS test record: SDK connection sequence = met.",
+              "language": "en",
+              "claims": {
+                "sdk_connected": "met"
+              }
             },
             {
               "id": "meadow_ios_test_only_off",
+              "account_id": "acc_018",
+              "integration_id": "meadow_ios",
               "at": "2026-10-09T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic iOS test record: Production visibility setting = met."
+              "text": "Synthetic iOS test record: Production visibility setting = met.",
+              "language": "en",
+              "claims": {
+                "test_only_off": "met"
+              }
             }
           ],
           "synthetic": true,
@@ -988,60 +1099,106 @@ window.CSM_DATA = {
               "evidence_id": "msg_issue_callback",
               "summary": "Reward callback returns HTTP 405.",
               "details": {
-                "time_window": "2026-10-10 08:30–09:00 UTC",
                 "sdk_version": "synthetic-version-1",
-                "region": "Japan"
+                "region": "Japan",
+                "time_window": "2026-10-10 08:30–09:00 UTC",
+                "reproduction_steps": null,
+                "redacted_logs": null
               }
             }
           ],
           "evidence": [
             {
               "id": "contact_acc_006",
+              "account_id": "acc_006",
+              "integration_id": null,
               "at": "2026-10-10T09:00:00Z",
               "kind": "contact_record",
-              "text": "Synthetic CSM contact: received onboarding progress update."
+              "text": "Synthetic CSM contact: received onboarding progress update.",
+              "language": "en",
+              "claims": {}
             },
             {
               "id": "harbor_android_callback_verified",
+              "account_id": "acc_006",
+              "integration_id": "harbor_android",
               "at": "2026-10-10T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: Reward callback verification = not_met."
+              "text": "Synthetic Android test record: Reward callback verification = not_met.",
+              "language": "en",
+              "claims": {
+                "callback_verified": "not_met"
+              }
             },
             {
               "id": "harbor_android_currency_approved",
+              "account_id": "acc_006",
+              "integration_id": "harbor_android",
               "at": "2026-10-10T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: Platform currency approval = met."
+              "text": "Synthetic Android test record: Platform currency approval = met.",
+              "language": "en",
+              "claims": {
+                "currency_approved": "met"
+              }
             },
             {
               "id": "harbor_android_device_verified",
+              "account_id": "acc_006",
+              "integration_id": "harbor_android",
               "at": "2026-10-10T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: Non-test device verification = met."
+              "text": "Synthetic Android test record: Non-test device verification = met.",
+              "language": "en",
+              "claims": {
+                "device_verified": "met"
+              }
             },
             {
               "id": "harbor_android_placement_linked",
+              "account_id": "acc_006",
+              "integration_id": "harbor_android",
               "at": "2026-10-10T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: Placement and content = met."
+              "text": "Synthetic Android test record: Placement and content = met.",
+              "language": "en",
+              "claims": {
+                "placement_linked": "met"
+              }
             },
             {
               "id": "harbor_android_sdk_connected",
+              "account_id": "acc_006",
+              "integration_id": "harbor_android",
               "at": "2026-10-10T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: SDK connection sequence = met."
+              "text": "Synthetic Android test record: SDK connection sequence = met.",
+              "language": "en",
+              "claims": {
+                "sdk_connected": "met"
+              }
             },
             {
               "id": "harbor_android_test_only_off",
+              "account_id": "acc_006",
+              "integration_id": "harbor_android",
               "at": "2026-10-10T09:00:00Z",
               "kind": "test_record",
-              "text": "Synthetic Android test record: Production visibility setting = met."
+              "text": "Synthetic Android test record: Production visibility setting = met.",
+              "language": "en",
+              "claims": {
+                "test_only_off": "met"
+              }
             },
             {
               "id": "msg_issue_callback",
+              "account_id": "acc_006",
+              "integration_id": "harbor_android",
               "at": "2026-10-10T09:00:00Z",
               "kind": "customer_report",
-              "text": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10."
+              "text": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10.",
+              "language": "en",
+              "claims": {}
             }
           ],
           "synthetic": true,
@@ -1224,9 +1381,31 @@ window.CSM_DATA = {
             "fields": {
               "app": "Pocket Harbor",
               "platform": "Android",
-              "time_window": "2026-10-10 08:30–09:00 UTC",
               "sdk_version": "synthetic-version-1",
-              "region": "Japan"
+              "region": "Japan",
+              "time_window": "2026-10-10 08:30–09:00 UTC"
+            },
+            "field_sources": {
+              "app": {
+                "source_kind": "integration_record",
+                "source_id": "harbor_android"
+              },
+              "platform": {
+                "source_kind": "integration_record",
+                "source_id": "harbor_android"
+              },
+              "sdk_version": {
+                "source_kind": "issue_evidence",
+                "source_id": "msg_issue_callback"
+              },
+              "region": {
+                "source_kind": "issue_evidence",
+                "source_id": "msg_issue_callback"
+              },
+              "time_window": {
+                "source_kind": "issue_evidence",
+                "source_id": "msg_issue_callback"
+              }
             },
             "customer_report": "Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10.",
             "evidence_ids": [
@@ -1985,6 +2164,157 @@ window.CSM_DATA = {
       "Independent human agreement",
       "LLM orchestration quality",
       "General semantic claim support"
+    ]
+  },
+  "integrity": {
+    "execution_mode": "schema validation replay; no model inference",
+    "scope": "Eight developer-authored mutations of the synthetic fixture, not a general safety benchmark.",
+    "semantic_boundary": "Checks declared scope and structured claims; does not verify source text or external truth.",
+    "cases": [
+      {
+        "id": "valid_same_platform",
+        "label": "Keep correctly scoped evidence",
+        "change": "Use the existing Android device-failure record for its Android device check.",
+        "reason": "Valid provenance is accepted even when the business result is a blocker.",
+        "expected": "accepted",
+        "observed": "accepted",
+        "matches_expectation": true,
+        "result": {
+          "readiness": "blocked",
+          "device_check": "not_met",
+          "ticket_missing_fields": [
+            "sdk_version",
+            "time_window",
+            "redacted_logs"
+          ]
+        }
+      },
+      {
+        "id": "cross_platform",
+        "label": "Reuse an iOS pass for Android",
+        "change": "Set Android currency approval to met using lantern_ios_currency_approved.",
+        "reason": "A real source ID is insufficient when it describes another platform.",
+        "expected": "rejected",
+        "observed": "rejected",
+        "matches_expectation": true,
+        "result": {
+          "errors": [
+            {
+              "location": [],
+              "message": "Value error, Fact evidence integration scope does not match integration"
+            }
+          ]
+        }
+      },
+      {
+        "id": "wrong_check",
+        "label": "Use a connection test to prove approval",
+        "change": "Set Android currency approval to met using lantern_android_sdk_connected.",
+        "reason": "The app matches, but SDK connection does not establish currency approval.",
+        "expected": "rejected",
+        "observed": "rejected",
+        "matches_expectation": true,
+        "result": {
+          "errors": [
+            {
+              "location": [],
+              "message": "Value error, Fact evidence check scope does not match check"
+            }
+          ]
+        }
+      },
+      {
+        "id": "other_customer_contact",
+        "label": "Borrow another customer's contact",
+        "change": "Replace Lantern's last-contact reference with contact_acc_011 from Orbit.",
+        "reason": "Another customer's recent contact must not remove Lantern from the follow-up queue.",
+        "expected": "rejected",
+        "observed": "rejected",
+        "matches_expectation": true,
+        "result": {
+          "errors": [
+            {
+              "location": [],
+              "message": "Value error, Contact evidence account scope does not match account"
+            }
+          ]
+        }
+      },
+      {
+        "id": "ticket_identity",
+        "label": "Overwrite the handoff platform",
+        "change": "Insert platform: iOS into the Android issue's free-form details.",
+        "reason": "App and platform come from the validated integration, not ticket detail fields.",
+        "expected": "rejected",
+        "observed": "rejected",
+        "matches_expectation": true,
+        "result": {
+          "errors": [
+            {
+              "location": [
+                "issues",
+                0,
+                "details",
+                "platform"
+              ],
+              "message": "Extra inputs are not permitted"
+            }
+          ]
+        }
+      },
+      {
+        "id": "reversed_claim",
+        "label": "Turn a recorded failure into a pass",
+        "change": "Change the Android device-check fact to met, leaving its not_met source claim intact.",
+        "reason": "Matching source ownership does not permit reversing what the source asserts.",
+        "expected": "rejected",
+        "observed": "rejected",
+        "matches_expectation": true,
+        "result": {
+          "errors": [
+            {
+              "location": [],
+              "message": "Value error, Evidence claim conflicts with fact state; preserve uncertainty"
+            }
+          ]
+        }
+      },
+      {
+        "id": "conflicting_reports",
+        "label": "Keep disagreement visible",
+        "change": "Add a contrary Android customer report and retain both records under an unknown device-check state.",
+        "reason": "The schema accepts explicit uncertainty; it does not decide which report is true.",
+        "expected": "accepted",
+        "observed": "accepted",
+        "matches_expectation": true,
+        "result": {
+          "readiness": "needs_evidence",
+          "device_check": "unknown",
+          "ticket_missing_fields": [
+            "sdk_version",
+            "time_window",
+            "redacted_logs"
+          ]
+        }
+      },
+      {
+        "id": "empty_detail",
+        "label": "Treat a blank SDK version as missing",
+        "change": "Set the SDK version to whitespace only.",
+        "reason": "Whitespace cannot satisfy the engineering handoff's required information.",
+        "expected": "accepted",
+        "observed": "accepted",
+        "matches_expectation": true,
+        "result": {
+          "readiness": "blocked",
+          "device_check": "not_met",
+          "ticket_missing_fields": [
+            "sdk_version",
+            "time_window",
+            "redacted_logs"
+          ]
+        }
+      }
     ]
   }
 };

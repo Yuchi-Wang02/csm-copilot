@@ -592,6 +592,76 @@ select {
   border-top: 1px solid var(--line);
   padding: 55px 0;
 }
+.integrity-section {
+  border-top: 1px solid var(--line);
+  padding: 45px 0 35px;
+}
+.integrity-intro {
+  max-width: 790px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.integrity-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 22px 0 16px;
+}
+.integrity-controls label {
+  font-size: 12px;
+  font-weight: 600;
+}
+.integrity-controls select {
+  max-width: 100%;
+  min-width: 310px;
+}
+.integrity-result {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: #fff;
+}
+.integrity-result .decision {
+  margin-top: 0;
+}
+.integrity-result p {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.integrity-result .small-label {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--muted);
+}
+.badge.accepted {
+  color: #29573e;
+  background: #e6f2dd;
+}
+.badge.rejected {
+  color: #964a28;
+  background: #fae5d8;
+}
+@media (max-width: 720px) {
+  .integrity-result {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 18px;
+  }
+  .integrity-controls {
+    display: block;
+  }
+  .integrity-controls label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  .integrity-controls select {
+    width: 100%;
+    min-width: 0;
+  }
+}
 .eval-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
