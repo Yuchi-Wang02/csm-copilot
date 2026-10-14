@@ -2,7 +2,9 @@
 
 Learning-guide documentation QA: the exact Python block in Session 2 was executed with a failed observation, a passing observation and an incorrectly scoped record. Observed results were `blocked`, `checklist_complete` and a validation error respectively; both valid runs left the original result at `needs_evidence`. The bundled dataset's SHA-256 was unchanged. This checks the example's behavior, not the learner's understanding or completed personal work.
 
-Local checks recorded through the v0.27 readable-checklist-source view on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.27.1 clipboard-feedback repair on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+
+The v0.27.1 local browser check observed completed copy labels for the draft and all four share-link controls, plus reset labels after language, platform and practice selection changes. The browser error log was empty. Delayed completion, rejection and button removal were verified with controlled promises in six JavaScript tests, not browser timing assumptions. These checks establish submitted text and UI feedback behavior; they do not independently verify the system clipboard across applications.
 
 The v0.27 local browser check expanded Android's failed device record and uncited currency approval, then switched to iOS and verified that its device claim and source ID were separate. The expanded source view fit a 360-pixel viewport with document/scroll widths both 345 CSS pixels; the screenshot was visually reviewed, and the browser error log was empty. Four added JavaScript checks cover account/platform scoping, missing and conflicting claims, uncited not-applicable checks, and inert source text. These are rendering/provenance checks, not source-truth validation.
 
@@ -10,7 +12,7 @@ The v0.26.1 Edge browser check reproduced focus on `BODY` after changing platfor
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 64 passed locally | Fifteen practice, six checkpoint, fourteen routing, eighteen scoped rendering, four triage-replay and seven recorded-conversation checks; not learning outcomes |
+| JavaScript browser-logic tests | 70 passed locally | Fifteen practice, six checkpoint, fourteen routing, eighteen scoped rendering, four triage-replay, seven recorded-conversation and six clipboard-feedback checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 284 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
 | Focused intake requests | Seven Python and two added JavaScript checks pass | Per-issue missing fields, unknown-scope precedence, populated-but-unverified values, free-text limitations, export and browser rendering; no customer-efficiency measurement |

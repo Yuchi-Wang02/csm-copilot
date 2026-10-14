@@ -4,6 +4,7 @@
   const cases = api.buildCases(window.CSM_DATA, window.CSM_MODEL_RUNS);
   const links = window.CSM_REVIEW_LINKS;
   const checkpoints = window.CSM_PRACTICE_SESSION;
+  const copyFeedback = window.CSM_COPY_FEEDBACK.create();
   let pending = null, fileAttempt = 0, restored = false;
   let route = links.readPractice(location.search, cases);
   let session = api.createSession(cases),
@@ -33,7 +34,7 @@
       item = session[current];
     get("practice-select").value = String(current);
     get("share-practice-url").value = links.sharePractice(c.id, cases);
-    get("copy-practice-link").textContent = "Copy this practice link";
+    copyFeedback.reset(get("copy-practice-link"), "Copy this practice link");
     get("practice-route-notice").textContent = route.invalid
       ? "This practice link is invalid or ambiguous. The first decision is shown; no answer or notes were loaded."
       : "";
@@ -82,17 +83,13 @@
     current = cases.findIndex((c) => c.id === route.practiceId);
     render();
   });
-  get("copy-practice-link").addEventListener("click", async () => {
+  get("copy-practice-link").addEventListener("click", (event) => {
     const url = links.sharePractice(cases[current].id, cases);
-    try {
-      await navigator.clipboard.writeText(url);
-      get("copy-practice-link").textContent = "Practice link copied";
-    } catch {
+    return copyFeedback.copy(event.currentTarget, url, "Practice link copied", "Select the link to copy", () => {
       get("practice-link-details").open = true;
       get("share-practice-url").focus();
       get("share-practice-url").select();
-      get("copy-practice-link").textContent = "Select the link to copy";
-    }
+    });
   });
   get("practice-reset").addEventListener("click", () => {
     clearPending();

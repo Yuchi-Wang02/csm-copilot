@@ -1,5 +1,11 @@
 # Development notes
 
+## v0.27.1: keep delayed copy feedback with its original selection
+
+A controlled replay of the previous draft click handler reproduced two asynchronous failures: resolving a copy after replacing the draft button marked the replacement as copied, and resolving after leaving the draft tab threw a `TypeError` while accessing the missing button. Share-link buttons could similarly show a late result after their selection changed.
+
+A small shared clipboard-feedback helper now retains the originating button and an attempt token. Rendering a new share selection invalidates that button's pending feedback; a disconnected draft button cannot update its replacement. The newest attempt alone may update its control. Current failures retain the selectable-link fallback, while stale failures cannot open details or move focus. Six controlled tests exercise delayed success/failure, removal, repeated attempts, independent controls, synchronous API absence and exact text submission. This controls UI feedback; it does not cancel a clipboard write already requested or establish the clipboard's contents after other applications change them.
+
 ## Learning-guide repair: start with an experiment the fixture supports
 
 The guide previously asked the learner to remove Meadow's device evidence, but the current fixture already has an unknown device fact with no references. That instruction did not define the intended state change. Session 2 now adds a scoped synthetic observation to an in-memory deep copy, asks for predictions before execution, and offers passing and incorrectly scoped variants. The example is runnable after normal environment setup and leaves the bundled data unchanged.

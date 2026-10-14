@@ -3,6 +3,7 @@
 const { workflow, evaluation: report, integrity, friction } = window.CSM_DATA;
 const reviewLinks = window.CSM_REVIEW_LINKS;
 const caseReview = window.CSM_CASE_REVIEW;
+const copyFeedback = window.CSM_COPY_FEEDBACK.create();
 const modelRuns = window.CSM_MODEL_RUNS;
 const callbackProbes = window.CSM_DATA.callback_denial;
 const practiceCases = window.CSM_PRACTICE.buildCases(window.CSM_DATA, modelRuns);
@@ -106,14 +107,9 @@ function renderCase() {
       syncReviewUrl();
       renderCase();
     });
-    $("copy-draft").addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(draft.body);
-        $("copy-draft").textContent = "Copied";
-      } catch {
-        $("copy-draft").textContent = "Select text to copy";
-      }
-    });
+    $("copy-draft").addEventListener("click", (event) =>
+      copyFeedback.copy(event.currentTarget, draft.body, "Copied", "Select text to copy"),
+    );
   } else {
     $("panel").innerHTML =
       issueCount +
@@ -215,7 +211,7 @@ $("triage-probe").innerHTML = callbackProbes.cases.map((row) =>
 function renderTriageProbe() {
   $("triage-probe").value = probeId;
   $("share-probe-url").value = reviewLinks.shareProbe(probeId, callbackProbes.cases);
-  $("copy-probe-link").textContent = "Copy this triage link";
+  copyFeedback.reset($("copy-probe-link"), "Copy this triage link");
   $("probe-route-notice").textContent = probeInvalid
     ? "The triage example in this link was invalid or ambiguous. The first published example is shown."
     : "";
@@ -291,7 +287,7 @@ $("model-run").innerHTML = modelRuns.runs
 function renderModelRun() {
   $("model-run").value = runId;
   $("share-run-url").value = reviewLinks.shareRun(runId, modelRuns.runs);
-  $("copy-run-link").textContent = "Copy this recording link";
+  copyFeedback.reset($("copy-run-link"), "Copy this recording link");
   $("run-route-notice").textContent = runInvalid
     ? "The recording in this link was unknown or ambiguous. The latest published attempt is shown."
     : "";
@@ -367,7 +363,7 @@ function reviewState() {
 }
 function renderShareLink() {
   $("share-review-url").value = reviewLinks.share(reviewState(), workflow);
-  $("copy-review-link").textContent = "Copy this review link";
+  copyFeedback.reset($("copy-review-link"), "Copy this review link");
   $("route-notice").textContent = invalid.length
     ? "Some review settings in this link were invalid or ambiguous. Default values are shown for those settings."
     : "";
@@ -456,39 +452,27 @@ document.addEventListener("click", (event) => {
     anchor.scrollIntoView();
   }
 });
-$("copy-review-link").addEventListener("click", async () => {
+$("copy-review-link").addEventListener("click", (event) => {
   const url = reviewLinks.share(reviewState(), workflow);
-  try {
-    await navigator.clipboard.writeText(url);
-    $("copy-review-link").textContent = "Review link copied";
-  } catch {
+  return copyFeedback.copy(event.currentTarget, url, "Review link copied", "Select the link to copy", () => {
     $("review-link-details").open = true;
     $("share-review-url").focus();
     $("share-review-url").select();
-    $("copy-review-link").textContent = "Select the link to copy";
-  }
+  });
 });
-$("copy-run-link").addEventListener("click", async () => {
+$("copy-run-link").addEventListener("click", (event) => {
   const url = reviewLinks.shareRun(runId, modelRuns.runs);
-  try {
-    await navigator.clipboard.writeText(url);
-    $("copy-run-link").textContent = "Recording link copied";
-  } catch {
+  return copyFeedback.copy(event.currentTarget, url, "Recording link copied", "Select the link to copy", () => {
     $("run-link-details").open = true;
     $("share-run-url").focus();
     $("share-run-url").select();
-    $("copy-run-link").textContent = "Select the link to copy";
-  }
+  });
 });
-$("copy-probe-link").addEventListener("click", async () => {
+$("copy-probe-link").addEventListener("click", (event) => {
   const url = reviewLinks.shareProbe(probeId, callbackProbes.cases);
-  try {
-    await navigator.clipboard.writeText(url);
-    $("copy-probe-link").textContent = "Triage link copied";
-  } catch {
+  return copyFeedback.copy(event.currentTarget, url, "Triage link copied", "Select the link to copy", () => {
     $("probe-link-details").open = true;
     $("share-probe-url").focus();
     $("share-probe-url").select();
-    $("copy-probe-link").textContent = "Select the link to copy";
-  }
+  });
 });
