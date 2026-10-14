@@ -13,6 +13,7 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 from csm_copilot import __version__
+from csm_copilot.dependency_policy import DependencyPolicyError, MorningReviewPolicy
 from csm_copilot.host_protocol import (
     TRIAGE_SCOPE_MESSAGES,
     parse_action,
@@ -119,16 +120,8 @@ async def readline(process, timeout):
     return json.loads(line)
 
 
-async def run(args):
-    task = TASKS[args.task]
-    env = dict(os.environ)
-    env.update(
-        HF_HUB_OFFLINE="1",
-        TRANSFORMERS_OFFLINE="1",
-        HF_HUB_DISABLE_TELEMETRY="1",
-        PYTHONIOENCODING="utf-8",
-    )
-    worker = await asyncio.create_subprocess_exec(
+async def start_worker(args, env):
+    return await asyncio.create_subprocess_exec(
         args.model_python,
         str(Path(__file__).with_name("local_model_worker.py")),
         "--model-path",
@@ -140,6 +133,19 @@ async def run(args):
         limit=2**22,
         env=env,
     )
+
+
+async def run(args):
+    task = TASKS[args.task]
+    policy = MorningReviewPolicy() if args.enforce_dependencies else None
+    env = dict(os.environ)
+    env.update(
+        HF_HUB_OFFLINE="1",
+        TRANSFORMERS_OFFLINE="1",
+        HF_HUB_DISABLE_TELEMETRY="1",
+        PYTHONIOENCODING="utf-8",
+    )
+    worker = await start_worker(args, env)
     trace = {
         "model_inference": False,
         "project_version": __version__,
@@ -159,6 +165,7 @@ async def run(args):
         "repair_budget": args.repair_attempts,
         "constrain_final": args.constrain_final,
         "sequence_dependencies": args.sequence_dependencies,
+        "enforce_dependencies": args.enforce_dependencies,
         "steps": [],
         "status": "initializing",
         "final": None,
@@ -167,6 +174,8 @@ async def run(args):
 
     def save():
         trace["coverage"] = trace_coverage(trace)
+        if policy:
+            trace["dependency_policy"] = policy.snapshot()
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(
             json.dumps(trace, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
@@ -222,6 +231,16 @@ async def run(args):
                 trace["status"] = "running"
                 save()
                 for number in range(1, args.max_steps + 1):
+                    policy_message = None
+                    if policy:
+                        policy_message = {
+                            "role": "user",
+                            "content": "Host workflow policy (not customer data): choose up to four "
+                            "pending actions below, or a final response only when final_allowed is true. "
+                            "The whole batch is rejected if any action is not pending. "
+                            + json.dumps(policy.snapshot(), ensure_ascii=False),
+                        }
+                        messages.append(policy_message)
                     request = {"messages": messages}
                     coverage = trace_coverage(trace)
                     if args.constrain_final and coverage["observed"] == coverage["required"]:
@@ -230,6 +249,9 @@ async def run(args):
                     await worker.stdin.drain()
                     response = await readline(worker, 180)
                     step = {"number": number, "model_response": response}
+                    if policy:
+                        step["policy_before"] = policy.snapshot()
+                        step["policy_message"] = policy_message
                     if "json_schema" in request:
                         step["generation_schema"] = request["json_schema"]
                     trace["steps"].append(step)
@@ -252,6 +274,15 @@ async def run(args):
                             continue
                         break
                     step["actions"] = actions
+                    if policy:
+                        try:
+                            policy.validate_batch(actions)
+                        except DependencyPolicyError as exc:
+                            step["policy_error"] = str(exc)
+                            trace["status"] = "policy_rejected"
+                            if request_correction(step, messages, "Dependency policy: " + str(exc)):
+                                continue
+                            break
                     if "final" in actions[0]:
                         trace["final"] = actions[0]["final"]
                         trace["status"] = "final_response"
@@ -288,7 +319,19 @@ async def run(args):
                         call["result_message"] = result_message
                         step["tool_calls"].append(call)
                         messages.append(result_message)
+                        if policy:
+                            try:
+                                policy.observe(
+                                    action, call["tool_result"], tool_error=call["tool_error"]
+                                )
+                            except DependencyPolicyError as exc:
+                                call["policy_result_error"] = str(exc)
+                                trace["status"] = "policy_result_rejected"
+                                break
+                            call["policy_after"] = policy.snapshot()
                     save()
+                    if trace["status"] == "policy_result_rejected":
+                        break
                 else:
                     trace["status"] = "step_limit"
     except Exception as exc:
@@ -314,6 +357,11 @@ def main():
     parser.add_argument("--max-steps", type=int, default=8)
     parser.add_argument("--repair-attempts", type=int, choices=(0, 1, 2), default=0)
     parser.add_argument(
+        "--enforce-dependencies",
+        action="store_true",
+        help="Enforce the morning_review dependency policy and supply pending-action state each turn",
+    )
+    parser.add_argument(
         "--sequence-dependencies",
         action="store_true",
         help="Add explicit queue/context dependency guidance for the morning_review batch task; not a runtime ID guard",
@@ -326,6 +374,8 @@ def main():
     parser.add_argument("--max-new-tokens", type=int, default=768)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.enforce_dependencies and (args.task != "morning_review" or args.protocol != "batch"):
+        parser.error("--enforce-dependencies requires --task morning_review --protocol batch")
     if args.sequence_dependencies and (args.task != "morning_review" or args.protocol != "batch"):
         parser.error("--sequence-dependencies requires --task morning_review --protocol batch")
     if args.task != "platform_followups" and args.protocol == "grounded":

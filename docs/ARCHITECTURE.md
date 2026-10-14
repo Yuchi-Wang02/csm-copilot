@@ -29,6 +29,8 @@ Since v0.2, evidence declares account/integration ownership and structured check
 
 ## What the model layer contributes
 
+The optional local host now has a [morning-review dependency policy](DEPENDENCY_POLICY.md). It derives pending work from successful queue/context results, validates the whole proposal before execution and requires that work before accepting a final response. The host also supplies pending-action state to the model. Scripted-worker tests exercise the real MCP transport; none of the twelve historical model recordings uses this new policy. This scope applies to the custom host, not arbitrary MCP clients, and does not validate final prose.
+
 The deterministic workflow is a usable baseline for this fixed task. [build_demo](../src/csm_copilot/demo.py) selects the queue, obtains account context, checks each integration and assembles bilingual follow-ups and handoffs without a model. The CLI and static explorer make those outputs reviewable. A model is not required to perform the arithmetic, apply the checklist or fill the existing templates.
 
 The model layer explores whether a natural-language request can lead to appropriate tool calls and a useful explanation. The recordings support narrower observations:

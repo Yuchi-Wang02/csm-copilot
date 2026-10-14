@@ -40,6 +40,8 @@ The repository preserves **twelve local Qwen attempts across four prescribed tas
 
 The deterministic workflow is the working baseline: it already selects accounts, checks readiness and assembles drafts. The model experiments explore tool orchestration and explanation. The platform task supplies both integration IDs, so its successful calls do not demonstrate autonomous account discovery. No comparison has established that adding the model saves time or improves customer outcomes. [Inspect the division of work and the evidence for it](docs/ARCHITECTURE.md#what-the-model-layer-contributes).
 
+The next implementation turns that dependency failure into an [opt-in host policy](docs/DEPENDENCY_POLICY.md): reject the entire invalid batch, learn IDs from preceding results, and keep failed work pending. Scripted tests through real MCP verify those rules; a model run with the policy is still pending. This provides an inspectable failure-to-test-to-fix example without relabeling the failed recordings as successes.
+
 [Inspect the original AI mistake](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) · [Follow the recorded corrections](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs) · [Read the raw-run review](evidence/MODEL_RUNS.md)
 
 [![Two saved model claims compared with recorded tool results: iOS full compliance overstates a scoped checklist, and Android missing evidence omits a recorded unmet device check.](docs/assets/ai-claim-review-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs)

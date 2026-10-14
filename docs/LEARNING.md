@@ -2,6 +2,12 @@
 
 The project is a starting point for demonstrated understanding. These exercises are **not marked complete**. Keep personal notes and small commits as you work through them; that is stronger evidence of learning than an oversized feature list.
 
+## Optional engineering exercise: a correct ID can still arrive too early
+
+Inspect the two failed [morning-review recordings](LOCAL_MODEL.md#queue-first-morning-review-first-recorded-attempt), then consider a smaller two-call proposal: a queue lookup followed immediately by context for an account ID that happens to be correct. Before reading the [new host policy](DEPENDENCY_POLICY.md), predict whether that proposal should execute. Explain what the host has actually observed at that point, and why knowing the fixture answer differs from discovering it through a tool result.
+
+With the current Python checkout, run `python -m pytest -q tests/test_host_dependency_integration.py -k dependent_batch`. Find the assertion that no tool calls executed. Then predict how a failed readiness call should affect the pending work, and run the `tool_error` case in the same file. These use scripted responses and a real MCP server, with no language model. Explain why passing them cannot establish model reliability or accurate final prose. Record your own prediction, observed result and revised explanation; this exercise is not marked completed for you.
+
 ## Start here: three things to explain
 
 Use this route before the longer exercises. The time estimates are planning suggestions, not measured completion times. The first two steps work in the hosted portfolio without installing Python or connecting a model.

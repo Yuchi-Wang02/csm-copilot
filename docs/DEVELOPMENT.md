@@ -1,5 +1,11 @@
 # Development notes
 
+## Enforce dependencies after the prompt-only attempt fails
+
+The optional `--enforce-dependencies` flag adds a stateful policy to the morning-review batch host. It learns the selected account from a successful queue result and pending integration/issue work from successful context. Each entire proposal is checked before execution; correct-looking IDs cannot skip those dependencies. Failed calls stay pending, accepted results remove only their corresponding work, and an unfinished workflow cannot accept a final response. A malformed or mis-scoped successful result stops the remaining batch. The policy also supplies pending-action state each turn, which is explicit host planning assistance.
+
+All 388 Python tests, 100 JavaScript tests and Ruff checks passed. The Python suite includes seven scripted-worker integration scenarios using the real MCP stdio server: a complete seven-call workflow, premature final, dependent and mixed-scope batches, a fabricated account, an injected tool error with retry, and an injected result-scope mismatch. Policy unit cases use unfamiliar IDs and cover empty work, malformed records and duplicates. These are software tests; the twelve model recordings remain unchanged and none uses this policy yet. The [design and boundaries](DEPENDENCY_POLICY.md) and [prediction exercise](LEARNING.md#optional-engineering-exercise-a-correct-id-can-still-arrive-too-early) make this a reviewable failure-to-fix learning example. Final prose still requires separate review; the fixed v0.29.8 bundle predates this implementation.
+
 ## Test a dependency instruction without claiming it enforces the workflow
 
 An optional `--sequence-dependencies` paragraph asks the morning-review model to retrieve the queue alone, wait for account context and use only previously returned IDs. It does not change parser limits, tools or runtime validation; original default prompts remain identical. The flag and its test were committed before one new local Qwen3-4B attempt.
