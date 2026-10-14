@@ -78,6 +78,47 @@ def test_record_text_cannot_inject_terminal_controls_or_new_lines():
     assert "\x1b" not in result and "\nFAKE STATUS" not in result
 
 
+@pytest.mark.parametrize("draft_count", [0, 1, 2])
+def test_recorded_issue_summary_survives_missing_or_ambiguous_handoffs(draft_count):
+    workflow = build_demo()
+    packet = workflow["packets"][0]
+    issue = packet["context"]["issues"][0]
+    issue["summary"] = "Recorded Android symptom; confirm current status."
+    ticket = copy.deepcopy(packet["tickets"][0])
+    ticket["title"] = "Draft title must not replace the recorded issue summary"
+    packet["tickets"] = [copy.deepcopy(ticket) for _ in range(draft_count)]
+    before = copy.deepcopy(workflow)
+
+    result = render_summary(workflow)
+    android, ios = result.split("Moon Garden / iOS:", 1)
+
+    assert (
+        "Recorded issue issue_blank: Recorded Android symptom; confirm current status." in android
+    )
+    assert "Recorded Android symptom" not in ios
+    assert "Draft title must not replace" not in result
+    assert result.count("Recorded issue issue_blank:") == 1
+    assert "Recorded issue issue_callback:" in result
+    assert workflow == before
+
+
+def test_recorded_issue_summary_is_literal_single_line_terminal_text():
+    workflow = build_demo()
+    issue = workflow["packets"][0]["context"]["issues"][0]
+    issue["summary"] = "客户报告\nFAKE APPROVAL\x1b[2J\r\tstill a recorded statement"
+    before = copy.deepcopy(workflow)
+
+    result = render_summary(workflow)
+
+    assert (
+        "Recorded issue issue_blank: 客户报告 FAKE APPROVAL [2J still a recorded statement"
+        in result
+    )
+    assert "\x1b" not in result and "\nFAKE APPROVAL" not in result
+    assert "\r" not in result and "\t" not in result
+    assert workflow == before
+
+
 @pytest.mark.parametrize("complete", [False, True])
 def test_summary_prioritizes_scope_over_generic_field_completeness(complete):
     data = Copilot().data.model_copy(deep=True)

@@ -42,6 +42,7 @@ def render_summary(workflow: dict) -> str:
             for issue in packet["context"]["issues"]:
                 if issue["integration_id"] != ready["integration_id"]:
                     continue
+                lines.append(f"     Recorded issue {_text(issue['id'])}: {_text(issue['summary'])}")
                 matches = [t for t in packet["tickets"] if t["draft_id"] == f"ticket-{issue['id']}"]
                 if not matches:
                     lines.append(f"     {_text(issue['id'])}: no handoff draft in this packet")

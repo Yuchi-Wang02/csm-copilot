@@ -12,6 +12,7 @@ Order: planned launch date. Original snapshot; comparison updates are excluded.
      device_verified: not_met [lantern_android_device_verified]
      callback_verified: unknown [no applicable record]
      Next: Review and send the evidence request, then reassess when new records arrive.
+     Recorded issue issue_blank: Test device shows offers; non-test Android device has a blank offerwall.
      Handoff issue_blank: needs_information; missing: sdk_version, time_window, redacted_logs
      Proposed owner: Technical support after CSM evidence review (project policy)
    Moon Garden / iOS: checklist_complete
@@ -28,6 +29,7 @@ Order: planned launch date. Original snapshot; comparison updates are excluded.
    Pocket Harbor / Android: blocked
      callback_verified: not_met [harbor_android_callback_verified]
      Next: Review and send the evidence request, then reassess when new records arrive.
+     Recorded issue issue_callback: Reward callback returns HTTP 405.
      Handoff issue_callback: needs_information; missing: reproduction_steps, redacted_logs
      Proposed owner: Technical support after CSM evidence review (project policy)
 

@@ -1,5 +1,11 @@
 # Development notes
 
+## Keep the recorded problem visible in the terminal handoff review
+
+The compact morning review listed issue IDs, handoff state and missing fields but omitted the recorded problem. It now includes the issue record's summary beside each platform's handoff. Harbor's review therefore says that the recorded callback returned HTTP 405 before showing missing reproduction steps and logs. The output does not substitute a draft title, diagnose the cause or establish that the symptom is still current.
+
+Four failing-before checks cover missing, unique and duplicate handoff drafts plus Unicode text with terminal control characters and line breaks. They verify that the recorded summary stays visible, remains scoped to Android rather than appearing under iOS, does not borrow a draft title and leaves the workflow unchanged. All 335 Python tests and Ruff checks passed. Regeneration changed only the two issue lines in the committed morning summary; the full briefs and workflow data are unchanged. These are authored regression cases, not real customer incidents. The fixed v0.29.7 package predates this change.
+
 ## Make follow-up drafts usable when clipboard access fails
 
 The follow-up copy button previously reported "Select text to copy" after failure without providing a keyboard-friendly text field. A collapsed manual-copy view now contains the exact selected draft in a labeled, read-only textarea. Clipboard failure opens it, focuses the field and selects its contents. The app assigns the draft as a textarea value; changing language or platform rebuilds the view from that selection. The existing clipboard helper suppresses late feedback from replaced controls.

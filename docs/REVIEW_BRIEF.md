@@ -78,6 +78,8 @@ Handoffs are resolved from the recorded issues. Exactly one matching draft is re
 
 The compact terminal view (`csm-demo --format summary`) also requires one matching draft. Duplicate matches produce an unavailable-handoff notice and count, while the issue ID and readiness remain visible. It does not choose a handoff state or proposed owner by array order. Use the full brief to inspect the recorded evidence; neither format resolves the conflict for you.
 
+The terminal view includes each platform's **recorded issue summary** before its handoff status. For example, Harbor's `issue_callback` is identified as "Reward callback returns HTTP 405." This text comes from the issue record, not the draft title, and remains visible when a draft is missing or ambiguous. It is recorded context rather than a new diagnosis, confirmation of current symptoms or a verbatim original-message claim. Control characters and line breaks are normalized for terminal display; the full brief retains the source evidence for inspection.
+
 For `needs_scope`, the terminal view displays a scope-first explanation and the issue's clarification action instead of generic missing-field status. An invoicing question therefore remains a request to clarify even when reproduction steps and logs are absent—or all technical fields contain unreviewed placeholders. The full brief preserves those fields for review. This follows the engine's existing route; it does not establish that the route is correct or provide a billing procedure.
 
 ## Use it in an interview
