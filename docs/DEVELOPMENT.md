@@ -381,3 +381,11 @@ The loader accepts only the current decision catalog and validates state consist
 The AI replay previously placed its full conversation in a single JSON block. A new turn view makes each model proposal, MCP result, host rejection and correction request individually inspectable. The constrained attempt visibly progresses through two rejected structured responses and host-supplied feedback before matching fields. Its explanation remains unverified. Early parser failures show that no calls executed in that turn; a later tool error remains separate from other calls that received results.
 
 The renderer reads the ten existing traces, escapes all source content and retains the initial instructions and raw steps. Seven JavaScript checks cover recording preservation and the different failure/control paths. This improves how the evidence can be explained; it adds no inference, new accuracy result, independent review or measured audience-comprehension outcome.
+
+## v0.27.2: preserve scope clarification in exported handoffs
+
+For an invoicing request classified as `needs_scope`, the browser prioritized clarification, but the Markdown handoff still listed missing technical fields. With all generic fields populated, it instead said no scoped required fields were missing. Either presentation could distract from the unresolved request scope.
+
+The export now explicitly asks for the request, desired outcome and relevant account or product before choosing an owner or collecting technical details. It retains the original report, recorded fields, source references and neutral questions. Four regression variants cover complete/incomplete intake fields with English/Chinese draft exports; they reproduced the missing scope-first presentation before the repair and pass afterward. Existing technical cases retain their missing-field requests. This aligns export wording with the existing tool state; it does not improve the classifier or establish that an invoicing request belongs to a particular billing process.
+
+To explain the change yourself, predict the next request for an invoice question with and without a populated SDK version. Then trace `handoff_state` from the tool into the browser and Markdown renderers. Explain why field completeness and issue scope answer different questions. This is an exercise, not a record of completed personal practice.

@@ -2,7 +2,9 @@
 
 Learning-guide documentation QA: the exact Python block in Session 2 was executed with a failed observation, a passing observation and an incorrectly scoped record. Observed results were `blocked`, `checklist_complete` and a validation error respectively; both valid runs left the original result at `needs_evidence`. The bundled dataset's SHA-256 was unchanged. This checks the example's behavior, not the learner's understanding or completed personal work.
 
-Local checks recorded through the v0.27.1 clipboard-feedback repair on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Local checks recorded through the v0.27.2 scope-clarification export repair on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+
+The v0.27.2 export check compared the previous renderer with the repaired renderer using an invoicing request and complete/incomplete generic intake fields. Both tool results required scope clarification. The old Markdown prioritized missing-field reporting; the repaired output prioritizes request clarification and retains recorded values, the original issue text and source references. Four English/Chinese regression variants failed on that presentation assertion before the repair and pass afterward. All 288 Python checks and the real MCP smoke check passed. These are authored regression cases; classification accuracy and customer usefulness were not evaluated by this repair.
 
 The v0.27.1 local browser check observed completed copy labels for the draft and all four share-link controls, plus reset labels after language, platform and practice selection changes. The browser error log was empty. Delayed completion, rejection and button removal were verified with controlled promises in six JavaScript tests, not browser timing assumptions. These checks establish submitted text and UI feedback behavior; they do not independently verify the system clipboard across applications.
 
@@ -14,7 +16,7 @@ The v0.26.1 Edge browser check reproduced focus on `BODY` after changing platfor
 |---|---|---|
 | JavaScript browser-logic tests | 70 passed locally | Fifteen practice, six checkpoint, fourteen routing, eighteen scoped rendering, four triage-replay, seven recorded-conversation and six clipboard-feedback checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 284 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
+| Python behavior tests | 288 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output, caller isolation and committed interview bundles |
 | Focused intake requests | Seven Python and two added JavaScript checks pass | Per-issue missing fields, unknown-scope precedence, populated-but-unverified values, free-text limitations, export and browser rendering; no customer-efficiency measurement |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and two remaining counterexamples retained; frozen inputs unchanged |
 | Callback denial | Original 11 failed-before checks still pass; 20 checks total | Eight messages now differ from the original frozen results, including the later health-denial repair; six positive controls and two remaining mismatches |

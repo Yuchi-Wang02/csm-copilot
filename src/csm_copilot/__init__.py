@@ -1,3 +1,3 @@
 """Independent portfolio prototype. All bundled customer records are synthetic."""
 
-__version__ = "0.27.1"
+__version__ = "0.27.2"

@@ -192,17 +192,22 @@ def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | 
                 lines.append(
                     f"| {cell(key)} | {cell(value)} | {cell(ticket['field_sources'][key]['source_id'])} |"
                 )
-            lines += [
-                "",
-                "**Missing information:** "
-                + (
-                    text(", ".join(ticket["missing_fields"]))
-                    if ticket["missing_fields"]
-                    else "None in the scoped required fields; human review is still required."
-                ),
-                "",
-                f"**Next action:** {text(ticket['next_action'])}",
-            ]
+            if ticket["handoff_state"] == "needs_scope":
+                lines += [
+                    "",
+                    "**Scope clarification required:** Generic field completeness does not establish issue scope. Confirm the request, desired outcome and relevant account or product before choosing an owner or requesting technical details.",
+                ]
+            else:
+                lines += [
+                    "",
+                    "**Missing information:** "
+                    + (
+                        text(", ".join(ticket["missing_fields"]))
+                        if ticket["missing_fields"]
+                        else "None in the scoped required fields; human review is still required."
+                    ),
+                ]
+            lines += ["", f"**Next action:** {text(ticket['next_action'])}"]
             if ticket.get("collection_requests"):
                 lines += ["", "**Request missing intake details**", ""]
                 lines += [

@@ -20,6 +20,17 @@ This is an explicit project operating policy. Issue records do not have a resolu
 
 Both languages use the same intent decision. A complete checklist no longer asks for unspecified missing updates. A complete technical handoff moves to human review rather than asking for fields already supplied.
 
+When a handoff has `needs_scope`, the export asks the CSM to clarify the request, desired outcome and relevant account or product before collecting technical details. It does not frame generic field gaps as the next intake request or present populated fields as sufficient. Recorded fields, the original issue text, source references and neutral clarification questions remain inspectable. For example, an invoicing request does not become a technical-support case merely because an SDK version is available or logs are missing. This matches the browser's scope-first review; it does not establish a billing procedure or verified issue classification.
+
+The v0.27.2 repair was reproduced with the same synthetic request, “Please explain invoicing.”, under two intake conditions. The tool returned `needs_scope` in both; only the exported presentation changed:
+
+| Recorded intake condition | Previous exported message | Current next step |
+|---|---|---|
+| Reproduction steps and logs absent | Missing information: `reproduction_steps, redacted_logs` | Clarify request scope before requesting technical details |
+| All five generic fields populated with unreviewed placeholders | Missing information: None in the scoped required fields; human review is still required. | Clarify request scope; populated fields do not establish it |
+
+These are regression examples, not customer observations. [Tests covering both draft languages, retained sources and unchanged input](../tests/test_collection_requests.py).
+
 ## Generate an export
 
 ```sh

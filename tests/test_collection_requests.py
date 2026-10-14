@@ -82,3 +82,37 @@ def test_export_keeps_focused_request_separate_from_broader_triage_questions():
     assert "Share the observation start" not in focused
     assert "not verified" in focused
     assert "Share the callback time window" in brief
+
+
+@pytest.mark.parametrize("complete", [False, True])
+@pytest.mark.parametrize("lang", ["en", "zh"])
+def test_export_defers_technical_completeness_until_issue_scope_is_known(complete, lang):
+    data = Copilot().data.model_copy(deep=True)
+    issue = next(i for i in data.issues if i.id == "issue_callback")
+    issue.summary = "Please explain invoicing."
+    record = next(e for e in data.evidence if e.id == issue.evidence_id)
+    record.text = issue.summary
+    if complete:
+        for field in type(issue.details).model_fields:
+            setattr(issue.details, field, "Recorded placeholder")
+    engine = Copilot(data)
+    workflow = build_demo()
+    packet = next(
+        p for p in workflow["packets"] if p["context"]["account"]["id"] == record.account_id
+    )
+    packet["context"] = engine.get_account_context(record.account_id)
+    packet["tickets"] = [engine.draft_ticket(issue.id)]
+    original = deepcopy(workflow)
+
+    brief = render_review_brief(workflow, lang, "harbor_android")
+    handoff = brief.split("### Technical handoff", 1)[1].split("## Evidence index", 1)[0]
+    assert "**Scope clarification required:**" in handoff
+    assert "Generic field completeness does not establish issue scope" in handoff
+    assert "**Missing information:**" not in handoff
+    assert "None in the scoped required fields" not in handoff
+    assert "**Request missing intake details**" not in handoff
+    assert "Please explain invoicing." in handoff
+    assert "**Clarify the request**" in handoff
+    assert "Source record:" in handoff
+    assert ("Recorded placeholder" if complete else "synthetic-version-1") in handoff
+    assert workflow == original
