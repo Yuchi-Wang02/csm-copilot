@@ -257,3 +257,11 @@ The handoff panel previously exposed candidate questions only inside a JSON disc
 The questions are suggestions from the existing lexical baseline, not a tailored customer message. Harbor's record already supplies a currency mode and time window, so a CSM should reuse those facts and ask only for unresolved details. The page explicitly asks the reviewer to inspect known information first. HTTP 405 remains a hypothesis prompt, not a confirmed cause. No tool output, routing decision, source record or historical model answer changed.
 
 Five focused checks cover readable questions, multiple candidates, unknown requests, original source scope, markup safety and export preservation. The browser only creates clickable HTTPS documentation links; other source values remain escaped text. The interview and learning guides now ask the reviewer to remove redundant questions using the original record before drafting a follow-up. This is a presentation and review-workflow improvement; customer usefulness has not been measured.
+
+## v0.17.1 — identify the original issue source
+
+The data model permits an issue to reference a customer report or a test record, but the evidence panel always labeled it a customer report. Labels and disclosure text now follow the source kind, with an explicit unavailable-type fallback. The handoff disclosure and exported brief also show the record type and timestamp.
+
+The Markdown exporter previously quoted `ticket.customer_report`, a copied string whose legacy name does not establish source type. It now resolves the issue's original record using the issue ID, evidence ID, account and platform. A missing, ambiguous or differently scoped source produces an unavailable-source message instead of quoting the copied field. This is a presentation-layer consistency check; it does not authenticate the underlying record or verify its meaning. Tool schemas and historical model recordings are unchanged.
+
+Seven focused regression checks failed before the change and pass afterward. They cover customer/test labels, missing type, original-versus-copied wording, and missing or differently scoped records. Existing markup tests now insert their probe into the original source record as well as its copied field. The two bundled customer reports remain customer reports; no example was relabeled to manufacture test evidence.

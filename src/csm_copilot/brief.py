@@ -24,6 +24,22 @@ def cell(value):
     return text(value).replace("\r\n", "\n").replace("\r", "\n").replace("\n", " / ")
 
 
+def _issue_source(packet, ticket):
+    """Resolve the original record in the current account and issue's platform."""
+    issues = [i for i in packet["context"]["issues"] if "ticket-" + i["id"] == ticket["draft_id"]]
+    if len(issues) != 1:
+        return None
+    issue = issues[0]
+    sources = [
+        record
+        for record in packet["context"]["evidence"]
+        if record["id"] == issue["evidence_id"]
+        and record["account_id"] == packet["context"]["account"]["id"]
+        and record["integration_id"] == issue["integration_id"]
+    ]
+    return sources[0] if len(sources) == 1 else None
+
+
 def _case_packet(workflow: dict, integration_id: str) -> dict:
     matches = [
         (packet, item)
@@ -188,7 +204,17 @@ def render_review_brief(workflow: dict, lang: str = "en", integration_id: str | 
                 f"**Next action:** {text(ticket['next_action'])}",
             ]
             lines += ["", "**Original issue record**", ""]
-            lines += ["> " + text(line) for line in ticket["customer_report"].splitlines()]
+            source = _issue_source(packet, ticket)
+            if source is None:
+                lines += [
+                    "Original issue record unavailable for this platform. Review the source before using the copied handoff text."
+                ]
+            else:
+                label = {"customer_report": "Customer report", "test_record": "Test record"}.get(
+                    source.get("kind"), "Source type unavailable"
+                )
+                lines += [f"Source type: {label}. Recorded at: {text(source['at'])}.", ""]
+                lines += ["> " + text(line) for line in source["text"].splitlines()]
             lines += [
                 "",
                 "Source record: " + text(", ".join(ticket["evidence_ids"])),

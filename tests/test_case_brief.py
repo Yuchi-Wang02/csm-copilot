@@ -13,6 +13,43 @@ from csm_copilot.demo import build_demo
 ROOT = Path(__file__).resolve().parents[1]
 
 
+@pytest.mark.parametrize(
+    "kind,label", [("customer_report", "Customer report"), ("test_record", "Test record")]
+)
+def test_export_identifies_issue_source_kind_and_uses_the_original_record(kind, label):
+    workflow = build_demo()
+    packet = workflow["packets"][0]
+    source = next(r for r in packet["context"]["evidence"] if r["id"] == "msg_issue_blank")
+    source["kind"] = kind
+    source["text"] = "Original source wording."
+    packet["tickets"][0]["customer_report"] = "Different copied wording."
+    original = deepcopy(workflow)
+    brief = render_review_brief(workflow, integration_id="lantern_android")
+    handoff = brief.split("### Technical handoff", 1)[1].split("## Evidence index", 1)[0]
+    assert f"Source type: {label}. Recorded at: {text(source['at'])}." in handoff
+    assert "> Original source wording." in handoff
+    assert "Different copied wording" not in handoff
+    assert workflow == original
+
+
+@pytest.mark.parametrize("fault", ["missing", "other_platform", "other_account"])
+def test_export_does_not_quote_a_missing_or_misscoped_issue_source(fault):
+    workflow = build_demo()
+    packet = workflow["packets"][0]
+    source = next(r for r in packet["context"]["evidence"] if r["id"] == "msg_issue_blank")
+    if fault == "missing":
+        packet["context"]["evidence"].remove(source)
+    elif fault == "other_platform":
+        source["integration_id"] = "lantern_ios"
+    else:
+        source["account_id"] = "acc_006"
+    brief = render_review_brief(workflow, integration_id="lantern_android")
+    handoff = brief.split("### Technical handoff", 1)[1].split("## Evidence index", 1)[0]
+    assert "Original issue record unavailable for this platform" in handoff
+    assert text(packet["tickets"][0]["customer_report"]) not in handoff
+    assert "Questions to review before handoff" in handoff
+
+
 def test_handoff_export_preserves_report_questions_and_unconfirmed_hypothesis():
     workflow = build_demo()
     original = deepcopy(workflow)
@@ -37,6 +74,9 @@ def test_handoff_export_keeps_unknown_questions_and_escapes_inserted_markup():
     workflow = build_demo()
     ticket = workflow["packets"][0]["tickets"][0]
     ticket["customer_report"] = "<script>run()</script>\n# Fake heading"
+    next(r for r in workflow["packets"][0]["context"]["evidence"] if r["id"] == "msg_issue_blank")[
+        "text"
+    ] = ticket["customer_report"]
     ticket["triage"] = {
         "candidates": [
             {

@@ -1,12 +1,12 @@
 # Verification record
 
-Verified through the v0.17 readable-handoff iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.17.1 source-provenance iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 26 passed locally | Eight practice, eight routing and ten scoped rendering checks; not learning outcomes |
+| JavaScript browser-logic tests | 28 passed locally | Eight practice, eight routing and twelve scoped rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 226 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
+| Python behavior tests | 231 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
 | Explicit denial | 12 failed-before regression checks now pass; 24 checks total | Ten repaired message cases and two handoff variants; separate positive signals and three known counterexamples retained |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |
 | Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original outputs preserved; subsequent explicit-denial adaptation documented |
@@ -118,3 +118,5 @@ The v0.16.1 queue review preserved three actual pre-change results for nearby ta
 The v0.16.2 time-boundary checks distinguish default/equivalent timestamps from a later recalculation, verify unchanged records and readiness, and reject empty date strings. Four focused checks failed before the change; all five pass afterward. The real MCP script additionally verifies the returned time metadata and an empty-date error over stdio. The static demo still uses the default snapshot. Historical model recordings were not rewritten.
 
 The v0.17 handoff check displayed Harbor's original issue record, three callback questions, documentation link and unconfirmed HTTP 405 hypothesis. Switching to Lantern replaced them with its scoped no-offers questions. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels; desktop and mobile screenshots were visually inspected and the browser error log was empty. Five added rendering/export checks cover multiple candidates, unknown scope, source separation, escaped markup and preserved report/questions/notes. All eight platform exports still match the renderer. The rebuilt PDF is byte-identical to the preceding version. No new model inference or independent customer review was performed.
+
+The v0.17.1 source checks reproduced seven pre-change failures and now pass. UI tests distinguish customer reports, test records and missing type; export tests prefer the original record over copied text and suppress quotations when account/platform/source matching fails. The browser displayed Harbor's declared customer-report type and full timestamp beside its original text. At a 360-pixel viewport the metadata wrapped within the panel, with document and scroll widths both 345 CSS pixels and no recorded browser error. Test-record and unavailable-source branches were checked by automated rendering/export tests, not by an actual customer or a new model run. The regenerated PDF is unchanged.

@@ -138,3 +138,9 @@ Predict whether `2026-10-14T05:00:00-04:00` represents the dataset snapshot or a
 Open [Harbor's handoff](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace) and expand its original issue record. Before reading the candidate questions, list what is known, what is missing and what remains a hypothesis. Then compare the suggested questions with the record: which facts would be redundant to ask for again?
 
 Write a short customer follow-up that requests only the missing details. Trace each retained question to either a missing handoff field or a candidate check, and explain why HTTP 405 alone does not establish the cause. Download the platform brief and verify that another reviewer could find the same original report and questions. Save your own first reasoning and later revision separately; this guide does not supply or certify your personal answer.
+
+## Distinguish a reported symptom from a test observation
+
+In the handoff's original-record disclosure, find the source type and recorded timestamp. Explain what additional context you would want if the same symptom came from a test record instead of a customer report. A label identifies the declared origin; it does not prove reproducibility or current customer impact.
+
+Inspect `test_export_identifies_issue_source_kind_and_uses_the_original_record` in `tests/test_case_brief.py`. Predict which wording should appear when a copied handoff field disagrees with the original source, then run that focused test. Explain why preserving source identity is necessary but insufficient for verifying the source's claims. Record your own reasoning; completion is not assumed.

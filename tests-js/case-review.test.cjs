@@ -2,6 +2,29 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const api = require("../demo/case-review.js");
 
+test("issue displays preserve whether the original source is a customer report or a test", () => {
+  const data = packet();
+  for (const [kind, label, disclosure] of [
+    ["customer_report", "Customer report", "Read original customer message"],
+    ["test_record", "Test record", "Read original test record"],
+  ]) {
+    data.context.evidence[0].kind = kind;
+    const records = api.issuesFor(data, "android").slice(0, 1);
+    const evidence = api.evidenceHTML(records), handoff = api.handoffHTML(records, "unused");
+    assert.ok(evidence.includes(`${disclosure} · first`));
+    assert.ok(evidence.includes(`${label} · source1`));
+    assert.ok(handoff.includes(`${label} · 2026-10-14`));
+    if (kind === "test_record") assert.doesNotMatch(evidence + handoff, /CUSTOMER REPORT|Read original customer message/);
+  }
+});
+
+test("missing source type is not silently labeled a customer report", () => {
+  const records = api.issuesFor(packet(), "android").slice(0, 1);
+  const html = api.evidenceHTML(records) + api.handoffHTML(records, "unused");
+  assert.match(html, /Source type unavailable/);
+  assert.doesNotMatch(html, /CUSTOMER REPORT|Read original customer message/);
+});
+
 test("handoff questions are readable per candidate, with the scoped original record", () => {
   const data = packet();
   data.tickets[0].triage.candidates = [

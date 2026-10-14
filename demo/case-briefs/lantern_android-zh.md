@@ -82,6 +82,8 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 
 **Original issue record**
 
+Source type: Customer report. Recorded at: 2026-10-09T09:00:00Z.
+
 > 我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。
 
 Source record: msg\_issue\_blank

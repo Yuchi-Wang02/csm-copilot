@@ -1,5 +1,5 @@
 {
-  "project_version": "0.17.0",
+  "project_version": "0.17.1",
   "before_commit": "0308c77b71ede2daaf16202c383be30eb43d8bce",
   "inputs_sha256": "ebffd995d485b210370680ba09e34a693979a6b8b1511a460cd6d13305c21a04",
   "boundary": "Twenty AI-assisted developer-authored probes inspected while building this rule. Not held out, independently labelled or a general accuracy estimate. No model inference.",

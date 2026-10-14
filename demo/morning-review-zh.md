@@ -121,6 +121,8 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 
 **Original issue record**
 
+Source type: Customer report. Recorded at: 2026-10-09T09:00:00Z.
+
 > 我们在新加坡测试：测试机能看到广告，Android 正式设备打开奖励页面的 Offerwall 是空白的。iOS 测试正常。我们想下周五上线。
 
 Source record: msg\_issue\_blank
@@ -244,6 +246,8 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 **Next action:** Request missing evidence, then review the handoff; no ticket was submitted.
 
 **Original issue record**
+
+Source type: Customer report. Recorded at: 2026-10-10T09:00:00Z.
 
 > Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10.
 

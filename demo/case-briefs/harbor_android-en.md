@@ -83,6 +83,8 @@ Suggested owner: Technical support after CSM evidence review \(project policy\).
 
 **Original issue record**
 
+Source type: Customer report. Recorded at: 2026-10-10T09:00:00Z.
+
 > Our self-managed reward endpoint returns HTTP 405. The reward has not reached the test user. Test region: Japan. SDK: synthetic-version-1. Observed between 08:30 and 09:00 UTC on 2026-10-10.
 
 Source record: msg\_issue\_callback

@@ -15,6 +15,8 @@
     );
   const badge = (status) =>
     `<span class="badge ${esc(status)}">${esc(status.replaceAll("_", " "))}</span>`;
+  const sourceLabel = (kind) => kind === "customer_report" ? "Customer report" : kind === "test_record" ? "Test record" : "Source type unavailable";
+  const sourceDisclosure = (kind) => kind === "customer_report" ? "Read original customer message" : kind === "test_record" ? "Read original test record" : "Read original issue record";
 
   function issuesFor(packet, integrationId) {
     return packet.context.issues
@@ -40,7 +42,7 @@
         ({ issue, evidence }) =>
           `<article class="quote issue-review"><p>${esc(issue.summary)}</p>` +
           (evidence
-            ? `<details><summary>Read original customer message · ${esc(issue.id)}</summary><p lang="${evidence.language === "zh" ? "zh-CN" : "en"}">${esc(evidence.text)}</p></details><small>CUSTOMER REPORT · ${esc(evidence.id)} · ${esc(evidence.at.slice(0, 10))}</small>`
+            ? `<details><summary>${sourceDisclosure(evidence.kind)} · ${esc(issue.id)}</summary><p lang="${evidence.language === "zh" ? "zh-CN" : "en"}">${esc(evidence.text)}</p></details><small>${sourceLabel(evidence.kind)} · ${esc(evidence.id)} · ${esc(evidence.at.slice(0, 10))}</small>`
             : `<p class="boundary">Source record unavailable for ${esc(issue.id)}. Do not infer the original message from its summary.</p>`) +
           "</article>",
       )
@@ -79,7 +81,7 @@
         )}<dt>Evidence</dt><dd>${esc(t.evidence_ids.join(", "))}</dd><dt>Suggested owner</dt><dd>${esc(t.suggested_owner)}</dd></dl>` +
       `<div class="missing">${fieldStatus}</div><p class="boundary">${esc(t.next_action)}</p>` +
       (evidence
-        ? `<details><summary>Original issue record · ${esc(evidence.id)}</summary><p lang="${evidence.language === "zh" ? "zh-CN" : "en"}">${esc(evidence.text)}</p></details>`
+        ? `<details><summary>Original issue record · ${esc(evidence.id)}</summary><p class="boundary">${sourceLabel(evidence.kind)} · ${esc(evidence.at)}</p><p lang="${evidence.language === "zh" ? "zh-CN" : "en"}">${esc(evidence.text)}</p></details>`
         : '<p class="boundary">Original issue record unavailable for this platform.</p>') +
       `<div class="handoff-questions"><h3>Questions to review before handoff</h3><p class="boundary">Suggested questions from lexical triage. Review what is already known before asking the customer; these do not establish a root cause.</p>${(t.triage.candidates || []).map(candidateHTML).join("") || '<p>No candidate questions recorded.</p>'}</div>` +
       t.triage.notes.map((note) => `<p class="boundary">${esc(note)}</p>`).join("") +
