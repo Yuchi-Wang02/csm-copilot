@@ -29,6 +29,7 @@ jobs:
       - run: python -m pytest -q
       - run: python scripts/mcp_smoke.py --output evidence/mcp-transcript.json
       - run: python scripts/build_demo.py
+      - run: python -m pytest tests/test_review_brief.py -k generated_morning_briefs -q
       - run: python evaluation/triage_boundaries.py
       - run: python evaluation/negation.py
       - run: python scripts/build_model_replay.py

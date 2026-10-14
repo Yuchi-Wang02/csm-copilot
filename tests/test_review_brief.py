@@ -2,11 +2,20 @@ import copy
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 
 from csm_copilot.brief import render_review_brief
 from csm_copilot.demo import build_demo
+
+
+@pytest.mark.parametrize("lang", ["en", "zh"])
+def test_generated_morning_briefs_match_renderer_bytes_on_every_platform(lang):
+    root = Path(__file__).resolve().parents[1]
+    expected = render_review_brief(build_demo(), lang).encode("utf-8")
+    for directory in ("demo", "evidence"):
+        assert (root / directory / f"morning-review-{lang}.md").read_bytes() == expected
 
 
 def test_brief_carries_all_selected_accounts_and_platform_states():

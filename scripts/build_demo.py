@@ -39,7 +39,9 @@ print("Built demo/data.js and evidence/workflow.json from engine outputs.")
 for language in ("en", "zh"):
     brief = render_review_brief(payload["workflow"], language)
     for directory in ("demo", "evidence"):
-        (ROOT / directory / f"morning-review-{language}.md").write_text(brief, encoding="utf-8")
+        (ROOT / directory / f"morning-review-{language}.md").write_text(
+            brief, encoding="utf-8", newline="\n"
+        )
 print("Built English and Chinese review briefs from the same workflow packet.")
 case_directory = ROOT / "demo/case-briefs"
 case_directory.mkdir(exist_ok=True)
