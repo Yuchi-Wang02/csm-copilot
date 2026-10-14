@@ -1,14 +1,55 @@
 # A three-minute walkthrough
 
-This is a suggested presentation, not a claim that the exercises or interview have already happened.
+**One customer decision, one AI mistake, one next learning step.** Use the five short speaking blocks below as a rehearsal draft. The timings are a proposed pacing plan, not a measured presentation duration or evidence that personal practice is complete. Adapt the first-person wording to what you can explain yourself.
 
-Start with the [three-stop route on the portfolio](https://yuchi-wang02.github.io/csm-copilot/#start). It opens the exact Android follow-up, passing-test comparison and model recordings discussed below. The return links bring you back to the route; in-page evidence navigation preserves practice notes. The fuller script below is optional preparation.
-
-Use the [two-page PDF brief](../demo/project-brief.pdf) as a leave-behind or offline introduction. It includes clickable links to the examples and identifies the evidence bundle behind its figures.
-
-For a targeted demonstration, use [direct links to the Android evidence, Chinese iOS follow-up, and Harbor handoff](SHARING.md). The selected platform and review step are preserved, so the audience opens the example you intend.
+Before presenting, open [Android evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace) and [the original AI recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) in separate tabs. Keep the [two-page PDF brief](../demo/project-brief.pdf) available as a backup. The [on-page review route](https://yuchi-wang02.github.io/csm-copilot/#start) lets the interviewer explore independently afterward.
 
 ## 0:00–0:30 — Explain the customer problem
+
+**Show:** Android evidence. Point to the synthetic-data and snapshot labels; stay with Lantern Games for the customer story.
+
+> I chose a CSM onboarding problem: a publisher wants to launch, but the available evidence is incomplete. This prototype helps prepare the next customer question and technical handoff. All accounts are synthetic, so the demonstration shows workflow reasoning rather than customer impact.
+
+## 0:30–1:10 — Show the evidence boundary
+
+**Show:** Expand **Trace checklist decisions to source records**, then **Non-test device verification**. Compare its failed record with the unknown currency-approval check. Keep platform switching for a follow-up question.
+
+> Android has a recorded failed device check, while currency approval is unknown. Those states need different actions: request a fresh test for the failure and confirmation for the missing evidence. Every check belongs to a specific app and platform. An iOS result cannot establish Android readiness.
+
+## 1:10–1:50 — Move the work forward
+
+**Show:** Open **Follow-up**, then **Handoff** in the same Android panel. Point to one specific request and one missing handoff field; do not read the entire draft aloud.
+
+> The follow-up turns those gaps into specific requests. The handoff keeps recorded details and makes missing fields visible, including the SDK version and logs. A CSM can review and shorten the wording before using it. Generating this draft sends nothing and does not update the last-contact record.
+
+## 1:50–2:30 — Explain the AI architecture and failure cases
+
+**Show:** Switch to the original AI recording. In **How this recorded AI run unfolded**, expand Turn 2 and find “full compliance” in the final explanation. Leave the corrected attempt for a deeper discussion.
+
+> The MCP server gives a model tools to inspect the workflow. Checklist decisions remain deterministic. In this recording, the model completed four requested calls but described a scoped iOS checklist as full compliance. Successful tool use did not make its explanation faithful. This browser replays saved outputs; it does not run live inference.
+
+## 2:30–3:00 — Explain the learning direction honestly
+
+**Show:** Return to the customer example or leave the AI failure visible. Finish the story before opening another feature.
+
+> I selected the project direction and used substantial AI assistance for implementation. The learning path asks me to trace a customer decision to its evidence, explain an AI mistake, and change one input in a copied dataset. I would demonstrate that understanding with my own prediction, output and explanation.
+
+**Stop here and invite a question.** After completing the exercises yourself, replace the proposed learning step with one specific result you can explain and show. A test count or this script does not establish personal mastery.
+
+## If there is only time for a short introduction
+
+Use this without opening the site, then offer the [PDF brief](../demo/project-brief.pdf). Rehearse it in your own words; no speaking duration has been measured.
+
+> CSM Copilot explores how AI can help move an onboarding account forward when the evidence is incomplete. Its MCP tools support readiness checks, bilingual drafts and technical handoffs. The demo distinguishes a failed check from missing evidence and shows an actual recorded AI response that overstates a checklist result. I selected the direction and used substantial AI assistance to implement it. The project gives me concrete decisions and failure cases to explain, with synthetic data and reproducible checks rather than a claim of production impact.
+
+## Optional deeper walkthrough
+
+Open this only after the short story, or use it to prepare for a longer conversation. Choose one customer, AI or evaluation branch relevant to the interviewer's question; it is not part of the three-minute pacing plan.
+
+<details>
+<summary>Inspect additional customer cases, AI corrections and evaluation limits</summary>
+
+### More detail: Explain the customer problem
 
 “I wanted to explore how AI could support customer onboarding while keeping the CSM accountable for the next step. In this example, a publisher wants to launch on Friday. iOS looks ready, but Android shows a blank offerwall. The challenge is to turn incomplete information into a useful follow-up without overpromising.”
 
@@ -18,7 +59,7 @@ The download links above the queue provide a portable review brief with findings
 
 For a single example, use the selected-platform brief links inside the case panel. Harbor's Android export includes its callback handoff; Lantern's iOS export keeps the launch-plan review separate from Android's failed test. Both retain the original snapshot and offer English or Chinese customer drafts.
 
-## 0:30–1:10 — Show the evidence boundary
+### More detail: Show the evidence boundary
 
 Select Lantern Games. Show Android's unknown currency approval and failed device check. Switch to iOS and back.
 
@@ -28,7 +69,7 @@ Open a source link or evidence record. Explain the difference between a document
 
 Expand **Trace checklist decisions to source records**, then **Non-test device verification**. Read the original synthetic record and its date alongside the recorded claim. Compare it with **Platform currency approval**, which has no cited record and asks for confirmation. Switch to iOS and inspect its own device record. Explain why a readable source trail establishes provenance, not independent truth or current readiness. The raw JSON remains available for deeper inspection.
 
-## 1:10–1:50 — Move the work forward
+### More detail: Move the work forward
 
 Open Follow-up, switch to Chinese, then open Handoff.
 
@@ -40,7 +81,7 @@ For an optional triage demonstration, open the [repaired English denial](https:/
 
 Show the counterfactual update. Two settings change, but the failed device check remains unresolved. The expanded evidence-timing view shows the new customer confirmation beside the older device record. Explain why a recent message does not prove a fresh device test, and why age alone does not automatically expire evidence.
 
-## 1:50–2:30 — Explain the AI architecture and failure cases
+### More detail: Explain the AI architecture and failure cases
 
 “The server exposes MCP tools so a model-enabled host can orchestrate the workflow. Dates and checklist rules stay deterministic. This website replays engine outputs and separately recorded local model attempts. The initial batch attempt chose all four requested calls but overstated the evidence. The constrained attempt matched structured fields after two recorded corrections; its prose still needs review. I distinguish tool coverage from answer fidelity.”
 
@@ -51,11 +92,13 @@ Use **How this recorded AI run unfolded** to explain who did each part. Expand T
 For a customer-communication alternative, open [the original inbound-message recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-triage-scope#model-runs). The model uses the right input text and different routes, but its invoice questions repeat a generic troubleshooting template. Discuss what you would ask instead and distinguish a proposed question from an invented company billing procedure. Then open [the neutral-question recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-triage-neutral-questions#model-runs) to inspect the observed change. The review is AI-assisted; no customer usefulness score is claimed.
 
 
-## 2:30–3:00 — Explain the learning direction honestly
+### More detail: Explain the learning direction honestly
 
 “The project connects my interest in business analytics, customer communication and process controls. I used substantial AI assistance for implementation. My next learning goal is to trace each tool, explain the tests, and implement a small improvement that I can defend myself.”
 
 Replace the last sentence only after completing and documenting the relevant exercises. Do not claim personal implementation of a component you cannot explain.
+
+</details>
 
 ## Questions to prepare for
 
