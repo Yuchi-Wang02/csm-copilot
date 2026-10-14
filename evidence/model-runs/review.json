@@ -8,8 +8,16 @@
       "verdict": "Stopped before tool execution",
       "summary": "The model wrapped its action in Markdown fences and invented a 2023 date. Strict parsing rejected the response; no tool was called.",
       "findings": [
-        {"kind": "format", "claim": "Markdown-fenced JSON", "assessment": "The requested protocol accepts plain JSON only. The host did not silently strip the fences."},
-        {"kind": "unsupported", "claim": "as_of: 2023-04-01", "assessment": "The task did not supply this date. The dataset snapshot is 2026-10-14; the action was rejected before reaching the tool."}
+        {
+          "kind": "format",
+          "claim": "Markdown-fenced JSON",
+          "assessment": "The requested protocol accepts plain JSON only. The host did not silently strip the fences."
+        },
+        {
+          "kind": "unsupported",
+          "claim": "as_of: 2023-04-01",
+          "assessment": "The task did not supply this date. The dataset snapshot is 2026-10-14; the action was rejected before reaching the tool."
+        }
       ]
     },
     {
@@ -19,7 +27,11 @@
       "verdict": "Stopped before tool execution",
       "summary": "The model selected four relevant calls but emitted concatenated JSON objects. The one-action protocol rejected the whole output; zero calls executed.",
       "findings": [
-        {"kind": "format", "claim": "Four concatenated JSON objects", "assessment": "Relevant proposed tool choices are visible, but they were not executed. This led to an explicit bounded-array protocol in the next run, not a hidden repair of this output."}
+        {
+          "kind": "format",
+          "claim": "Four concatenated JSON objects",
+          "assessment": "Relevant proposed tool choices are visible, but they were not executed. This led to an explicit bounded-array protocol in the next run, not a hidden repair of this output."
+        }
       ]
     },
     {
@@ -29,12 +41,80 @@
       "verdict": "Final explanation needs revision",
       "summary": "All four requested tool calls executed, but the final explanation omitted citations, overstated the iOS result, and blurred a recorded Android failure into missing evidence.",
       "findings": [
-        {"kind": "unsupported", "claim": "iOS's full compliance", "assessment": "The tool reports checklist_complete for six scoped checks and explicitly says it is not launch approval. Compliance was not evaluated."},
-        {"kind": "contradicted", "claim": "No evidence IDs are missing for Android", "assessment": "Android currency approval, production visibility and callback verification have unknown states with empty evidence_ids. No source IDs are cited in the final explanation."},
-        {"kind": "omitted", "claim": "Android's missing evidence", "assessment": "This is incomplete: lantern_android_device_verified supports a not_met state. The final explanation fails to distinguish the recorded failed check from the unknown checks."},
-        {"kind": "supported", "claim": "Nothing was sent", "assessment": "Both follow-up tool outputs have sent=false and contact_history_changed=false. The server exposes no sending capability."}
+        {
+          "kind": "unsupported",
+          "claim": "iOS's full compliance",
+          "assessment": "The tool reports checklist_complete for six scoped checks and explicitly says it is not launch approval. Compliance was not evaluated."
+        },
+        {
+          "kind": "contradicted",
+          "claim": "No evidence IDs are missing for Android",
+          "assessment": "Android currency approval, production visibility and callback verification have unknown states with empty evidence_ids. No source IDs are cited in the final explanation."
+        },
+        {
+          "kind": "omitted",
+          "claim": "Android's missing evidence",
+          "assessment": "This is incomplete: lantern_android_device_verified supports a not_met state. The final explanation fails to distinguish the recorded failed check from the unknown checks."
+        },
+        {
+          "kind": "supported",
+          "claim": "Nothing was sent",
+          "assessment": "Both follow-up tool outputs have sent=false and contact_history_changed=false. The server exposes no sending capability."
+        }
+      ]
+    },
+    {
+      "id": "qwen4-grounded",
+      "label": "Qwen3-4B · structured final, no correction",
+      "protocol": "grounded",
+      "verdict": "Structured response rejected before field review",
+      "summary": "The model completed the four tools, but its nested final JSON was malformed. No structured-field match is claimed.",
+      "findings": [
+        {
+          "kind": "format",
+          "claim": "Missing closing object delimiter",
+          "assessment": "The parser rejected the model output. The raw response also includes an issue-only source in the readiness evidence list, but no automated field review was reached."
+        }
+      ]
+    },
+    {
+      "id": "qwen4-grounded-corrections",
+      "label": "Qwen3-4B · two correction requests",
+      "protocol": "grounded",
+      "verdict": "Correction budget exhausted",
+      "summary": "After the four tool calls, the model repeated the malformed final response through both recorded correction requests. The host stopped without accepting it.",
+      "findings": [
+        {
+          "kind": "observed",
+          "claim": "Two requests did not fix the JSON",
+          "assessment": "The trace preserves the original output and both correction responses. The model did not reach a parseable structured final; no field-match result or approved explanation is claimed."
+        }
+      ]
+    },
+    {
+      "id": "qwen4-constrained",
+      "label": "Qwen3-4B · constrained JSON + field review",
+      "protocol": "grounded",
+      "verdict": "Structured fields match after two corrections",
+      "summary": "Four requested tools executed. Schema-constrained finals first failed source and platform-scope checks. After two recorded correction requests, the declared fields matched the observed results. Free prose remains unverified.",
+      "findings": [
+        {
+          "kind": "rejected",
+          "claim": "Issue-only evidence and duplicate platform entries",
+          "assessment": "The first constrained final included msg_issue_blank as readiness evidence and repeated Android entries. The next response still repeated platform entries. Both were rejected; the raw outputs and feedback remain in the trace."
+        },
+        {
+          "kind": "matched",
+          "claim": "Final structured fields match tool evidence",
+          "assessment": "The last response contains both platforms exactly once, preserves the Android unknown checks and device failure, cites the expected readiness IDs, and keeps nothing_sent=true and launch_approved=false. Feedback supplied expected values; this is an assisted correction result on one task, not independent accuracy."
+        },
+        {
+          "kind": "limited",
+          "claim": "Free explanation is not verified",
+          "assessment": "The final explanation describes the platform difference but omits inline source IDs and the explicit nothing-sent sentence requested in the task. Those facts appear in structured fields and the separate system-rendered summary. A field match does not establish full instruction compliance."
+        }
       ]
     }
   ],
-  "boundary": "Three exploratory runs on one task, with a changed host protocol after observed failures. This is neither an independent benchmark nor a fair model ranking. Tool coverage is not answer correctness. No output is approved for customer use."
+  "boundary": "Exploratory attempts on one task with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use."
 }

@@ -1134,6 +1134,20 @@ details pre {
     padding: 35px 0;
   }
 }
+.structured-review {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f4f1e9;
+}
+.structured-review p {
+  margin: 12px 0;
+}
+.checked-summary {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

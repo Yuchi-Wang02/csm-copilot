@@ -7,6 +7,7 @@ from pathlib import Path
 from csm_copilot.brief import text
 from csm_copilot.engine import validate_draft
 from csm_copilot.host_protocol import trace_coverage
+from csm_copilot.response_review import review_final
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -21,13 +22,21 @@ def build():
         trace = json.loads(raw)
         coverage = trace_coverage(trace)
         assert coverage == trace["coverage"], entry["id"]
-        lint = validate_draft(trace["final"]) if trace["final"] else None
+        display_final = (
+            trace["final"].get("explanation", "")
+            if isinstance(trace["final"], dict)
+            else trace["final"]
+        )
+        lint = validate_draft(display_final) if display_final else None
+        if "response_review" in trace:
+            assert review_final(trace["final"], trace) == trace["response_review"]
         runs.append(
             {
                 **entry,
                 "trace": trace,
                 "sha256": hashlib.sha256(raw.encode()).hexdigest(),
                 "promise_lint": lint,
+                "display_final": display_final,
             }
         )
         lines += [
@@ -44,12 +53,24 @@ def build():
             lines += [
                 f"- **{text(finding['kind'])}: {text(finding['claim'])}.** {text(finding['assessment'])}"
             ]
-        if trace["final"]:
+        if "response_review" in trace:
+            field_review = trace["response_review"]
+            lines += [
+                "",
+                f"Structured review: **{field_review['status']}**. Free explanation: **not semantically verified**.",
+                "",
+            ]
+            if field_review["checked_summary"]:
+                lines += ["### System-rendered summary from checked tool fields", ""]
+                lines += [
+                    "> " + text(line) for line in field_review["checked_summary"].splitlines()
+                ]
+        if display_final:
             lines += [
                 "",
                 "### Unedited model response — needs review",
                 "",
-                "> " + text(trace["final"]),
+                "> " + text(display_final),
                 "",
                 f"Narrow promise lint flags: {lint['flags']}. No flags does not establish fidelity.",
                 "",

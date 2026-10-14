@@ -223,7 +223,7 @@ const modelRuns = window.CSM_MODEL_RUNS;
 $("model-run").innerHTML = modelRuns.runs
   .map(
     (r) =>
-      `<option value="${esc(r.id)}" ${r.id === "qwen4-batch" ? "selected" : ""}>${esc(r.label)}</option>`,
+      `<option value="${esc(r.id)}" ${r.id === modelRuns.runs.at(-1).id ? "selected" : ""}>${esc(r.label)}</option>`,
   )
   .join("");
 function renderModelRun() {
@@ -233,7 +233,18 @@ function renderModelRun() {
     (s) => s.tool_calls || (s.tool_result ? [s] : []),
   );
   $("model-result").innerHTML =
-    `<div class="model-verdict"><strong>${esc(run.verdict)}</strong><p>${esc(run.summary)}</p><span>${trace.coverage.observed} / ${trace.coverage.required} requested tool actions observed · ${esc(trace.model_id)} · ${esc(trace.runtime.device)}</span></div><div class="model-grid"><div><h3>What the model actually did</h3>${calls.length ? `<ol class="model-calls">${calls.map((c) => `<li><code>${esc(c.action.tool)}</code><span>${esc(c.action.arguments.integration_id || "")} · ${c.tool_error ? "tool error" : "result received"}</span></li>`).join("")}</ol>` : "<p>No tool calls executed. Proposed actions in the raw output were rejected.</p>"}<details><summary>Inspect raw model turns and tool results</summary><pre>${esc(JSON.stringify(trace.steps, null, 2))}</pre></details>${trace.final ? `<h3 class="model-final-title">Unedited final explanation</h3><p class="model-output">${esc(trace.final)}</p><p class="boundary">Narrow promise lint: ${run.promise_lint.flags.length} flags. It did not detect the evidence problems identified in the review.</p>` : ""}</div><aside class="model-review"><span class="small-label">SOURCE-BASED REVIEW</span>${run.findings.map((f) => `<div class="model-finding"><strong>${esc(f.kind)} · ${esc(f.claim)}</strong><p>${esc(f.assessment)}</p></div>`).join("")}<p class="disclosure">${esc(modelRuns.review_method)}.</p></aside></div><p class="boundary">${esc(modelRuns.boundary)}</p><a class="text-link" href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/model-runs/${esc(run.id)}.json">Complete trace, prompt and runtime settings ↗</a>`;
+    `<div class="model-verdict"><strong>${esc(run.verdict)}</strong><p>${esc(run.summary)}</p><span>${trace.coverage.observed} / ${trace.coverage.required} requested tool actions observed · ${esc(trace.model_id)} · ${esc(trace.runtime.device)}</span></div><div class="model-grid"><div><h3>What the model actually did</h3>${calls.length ? `<ol class="model-calls">${calls.map((c) => `<li><code>${esc(c.action.tool)}</code><span>${esc(c.action.arguments.integration_id || "")} · ${c.tool_error ? "tool error" : "result received"}</span></li>`).join("")}</ol>` : "<p>No tool calls executed. Proposed actions in the raw output were rejected.</p>"}<details><summary>Inspect raw model turns and tool results</summary><pre>${esc(JSON.stringify(trace.steps, null, 2))}</pre></details>${renderResponseReview(run)}${run.display_final ? `<h3 class="model-final-title">Unedited model explanation · not verified</h3><p class="model-output">${esc(run.display_final)}</p><p class="boundary">Narrow promise lint: ${run.promise_lint.flags.length} flags. This lint does not verify whether the explanation matches the evidence.</p>` : ""}</div><aside class="model-review"><span class="small-label">SOURCE-BASED REVIEW</span>${run.findings.map((f) => `<div class="model-finding"><strong>${esc(f.kind)} · ${esc(f.claim)}</strong><p>${esc(f.assessment)}</p></div>`).join("")}<p class="disclosure">${esc(modelRuns.review_method)}.</p></aside></div><p class="boundary">${esc(modelRuns.boundary)}</p><a class="text-link" href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/model-runs/${esc(run.id)}.json">Complete trace, prompt and runtime settings ↗</a>`;
 }
 $("model-run").addEventListener("change", renderModelRun);
 renderModelRun();
+
+function renderResponseReview(run) {
+  const review = run.trace.response_review;
+  const corrections = run.trace.steps.filter((s) => s.correction_feedback);
+  let html = corrections.length
+    ? `<p class="boundary">${corrections.length} correction requests recorded. Original responses and exact feedback remain in the raw trace.</p>`
+    : "";
+  if (!review) return html;
+  html += `<div class="structured-review"><h3>Structured field review</h3><strong>${esc(review.status.replaceAll("_", " "))}</strong><p>Free-form explanation: not semantically verified. Human review remains required.</p>${review.issues.length ? `<ul>${review.issues.map((i) => `<li>${esc(i.field)}: ${esc(i.code)}</li>`).join("")}</ul>` : "<p>The declared states and readiness source IDs match the observed tool outputs.</p>"}${review.checked_summary ? `<details><summary>Inspect system-rendered checked summary</summary><pre class="checked-summary">${esc(review.checked_summary)}</pre></details>` : ""}<p class="boundary">${esc(review.boundary)}</p></div>`;
+  return html;
+}

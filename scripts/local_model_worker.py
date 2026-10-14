@@ -4,6 +4,7 @@ import argparse
 import json
 import sys
 import time
+from importlib.metadata import PackageNotFoundError, version
 
 
 def emit(value):
@@ -22,6 +23,10 @@ def main():
 
     if not torch.cuda.is_available():
         raise RuntimeError("This recorded workflow requires a local CUDA GPU")
+    try:
+        enforcer_version = version("lm-format-enforcer")
+    except PackageNotFoundError:
+        enforcer_version = None
     set_seed(42)
     tokenizer = AutoTokenizer.from_pretrained(
         args.model_path, local_files_only=True, trust_remote_code=False
@@ -52,6 +57,7 @@ def main():
             "top_k": 20,
             "max_new_tokens": args.max_new_tokens,
             "max_input_tokens": 12000,
+            "lm_format_enforcer": enforcer_version,
         }
     )
     for line in sys.stdin:
@@ -65,6 +71,16 @@ def main():
             emit({"error": "context_limit", "input_tokens": input_tokens})
             continue
         started = time.perf_counter()
+        constraints = {}
+        if request.get("json_schema"):
+            from lmformatenforcer import JsonSchemaParser
+            from lmformatenforcer.integrations.transformers import (
+                build_transformers_prefix_allowed_tokens_fn,
+            )
+
+            constraints["prefix_allowed_tokens_fn"] = build_transformers_prefix_allowed_tokens_fn(
+                tokenizer, JsonSchemaParser(request["json_schema"])
+            )
         with torch.inference_mode():
             output = model.generate(
                 **inputs,
@@ -74,6 +90,7 @@ def main():
                 top_p=0.8,
                 top_k=20,
                 pad_token_id=tokenizer.eos_token_id,
+                **constraints,
             )
         generated = output[0, input_tokens:]
         emit(
@@ -83,6 +100,7 @@ def main():
                 "output_tokens": len(generated),
                 "seconds": round(time.perf_counter() - started, 3),
                 "token_limit_reached": len(generated) >= args.max_new_tokens,
+                "schema_constrained": bool(constraints),
             }
         )
 

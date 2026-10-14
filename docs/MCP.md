@@ -46,3 +46,5 @@ The first two were checked into v0.1. Version 0.5 adds [three local model attemp
 ## Product feedback workflow
 
 Use the `product_feedback_review` prompt, or call `friction_digest` with `include_live: false` for the default onboarding cohort. Counts describe the fixed dataset snapshot. Ask the host to inspect source records, separate unknown checks from failures, and keep proposed Product questions conditional. No logging or external submission is performed.
+
+Version 0.6 extends the local host with [structured-response review](RESPONSE_REVIEW.md), up to two recorded correction requests, and optional schema-constrained final generation. Six raw attempts remain published. Matching fields establish agreement with observed MCP outputs; they do not approve free prose.

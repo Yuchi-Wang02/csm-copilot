@@ -19,9 +19,11 @@ A publisher wants to launch on Friday. Sales says integration is nearly complete
 
 A fluent message is easy to generate. A useful message must preserve the difference between **confirmed failure**, **missing evidence**, and **a possible explanation**. This project makes that distinction visible all the way from source records to the customer follow-up.
 
-The v0.5 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, a portfolio feedback review, and recorded local model attempts. It does not reproduce a production CRM or Unity's internal process.
+The v0.6 scope is deliberately bounded: Offerwall publisher onboarding, two issue families (no offers and reward callbacks), five fictional accounts, six app/platform integrations, English and Chinese follow-ups, a portfolio feedback review, and recorded local model attempts. It does not reproduce a production CRM or Unity's internal process.
 
-**New in v0.5: real model choices, visible answer failures.** A local Qwen3-4B run executed all four requested MCP calls but produced an explanation that needs revision. Inspect [all three recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including the rejected outputs, [source-based review](evidence/MODEL_RUNS.md), and [reproduction instructions](docs/LOCAL_MODEL.md). Tool coverage is not answer correctness. The behavior suite now has 90 tests.
+**New in v0.6: checked fields, visible corrections.** A local Qwen3-4B run reached matching structured fields after two recorded correction requests. The host checks platform scope, unknowns, failures and readiness source IDs against actual MCP results, then renders a separate evidence summary. The model explanation stays unverified. Inspect [six recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including failures, and [the response-review design](docs/RESPONSE_REVIEW.md). All 109 behavior tests pass locally.
+
+**Initial model experiment in v0.5: real model choices, visible answer failures.** A local Qwen3-4B run executed all four requested MCP calls but produced an explanation that needs revision. Inspect [the initial three recorded attempts](https://yuchi-wang02.github.io/csm-copilot/#model-runs), including the rejected outputs, [source-based review](evidence/MODEL_RUNS.md), and [reproduction instructions](docs/LOCAL_MODEL.md). Tool coverage is not answer correctness. That release had 90 behavior tests.
 
 **Product feedback from v0.4:** explore [recurring checklist friction](https://yuchi-wang02.github.io/csm-copilot/#feedback) and download a [Product feedback review](evidence/product-feedback.md). The eighth MCP tool counts affected accounts separately from integrations, distinguishes missing evidence from failures, and proposes questions to validate with Product. Read the [method and interview exercise](docs/PRODUCT_FEEDBACK.md).
 
@@ -56,7 +58,7 @@ flowchart LR
 
 The model-enabled MCP host interprets the request, chooses tools, and can rewrite drafts. The server handles dates, scope, evidence references and checklist states deterministically. Default drafts are transparent templates; the project does not require an embedded paid model API.
 
-**Protocol verification:** real stdio MCP initialization, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. The original `mcp-transcript.json` is a scripted client run. **Model observations:** three separate local Qwen attempts now preserve actual generated tool choices and responses; their review exposes failures. These exploratory runs do not establish general reliability or customer productivity. The browser replays the recordings and never runs a model itself.
+**Protocol verification:** real stdio MCP initialization, calls across eight tools, state-dependent follow-ups, prompt retrieval and invalid-ID errors. The original `mcp-transcript.json` is a scripted client run. **Model observations:** six separate local Qwen attempts preserve actual generated tool choices and responses; their review exposes failures. These exploratory runs do not establish general reliability or customer productivity. The browser replays the recordings and never runs a model itself.
 
 ## Tools
 

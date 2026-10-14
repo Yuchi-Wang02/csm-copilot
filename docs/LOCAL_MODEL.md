@@ -1,12 +1,12 @@
 # An actual model run, including the failures
 
-The project now contains three exploratory local model attempts on one synthetic CSM task. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
+The project contains six exploratory local model attempts on one synthetic CSM task. Unlike the scripted MCP smoke test, a language model selected the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model.
 
-**The most complete attempt executed all four requested tool actions, then produced an explanation that needs revision.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
+**The initial batch attempt completed four requested tool actions but overstated the evidence. The latest run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
 [Inspect the browser replay](https://yuchi-wang02.github.io/csm-copilot/#model-runs) · [Read the reviewed results](../evidence/MODEL_RUNS.md) · [Review annotations](../evidence/model-runs/review.json)
 
-## Task and observed attempts
+## Initial v0.5 task and observed attempts
 
 The task names Lantern Games' Android and iOS integration IDs, asks for readiness checks and English follow-up drafts for both, then requests a short evidence-citing explanation of why the follow-ups differ. It also requires the assistant to avoid launch approval claims and state that nothing was sent.
 
@@ -31,7 +31,7 @@ The existing promise-pattern lint returned **zero flags** for this response. Thi
 - Local NVIDIA GeForce RTX 5070 Ti; BF16 inference, no paid API calls or remote inference.
 - Existing cached model snapshots; no model weights included in the repository.
 - Worker: Python 3.10.18, PyTorch 2.8.0+cu128, Transformers 4.55.4. The MCP host uses the separate project environment (Python 3.11+).
-- Non-thinking mode; sampling enabled, seed 42, temperature 0.7, top-p 0.8, top-k 20; 768 generated-token cap per turn and 12,000 input-token cap.
+- Non-thinking mode; sampling enabled, seed 42, temperature 0.7, top-p 0.8, top-k 20; 768 generated-token cap per turn in v0.5 (1536 in v0.6) and 12,000 input-token cap.
 - Model revisions, timestamps, initial messages, prompt hash, raw responses, token counts, generation durations, tool calls and tool results are stored in each trace. Durations are generation observations, not an end-to-end customer productivity measure.
 - Sampling and GPU kernels may vary across environments. Regeneration is not guaranteed to reproduce byte-identical model text.
 
@@ -62,3 +62,11 @@ The worker loads local files only, disables Hugging Face network access, and doe
 The automated coverage check only asks whether the four requested successful tool actions occurred. The separate source review examines the final prose. Do not combine these into one unqualified accuracy number.
 
 For an interview exercise, hide the review panel, annotate every claim in the unedited response, then compare your findings. Explain why the model can choose the correct tools yet still overstate their results, and why a zero-flag lint result should not approve the answer.
+
+## v0.6: from parseable JSON to matching fields
+
+Three further recordings use a structured final contract. The first returned malformed JSON after the four tool calls. The second repeated that malformed output through two correction requests. The third used optional schema-constrained generation: its parseable finals initially failed source and platform-scope checks, then matched the tool results after two corrections.
+
+The last explanation still omits inline source IDs and the explicit nothing-sent sentence requested in the task. Structured fields and the separately rendered summary retain those facts; the prose is not approved. See [the contract and review boundaries](RESPONSE_REVIEW.md).
+
+To reproduce the constrained configuration, install `lm-format-enforcer==0.11.3` in the model worker environment and add `--protocol grounded --max-new-tokens 1536 --repair-attempts 2 --constrain-final` to the command above. The schema controls structure; the field reviewer checks values. The recorded correction feedback contains expected values, so the final match is assisted recovery on a single task, not a held-out score or fair comparison with the earlier configurations.
