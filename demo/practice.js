@@ -236,9 +236,17 @@
       get("practice-file-status").textContent = `${error.message || "The progress file could not be read."} Your current work has not changed.`;
     }
   });
-  get("practice-cancel").addEventListener("click", () => {
+  function cancelResume() {
     clearPending();
     get("practice-file-status").textContent = "Resume cancelled. Your current work is unchanged.";
+    get("practice-load").focus();
+  }
+  get("practice-cancel").addEventListener("click", cancelResume);
+  get("practice-load-preview").addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      cancelResume();
+    }
   });
   get("practice-apply").addEventListener("click", () => {
     if (!pending) return;

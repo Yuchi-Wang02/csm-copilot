@@ -1,5 +1,11 @@
 # Development notes
 
+## Preserve keyboard position when cancelling a practice resume
+
+Activating **Keep current work** with Enter hid the focused button and left browser focus on `BODY`. The notes survived, but the keyboard user lost the active control. Cancellation now returns focus to the saved-file chooser. Escape within the preview uses the same cancellation path; the shortcut is scoped to that preview and described beside the replacement controls.
+
+Edge QA reproduced the earlier focus loss, then checked Tab from the file chooser, Enter to expand a saved decision, Escape from that heading and Enter on the cancellation button. Both cancellation paths cleared the pending preview, returned focus to `practice-load` and preserved the QA draft note. Escape in the reasoning textarea left the pending preview open. All 100 JavaScript checks passed. These are specific keyboard observations, not a complete accessibility or screen-reader audit, and the QA note is not personal learning evidence.
+
 ## Inspect saved practice responses before replacing current work
 
 The resume preview previously showed only a decision count and the selected exercise. It now adds a collapsed section for each saved decision, with the saved option and separately labeled unfinished/initial reasoning and later reflection. It uses text nodes for the saved content and does not include option feedback or policy explanations. Selection alone still does not replace the current session; the existing explicit replacement action remains required.

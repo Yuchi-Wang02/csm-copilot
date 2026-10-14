@@ -59,6 +59,8 @@ Validation requires every current decision exactly once, allowed option IDs, con
 
 The preview lists each saved decision in an expandable section. Inspect its selected option, unfinished or initial reasoning, and any later reflection before choosing whether to replace the current session. Empty choices and notes are labeled explicitly. The preview uses the current compatible decision titles and option text; it does not display policy feedback or reveal guidance for unfinished work. Saved notes are rendered as literal text, including line breaks and markup. Cancelling or resetting clears the preview. This is a way to inspect a local file, not proof that its saved review states or authorship are authentic. The progress-file format and compatibility signature are unchanged.
 
+For keyboard review, Tab from the file chooser to the saved decision headings and use Enter or Space to expand them. **Keep current work**, or Escape while focus is inside the preview, cancels the pending resume and returns focus to the file chooser. Current answers and notes remain unchanged. Escape elsewhere on the page does not cancel this preview. After an explicit replacement, focus moves to the practice decision selector.
+
 ## Review before clearing practice
 
 When any choice, nonblank reasoning or reviewed decision exists, **Reset all practice and clear notes** opens a confirmation without changing the session. Keyboard focus moves to **Keep my work**. That button or Escape closes the confirmation and returns focus to Reset. **Clear all practice work** clears the choices, original notes and later reflections across all five decisions, cancels pending imports and returns to the first decision. Existing downloaded files are unaffected.

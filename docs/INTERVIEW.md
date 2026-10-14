@@ -49,6 +49,7 @@ Use Tab to move between controls; the blue outline shows the focused control, in
 - In **Review steps**, Left/Right Arrow switches tabs and wraps at either end. Home selects Evidence; End selects Handoff. Focus remains on the selected tab.
 - From **Follow-up**, Tab enters the **Client language** selector. Changing language keeps focus on that selector so you can continue to Copy draft and the evidence disclosures.
 - Use Enter or Space on a disclosure heading to expand or collapse it. Tab then reaches the controls inside an expanded section, including nested source headings.
+- In the saved-practice preview, Tab reaches each saved decision heading. Escape from inside that preview, or **Keep current work**, cancels the pending resume and returns focus to the file chooser without replacing current notes.
 
 This path was checked in Edge on Windows. It is a presentation aid, not a screen-reader or cross-browser accessibility assessment. The current [fixed interview package](INTERVIEW_BUNDLE.md) includes the disclosure outline; older packages may predate it.
 
