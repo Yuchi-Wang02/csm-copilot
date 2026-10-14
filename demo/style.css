@@ -50,7 +50,8 @@ button {
 }
 button:focus-visible,
 a:focus-visible,
-select:focus-visible {
+select:focus-visible,
+summary:focus-visible {
   outline: 3px solid #448eec;
   outline-offset: 4px;
 }

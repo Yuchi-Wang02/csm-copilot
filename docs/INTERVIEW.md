@@ -42,6 +42,16 @@ Use this without opening the site, then offer the [PDF brief](../demo/project-br
 
 > CSM Copilot explores how AI can help move an onboarding account forward when the evidence is incomplete. Its MCP tools support readiness checks, bilingual drafts and technical handoffs. The demo distinguishes a failed check from missing evidence and shows an actual recorded AI response that overstates a checklist result. I selected the direction and used substantial AI assistance to implement it. The project gives me concrete decisions and failure cases to explain, with synthetic data and reproducible checks rather than a claim of production impact.
 
+## Present with the keyboard
+
+Use Tab to move between controls; the blue outline shows the focused control, including expandable evidence sections.
+
+- In **Review steps**, Left/Right Arrow switches tabs and wraps at either end. Home selects Evidence; End selects Handoff. Focus remains on the selected tab.
+- From **Follow-up**, Tab enters the **Client language** selector. Changing language keeps focus on that selector so you can continue to Copy draft and the evidence disclosures.
+- Use Enter or Space on a disclosure heading to expand or collapse it. Tab then reaches the controls inside an expanded section, including nested source headings.
+
+This path was checked in Edge on Windows. It is a presentation aid, not a screen-reader or cross-browser accessibility assessment. The fixed v0.29.3 download predates the consistent disclosure outline; use the hosted site for that styling update.
+
 ## Optional deeper walkthrough
 
 Open this only after the short story, or use it to prepare for a longer conversation. Choose one customer, AI or evaluation branch relevant to the interviewer's question; it is not part of the three-minute pacing plan.

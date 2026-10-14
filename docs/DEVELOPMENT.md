@@ -443,3 +443,9 @@ The source quotation views required one unique scoped record, but the timing hel
 Timing now groups records within the selected account and integration, then requires exactly one match per citation. An ambiguous date is withheld and its ID is listed as unavailable. The exported Evidence index retains the raw records so a reviewer can inspect the conflict; the helper neither reconciles it nor changes readiness.
 
 Ten added regression variants cover identical and conflicting duplicate dates, both array orders, unrelated same-ID records, both draft languages and unchanged input packets. Eight failed before the repair; the two reversed-order controls already passed. All pass after the repair. This aligns descriptive timing with the existing source-view boundary; it is not independent source validation or a new freshness policy.
+
+## Keyboard presentation after v0.29.3
+
+An Edge/Windows keyboard check confirmed that the review tabs keep selection, focus and panel labeling aligned under Left/Right Arrow, Home and End. Tab enters the follow-up language selector, and changing the language retains focus. Evidence disclosures opened with Enter or Space, including nested source headings, but their focus indicator used a thin native border while buttons and selectors used the portfolio's blue outline.
+
+The shared focus-visible style now includes disclosure headings. Local browser checks confirmed the blue outline on both the outer follow-up evidence section and a nested checklist source. No keyboard logic or data behavior changed. The interview guide now includes the checked presentation path; no personal practice response was completed during this QA, and screen-reader behavior and other browser engines remain unverified. The fixed v0.29.3 ZIP retains its original styling.
