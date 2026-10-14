@@ -3,6 +3,8 @@
 const { workflow, evaluation: report, integrity, friction } = window.CSM_DATA;
 const reviewLinks = window.CSM_REVIEW_LINKS;
 const caseReview = window.CSM_CASE_REVIEW;
+const modelRuns = window.CSM_MODEL_RUNS;
+let { runId, invalid: runInvalid } = reviewLinks.readRun(location.search, modelRuns.runs);
 let { selected, integration, activeTab, language, updated, invalid } =
   reviewLinks.read(location.search, workflow);
 const $ = (id) => document.getElementById(id);
@@ -214,15 +216,20 @@ function renderFriction() {
 $("friction-theme").addEventListener("change", renderFriction);
 renderFriction();
 
-const modelRuns = window.CSM_MODEL_RUNS;
 $("model-run").innerHTML = modelRuns.runs
   .map(
     (r) =>
-      `<option value="${esc(r.id)}" ${r.id === modelRuns.runs.at(-1).id ? "selected" : ""}>${esc(r.label)}</option>`,
+      `<option value="${esc(r.id)}">${esc(r.label)}</option>`,
   )
   .join("");
 function renderModelRun() {
-  const run = modelRuns.runs.find((r) => r.id === $("model-run").value);
+  $("model-run").value = runId;
+  $("share-run-url").value = reviewLinks.shareRun(runId, modelRuns.runs);
+  $("copy-run-link").textContent = "Copy this recording link";
+  $("run-route-notice").textContent = runInvalid
+    ? "The recording in this link was unknown or ambiguous. The latest published attempt is shown."
+    : "";
+  const run = modelRuns.runs.find((r) => r.id === runId);
   const trace = run.trace;
   const calls = trace.steps.flatMap(
     (s) => s.tool_calls || (s.tool_result ? [s] : []),
@@ -230,7 +237,12 @@ function renderModelRun() {
   $("model-result").innerHTML =
     `<div class="model-verdict"><strong>${esc(run.verdict)}</strong><p>${esc(run.summary)}</p><span>${trace.coverage.observed} / ${trace.coverage.required} requested tool actions observed · ${esc(trace.model_id)} · ${esc(trace.runtime.device)}</span></div><details><summary>Read this attempt's task</summary><p>${esc(trace.task)}</p></details><div class="model-grid"><div><h3>What the model actually did</h3>${calls.length ? `<ol class="model-calls">${calls.map((c) => `<li><code>${esc(c.action.tool)}</code><span>${esc(c.action.arguments.integration_id || c.action.arguments.account_id || c.action.arguments.issue_id || c.action.arguments.issue_text || "portfolio")} · ${c.tool_error ? "tool error" : "result received"}</span></li>`).join("")}</ol>` : "<p>No tool calls executed. Proposed actions in the raw output were rejected.</p>"}<details><summary>Inspect raw model turns and tool results</summary><pre>${esc(JSON.stringify(trace.steps, null, 2))}</pre></details>${renderResponseReview(run)}${run.display_final ? `<h3 class="model-final-title">Unedited model explanation · not verified</h3><p class="model-output">${esc(run.display_final)}</p><p class="boundary">Narrow promise lint: ${run.promise_lint.flags.length} flags. This lint does not verify whether the explanation matches the evidence.</p>` : ""}</div><aside class="model-review"><span class="small-label">SOURCE-BASED REVIEW</span>${run.findings.map((f) => `<div class="model-finding"><strong>${esc(f.kind)} · ${esc(f.claim)}</strong><p>${esc(f.assessment)}</p></div>`).join("")}<p class="disclosure">${esc(modelRuns.review_method)}.</p></aside></div><p class="boundary">${esc(modelRuns.boundary)}</p><a class="text-link" href="https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/model-runs/${esc(run.id)}.json">Complete trace, prompt and runtime settings ↗</a>`;
 }
-$("model-run").addEventListener("change", renderModelRun);
+function selectModelRun(id) {
+  runId = id;
+  syncReviewUrl("#model-runs");
+  renderModelRun();
+}
+$("model-run").addEventListener("change", (event) => selectModelRun(event.target.value));
 renderModelRun();
 
 function renderHandoffComparison() {
@@ -265,8 +277,7 @@ function renderHandoffComparison() {
     `<p class="boundary">The newer answer handles some distinctions more clearly but loses the earlier evidence citation. Neither answer satisfies the complete task.</p><div class="comparison-actions"><button class="copy" data-compare-run="${esc(before.id)}">Inspect earlier recording</button><button class="copy" data-compare-run="${esc(after.id)}">Inspect recording with identifier check</button></div>`;
   document.querySelectorAll("[data-compare-run]").forEach((button) => {
     button.addEventListener("click", () => {
-      $("model-run").value = button.dataset.compareRun;
-      renderModelRun();
+      selectModelRun(button.dataset.compareRun);
       $("model-result").focus({ preventScroll: true });
       $("model-result").scrollIntoView({ block: "start" });
     });
@@ -295,12 +306,18 @@ function renderShareLink() {
     ? "Some review settings in this link were invalid or ambiguous. Default values are shown for those settings."
     : "";
 }
-function syncReviewUrl() {
+function syncReviewUrl(anchor = location.hash || "#workspace") {
   invalid = [];
+  runInvalid = false;
+  $("route-notice").textContent = "";
+  $("run-route-notice").textContent = "";
+  const runSetting = new URLSearchParams(location.search).has("run") || anchor === "#model-runs"
+    ? "&" + reviewLinks.runQuery(runId, modelRuns.runs).slice(1)
+    : "";
   const target =
     location.pathname +
     reviewLinks.query(reviewState(), workflow) +
-    (location.hash || "#workspace");
+    runSetting + anchor;
   if (target !== location.pathname + location.search + location.hash) {
     try {
       history.pushState(null, "", target);
@@ -312,9 +329,11 @@ function syncReviewUrl() {
 function restoreReview(search = location.search) {
   ({ selected, integration, activeTab, language, updated, invalid } =
     reviewLinks.read(search, workflow));
+  ({ runId, invalid: runInvalid } = reviewLinks.readRun(search, modelRuns.runs));
   renderQueue();
   renderCase();
   renderCounter();
+  renderModelRun();
 }
 window.addEventListener("popstate", () => restoreReview());
 // In-page evidence links preserve practice notes instead of reloading the document.
@@ -360,5 +379,17 @@ $("copy-review-link").addEventListener("click", async () => {
     $("share-review-url").focus();
     $("share-review-url").select();
     $("copy-review-link").textContent = "Select the link to copy";
+  }
+});
+$("copy-run-link").addEventListener("click", async () => {
+  const url = reviewLinks.shareRun(runId, modelRuns.runs);
+  try {
+    await navigator.clipboard.writeText(url);
+    $("copy-run-link").textContent = "Recording link copied";
+  } catch {
+    $("run-link-details").open = true;
+    $("share-run-url").focus();
+    $("share-run-url").select();
+    $("copy-run-link").textContent = "Select the link to copy";
   }
 });

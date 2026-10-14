@@ -308,8 +308,8 @@ def build():
                 ),
                 para(
                     link(
-                        "Recorded model attempts and review",
-                        REPO + "/blob/main/evidence/MODEL_RUNS.md",
+                        "Recorded corrections and review",
+                        SITE + "?run=qwen4-constrained#model-runs",
                     )
                     + " &nbsp; | &nbsp; "
                     + link("Verification record", REPO + "/blob/main/docs/VERIFICATION.md")

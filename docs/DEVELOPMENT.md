@@ -187,3 +187,9 @@ A fresh local Qwen3-4B attempt repeated the same task, initial messages, runtime
 The lesson is concrete: an assistant can faithfully copy an inappropriate tool suggestion. Review the questions a tool supplies as carefully as its category and route. This is an AI-assisted development observation, not a claim that Yuchi independently performed or mastered the exercise. [Paired evidence](LOCAL_MODEL.md#v0111-neutral-questions-for-an-unknown-request).
 
 **Lesson:** a model can follow tool output and still ask a poorly matched question. Review tool execution, factual support and customer usefulness separately. Fixing the lexical input boundary did not establish that every downstream question is useful.
+
+## v0.12 — open the evidence you mean to show
+
+The AI-section anchor always selected the latest recording. That made older interview examples drift when new recordings were published, and selecting a run was lost on reload. A catalog-validated `run` parameter now identifies an exact published attempt. The copy button emits a public recording-only URL; the separate case button retains its case-only behavior. Browser history restores both views without clearing practice state. Unknown or repeated recording IDs display a notice rather than silently pretending the requested trace was found.
+
+The interview guide now links directly to the original batch failure and the two inbound-message attempts. The PDF opens the constrained recording discussed on its second page. Tests cover all ten published IDs and preserve an older link when a future catalog entry is appended. These changes improve evidence navigation; they add no model-quality result or claim of personal mastery.

@@ -11,6 +11,46 @@ vm.runInContext(
   context,
 );
 const workflow = context.window.CSM_DATA.workflow;
+vm.runInContext(
+  fs.readFileSync(path.join(__dirname, "../demo/model-runs.js"), "utf8"),
+  context,
+);
+const runs = context.window.CSM_MODEL_RUNS.runs;
+
+test("each published recording has a stable direct link independent of the latest attempt", () => {
+  for (const run of runs) {
+    const link = new URL(api.shareRun(run.id, runs));
+    assert.equal(link.origin, "https://yuchi-wang02.github.io");
+    assert.equal(link.pathname, "/csm-copilot/");
+    assert.equal(link.hash, "#model-runs");
+    assert.deepEqual([...link.searchParams.keys()], ["run"]);
+    assert.deepEqual(api.readRun(link.search, runs), {runId:run.id, invalid:false});
+    assert.equal(api.readRun(link.search, [...runs, {id:"future-attempt"}]).runId, run.id);
+  }
+});
+test("unknown, empty or duplicated recording IDs fall back visibly; an absent ID is normal", () => {
+  assert.deepEqual(api.readRun("", runs), {runId:runs.at(-1).id, invalid:false});
+  for (const search of ["?run=", "?run=missing", "?run=%3Cscript%3E", `?run=${runs[0].id}&run=${runs[0].id}`]) {
+    assert.deepEqual(api.readRun(search, runs), {runId:runs.at(-1).id, invalid:true});
+  }
+  assert.throws(()=>api.readRun("",[]), /No published recordings/);
+  assert.throws(()=>api.shareRun("missing",runs), /not in the public catalog/);
+});
+test("recording and case settings restore independently and copied recording links exclude other content", () => {
+  const search = `?case=lantern_ios&view=followup&lang=zh&update=1&run=${runs[0].id}&note=private&redirect=https://example.com`;
+  const recording = api.readRun(search,runs);
+  const review = api.read(search,workflow);
+  assert.equal(review.integration,1);
+  assert.equal(review.activeTab,"followup");
+  assert.equal(review.language,"zh");
+  assert.equal(review.updated,true);
+  assert.deepEqual(review.invalid,[]);
+  assert.equal(recording.runId,runs[0].id);
+  const link = new URL(api.shareRun(recording.runId,runs));
+  assert.deepEqual([...link.searchParams.keys()],["run"]);
+  assert.ok(!link.href.includes("private"));
+  assert.ok(!new URL(api.share(review,workflow)).searchParams.has("run"));
+});
 test("every published case round-trips across views, languages and update branches", () => {
   workflow.packets.forEach((packet, selected) =>
     packet.integrations.forEach((item, integration) => {

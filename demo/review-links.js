@@ -62,7 +62,24 @@
   function share(state, workflow) {
     return publicBase + query(state, workflow) + "#workspace";
   }
-  const api = { read, query, share };
+  function readRun(search, runs) {
+    if (!runs.length) throw new Error("No published recordings available");
+    const values = new URLSearchParams(search).getAll("run");
+    const valid = values.length === 1 && runs.some((run) => run.id === values[0]);
+    return {
+      runId: valid ? values[0] : runs.at(-1).id,
+      invalid: values.length > 0 && !valid,
+    };
+  }
+  function runQuery(runId, runs) {
+    if (!runs.some((run) => run.id === runId))
+      throw new Error("Recording is not in the public catalog");
+    return "?" + new URLSearchParams({ run: runId }).toString();
+  }
+  function shareRun(runId, runs) {
+    return publicBase + runQuery(runId, runs) + "#model-runs";
+  }
+  const api = { read, query, share, readRun, runQuery, shareRun };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_REVIEW_LINKS = api;
 })(typeof window !== "undefined" ? window : this);

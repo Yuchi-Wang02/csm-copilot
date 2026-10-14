@@ -8,12 +8,12 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.11.1" />
+    <link rel="stylesheet" href="style.css?v=0.12.0" />
     <script defer src="data.js?v=0.8.0"></script>
-    <script defer src="model-runs.js?v=0.11.1"></script>
-    <script defer src="review-links.js?v=0.8.0"></script>
-    <script defer src="case-review.js?v=0.11.1"></script>
-    <script defer src="app.js?v=0.11.1"></script>
+    <script defer src="model-runs.js?v=0.12.0"></script>
+    <script defer src="review-links.js?v=0.12.0"></script>
+    <script defer src="case-review.js?v=0.12.0"></script>
+    <script defer src="app.js?v=0.12.0"></script>
     <script defer src="practice-core.js?v=0.8.0"></script>
     <script defer src="practice.js?v=0.8.0"></script>
   </head>
@@ -26,7 +26,7 @@
         ><a href="#feedback">Product feedback</a><a href="#practice">Practice</a
         ><a href="https://github.com/Yuchi-Wang02/csm-copilot">Source ↗</a>
       </nav>
-      <span class="version">PORTFOLIO / V0.11.1</span>
+      <span class="version">PORTFOLIO / V0.12.0</span>
     </header>
     <main>
       <section class="hero">
@@ -229,6 +229,16 @@
           <label for="model-run">Inspect a recorded attempt</label
           ><select id="model-run"></select>
         </div>
+        <div class="review-sharing">
+          <button class="copy" id="copy-run-link">Copy this recording link</button>
+          <details id="run-link-details">
+            <summary>View recording link</summary>
+            <label for="share-run-url">Public link to this recorded attempt</label>
+            <input id="share-run-url" type="text" readonly />
+            <p class="disclosure">Opens this recording and its review. Practice notes and case selections are excluded.</p>
+          </details>
+        </div>
+        <p id="run-route-notice" role="status"></p>
         <details class="model-comparison">
           <summary>Compare the two callback handoff attempts</summary>
           <div id="model-comparison"></div>

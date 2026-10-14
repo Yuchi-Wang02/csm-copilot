@@ -36,9 +36,9 @@ Show the counterfactual update. Two settings change, but the failed device check
 
 “The server exposes MCP tools so a model-enabled host can orchestrate the workflow. Dates and checklist rules stay deterministic. This website replays engine outputs and separately recorded local model attempts. The initial batch attempt chose all four requested calls but overstated the evidence. The constrained attempt matched structured fields after two recorded corrections; its prose still needs review. I distinguish tool coverage from answer fidelity.”
 
-Show the 14/18 lexical diagnostic result and two failure families. For the AI-specific extension, open [the recorded local model run](LOCAL_MODEL.md): it completed four tool calls but overstated the evidence in its final response. Explain why successful tool use and faithful summarization need separate checks.
+Show the 14/18 lexical diagnostic result and two failure families. For the AI-specific extension, open [the four-call recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs): it completed four tool calls but overstated the evidence in its final response. Explain why successful tool use and faithful summarization need separate checks.
 
-For a customer-communication alternative, select **Qwen3-4B · two inbound messages**. The model uses the right input text and different routes, but its invoice questions repeat a generic troubleshooting template. Discuss what you would ask instead and distinguish a proposed question from an invented company billing procedure. The review is AI-assisted; no customer usefulness score is claimed.
+For a customer-communication alternative, open [the original inbound-message recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-triage-scope#model-runs). The model uses the right input text and different routes, but its invoice questions repeat a generic troubleshooting template. Discuss what you would ask instead and distinguish a proposed question from an invented company billing procedure. Then open [the neutral-question recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-triage-neutral-questions#model-runs) to inspect the observed change. The review is AI-assisted; no customer usefulness score is claimed.
 
 
 ## 2:30–3:00 — Explain the learning direction honestly
@@ -70,7 +70,7 @@ Avoid adding production adoption, customer impact, measured efficiency gains or 
 
 ## v0.6 demonstration exercise
 
-Open the "Qwen3-4B · constrained JSON + field review" attempt. Explain the initial source-role error and repeated platform entries, then show the two correction requests and final matching fields. Expand the system-rendered evidence summary. Identify why it is different from the model explanation, and find the missing inline citations and nothing-sent sentence in that explanation. [Response-review design](RESPONSE_REVIEW.md).
+Open [the constrained JSON and field-review attempt](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs). Explain the initial source-role error and repeated platform entries, then show the two correction requests and final matching fields. Expand the system-rendered evidence summary. Identify why it is different from the model explanation, and find the missing inline citations and nothing-sent sentence in that explanation. [Response-review design](RESPONSE_REVIEW.md).
 
 Describe the work as an AI-assisted development experiment with inspectable failures. Personal mastery is demonstrated when you can trace a rejection to its source, predict a new failure case, and explain or implement a small change yourself; it is not established by the number of tests or iterations in the repository.
 

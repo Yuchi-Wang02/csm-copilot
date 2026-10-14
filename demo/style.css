@@ -1346,10 +1346,12 @@ button:disabled {
 .review-sharing .disclosure {
   margin: 10px 0 0;
 }
-#route-notice:empty {
+#route-notice:empty,
+#run-route-notice:empty {
   display: none;
 }
-#route-notice {
+#route-notice,
+#run-route-notice {
   background: #f4e8dc;
   padding: 12px;
   border-radius: 8px;

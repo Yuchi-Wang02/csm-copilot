@@ -1,10 +1,10 @@
 # Verification record
 
-Verified through the v0.11.1 neutral scope-question iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.12 recording-link iteration on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
-| JavaScript browser-logic tests | 15 passed locally | Five practice, five routing and five scoped issue-rendering checks; not learning outcomes |
+| JavaScript browser-logic tests | 18 passed locally | Five practice, eight routing and five scoped issue-rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
 | Python behavior tests | 174 passed locally | Workflow, source scope, phrase boundaries, task-specific coverage, recorded outputs, queue/platform exports, UTF-8 output and caller isolation |
 | Neutral scope questions | Seven focused checks failed before the change; all pass afterward | Three unknown-intent prompts and four handoff variants; recognized Offerwall output unchanged |
@@ -63,6 +63,8 @@ The v0.10 browser check downloaded Lantern iOS with Chinese drafts and Harbor An
 The v0.11 local browser check displayed both original inbound messages, their successful triage calls, the unedited final answer and the separate customer-fit review. Switching to the older constrained recording and back preserved both views. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels; no browser errors were recorded. Both updated PDF pages were visually reviewed with nine model attempts. [Inbound-message replay screenshot](assets/demo-inbound-model-run.png).
 
 The v0.11.1 local browser check switched between the original inbound-message recording and the neutral-question attempt, preserving each unedited answer and its separate review. At a 360-pixel viewport, document and scroll widths both measured 345 CSS pixels; no browser errors were recorded. Both PDF pages were visually reviewed with ten attempts, and the crowded workflow line was shortened. [Neutral-question replay screenshot](assets/demo-neutral-questions.png).
+
+The v0.12 local browser check opened the older four-call recording directly, retained a changed selection on reload, and restored both recordings with Back/Forward. The clipboard contained the exact public recording-only URL. Changing the account preserved the selected run; Back restored the prior account. A duplicated run parameter displayed the latest-attempt notice. Callback comparison buttons updated the URL, and a temporary verification note survived navigation before being cleared. At a 360-pixel viewport with the link details expanded, document and scroll widths were both 345 CSS pixels, with no browser errors. Both PDF pages were visually reviewed and the correction link was checked against its annotation target. [Recording-link screenshot](assets/demo-recording-link.png).
 
 ## Reproduction
 

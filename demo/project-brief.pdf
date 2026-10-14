@@ -63,15 +63,15 @@ endobj
 10 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://github.com/Yuchi-Wang02/csm-copilot/blob/main/evidence/MODEL_RUNS.md)
->> /Border [ 0 0 0 ] /Rect [ 54 151 219.62 163 ] /Subtype /Link /Type /Annot
+/S /URI /Type /Action /URI (https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs)
+>> /Border [ 0 0 0 ] /Rect [ 54 151 200.16 163 ] /Subtype /Link /Type /Annot
 >>
 endobj
 11 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://github.com/Yuchi-Wang02/csm-copilot/blob/main/docs/VERIFICATION.md)
->> /Border [ 0 0 0 ] /Rect [ 238.9 151 319.48 163 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 219.44 151 300.02 163 ] /Subtype /Link /Type /Annot
 >>
 endobj
 12 0 obj
@@ -358,7 +358,7 @@ endstream
 endobj
 17 0 obj
 <<
-/Length 5985
+/Length 5983
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -571,9 +571,9 @@ q
 1 0 0 1 54 149 cm
 q
 .12549 .337255 .290196 RG
-n 0 2.75 m 165.62 2.75 l S
-n 184.9 2.75 m 265.48 2.75 l S
-BT 1 0 0 1 0 4 Tm 14 TL /F1 10 Tf .12549 .337255 .290196 rg (Recorded model attempts and review) Tj .098039 .172549 .168627 rg (   |   ) Tj .12549 .337255 .290196 rg (Verification record) Tj T* ET
+n 0 2.75 m 146.16 2.75 l S
+n 165.44 2.75 m 246.02 2.75 l S
+BT 1 0 0 1 0 4 Tm 14 TL /F1 10 Tf .12549 .337255 .290196 rg (Recorded corrections and review) Tj .098039 .172549 .168627 rg (   |   ) Tj .12549 .337255 .290196 rg (Verification record) Tj T* ET
 Q
 Q
 q
@@ -600,12 +600,12 @@ xref
 0000001346 00000 n 
 0000001536 00000 n 
 0000001747 00000 n 
-0000001959 00000 n 
-0000002199 00000 n 
-0000002283 00000 n 
-0000002635 00000 n 
-0000002702 00000 n 
-0000008627 00000 n 
+0000001960 00000 n 
+0000002200 00000 n 
+0000002284 00000 n 
+0000002636 00000 n 
+0000002703 00000 n 
+0000008628 00000 n 
 trailer
 <<
 /ID 
@@ -617,5 +617,5 @@ trailer
 /Size 18
 >>
 startxref
-14664
+14663
 %%EOF
