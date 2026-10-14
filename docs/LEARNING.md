@@ -67,18 +67,18 @@ integration = next(i for i in copied.integrations if i.id == "meadow_ios")
 record_id = "practice_meadow_device"
 observed_state = "not_met"
 
-copied.evidence.append(Evidence(
-    id=record_id,
-    account_id=integration.account_id,
-    integration_id=integration.id,
-    at=copied.as_of,
-    kind="test_record",
-    text=f"Practice-only synthetic device observation: {observed_state}.",
-    claims={"device_verified": observed_state},
-))
-integration.facts["device_verified"] = Fact(
-    status=observed_state, evidence_ids=[record_id]
+copied.evidence.append(
+    Evidence(
+        id=record_id,
+        account_id=integration.account_id,
+        integration_id=integration.id,
+        at=copied.as_of,
+        kind="test_record",
+        text=f"Practice-only synthetic device observation: {observed_state}.",
+        claims={"device_verified": observed_state},
+    )
 )
+integration.facts["device_verified"] = Fact(status=observed_state, evidence_ids=[record_id])
 experiment = Copilot(copied)  # Revalidates ownership and claim consistency.
 print("Original:", original.check_readiness("meadow_ios")["decision"])
 print("Experiment:", experiment.check_readiness("meadow_ios")["decision"])
