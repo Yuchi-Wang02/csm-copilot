@@ -1,12 +1,13 @@
 # Verification record
 
-Verified through the v0.10 selected-platform exports on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
+Verified through the v0.10.1 triage phrase-boundary repair on 2026-10-14. For the latest commit, use the live [CI results](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [Pages deployment](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml).
 
 | Check | Observed result | Scope |
 |---|---|---|
 | JavaScript browser-logic tests | 15 passed locally | Five practice, five routing and five scoped issue-rendering checks; not learning outcomes |
 | Portfolio PDF | Two pages, seven public links; repeated builds match | Built from checked-in evidence; both rendered pages visually reviewed |
-| Python behavior tests | 150 passed locally | Workflow, source scope, next-action selection, queue/platform exports, UTF-8 output and caller isolation |
+| Python behavior tests | 165 passed locally | Workflow, source scope, phrase boundaries, next-action selection, queue/platform exports, UTF-8 output and caller isolation |
+| Phrase-boundary regression | Six checks failed before the repair and passed afterward | Four selected substring collisions and two handoff variants; original 14/18 diagnostic and its failures unchanged |
 | Selected-platform briefs | Eight generated exports match the isolated installed CLI | Four queued integrations in two languages; tests check scope exclusion, multiple handoffs and non-mutation |
 | Unrecognized handoff scope | Four regression checks failed before the fix and passed afterward | English/Chinese summaries with complete/incomplete generic fields remain with the CSM for clarification |
 | Snapshot isolation regressions | Four failed before the fix and passed after it | Returned readiness/digest lists, constructor input ownership and revalidation of mutated input |

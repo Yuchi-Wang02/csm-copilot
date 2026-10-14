@@ -172,6 +172,8 @@ Try: **“At the bundled snapshot, review accounts more than three days past the
 
 **The failures stay in the report.** Indirect wording and negation expose the lexical baseline's limits. English/Chinese paraphrases remain in the same split. There are no claims of measured time savings, business impact, production readiness, or independent human validation.
 
+A [separate phrase-boundary repair](evidence/TRIAGE_BOUNDARIES.md) stops examples such as `blanket invoice` from matching `blank`. Twelve development probes preserve actual pre-change outputs and show four corrected substring collisions, six retained positive examples and two unresolved semantic failures. The original 30-message dataset and its 14/18 result are unchanged. An unrelated invoice request now stays with the CSM for scope clarification; this does not add a billing classifier or a Finance workflow.
+
 See [per-case results](evidence/evaluation.json), [methodology](evidence/EVALUATION.md), the [verification record](docs/VERIFICATION.md), and the [real MCP transcript](evidence/mcp-transcript.json). Unit tests separately cover time boundaries, platform isolation, unknown states, missing provenance, draft side effects, invalid inputs and partial-confirmation retesting.
 
 ## Portfolio rationale

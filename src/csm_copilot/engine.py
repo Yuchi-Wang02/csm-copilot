@@ -147,8 +147,12 @@ class Copilot:
             self._lookup(self.integrations, integration_id, "integration")
         text = issue_text.casefold()
         candidates = []
+        # Latin-letter boundaries stop substrings such as "blanket" and "casino offers".
+        # ASCII boundaries preserve mixed text such as "页面blank"; this is not negation parsing.
         if re.search(
-            r"blank|no offers|no ads|empty offerwall|空白|没广告|没有广告|无广告|不展示", text
+            r"(?<![a-z])(?:blank(?:s|ed|ing|ness)?|no offers|no ads|empty offerwalls?)(?![a-z])"
+            r"|空白|没广告|没有广告|无广告|不展示",
+            text,
         ):
             candidates.append(
                 {

@@ -38,6 +38,8 @@ Each result includes rule version, source URL, authority type and evidence IDs. 
 
 Triage accepts customer prose, whereas ticket drafting accepts a recorded issue ID. Since v0.9.1, a bare known issue ID supplied as triage text is rejected with guidance to retrieve its message or use `draft_ticket`. This exact-match check does not classify arbitrary strings as identifiers or provide general semantic input validation.
 
+Since v0.10.1, English no-offers phrases use Latin-letter boundaries to avoid substrings such as `blank` in `blanket` and `no offers` in `casino offers`. Common blank forms and plural offerwalls are retained. ASCII letter boundaries allow Chinese text directly beside English signals; they are not a general multilingual tokenizer. Chinese signals and reward/callback retrieval are unchanged. Negation, quoted symptoms and indirect wording still need human review. See the [paired development probes](../evidence/TRIAGE_BOUNDARIES.md).
+
 ## Priority and time
 
 `contact_age_days = (as_of - latest_actual_contact) / 86,400 seconds`

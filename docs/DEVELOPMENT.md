@@ -157,3 +157,13 @@ The tests exercise all four platforms in both languages, cross-platform evidence
 **Lesson:** a portable handoff needs an explicit scope as well as complete fields. Removing irrelevant records must not remove the evidence that explains the decision, and exporting an old snapshot must not make it appear current.
 
 The public-download check then exposed a byte-level difference: Windows generated 93 CRLF line endings in the Harbor brief, while GitHub served LF. The text matched after normalization, but the SHA-256 did not. Platform-file generation now explicitly uses UTF-8/LF, and both the artifact tests and isolated CLI check compare bytes. The strengthened test failed on the previous generated files and passed after regeneration. The public download then matched the local source without normalization.
+
+## v0.10.1: keep a substring collision from becoming a technical handoff
+
+The no-offers pattern matched `blank` inside `blanket`, so an invoice request could retrieve Offerwall checks. Similar collisions appeared in `casino offers` and `no adservers`. Before editing the engine, twelve diagnostic inputs were run against commit `a3ddd29` and their full results were saved in [the pre-change record](../evidence/triage-boundary-before.json).
+
+The repair adds Latin-letter boundaries around the English no-offers phrases. Common blank inflections and plural offerwalls remain supported, and Chinese characters can directly adjoin English signals. Chinese patterns and reward/callback retrieval are unchanged. Four collision probes now return unknown scope; six positive probes retain their categories. Two known negation/paraphrase failures remain incorrect. The original 30-message diagnostic inputs and 14/18 result are unchanged.
+
+Six regression checks failed before the repair and passed afterward, including ticket variants with complete/incomplete generic fields. The blanket-invoice example now stays with the CSM for clarification instead of receiving a proposed technical owner. This does not establish a billing diagnosis or a Finance routing rule. Real MCP calls exercise both the invoice rejection and a mixed Chinese/English positive message.
+
+**Lesson:** inspect why a term matched before adding more categories. A small lexical repair can prevent a specific bad handoff without solving semantic triage. Preserve both the corrected examples and the unresolved failures. The [paired report](../evidence/TRIAGE_BOUNDARIES.md) is a development diagnostic, not independent validation.

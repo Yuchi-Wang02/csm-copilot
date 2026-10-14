@@ -1,0 +1,384 @@
+{
+  "project_version": "0.10.0",
+  "commit": "a3ddd2997b014830b5da5ef7fbedae0977735a05",
+  "inputs_sha256": "ce8661580659989974d2b95e91b72f662ee99ab944e7918eb18386843ffd13bd",
+  "execution": "Actual deterministic engine calls before the phrase-boundary change; no model inference.",
+  "cases": [
+    {
+      "id": "blanket_invoice",
+      "text": "Please send the blanket invoice for our annual plan.",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "casino_offers",
+      "text": "Our casino offers an annual plan; how do we change billing?",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "adserver_invoice",
+      "text": "There are no adservers listed on this invoice.",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "mixed_invoice",
+      "text": "请发一份 blanket invoice，我们需要对账。",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "uppercase_blank",
+      "text": "The Offerwall is BLANK.",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "blanking",
+      "text": "The Offerwall keeps blanking on the device.",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "plural_offerwalls",
+      "text": "We see empty offerwalls on both phones.",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "mixed_blank",
+      "text": "Android页面blank，请协助排查。",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "mixed_two_issues",
+      "text": "页面空白，reward callback返回405。",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          },
+          {
+            "category": "reward_callback",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/virtual-currency/troubleshoot-callback-failures",
+            "checks": [
+              "callback_verified"
+            ],
+            "questions": [
+              "Which currency mode is configured?",
+              "Share the callback time window, HTTP status and redacted logs.",
+              "Provide a redacted transaction example and endpoint method."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "hyphenated_screen",
+      "text": "We have a blank-screen issue with no ads.",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "negated_symptom",
+      "text": "No offers is not our problem. Please explain invoicing.",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "id": "indirect_inventory",
+      "text": "The opportunity list contains zero items.",
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "What happened, what was expected, and which app/platform is affected?"
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    }
+  ]
+}

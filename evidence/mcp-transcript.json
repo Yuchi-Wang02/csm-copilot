@@ -896,6 +896,64 @@
         "recurrence_policy": "Recurring means at least two distinct accounts in this snapshot (project policy), not repeated events over time.",
         "boundary": "This is a snapshot of recorded states, not a weekly trend, prevalence estimate, confirmed root cause or product priority score. Proposed questions and owners are unvalidated project suggestions. Nothing was sent to Product."
       }
+    },
+    {
+      "tool": "triage_issue",
+      "arguments": {
+        "issue_text": "Please send the blanket invoice for our annual plan."
+      },
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "unknown",
+            "source_url": null,
+            "checks": [],
+            "questions": [
+              "What happened, what was expected, and which app/platform is affected?"
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "clarify_scope",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
+    },
+    {
+      "tool": "triage_issue",
+      "arguments": {
+        "issue_text": "Android页面blank，请协助排查。"
+      },
+      "result": {
+        "integration_id": null,
+        "candidates": [
+          {
+            "category": "no_offers",
+            "source_url": "https://docs.unity.com/en-us/grow/offerwall/monetization/other/faq",
+            "checks": [
+              "currency_approved",
+              "test_only_off",
+              "placement_linked",
+              "sdk_connected",
+              "device_verified"
+            ],
+            "questions": [
+              "Confirm the affected app and platform.",
+              "Share currency approval and Test Only settings for that platform.",
+              "Compare a test device with a non-test device; include region and time."
+            ]
+          }
+        ],
+        "notes": [],
+        "route": "collect_evidence",
+        "route_policy": "project_policy; not an official Unity routing matrix",
+        "root_cause": "unconfirmed",
+        "method": "bilingual lexical retrieval baseline",
+        "limitations": "Can miss paraphrases and misread negation; a host or human must review."
+      }
     }
   ]
 }

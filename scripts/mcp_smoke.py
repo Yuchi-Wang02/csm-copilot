@@ -29,6 +29,8 @@ async def run(server_command: Path | None = None):
         ("draft_followup", {"integration_id": "lantern_ios", "lang": "en"}),
         ("draft_followup", {"integration_id": "pine_ios", "lang": "zh"}),
         ("friction_digest", {}),
+        ("triage_issue", {"issue_text": "Please send the blanket invoice for our annual plan."}),
+        ("triage_issue", {"issue_text": "Android页面blank，请协助排查。"}),
     ]
     async with stdio_client(params) as (read, write):
         async with ClientSession(read, write) as session:
@@ -59,6 +61,9 @@ async def run(server_command: Path | None = None):
             assert "上线时间" not in results[8]["result"]["body"]
             assert results[9]["result"]["cohort_account_count"] == 4
             assert len(results[9]["result"]["themes"]) == 4
+            assert results[10]["result"]["route"] == "clarify_scope"
+            assert results[10]["result"]["candidates"][0]["category"] == "unknown"
+            assert results[11]["result"]["candidates"][0]["category"] == "no_offers"
             invalid = await session.call_tool("check_readiness", {"integration_id": "missing"})
             assert invalid.isError
             identifier = await session.call_tool("triage_issue", {"issue_text": "issue_callback"})

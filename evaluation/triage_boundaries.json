@@ -1,0 +1,99 @@
+[
+  {
+    "id": "blanket_invoice",
+    "kind": "substring_collision",
+    "text": "Please send the blanket invoice for our annual plan.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "casino_offers",
+    "kind": "substring_collision",
+    "text": "Our casino offers an annual plan; how do we change billing?",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "adserver_invoice",
+    "kind": "substring_collision",
+    "text": "There are no adservers listed on this invoice.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "mixed_invoice",
+    "kind": "substring_collision",
+    "text": "请发一份 blanket invoice，我们需要对账。",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "uppercase_blank",
+    "kind": "preserve_signal",
+    "text": "The Offerwall is BLANK.",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "blanking",
+    "kind": "preserve_signal",
+    "text": "The Offerwall keeps blanking on the device.",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "plural_offerwalls",
+    "kind": "preserve_signal",
+    "text": "We see empty offerwalls on both phones.",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "mixed_blank",
+    "kind": "preserve_signal",
+    "text": "Android页面blank，请协助排查。",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "mixed_two_issues",
+    "kind": "preserve_signal",
+    "text": "页面空白，reward callback返回405。",
+    "expected": [
+      "no_offers",
+      "reward_callback"
+    ]
+  },
+  {
+    "id": "hyphenated_screen",
+    "kind": "preserve_signal",
+    "text": "We have a blank-screen issue with no ads.",
+    "expected": [
+      "no_offers"
+    ]
+  },
+  {
+    "id": "negated_symptom",
+    "kind": "known_limit",
+    "text": "No offers is not our problem. Please explain invoicing.",
+    "expected": [
+      "unknown"
+    ]
+  },
+  {
+    "id": "indirect_inventory",
+    "kind": "known_limit",
+    "text": "The opportunity list contains zero items.",
+    "expected": [
+      "no_offers"
+    ]
+  }
+]
