@@ -109,6 +109,7 @@ Replace the last sentence only after completing and documenting the relevant exe
 | Is this production-ready? | No. It lacks real CRM integration, auth, conflict resolution, freshness policy and human outcome validation. |
 | What did you measure? | Synthetic category-set retrieval and workflow behavior; not time savings or customer success outcomes. |
 | How do you know a draft is factual? | Its template is tied to structured records, but regex lint is insufficient for arbitrary model rewrites. Human claim-to-evidence review remains necessary. |
+| How would you explain the issue to a new publisher? | Start with the customer's question, distinguish the recorded Android failure from unknown settings, and ask for focused evidence. Use the [teaching example](CLIENT_EDUCATION.md) to rehearse that explanation in your own words. |
 | What would you improve first? | Independent cases and human review of model-written claims, then semantic retrieval compared fairly to the baseline. |
 
 ## Portfolio wording

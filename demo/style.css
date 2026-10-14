@@ -853,6 +853,9 @@ select {
   font-size: 14px;
   color: var(--muted);
 }
+.learning h3 {
+  margin: 24px 0 12px;
+}
 .learning .disclosure {
   margin-top: 20px;
 }
