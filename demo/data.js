@@ -450,11 +450,11 @@ window.CSM_DATA = {
               "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
             },
             "followup_en": {
-              "draft_id": "followup-801ce08be014",
+              "draft_id": "followup-24119186ba19",
               "state": "draft",
               "sent": false,
               "lang": "en",
-              "body": "Hi Lantern Games team,\nFollowing up on Moon Garden (Android). Our current records still need the following evidence:\n- Confirm currency approval for this platform.\n- Confirm whether Test Only is disabled for the production content.\n- Share a fresh non-test-device check with region, time and observed result.\n- Share a redacted callback example with HTTP status and time.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
+              "body": "Hi Lantern Games team,\nFollowing up on Moon Garden (Android). Our current records still need the following evidence:\n- Confirm currency approval for this platform.\n- Confirm whether Test Only is disabled for the production content.\n- Our records show this check was not met. Share a fresh non-test-device check with region, time and observed result.\n- Share a redacted callback example with HTTP status and time.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
               "generation_method": "deterministic_template",
               "intent": "evidence_request",
               "next_action": "Review and send the evidence request, then reassess when new records arrive.",
@@ -502,11 +502,11 @@ window.CSM_DATA = {
               "contact_history_changed": false
             },
             "followup_zh": {
-              "draft_id": "followup-e76312d6175b",
+              "draft_id": "followup-eedeb0692122",
               "state": "draft",
               "sent": false,
               "lang": "zh",
-              "body": "Lantern Games 团队好，\n跟进 Moon Garden（Android）的接入进展，目前记录还需要以下证据：\n- 请确认该平台的虚拟货币审批状态。\n- 请确认正式内容是否关闭 Test Only。\n- 请提供非测试设备的最新验证，注明地区、时间和观察结果。\n- 请提供脱敏回调样例，注明 HTTP 状态和时间。\n收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
+              "body": "Lantern Games 团队好，\n跟进 Moon Garden（Android）的接入进展，目前记录还需要以下证据：\n- 请确认该平台的虚拟货币审批状态。\n- 请确认正式内容是否关闭 Test Only。\n- 现有记录显示该项检查未满足要求。请提供非测试设备的最新验证，注明地区、时间和观察结果。\n- 请提供脱敏回调样例，注明 HTTP 状态和时间。\n收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
               "generation_method": "deterministic_template",
               "intent": "evidence_request",
               "next_action": "复核并发送证据请求，收到新记录后重新评估。",
@@ -1555,11 +1555,11 @@ window.CSM_DATA = {
               "boundary": "Age is elapsed time at the fixed snapshot, rounded to two decimals. It does not expire evidence, change readiness or prove that a report is still current. Review whether a fresh confirmation or test is needed."
             },
             "followup_en": {
-              "draft_id": "followup-94a7c4f825f4",
+              "draft_id": "followup-a57645745f40",
               "state": "draft",
               "sent": false,
               "lang": "en",
-              "body": "Hi Harbor Studio team,\nFollowing up on Pocket Harbor (Android). Our current records still need the following evidence:\n- Share a redacted callback example with HTTP status and time.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
+              "body": "Hi Harbor Studio team,\nFollowing up on Pocket Harbor (Android). Our current records still need the following evidence:\n- Our records show this check was not met. Share a redacted callback example with HTTP status and time.\nI can consolidate your updates for technical review. Please let us know when you expect to share them.\nLaunch timing remains subject to verification; this message does not confirm approval or ad availability.",
               "generation_method": "deterministic_template",
               "intent": "evidence_request",
               "next_action": "Review and send the evidence request, then reassess when new records arrive.",
@@ -1592,11 +1592,11 @@ window.CSM_DATA = {
               "contact_history_changed": false
             },
             "followup_zh": {
-              "draft_id": "followup-47e1d79ae883",
+              "draft_id": "followup-ba4bd5a66709",
               "state": "draft",
               "sent": false,
               "lang": "zh",
-              "body": "Harbor Studio 团队好，\n跟进 Pocket Harbor（Android）的接入进展，目前记录还需要以下证据：\n- 请提供脱敏回调样例，注明 HTTP 状态和时间。\n收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
+              "body": "Harbor Studio 团队好，\n跟进 Pocket Harbor（Android）的接入进展，目前记录还需要以下证据：\n- 现有记录显示该项检查未满足要求。请提供脱敏回调样例，注明 HTTP 状态和时间。\n收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。\n上线时间仍需核验；本消息不代表审核通过或广告供应承诺。",
               "generation_method": "deterministic_template",
               "intent": "evidence_request",
               "next_action": "复核并发送证据请求，收到新记录后重新评估。",
@@ -3352,7 +3352,7 @@ window.CSM_DATA = {
     "boundary": "This is a snapshot of recorded states, not a weekly trend, prevalence estimate, confirmed root cause or product priority score. Proposed questions and owners are unvalidated project suggestions. Nothing was sent to Product."
   },
   "callback_denial": {
-    "project_version": "0.28.2",
+    "project_version": "0.28.3",
     "before_commit": "b1a7ca2059a4fea529bb3c433ceb8b7e1f33db8c",
     "before_sha256": "0d7cfaeb79ba470713aed8594022439e7d7c33608a5a4bd31101b271974547f5",
     "boundary": "AI-assisted developer-authored probes. Captured before the callback-denial change; not held out or independently labelled. No model inference.",

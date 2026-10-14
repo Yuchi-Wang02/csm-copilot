@@ -18,13 +18,21 @@ NEXT_ACTIONS = {
 
 def compose_followup(*, name, app, platform, stage, intent, requests, lang):
     """Use a checklist result and known account stage to choose the customer's next question."""
+    recorded_failure = (
+        "Our records show this check was not met. "
+        if lang == "en"
+        else "现有记录显示该项检查未满足要求。"
+    )
+    request_lines = [
+        f"- {recorded_failure if r['status'] == 'not_met' else ''}{r['request']}" for r in requests
+    ]
     if lang == "en":
         lines = [f"Hi {name} team,"]
         if intent == "evidence_request":
             lines += [
                 f"Following up on {app} ({platform}). Our current records still need the following evidence:"
             ]
-            lines += [f"- {r['request']}" for r in requests]
+            lines += request_lines
             lines += [
                 "I can consolidate your updates for technical review. Please let us know when you expect to share them."
             ]
@@ -53,7 +61,7 @@ def compose_followup(*, name, app, platform, stage, intent, requests, lang):
         lines = [f"{name} 团队好，"]
         if intent == "evidence_request":
             lines += [f"跟进 {app}（{platform}）的接入进展，目前记录还需要以下证据："]
-            lines += [f"- {r['request']}" for r in requests]
+            lines += request_lines
             lines += ["收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。"]
         else:
             lines += [f"根据现有记录，{app}（{platform}）已完成本项目范围内的检查清单。"]

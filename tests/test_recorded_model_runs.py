@@ -69,7 +69,7 @@ def test_recorded_prompt_and_coverage_match_trace(name):
     assert trace["runtime"]["enable_thinking"] is False
 
 
-def test_published_tool_results_match_the_underlying_fixture():
+def test_published_tool_results_match_except_documented_followup_wording():
     trace = json.loads((DIRECTORY / "qwen4-batch.json").read_text(encoding="utf-8"))
     engine = Copilot()
     calls = [c for step in trace["steps"] for c in step.get("tool_calls", [])]
@@ -77,7 +77,26 @@ def test_published_tool_results_match_the_underlying_fixture():
     methods = {"check_readiness": engine.check_readiness, "draft_followup": engine.draft_followup}
     for call in calls:
         action = call["action"]
-        assert methods[action["tool"]](**action["arguments"]) == call["tool_result"]
+        expected = deepcopy(call["tool_result"])
+        if (
+            action["tool"] == "draft_followup"
+            and action["arguments"]["integration_id"] == "lantern_android"
+        ):
+            # v0.28.3 adds recorded-failure attribution; keep the original AI input frozen.
+            assert action["arguments"] == {"integration_id": "lantern_android", "lang": "en"}
+            old_line = (
+                "- Share a fresh non-test-device check with region, time and observed result."
+            )
+            assert expected["body"].splitlines().count(old_line) == 1
+            assert "Our records show this check was not met." not in expected["body"]
+            expected["body"] = expected["body"].replace(
+                old_line,
+                "- Our records show this check was not met. " + old_line[2:],
+            )
+            expected["draft_id"] = (
+                "followup-" + hashlib.sha256(expected["body"].encode()).hexdigest()[:12]
+            )
+        assert methods[action["tool"]](**action["arguments"]) == expected
     assert trace["final"]  # Prose is separately reviewed, not approved by this test.
 
 

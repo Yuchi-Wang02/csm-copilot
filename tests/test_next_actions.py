@@ -1,7 +1,61 @@
 import pytest
 
 from csm_copilot.engine import Copilot
-from csm_copilot.models import Dataset
+from csm_copilot.models import Dataset, Evidence, Fact
+
+
+@pytest.mark.parametrize(
+    ("lang", "recorded_failure"),
+    [
+        ("en", "Our records show this check was not met. "),
+        ("zh", "现有记录显示该项检查未满足要求。"),
+    ],
+)
+def test_mixed_followup_attributes_only_recorded_failures(lang, recorded_failure):
+    engine = Copilot()
+    before = engine.data.model_dump(mode="json")
+    draft = engine.draft_followup("lantern_android", lang)
+    lines = draft["body"].splitlines()
+    failed = next(r for r in draft["requests"] if r["check_id"] == "device_verified")
+    assert "- " + recorded_failure + failed["request"] in lines
+    for request in draft["requests"]:
+        if request["status"] == "unknown":
+            assert "- " + request["request"] in lines
+    assert draft["body"].count(recorded_failure) == 1
+    assert draft["sent"] is False
+    assert engine.data.model_dump(mode="json") == before
+
+
+@pytest.mark.parametrize("lang", ["en", "zh"])
+def test_failed_observation_changes_wording_without_inventing_contact(lang):
+    original = Copilot()
+    copied = original.data.model_copy(deep=True)
+    integration = next(i for i in copied.integrations if i.id == "meadow_ios")
+    copied.evidence.append(
+        Evidence(
+            id="new_device_failure",
+            account_id=integration.account_id,
+            integration_id=integration.id,
+            at=copied.as_of,
+            kind="test_record",
+            text="Synthetic device verification did not meet the check.",
+            claims={"device_verified": "not_met"},
+        )
+    )
+    integration.facts["device_verified"] = Fact(
+        status="not_met", evidence_ids=["new_device_failure"]
+    )
+    changed = Copilot(copied)
+    queue = changed.list_accounts()
+    unknown = original.draft_followup("meadow_ios", lang)
+    failed = changed.draft_followup("meadow_ios", lang)
+    assert unknown["body"] != failed["body"]
+    assert unknown["intent"] == failed["intent"] == "evidence_request"
+    assert unknown["requests"][0]["request"] == failed["requests"][0]["request"]
+    assert "new_device_failure" in failed["evidence_ids"]
+    assert "new_device_failure" not in unknown["evidence_ids"]
+    assert changed.list_accounts() == queue == original.list_accounts()
+    assert failed["sent"] is False
 
 
 @pytest.mark.parametrize("lang", ["en", "zh"])

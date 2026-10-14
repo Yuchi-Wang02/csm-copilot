@@ -22,6 +22,8 @@ This is an explicit project operating policy. Issue records do not have a resolu
 
 Both languages use the same intent decision. A complete checklist no longer asks for unspecified missing updates. A complete technical handoff moves to human review rather than asking for fields already supplied.
 
+Since v0.28.3, each `not_met` request also explains that the check was not met according to the records. Unknown checks keep their evidence requests without a failure claim. For example, Android's device request now begins "Our records show this check was not met." before requesting a fresh check. The sentence attributes an existing state; it does not establish that an old failure is still present, diagnose its cause or change the underlying readiness rule. English and Chinese drafts follow the same distinction.
+
 When a handoff has `needs_scope`, the export asks the CSM to clarify the request, desired outcome and relevant account or product before collecting technical details. It does not frame generic field gaps as the next intake request or present populated fields as sufficient. Recorded fields, the original issue text, source references and neutral clarification questions remain inspectable. For example, an invoicing request does not become a technical-support case merely because an SDK version is available or logs are missing. This matches the browser's scope-first review; it does not establish a billing procedure or verified issue classification.
 
 The v0.27.2 repair was reproduced with the same synthetic request, “Please explain invoicing.”, under two intake conditions. The tool returned `needs_scope` in both; only the exported presentation changed:

@@ -55,7 +55,7 @@ A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
 > Following up on Moon Garden \(Android\). Our current records still need the following evidence:
 > - Confirm currency approval for this platform.
 > - Confirm whether Test Only is disabled for the production content.
-> - Share a fresh non-test-device check with region, time and observed result.
+> - Our records show this check was not met. Share a fresh non-test-device check with region, time and observed result.
 > - Share a redacted callback example with HTTP status and time.
 > I can consolidate your updates for technical review. Please let us know when you expect to share them.
 > Launch timing remains subject to verification; this message does not confirm approval or ad availability.

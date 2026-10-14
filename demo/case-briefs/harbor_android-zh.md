@@ -56,7 +56,7 @@ A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
 
 > Harbor Studio 团队好，
 > 跟进 Pocket Harbor（Android）的接入进展，目前记录还需要以下证据：
-> - 请提供脱敏回调样例，注明 HTTP 状态和时间。
+> - 现有记录显示该项检查未满足要求。请提供脱敏回调样例，注明 HTTP 状态和时间。
 > 收到后我可以汇总信息交给技术同事复核，请告知预计何时可以提供。
 > 上线时间仍需核验；本消息不代表审核通过或广告供应承诺。
 

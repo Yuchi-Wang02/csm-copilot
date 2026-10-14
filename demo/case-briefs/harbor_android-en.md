@@ -56,7 +56,7 @@ A scoped evidence checklist, not a Unity launch approval or a fill guarantee.
 
 > Hi Harbor Studio team,
 > Following up on Pocket Harbor \(Android\). Our current records still need the following evidence:
-> - Share a redacted callback example with HTTP status and time.
+> - Our records show this check was not met. Share a redacted callback example with HTTP status and time.
 > I can consolidate your updates for technical review. Please let us know when you expect to share them.
 > Launch timing remains subject to verification; this message does not confirm approval or ad availability.
 
