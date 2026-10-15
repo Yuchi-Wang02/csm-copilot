@@ -22,6 +22,21 @@ test("an optional final contract remains visible as host assistance and inert te
   assert.equal(JSON.stringify(input), before);
 });
 
+test("the actual morning field-review recording exposes its rejected citation and host contract", () => {
+  const input = trace("qwen4-morning-field-review"), before = JSON.stringify(input);
+  const html = api.render(input);
+  assert.match(html, /Turn 8 — Host rejected the structured response/);
+  assert.match(html, /Host final-answer contract/);
+  assert.match(html, /steps\[7\].final_contract_message/);
+  assert.match(html, /The model worker reported schema-constrained generation for this turn/);
+  assert.match(html, /lantern_android.evidence_ids/);
+  assert.match(html, /msg_issue_blank/);
+  assert.match(html, /device verification failed/);
+  assert.match(html, /Free-text verification: <code>not_performed/);
+  assert.doesNotMatch(html, /Host correction request|Structured fields matched; prose still needs review/);
+  assert.equal(JSON.stringify(input), before);
+});
+
 test("a saved request without a response is not displayed as a model proposal", () => {
   for (const state of ["prepared", "sent", "response_timeout", "response_error", "cancelled", "host_error"]) {
     const input = {status: state, error_type: "TimeoutError", error_causes: [{type: "TimeoutError", message: "<script>"}], steps: [{
@@ -64,7 +79,7 @@ test("claim comparison keeps quoted source fields and review separate and escape
 
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
-  assert.equal(names.length, 15);
+  assert.equal(names.length, 16);
   for (const name of names) {
     const input = trace(name.slice(0, -5)), before = JSON.stringify(input);
     const html = api.render(input);

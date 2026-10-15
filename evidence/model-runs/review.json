@@ -401,9 +401,48 @@
           "assessment": "The explanation contains 80 whitespace-separated words, within the requested 220-word limit. The schema permits a nonempty final string and does not check factual support or task completeness. The comparisons are AI-assisted review of one saved response, not independent human validation. No customer outcome, time-saving claim or personal mastery is established; all fourteen earlier recordings remain unchanged."
         }
       ]
+    },
+    {
+      "id": "qwen4-morning-field-review",
+      "label": "Qwen3-4B · morning answer with field review",
+      "protocol": "batch + constrained actions + structured morning final + zero corrections",
+      "verdict": "States distinguished; issue-only readiness citation rejected",
+      "summary": "All seven calls completed. The schema-valid answer separates unknown checks from the failed device check and records the correct follow-up purposes. The host rejects one extra Android readiness citation: msg_issue_blank is the customer issue report, not a readiness-check source. The 46-word explanation still omits distinct next actions, the missing handoff fields and evidence citations. No correction was attempted.",
+      "findings": [
+        {
+          "kind": "control",
+          "claim": "A final contract and larger output cap",
+          "assessment": "Host source a982c15ed6fd23e5bbb480ca8628afbca9d71e03 enables --review-morning-final. The final request adds a system-role contract and a schema with types and state vocabularies, without fixture-specific expected answers. The output cap changes from 768 to 1536; other recorded runtime settings, task, initial messages, eight-turn cap, 600-second response budget and zero-correction budget match the prior run. All seven earlier worker requests, actions and returned tool results match exactly. This is one assisted development attempt, not a controlled accuracy or speed comparison."
+        },
+        {
+          "kind": "execution",
+          "claim": "Seven completed calls and a schema-valid answer",
+          "assessment": "The eighth turn returns after 405.461 seconds with 9,386 input tokens and 314 generated tokens, without reaching the output cap. The response satisfies the supplied JSON schema. The host then rejects its field values and exits 1. This rejection is distinct from parsing failure, a timeout or a tool error. Every request and response remains recorded."
+        },
+        {
+          "kind": "supported",
+          "claim": "Unknown and failed checks remain separate",
+          "assessment": "Android lists currency_approved, test_only_off and callback_verified as unknown and device_verified as failed. iOS has empty unknown/failed lists and checklist_complete. Selection values, contact source, both follow-up purposes, handoff scope, missing fields, issue citation and boundary flags agree with the returned records. Agreement with fields is not independent verification of source truth or the prose."
+        },
+        {
+          "kind": "citation_role",
+          "claim": "msg_issue_blank in Android readiness evidence",
+          "assessment": "The model includes the three actual Android readiness source IDs plus msg_issue_blank. That extra ID is real and belongs to the same account and platform, but it identifies the customer issue report. It is appropriate in the handoff evidence list, where the model also uses it, and is not in the union of readiness-check evidence. The host reports exactly one mismatch, lantern_android.evidence_ids, and withholds the checked summary."
+        },
+        {
+          "kind": "incomplete",
+          "claim": "The explanation is shorter than the structured record",
+          "assessment": "The 46-word explanation preserves the unknown-versus-failed distinction and says nothing was sent. It does not explain the first-account planned-launch ordering, state the platform-specific next actions, name the three missing handoff fields, or cite evidence IDs. Correct values elsewhere in the JSON do not make this prose a complete response to the task. These observations are AI-assisted review; the host marks free_text_verification=not_performed."
+        },
+        {
+          "kind": "boundary",
+          "claim": "A useful rejection, not a successful final answer",
+          "assessment": "No correction feedback or retry occurred. The rejected payload remains intact with checked_summary=null and human_review_required=true. No output is approved for customer use. All fifteen earlier raw recordings remain unchanged. One attempt does not establish a reliability gain, causal attribution, production latency, customer impact or personal mastery."
+        }
+      ]
     }
   ],
-  "boundary": "Fifteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Sixteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

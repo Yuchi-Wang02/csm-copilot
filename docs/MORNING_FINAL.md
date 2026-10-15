@@ -2,7 +2,7 @@
 
 The [fifteenth recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs) completes seven calls and returns an answer, but describes unknown currency approval and a recorded failed device check together as missing verification. Its final schema only requires a nonempty string. This optional host extension asks for explicit fields and checks them against the returned workflow before producing a separate summary.
 
-**Current evidence:** authored counterexamples, decoder-parser checks and scripted workers through the real MCP server. No model recording has used this mode yet. All fifteen existing recordings retain their original contracts and outcomes. These software checks do not establish that a model can reliably produce the new format or write faithful prose.
+**Current evidence:** authored counterexamples, decoder-parser checks, scripted workers through the real MCP server and [one actual model attempt](LOCAL_MODEL.md#morning-field-review-a-real-citation-with-the-wrong-purpose). That attempt returns a schema-valid answer with the correct unknown/failed distinction, but the reviewer rejects an issue-only readiness citation. No correction occurs and no checked summary is issued. All fifteen earlier recordings retain their original contracts and outcomes. One attempt does not establish reliable generation or faithful prose.
 
 ## The contract
 
@@ -26,7 +26,7 @@ The added message names the fields and explains their meanings, using placeholde
 
 Invalid final payloads remain inspectable. The host records `response_review` on the turn and trace, and exits 1 for a rejected final in this mode. No silent repair occurs. An explicitly enabled correction budget uses the existing feedback mechanism; feedback may supply expected values and is recorded as host assistance. `structured_fields_match` is a narrow field result, not approval for customer use.
 
-A proposed local experiment, with a fresh output path:
+The recorded experiment uses this configuration; choose a fresh output path when reproducing it:
 
 ```sh
 python scripts/run_local_host.py \
@@ -39,7 +39,7 @@ python scripts/run_local_host.py \
   --repair-attempts 0 --output new-morning-field-review.json
 ```
 
-This command is a plan, not a recorded success. The larger output cap accommodates the structured payload and explicitly changes the preceding run's 768-token condition; it is not a measured optimum. Timeouts and incomplete JSON must remain visible. See [local model setup and provenance](LOCAL_MODEL.md) for the optional environment and decoder dependency.
+The recorded result is a rejected final answer, not a passing field review. The larger output cap explicitly changes the preceding run's 768-token condition; it is not a measured optimum, and the returned 314-token response does not reach either cap. Timeouts and incomplete JSON must also remain visible in future attempts. See [local model setup and provenance](LOCAL_MODEL.md) for the optional environment and decoder dependency.
 
 ## Checked summary versus model prose
 

@@ -1,5 +1,15 @@
 # Development notes
 
+## Record a real rejection for a citation with the wrong purpose
+
+One Qwen3-4B attempt used committed host `a982c15ed6fd23e5bbb480ca8628afbca9d71e03` with the optional morning final review, constrained actions, eight turns, a 600-second response budget and no corrections. The output cap changed to 1536; other recorded runtime settings and all seven tool-stage requests, actions and returns match the preceding longer-budget run. The final request adds the new system contract and schema. All fifteen earlier raw recordings remain unchanged.
+
+The model completed seven calls and returned schema-valid JSON after 405.461 seconds of final generation, using 9,386 input tokens and 314 output tokens without hitting the cap. Unknown and failed checks, follow-up purposes, selection and handoff fields agree with the tools. The host rejects exactly one mismatch: Android readiness citations also contain `msg_issue_blank`, a real issue-report source that is valid for the handoff but absent from readiness-check evidence. The process exits 1, no correction is attempted and the checked summary is withheld. The 46-word prose remains incomplete and semantically unverified.
+
+The [recorded review](LOCAL_MODEL.md#morning-field-review-a-real-citation-with-the-wrong-purpose), browser replay and learning exercise explain source purpose alongside identity and scope. The immutable raw trace has SHA-256 `e3dd594b3bc257e73df11f77a34006fb440dc3f1f7e229cba9862d341ee3be6a`. New checks verify exact request history, schema validity, the reproducible mismatch, absence of correction and unmodified replay input. All 494 Python tests, 109 JavaScript tests and Ruff checks passed. Local Edge inspection confirmed sixteen recordings, eight turns, the host contract and the expected/observed citation lists. Both pages of the refreshed brief were rendered and visually inspected; seven links remain.
+
+This demonstrates an actual field-check rejection, not a passing final answer, general reliability gain or independent human evaluation. Latency and incomplete explanation remain useful next questions. No personal practice response was completed.
+
 ## Check morning-answer fields without certifying the prose
 
 The fifteenth model attempt completed its tool work but grouped unknown currency approval and a recorded failed device check together as missing verification. The optional `--review-morning-final` mode now requests explicit selection, per-platform readiness and follow-up purpose, issue handoff fields and read-only boundaries. It compares them with the completed recorded workflow and produces a separate system-rendered summary only when they agree. The original explanation remains unverified.

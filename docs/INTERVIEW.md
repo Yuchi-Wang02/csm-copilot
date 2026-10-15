@@ -56,6 +56,8 @@ This path was checked in Edge on Windows. It is a presentation aid, not a screen
 
 For a deeper engineering question, open the [longer-budget morning run](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs). It completes seven calls and returns an answer, but the excerpt comparison shows a recorded failed device check described together with missing approval evidence. Explain why the schema and dependency policy permit that wording, identify the correct handoff fields in the adjacent comparison, and distinguish a runtime improvement from a faithful answer. The final generation took 272.986 seconds; this is a recorded development observation, not a production performance claim.
 
+For the next failure-to-fix step, open the [morning field-review attempt](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-field-review#model-runs). The answer now separates unknown and failed checks, but the host rejects an issue report included among readiness citations. Explain why a real source on the correct platform can still serve the wrong evidentiary purpose. Show the exact final contract as host assistance, the single mismatch and the unedited explanation. No correction was attempted; the result is a useful rejection, not a successful final answer or evidence of independent self-correction.
+
 ## Optional deeper walkthrough
 
 Open this only after the short story, or use it to prepare for a longer conversation. Choose one customer, AI or evaluation branch relevant to the interviewer's question; it is not part of the three-minute pacing plan.
