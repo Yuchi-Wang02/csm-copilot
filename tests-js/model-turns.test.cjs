@@ -6,6 +6,28 @@ const api = require("../demo/model-turns.js");
 const directory = path.join(__dirname, "../evidence/model-runs");
 const trace = (id) => JSON.parse(fs.readFileSync(path.join(directory, id + ".json"), "utf8"));
 
+test("a saved request without a response is not displayed as a model proposal", () => {
+  for (const state of ["prepared", "sent", "response_timeout", "response_error", "cancelled", "host_error"]) {
+    const input = {status: state, error_type: "TimeoutError", error_causes: [{type: "TimeoutError", message: "<script>"}], steps: [{
+      number: 8, request_state: state, response_timeout_seconds: 180,
+      worker_request: {messages: [{role: "user", content: "<img src=x>"}], json_schema: {type: "object"}},
+      request_sha256: "test-hash", request_encoding: "UTF-8 JSON followed by LF",
+      response_error: {type: "TimeoutError", message: "<script>", partial_output_captured: false},
+      failure_phase: "dispatch", worker_response_text: "<script>invalid JSON",
+    }]};
+    const before = JSON.stringify(input), html = api.render(input);
+    assert.match(html, /Recorded worker request/);
+    assert.match(html, /No model response recorded/);
+    assert.match(html, /Response budget: 180 seconds/);
+    assert.match(html, /not acknowledged by the model/);
+    assert.match(html, /does not establish whether the worker received any bytes/);
+    assert.match(html, /Inspect the invalid worker envelope/);
+    assert.match(html, /Inspect recorded failure causes/);
+    assert.doesNotMatch(html, /<h4>Model proposal|Read the unedited model output|<img|<script>/);
+    assert.equal(JSON.stringify(input), before);
+  }
+});
+
 test("claim comparison keeps quoted source fields and review separate and escaped", () => {
   const rows = [{claim: '<img src=x>', assessment: 'Authored review <script>', source_label: 'Turn 1 · call 2',
     fields: [{label: 'Decision', path: 'steps[0].tool_calls[1].tool_result.decision', value: 'checklist_complete'},

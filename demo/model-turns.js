@@ -5,6 +5,11 @@
     ({"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"})[c]);
   const json = (value) => esc(JSON.stringify(value, null, 2));
   function outcome(step) {
+    if (!step.model_response && step.request_state) {
+      return ({prepared: "Request prepared; dispatch not confirmed", sent: "Request sent; response not recorded",
+        response_timeout: "Worker response timed out; no response recorded", response_error: "Worker response failed",
+        cancelled: "Request interrupted by cancellation", host_error: "Host failed during request handling"})[step.request_state] || "Request recorded; response not recorded";
+    }
     if (step.parse_error) return "Host rejected the proposed action";
     if (step.policy_error) return "Host rejected the dependency proposal";
     if (step.tool_calls?.some((c) => c.policy_result_error)) return "Host stopped after a result failed dependency checks";
@@ -17,13 +22,23 @@
     if (step.actions?.some((a) => Object.hasOwn(a, "final"))) return "Model supplied a final response; prose unverified";
     return "Recorded model response";
   }
+  function requestHTML(step, index) {
+    if (!step.worker_request) return "";
+    return `<div class="turn-host"><h4>Recorded worker request</h4>` +
+      `<p>Request state: <code>${esc(step.request_state)}</code> · Response budget: ${esc(step.response_timeout_seconds)} seconds. Sent means written to the worker pipe, not acknowledged by the model.</p>` +
+      `<details><summary>Inspect the exact saved worker input</summary><p class="boundary">Recorded source: steps[${index}].worker_request · SHA-256: <code>${esc(step.request_sha256)}</code> · Encoding: ${esc(step.request_encoding)}</p><pre>${json(step.worker_request)}</pre></details>` +
+      (step.response_error ? `<h4>Worker response failure</h4><p><code>${esc(step.response_error.type)}</code>: ${esc(step.response_error.message || "No error message supplied")}</p><p>No usable response was recorded for this request. Partial output captured: <code>${esc(step.response_error.partial_output_captured)}</code>.</p>` : "") +
+      (step.failure_phase ? `<p>Failure phase: <code>${esc(step.failure_phase)}</code>. A dispatch failure does not establish whether the worker received any bytes.</p>` : "") +
+      (typeof step.worker_response_text === "string" ? `<details><summary>Inspect the invalid worker envelope</summary><p>This line could not be decoded as JSON; it is not an accepted model response.</p><pre>${esc(step.worker_response_text)}</pre></details>` : "") +
+      `</div>`;
+  }
   function policyInputHTML(step, index) {
     if (!step.policy_message) return "";
     const state = step.policy_before || {};
     const pending = state.pending_actions?.length;
     const finalState = state.final_allowed === true ? "allowed" : state.final_allowed === false ? "not allowed" : "permission not recorded";
-    return `<div class="turn-host"><h4>Host state supplied before this proposal</h4>` +
-      `<p>The host supplied pending actions as planning assistance. This input is separate from the model's own proposal.</p>` +
+    return `<div class="turn-host"><h4>${step.model_response ? "Host state supplied before this proposal" : "Host state supplied with this request"}</h4>` +
+      `<p>The host supplied pending actions as planning assistance. This input is separate from model-generated output.</p>` +
       `<p>Stage: <code>${esc(state.stage)}</code> · ${esc(pending ?? "unknown")} pending ${pending === 1 ? "action" : "actions"} · Final response ${finalState}.</p>` +
       `<details><summary>Read the exact host state message</summary><p class="boundary">Recorded source: steps[${index}].policy_message</p><pre>${esc(step.policy_message.content)}</pre></details></div>`;
   }
@@ -31,7 +46,7 @@
     if (!step.generation_schema) return "";
     return `<div class="turn-host"><h4>Host requested constrained generation</h4>` +
       `<p>The host supplied a JSON schema to restrict generated output. This is decoding assistance; it does not verify factual claims.</p>` +
-      (step.model_response?.schema_constrained === true ? `<p>The model worker reported schema-constrained generation for this turn.</p>` : `<p>The recorded response does not confirm that the decoding constraint was active.</p>`) +
+      (step.model_response?.schema_constrained === true ? `<p>The model worker reported schema-constrained generation for this turn.</p>` : step.model_response ? `<p>The recorded response does not confirm that the decoding constraint was active.</p>` : `<p>No response is available to confirm that the decoding constraint was active.</p>`) +
       `<details><summary>Inspect the generation schema</summary><p class="boundary">Recorded source: steps[${index}].generation_schema</p><pre>${json(step.generation_schema)}</pre></details></div>`;
   }
   function turnHTML(step, index) {
@@ -43,12 +58,13 @@
       ? finalAction.final : finalAction?.final?.explanation;
     return `<li><details class="model-turn"><summary>Turn ${esc(step.number)} — ${esc(outcome(step))}</summary>` +
       `<p class="boundary">Recorded source: steps[${index}]. These are results from this attempt; current tools may differ.</p>` +
+      requestHTML(step, index) +
       policyInputHTML(step, index) +
       generationSchemaHTML(step, index) +
-      `<h4>Model proposal</h4>` +
+      (step.model_response ? `<h4>Model proposal</h4>` : `<h4>No model response recorded</h4>`) +
       (proposed.length ? `<p>${proposed.length} proposed tool ${proposed.length === 1 ? "action" : "actions"}: ${proposed.map((a) => `<code>${esc(a.tool)}</code>`).join(", ")}.</p>` : "") +
       (typeof explanation === "string" ? `<p class="model-output">${esc(explanation)}</p><p class="boundary">Model-written explanation from the parsed final response; not verified.</p>` : "") +
-      `<details><summary>Read the unedited model output for this turn</summary><pre>${esc(step.model_response?.text ?? "No model text recorded.")}</pre></details>` +
+      (step.model_response ? `<details><summary>Read the unedited model output for this turn</summary><pre>${esc(step.model_response.text ?? "No model text recorded.")}</pre></details>` : `<p>No model proposal or final answer is inferred from the saved request.</p>`) +
       (step.parse_error ? `<div class="turn-host"><h4>Host action validation</h4><p>${esc(step.parse_error)}</p><p>No tool calls were executed in this turn.</p></div>` : "") +
       (step.policy_error ? `<div class="turn-host"><h4>Host dependency validation</h4><p>${esc(step.policy_error)}</p><p>The whole proposal was rejected before tool execution.</p></div>` : "") +
       (calls.length ? `<h4>Tool execution through MCP</h4><ol class="turn-calls">${calls.map((call, callIndex) =>
@@ -63,6 +79,7 @@
       `<p>The <strong>model</strong> proposes tool calls and writes a response. The <strong>host</strong> validates actions and can request corrections. The <strong>MCP tools</strong> return scoped evidence and drafts. A <strong>human</strong> still reviews the result.</p>` +
       `<p class="boundary">Recorded terminal status: <code>${esc(trace.status)}</code>. This view reads the saved conversation; it performs no inference or tool calls.</p>` +
       (trace.error_type ? `<p class="boundary">Recorded host error type: <code>${esc(trace.error_type)}</code>. See the attempt review for the terminal observation and limits of the saved trace.</p>` : "") +
+      (trace.error_causes?.length ? `<details><summary>Inspect recorded failure causes</summary><pre>${json(trace.error_causes)}</pre></details>` : "") +
       `<details><summary>Read the initial model instructions and task</summary>${(trace.initial_messages || []).map((m) => `<h4>Recorded ${esc(m.role)} message</h4><pre>${esc(m.content)}</pre>`).join("")}</details>` +
       `<ol class="model-turns">${trace.steps.map(turnHTML).join("")}</ol>` +
       `<details><summary>Inspect raw model turns and tool results</summary><pre>${json(trace.steps)}</pre></details></section>`;

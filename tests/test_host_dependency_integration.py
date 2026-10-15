@@ -4,8 +4,10 @@ These are software integration tests, not model inference or model recordings.
 """
 
 import asyncio
+import hashlib
 import json
 import sys
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -70,6 +72,191 @@ class ScriptedWorker:
         return self.returncode
 
 
+class LifecycleWorker(ScriptedWorker):
+    """Observe persisted files at the dispatch/wait boundaries, then inject a fault."""
+
+    def __init__(self, output, fault, fail_turn):
+        super().__init__("constrained_happy")
+        self.output, self.fault, self.fail_turn = output, fault, fail_turn
+        self.payloads = []
+        self.waited = False
+
+    def write(self, data):
+        snapshot = json.loads(self.output.read_text(encoding="utf-8"))
+        step = snapshot["steps"][-1]
+        assert snapshot["status"] == "request_prepared"
+        assert step["request_state"] == "prepared"
+        assert step["worker_request"] == json.loads(data)
+        assert step["request_sha256"] == hashlib.sha256(data).hexdigest()
+        self.payloads.append(data)
+        if self.fault == "dispatch" and len(self.payloads) == self.fail_turn:
+            raise BrokenPipeError("scripted dispatch failure")
+        super().write(data)
+
+    async def readline(self):
+        if self.requests:
+            snapshot = json.loads(self.output.read_text(encoding="utf-8"))
+            assert snapshot["status"] == "waiting_for_response"
+            assert snapshot["steps"][-1]["request_state"] == "sent"
+            if len(self.requests) == self.fail_turn:
+                if self.fault == "timeout":
+                    await asyncio.Event().wait()
+                if self.fault == "eof":
+                    return b""
+                if self.fault == "json":
+                    return b"invalid worker envelope\n"
+                if self.fault == "unicode":
+                    return b"\xff\n"
+                if self.fault == "cancel":
+                    raise asyncio.CancelledError()
+        return await super().readline()
+
+    async def wait(self):
+        self.waited = True
+        return await super().wait()
+
+
+@pytest.mark.parametrize(
+    "fault,fail_turn,status,completed",
+    [
+        ("none", 99, "final_response", 7),
+        ("timeout", 1, "response_timeout", 0),
+        ("timeout", 8, "response_timeout", 7),
+        ("eof", 1, "worker_response_error", 0),
+        ("json", 1, "worker_response_error", 0),
+        ("unicode", 1, "worker_response_error", 0),
+        ("dispatch", 1, "host_error", 0),
+        ("cancel", 1, "cancelled", 0),
+    ],
+)
+def test_request_lifecycle_survives_worker_failures(
+    tmp_path, monkeypatch, fault, fail_turn, status, completed
+):
+    output = tmp_path / "scripted-lifecycle.json"
+    worker = LifecycleWorker(output, fault, fail_turn)
+
+    async def scripted_start(_args, _env):
+        return worker
+
+    monkeypatch.setattr(run_local_host, "start_worker", scripted_start)
+    args = SimpleNamespace(
+        model_python=sys.executable,
+        model_path=tmp_path,
+        model_id="scripted-test-worker-NOT-A-MODEL",
+        revision="test",
+        protocol="batch",
+        task="morning_review",
+        max_steps=8,
+        response_timeout_seconds=0.05,
+        repair_attempts=2,
+        sequence_dependencies=False,
+        enforce_dependencies=True,
+        constrain_actions=True,
+        constrain_final=False,
+        max_new_tokens=768,
+        output=output,
+    )
+
+    async def exercise():
+        if fault == "cancel":
+            with pytest.raises(asyncio.CancelledError):
+                await run_local_host.run(args)
+        elif fault == "dispatch":
+            with pytest.raises(ExceptionGroup):
+                await run_local_host.run(args)
+        else:
+            assert await run_local_host.run(args) == status
+
+    asyncio.run(asyncio.wait_for(exercise(), timeout=45))
+    trace = json.loads(output.read_text(encoding="utf-8"))
+    assert trace["trace_schema_version"] == 2
+    assert trace["status"] == status
+    assert trace["coverage"]["observed"] == completed
+    assert worker.returncode == 0 and worker.waited
+    assert len(trace["steps"]) == len(worker.payloads) == min(fail_turn, 8)
+    assert all("correction_feedback" not in step for step in trace["steps"])
+    for step, payload in zip(trace["steps"], worker.payloads, strict=True):
+        assert step["worker_request"] == json.loads(payload), "Earlier inputs stay detached"
+        assert step["request_sha256"] == hashlib.sha256(payload).hexdigest()
+        assert (json.dumps(step["worker_request"], ensure_ascii=False) + "\n").encode() == payload
+    last = trace["steps"][-1]
+    if fault == "none":
+        assert all(step["request_state"] == "response_received" for step in trace["steps"])
+        assert trace["final"]
+    else:
+        assert "model_response" not in last and "actions" not in last
+        assert trace["final"] is None
+    if fault == "timeout":
+        assert trace["error_type"] == "TimeoutError"
+        assert last["request_state"] == "response_timeout"
+        assert last["response_error"]["partial_output_captured"] is False
+        assert last["response_error"]["timeout_seconds"] == 0.05
+        if completed == 7:
+            assert trace["dependency_policy"]["stage"] == "complete"
+            assert "final" in last["worker_request"]["json_schema"]["properties"]
+    if fault == "dispatch":
+        assert last["failure_phase"] == "dispatch" and "sent_at" not in last
+        assert {cause["type"] for cause in trace["error_causes"]} == {"BrokenPipeError"}
+    if fault in ("eof", "json", "unicode"):
+        expected = {
+            "eof": "RuntimeError",
+            "json": "JSONDecodeError",
+            "unicode": "UnicodeDecodeError",
+        }[fault]
+        assert last["response_error"]["type"] == expected
+        assert last["request_state"] == "response_error"
+    if fault == "json":
+        assert last["worker_response_text"] == "invalid worker envelope\n"
+    if fault == "cancel":
+        assert last["request_state"] == "cancelled"
+
+
+def test_atomic_snapshot_failure_preserves_prior_file_and_unrelated_temp(tmp_path, monkeypatch):
+    output = tmp_path / "trace.json"
+    unrelated = tmp_path / ".trace.json.someone-else.tmp"
+    unrelated.write_text("keep", encoding="utf-8")
+    run_local_host.save_trace(output, {"status": "prior"})
+
+    def fail_replace(self, target):
+        raise PermissionError("scripted replace failure")
+
+    monkeypatch.setattr(Path, "replace", fail_replace)
+    with pytest.raises(PermissionError):
+        run_local_host.save_trace(output, {"status": "new"})
+    assert json.loads(output.read_text(encoding="utf-8")) == {"status": "prior"}
+    assert unrelated.read_text(encoding="utf-8") == "keep"
+    assert sorted(path.name for path in tmp_path.iterdir()) == [unrelated.name, output.name]
+
+
+@pytest.mark.parametrize("budget,exit_code", [(None, 1), ("600", 1), ("0", 2), ("601", 2)])
+def test_cli_validates_and_records_timeout_budget(tmp_path, monkeypatch, budget, exit_code):
+    argv = [
+        "host",
+        "--model-path",
+        str(tmp_path),
+        "--model-id",
+        "test",
+        "--revision",
+        "test",
+        "--output",
+        str(tmp_path / "new.json"),
+    ]
+    if budget is not None:
+        argv += ["--response-timeout-seconds", budget]
+    called = []
+
+    async def fake_run(args):
+        called.append(args.response_timeout_seconds)
+        return "response_timeout"
+
+    monkeypatch.setattr(sys, "argv", argv)
+    monkeypatch.setattr(run_local_host, "run", fake_run)
+    with pytest.raises(SystemExit) as error:
+        run_local_host.main()
+    assert error.value.code == exit_code
+    assert called == ([180 if budget is None else int(budget)] if exit_code == 1 else [])
+
+
 @pytest.mark.parametrize(
     "mode,status,call_count",
     [
@@ -99,6 +286,7 @@ def test_host_enforces_dependencies_before_real_mcp_calls(
         protocol="batch",
         task="morning_review",
         max_steps=8,
+        response_timeout_seconds=180,
         repair_attempts=0,
         sequence_dependencies=False,
         enforce_dependencies=True,
@@ -173,6 +361,7 @@ def test_real_host_preserves_pending_work_after_injected_result_fault(tmp_path, 
         protocol="batch",
         task="morning_review",
         max_steps=8,
+        response_timeout_seconds=180,
         repair_attempts=0,
         sequence_dependencies=False,
         enforce_dependencies=True,

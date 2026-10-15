@@ -1,5 +1,13 @@
 # Development notes
 
+## Preserve the request when a worker fails to answer
+
+The previous model run completed seven tool calls but lost its final in-flight input when the worker timed out. The host now persists the complete request and its byte fingerprint before dispatch, saves the pipe-write state before waiting, and records specific timeout or response failures. Atomic snapshot replacement retains the prior readable file if replacement fails. The response budget remains 180 seconds by default and can be explicitly set from 1 to 600 seconds; the trace records the choice. These changes do not recover the older missing input or establish that a longer wait will produce a faithful answer.
+
+Thirteen added Python checks cover persisted request order, detached message snapshots, first-turn and eighth-turn timeouts, EOF, malformed JSON, invalid UTF-8, dispatch failure, cancellation, atomic replacement failure and CLI budgets. They use scripted workers through the real MCP server, not model inference. A replay-renderer check distinguishes saved requests from returned model proposals and keeps failure text inert. All 422 Python tests, 106 JavaScript tests and Ruff checks passed.
+
+A local Edge check opened an eighth-turn timeout produced by the scripted integration path. It showed the pending request, budget, direct failure cause, complete policy state, final schema and explicit absence of a model answer. This temporary QA output is not published as a model recording. The fourteen historical raw traces remain unchanged; the fixed v0.29.8 ZIP also predates this change. The [trace lifecycle documentation](LOCAL_MODEL.md#preserve-a-request-before-waiting-for-its-response) and an optional prediction exercise explain what these checks establish.
+
 ## Reach the handoff with constrained decoding, then preserve the final-response timeout
 
 One fresh Qwen3-4B attempt used committed host `0ab07e8af6f5c213e0ebc2217b80e08fa0949e02` with both `--enforce-dependencies` and `--constrain-actions`. It completed all seven requested calls in dependency order: queue, selected context, both readiness checks, both English drafts and the recorded issue handoff. Every returned turn reports constrained generation. There were no correction requests, retries or tool errors. The host's allowed plan and IDs are visible alongside each model choice.

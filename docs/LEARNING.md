@@ -12,6 +12,8 @@ For the constrained-generation extension, predict whether a final JSON object co
 
 ## Start here: three things to explain
 
+An optional debugging exercise: before running `python -m pytest -q tests/test_host_dependency_integration.py -k request_lifecycle`, predict what should remain inspectable when the worker times out after all seven tool calls. Explain why a sent request is not a model acknowledgment, why completed tools are not a finished answer, and why retrying on the same stream could confuse request/response attribution. Compare your prediction with the [new trace lifecycle](LOCAL_MODEL.md#preserve-a-request-before-waiting-for-its-response). The tests use scripted worker behavior; record your own explanation rather than treating the supplied checks as proof of personal mastery.
+
 Use this route before the longer exercises. The time estimates are planning suggestions, not measured completion times. The first two steps work in the hosted portfolio without installing Python or connecting a model.
 
 | Step | What to do | Keep from your own work |

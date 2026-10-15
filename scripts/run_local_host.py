@@ -8,6 +8,7 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -120,6 +121,36 @@ async def readline(process, timeout):
     return json.loads(line)
 
 
+def save_trace(path, trace):
+    """Replace only this run's snapshot, leaving a readable prior file on write failure."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            newline="\n",
+            dir=path.parent,
+            prefix="." + path.name + ".",
+            suffix=".tmp",
+            delete=False,
+        ) as stream:
+            temporary = Path(stream.name)
+            json.dump(trace, stream, ensure_ascii=False, indent=2)
+            stream.write("\n")
+        temporary.replace(path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def error_causes(error):
+    """Keep nested task-group failure types rather than losing them to ExceptionGroup."""
+    if isinstance(error, BaseExceptionGroup):
+        return [cause for child in error.exceptions for cause in error_causes(child)]
+    return [{"type": type(error).__name__, "message": str(error)}]
+
+
 async def start_worker(args, env):
     return await asyncio.create_subprocess_exec(
         args.model_python,
@@ -161,6 +192,9 @@ async def run(args):
             "grounded": "3-structured-final",
         }[args.protocol],
         "transport": "real MCP stdio",
+        "trace_schema_version": 2,
+        "response_timeout_seconds": args.response_timeout_seconds,
+        "worker_ready_timeout_seconds": 180,
         "max_steps": args.max_steps,
         "repair_budget": args.repair_attempts,
         "constrain_final": args.constrain_final,
@@ -177,10 +211,7 @@ async def run(args):
         trace["coverage"] = trace_coverage(trace)
         if policy:
             trace["dependency_policy"] = policy.snapshot()
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(
-            json.dumps(trace, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
-        )
+        save_trace(args.output, trace)
 
     repairs_used = 0
 
@@ -253,16 +284,62 @@ async def run(args):
                     coverage = trace_coverage(trace)
                     if args.constrain_final and coverage["observed"] == coverage["required"]:
                         request["json_schema"] = final_response_schema()
-                    worker.stdin.write((json.dumps(request, ensure_ascii=False) + "\n").encode())
-                    await worker.stdin.drain()
-                    response = await readline(worker, 180)
-                    step = {"number": number, "model_response": response}
+                    payload = (json.dumps(request, ensure_ascii=False) + "\n").encode("utf-8")
+                    step = {
+                        "number": number,
+                        "worker_request": json.loads(payload),
+                        "request_sha256": hashlib.sha256(payload).hexdigest(),
+                        "request_encoding": "UTF-8 JSON followed by LF",
+                        "request_state": "prepared",
+                        "prepared_at": datetime.now(timezone.utc).isoformat(),
+                        "response_timeout_seconds": args.response_timeout_seconds,
+                    }
                     if policy:
                         step["policy_before"] = policy.snapshot()
                         step["policy_message"] = policy_message
                     if "json_schema" in request:
                         step["generation_schema"] = request["json_schema"]
                     trace["steps"].append(step)
+                    trace["status"] = "request_prepared"
+                    save()
+                    worker.stdin.write(payload)
+                    await worker.stdin.drain()
+                    step["request_state"] = "sent"
+                    step["sent_at"] = datetime.now(timezone.utc).isoformat()
+                    trace["status"] = "waiting_for_response"
+                    save()
+                    try:
+                        response = await readline(worker, args.response_timeout_seconds)
+                    except (
+                        TimeoutError,
+                        RuntimeError,
+                        json.JSONDecodeError,
+                        UnicodeDecodeError,
+                    ) as exc:
+                        timed_out = isinstance(exc, TimeoutError)
+                        step["request_state"] = (
+                            "response_timeout" if timed_out else "response_error"
+                        )
+                        step["response_error"] = {
+                            "type": type(exc).__name__,
+                            "message": str(exc),
+                            "phase": "worker_response",
+                            "timeout_seconds": args.response_timeout_seconds,
+                            "partial_output_captured": False,
+                        }
+                        step["ended_at"] = datetime.now(timezone.utc).isoformat()
+                        if isinstance(exc, json.JSONDecodeError):
+                            step["worker_response_text"] = exc.doc
+                        trace["status"] = (
+                            "response_timeout" if timed_out else "worker_response_error"
+                        )
+                        trace["error_type"] = type(exc).__name__
+                        trace["error_causes"] = error_causes(exc)
+                        break
+                    step["request_state"] = "response_received"
+                    step["received_at"] = datetime.now(timezone.utc).isoformat()
+                    step["model_response"] = response
+                    trace["status"] = "running"
                     if "error" in response:
                         trace["status"] = "model_error"
                         break
@@ -342,9 +419,22 @@ async def run(args):
                         break
                 else:
                     trace["status"] = "step_limit"
+    except asyncio.CancelledError:
+        trace["status"] = "cancelled"
+        trace["error_type"] = "CancelledError"
+        if trace["steps"] and trace["steps"][-1].get("request_state") in ("prepared", "sent"):
+            trace["steps"][-1]["request_state"] = "cancelled"
+        raise
     except Exception as exc:
         trace["status"] = "host_error"
         trace["error_type"] = type(exc).__name__
+        trace["error_causes"] = error_causes(exc)
+        if trace["steps"] and trace["steps"][-1].get("request_state") in ("prepared", "sent"):
+            step = trace["steps"][-1]
+            step["failure_phase"] = (
+                "dispatch" if step["request_state"] == "prepared" else "worker_response"
+            )
+            step["request_state"] = "host_error"
         raise
     finally:
         save()
@@ -352,6 +442,7 @@ async def run(args):
             worker.terminate()
         await worker.wait()
     print(json.dumps({"status": trace["status"], "coverage": trace["coverage"]}), flush=True)
+    return trace["status"]
 
 
 def main():
@@ -363,6 +454,12 @@ def main():
     parser.add_argument("--protocol", choices=("single", "batch", "grounded"), default="batch")
     parser.add_argument("--task", choices=tuple(TASKS), default="platform_followups")
     parser.add_argument("--max-steps", type=int, default=8)
+    parser.add_argument(
+        "--response-timeout-seconds",
+        type=int,
+        default=180,
+        help="Per-turn worker response budget, 1..600 seconds; recorded in the trace (default: 180)",
+    )
     parser.add_argument("--repair-attempts", type=int, choices=(0, 1, 2), default=0)
     parser.add_argument(
         "--constrain-actions",
@@ -387,6 +484,8 @@ def main():
     parser.add_argument("--max-new-tokens", type=int, default=768)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if not 1 <= args.response_timeout_seconds <= 600:
+        parser.error("--response-timeout-seconds must be 1..600")
     if args.constrain_actions and not args.enforce_dependencies:
         parser.error("--constrain-actions requires --enforce-dependencies")
     if args.enforce_dependencies and (args.task != "morning_review" or args.protocol != "batch"):
@@ -401,7 +500,9 @@ def main():
         parser.error("max-steps must be 1..12 and max-new-tokens 32..2048")
     if args.output.exists():
         parser.error("Refusing to overwrite a trace; choose a new output path")
-    asyncio.run(run(args))
+    status = asyncio.run(run(args))
+    if status in ("response_timeout", "worker_response_error", "model_error"):
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

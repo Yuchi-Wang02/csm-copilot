@@ -42,6 +42,8 @@ The deterministic workflow is the working baseline: it already selects accounts,
 
 The [host policy and constrained generation](docs/DEPENDENCY_POLICY.md) now restrict each turn to pending work and IDs returned by earlier tools. A [new assisted morning run](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-constrained#model-runs) completed all seven requested calls: queue, context, two readiness checks, two English drafts and one handoff. The host then timed out waiting for the final explanation, so no model-written answer is claimed. The replay exposes the supplied state, decoding schemas, actual tool returns and terminal error. This provides an inspectable failure-to-test-to-fix-and-retest example while keeping tool completion separate from answer quality.
 
+The next host improvement [saves requests before dispatch and records specific timeout causes](docs/LOCAL_MODEL.md#preserve-a-request-before-waiting-for-its-response). Scripted real-MCP tests cover interrupted runs, including a missing final response after all seven calls. This improves auditability; it adds no model success claim or reconstructed historical output.
+
 [Inspect the original AI mistake](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) · [Follow the recorded corrections](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs) · [Read the raw-run review](evidence/MODEL_RUNS.md)
 
 [![Two saved model claims compared with recorded tool results: iOS full compliance overstates a scoped checklist, and Android missing evidence omits a recorded unmet device check.](docs/assets/ai-claim-review-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs)
