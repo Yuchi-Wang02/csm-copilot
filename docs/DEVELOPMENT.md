@@ -1,5 +1,15 @@
 # Development notes
 
+## Check morning-answer fields without certifying the prose
+
+The fifteenth model attempt completed its tool work but grouped unknown currency approval and a recorded failed device check together as missing verification. The optional `--review-morning-final` mode now requests explicit selection, per-platform readiness and follow-up purpose, issue handoff fields and read-only boundaries. It compares them with the completed recorded workflow and produces a separate system-rendered summary only when they agree. The original explanation remains unverified.
+
+The final contract enters as a later system message only after the dependency policy has no pending work. With constrained actions enabled, the decoder receives its structure and state vocabularies, not fixture-specific IDs or expected answers. Scripted integration checks confirm that the first seven worker requests are identical to the preceding constrained mode. Rejected payloads and explicitly budgeted correction feedback remain visible; default behavior and all fifteen historical recordings are unchanged.
+
+All 491 Python tests, 108 JavaScript tests and Ruff checks passed. Counterexamples cover conflated evidence states, swapped follow-up purposes, missing handoff fields, wrong or duplicate citations, incomplete work and incorrect scope. Alternate-account, empty-queue and unknown-contact cases prevent the checker from depending on Lantern's answers. A deliberately unsupported explanation with matching fields still passes the field review, demonstrating why prose verification remains separate. These are authored software checks, not a new model-quality result.
+
+Local Edge QA opened a scripted real-MCP rejection, the host-supplied contract and the exact unknown/failed mismatch. This temporary QA trace is not published as model inference. The [contract, assistance and limits](MORNING_FINAL.md) include a proposed experiment and prediction exercise. No model recording has used the new mode at this implementation checkpoint; no personal practice response was completed.
+
 ## Complete the morning run, then inspect the explanation
 
 One new Qwen3-4B run used source `d5c9f289203da935a3250cd9a125475b4c070f8b`, constrained morning actions and an explicit 600-second response budget. Recorded model/runtime controls, task, initial messages, seven tool actions and results match the earlier constrained attempt. All seven calls completed, and an eighth turn returned an 80-word explanation after 272.986 seconds of final generation. The process exited 0. No correction or retry was used. The raw file is preserved with SHA-256 `aead6eaa015718e276ded9ff568281d5e418b8aadbb01fb10cfd749b6c1fc3e6`; all fourteen earlier raw recordings remain unchanged.

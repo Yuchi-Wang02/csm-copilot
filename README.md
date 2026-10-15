@@ -46,6 +46,8 @@ The host now [saves requests before dispatch and records specific timeout causes
 
 [Inspect the original AI mistake](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) · [Follow the recorded corrections](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-constrained#model-runs) · [Read the raw-run review](evidence/MODEL_RUNS.md)
 
+An [optional morning final-answer checker](docs/MORNING_FINAL.md) now requests separate unknown/failed checks, follow-up purposes, selected-account facts and handoff gaps. It compares those fields with observed calls and renders a separate summary on agreement. Authored counterexamples and scripted real-MCP runs exercise the checker; no model recording uses this mode yet. Free prose still requires review.
+
 [![Two saved model claims compared with recorded tool results: iOS full compliance overstates a scoped checklist, and Android missing evidence omits a recorded unmet device check.](docs/assets/ai-claim-review-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs)
 
 Comparison screenshot from the same source revision. The assessment is an AI-assisted review of a saved attempt; open the replay to locate each field in its raw trace.

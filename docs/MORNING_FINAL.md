@@ -1,0 +1,54 @@
+# Check morning-answer fields before presenting the explanation
+
+The [fifteenth recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs) completes seven calls and returns an answer, but describes unknown currency approval and a recorded failed device check together as missing verification. Its final schema only requires a nonempty string. This optional host extension asks for explicit fields and checks them against the returned workflow before producing a separate summary.
+
+**Current evidence:** authored counterexamples, decoder-parser checks and scripted workers through the real MCP server. No model recording has used this mode yet. All fifteen existing recordings retain their original contracts and outcomes. These software checks do not establish that a model can reliably produce the new format or write faithful prose.
+
+## The contract
+
+| Answer component | Required agreement with recorded results |
+|---|---|
+| Selection | First returned queue account; contact state, contact age, days to planned launch and its context's contact source IDs |
+| Each selected integration | Readiness decision; all `unknown` checks separately from all `not_met` checks; exact union of readiness source IDs; English draft's follow-up purpose |
+| Each recorded issue | Integration scope, complete missing-field list, issue source IDs, handoff state and unconfirmed root-cause state |
+| Boundaries | `nothing_sent=true`, `launch_approved=false`; recorded drafts remain unsent |
+| Explanation length | 1–220 whitespace-separated words; no semantic approval |
+
+Every selected integration and issue must appear exactly once. List order is immaterial, but duplicate and extra entries are rejected. IDs come from the observed queue/context, not Lantern's known answers. An empty queue requires `selection=null` and empty platform/handoff lists. Unknown numeric contact history remains null, not zero.
+
+The reviewer replays the dependency policy from recorded calls. Missing work, wrong scope, duplicated successful calls and unresolved tool errors cannot support a passing review. A failed call can be retried while it remains pending. The reviewer also requires unambiguous context sources, correctly scoped references, complete readiness-check IDs and valid draft-purpose/intake fields. Matching those fields does not independently verify the records' truth or freshness.
+
+## Where assistance enters
+
+Enable `--review-morning-final` with `--enforce-dependencies`, which already requires `--task morning_review --protocol batch`. Existing default behavior is unchanged. The host appends a `final_contract_message` only after no work remains pending. It uses the system role to explicitly replace the earlier final-string format; the cached Qwen3 chat template accepts later system messages. Scripted integration checks confirm that the preceding seven worker requests match the existing constrained workflow exactly.
+
+The added message names the fields and explains their meanings, using placeholders rather than fixture answers. Its full text and request fingerprint are saved. With `--constrain-actions`, the decoder receives a new final-object schema containing types and state vocabularies, but no fixture IDs or expected readiness answers. A schema-valid response can still misclassify a failed check; the separate result-based review rejects it. Without constrained decoding, the same message and review apply but generation is unconstrained.
+
+Invalid final payloads remain inspectable. The host records `response_review` on the turn and trace, and exits 1 for a rejected final in this mode. No silent repair occurs. An explicitly enabled correction budget uses the existing feedback mechanism; feedback may supply expected values and is recorded as host assistance. `structured_fields_match` is a narrow field result, not approval for customer use.
+
+A proposed local experiment, with a fresh output path:
+
+```sh
+python scripts/run_local_host.py \
+  --model-python /path/to/local-model-python \
+  --model-path /path/to/cached-model \
+  --model-id Qwen/Qwen3-4B --revision YOUR_CACHED_REVISION \
+  --task morning_review --protocol batch \
+  --enforce-dependencies --constrain-actions --review-morning-final \
+  --response-timeout-seconds 600 --max-steps 8 --max-new-tokens 1536 \
+  --repair-attempts 0 --output new-morning-field-review.json
+```
+
+This command is a plan, not a recorded success. The larger output cap accommodates the structured payload and explicitly changes the preceding run's 768-token condition; it is not a measured optimum. Timeouts and incomplete JSON must remain visible. See [local model setup and provenance](LOCAL_MODEL.md) for the optional environment and decoder dependency.
+
+## Checked summary versus model prose
+
+On agreement, the host renders a separate summary from the actual queue, readiness, follow-up and handoff results. It preserves unknown versus failed checks, citations and distinct next actions. The model's own explanation remains separate, and the browser identifies the final-contract message as host assistance.
+
+A counterexample supplies correct fields alongside "Both launches are approved and revenue is guaranteed." Field review passes, while `free_text_verification=not_performed` and `human_review_required=true` remain explicit. The unsupported sentence is absent from the system-rendered summary. This demonstrates a limit of field checking; it does not make that prose acceptable.
+
+The checker does not verify the meaning of arbitrary draft bodies, confirm customer reports independently, assess tone or establish production performance. These optional local-host controls do not automatically apply to arbitrary MCP clients.
+
+## Inspect and explain
+
+Read [the reviewer](../src/csm_copilot/morning_review.py), [the counterexamples](../tests/test_morning_final.py) and [the real-MCP host checks](../tests/test_host_dependency_integration.py). Predict what happens when follow-up purposes are swapped, an issue citation is used as readiness evidence, or matching fields accompany unsupported prose. Keep your own prediction and explanation separate from the supplied expectations; these tests do not establish personal mastery.

@@ -7,6 +7,7 @@ from pathlib import Path
 from csm_copilot.brief import text
 from csm_copilot.engine import validate_draft
 from csm_copilot.host_protocol import trace_coverage
+from csm_copilot.morning_review import review_morning_final
 from csm_copilot.response_review import review_final
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -211,7 +212,8 @@ def build():
         )
         lint = validate_draft(display_final) if display_final else None
         if "response_review" in trace:
-            assert review_final(trace["final"], trace) == trace["response_review"]
+            reviewer = review_morning_final if trace.get("review_morning_final") else review_final
+            assert reviewer(trace["final"], trace) == trace["response_review"]
         runs.append(
             {
                 **entry,

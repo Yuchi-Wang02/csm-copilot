@@ -6,6 +6,22 @@ const api = require("../demo/model-turns.js");
 const directory = path.join(__dirname, "../evidence/model-runs");
 const trace = (id) => JSON.parse(fs.readFileSync(path.join(directory, id + ".json"), "utf8"));
 
+test("an optional final contract remains visible as host assistance and inert text", () => {
+  const input = trace("qwen4-morning-long-budget"), step = input.steps[7];
+  step.final_contract_message = {role: "system", content: "<img src=x> Require separate unknown and failed fields."};
+  step.actions = [{final: {explanation: "Authored test explanation"}}];
+  step.response_review = {status: "rejected", free_text_verification: "not_performed", boundary: "Test field mismatch"};
+  const before = JSON.stringify(input), html = api.render(input);
+  assert.match(html, /Host final-answer contract/);
+  assert.match(html, /instructions are assistance, not model-written reasoning/);
+  assert.match(html, /steps\[7\].final_contract_message/);
+  assert.match(html, /&lt;img src=x&gt;/);
+  assert.doesNotMatch(html, /<img/);
+  assert.match(html, /Turn 8 — Host rejected the structured response/);
+  assert.ok(html.indexOf("Host final-answer contract") < html.lastIndexOf("<h4>Model proposal"));
+  assert.equal(JSON.stringify(input), before);
+});
+
 test("a saved request without a response is not displayed as a model proposal", () => {
   for (const state of ["prepared", "sent", "response_timeout", "response_error", "cancelled", "host_error"]) {
     const input = {status: state, error_type: "TimeoutError", error_causes: [{type: "TimeoutError", message: "<script>"}], steps: [{

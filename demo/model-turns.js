@@ -60,6 +60,7 @@
       `<p class="boundary">Recorded source: steps[${index}]. These are results from this attempt; current tools may differ.</p>` +
       requestHTML(step, index) +
       policyInputHTML(step, index) +
+      (step.final_contract_message ? `<div class="turn-host"><h4>Host final-answer contract</h4><p>The host supplied the required final fields after tool work. These instructions are assistance, not model-written reasoning.</p><details><summary>Read the exact final contract message</summary><p class="boundary">Recorded source: steps[${index}].final_contract_message</p><pre>${esc(step.final_contract_message.content)}</pre></details></div>` : "") +
       generationSchemaHTML(step, index) +
       (step.model_response ? `<h4>Model proposal</h4>` : `<h4>No model response recorded</h4>`) +
       (proposed.length ? `<p>${proposed.length} proposed tool ${proposed.length === 1 ? "action" : "actions"}: ${proposed.map((a) => `<code>${esc(a.tool)}</code>`).join(", ")}.</p>` : "") +

@@ -66,6 +66,8 @@ The [fourteenth recording](../evidence/model-runs/qwen4-morning-constrained.json
 
 ## Limits to explain in an interview
 
+The [optional morning final-answer reviewer](MORNING_FINAL.md) adds checks after this call policy completes. It compares selected-account, platform, follow-up-purpose and handoff fields with the observed results, while keeping model prose unverified. It has scripted real-MCP checks but no new model recording yet. Call completion alone still does not establish a faithful explanation.
+
 This is a policy for the project's optional local host and one prescribed morning-review task. Other MCP clients do not inherit it. It is neither CRM authorization nor a general planner. It trusts the scoped, validated synthetic server records; it does not independently verify source truth, refresh records or assess which customer deserves commercial priority.
 
 Result checks establish the minimum structure and available identity needed to track this workflow. Readiness results expose an integration ID, and handoffs expose an issue-derived draft ID. Follow-up results have no integration-ID field; the host correlates them with the request and checks draft state, language and a nonempty body. It does not independently prove that every sentence describes that integration correctly.

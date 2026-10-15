@@ -7,6 +7,7 @@ import asyncio
 import hashlib
 import json
 import sys
+from copy import deepcopy
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -14,6 +15,159 @@ import pytest
 from jsonschema import Draft202012Validator
 
 from scripts import run_local_host
+
+
+@pytest.mark.parametrize(
+    "mode,expected_status",
+    [
+        ("match", "structured_fields_match"),
+        ("conflation", "rejected"),
+        ("wrong_action", "rejected"),
+        ("missing_field", "rejected"),
+        ("corrected", "structured_fields_match"),
+        ("unsupported_prose", "structured_fields_match"),
+        ("unconstrained", "structured_fields_match"),
+    ],
+)
+def test_morning_final_contract_through_real_mcp(tmp_path, monkeypatch, mode, expected_status):
+    from test_morning_final import morning_example
+
+    from csm_copilot.morning_review import MORNING_FINAL_GUIDANCE, morning_final_schema
+
+    correct, _ = morning_example()
+
+    class ReviewedWorker(ScriptedWorker):
+        final_count = 0
+
+        def write(self, data):
+            request = json.loads(data)
+            if request["messages"][-1]["content"] != MORNING_FINAL_GUIDANCE:
+                super().write(data)
+                return
+            self.requests.append(request)
+            self.final_count += 1
+            if mode == "unconstrained":
+                assert "json_schema" not in request
+            else:
+                assert request["json_schema"] == morning_final_schema()
+            answer = deepcopy(correct)
+            if mode == "conflation" or (mode == "corrected" and self.final_count == 1):
+                answer["platforms"][0]["failed_checks"] = []
+                answer["platforms"][0]["unknown_checks"].append("device_verified")
+            elif mode == "wrong_action":
+                answer["platforms"][0]["followup_intent"] = "launch_plan_review"
+            elif mode == "missing_field":
+                answer["handoffs"][0]["missing_fields"].remove("redacted_logs")
+            elif mode == "unsupported_prose":
+                answer["explanation"] = "Both launches are approved and revenue is guaranteed."
+            self.responses.append({"text": json.dumps({"final": answer})})
+
+    worker = ReviewedWorker("happy_path" if mode == "unconstrained" else "constrained_happy")
+
+    async def scripted_start(_args, _env):
+        return worker
+
+    monkeypatch.setattr(run_local_host, "start_worker", scripted_start)
+    args = SimpleNamespace(
+        model_python=sys.executable,
+        model_path=tmp_path,
+        model_id="SCRIPTED-NO-MODEL",
+        revision="test",
+        protocol="batch",
+        task="morning_review",
+        max_steps=9,
+        response_timeout_seconds=180,
+        repair_attempts=1 if mode == "corrected" else 0,
+        sequence_dependencies=False,
+        enforce_dependencies=True,
+        constrain_actions=mode != "unconstrained",
+        constrain_final=False,
+        review_morning_final=True,
+        max_new_tokens=768,
+        output=tmp_path / "review.json",
+    )
+    asyncio.run(asyncio.wait_for(run_local_host.run(args), timeout=45))
+    trace = json.loads(args.output.read_text(encoding="utf-8"))
+    assert trace["status"] == expected_status
+    assert trace["protocol_version"] == "4-morning-structured-final"
+    assert trace["coverage"]["observed"] == 7 and trace["review_morning_final"] is True
+    assert worker.returncode == 0
+    tool_turns = 4 if mode == "unconstrained" else 7
+    assert all("final_contract_message" not in step for step in trace["steps"][:tool_turns])
+    for step in trace["steps"][tool_turns:]:
+        assert step["final_contract_message"] == step["worker_request"]["messages"][-1]
+        assert step["final_contract_message"]["content"] == MORNING_FINAL_GUIDANCE
+        assert step["final_contract_message"]["role"] == "system"
+        if mode == "unconstrained":
+            assert "generation_schema" not in step
+        else:
+            assert step["generation_schema"] == morning_final_schema()
+        assert step["response_review"]["free_text_verification"] == "not_performed"
+    if mode == "corrected":
+        assert len(trace["steps"]) == 9
+        rejected = trace["steps"][7]
+        assert rejected["response_review"]["status"] == "rejected"
+        assert "device_verified" in rejected["correction_feedback"]["content"]
+        assert trace["steps"][-1]["actions"][0]["final"] == correct
+    else:
+        assert len(trace["steps"]) == tool_turns + 1
+        assert not any("correction_feedback" in step for step in trace["steps"])
+    if mode == "unsupported_prose":
+        assert "guaranteed" in trace["final"]["explanation"]
+        assert "guaranteed" not in trace["response_review"]["checked_summary"]
+    if mode == "match":
+        baseline = ScriptedWorker("constrained_happy")
+
+        async def baseline_start(_args, _env):
+            return baseline
+
+        monkeypatch.setattr(run_local_host, "start_worker", baseline_start)
+        args.review_morning_final = False
+        args.output = tmp_path / "baseline.json"
+        asyncio.run(asyncio.wait_for(run_local_host.run(args), timeout=45))
+        assert worker.requests[:7] == baseline.requests[:7], "No new instructions before final work"
+        assert worker.requests[7] != baseline.requests[7]
+
+
+@pytest.mark.parametrize(
+    "extra,exit_code",
+    [
+        ([], 2),
+        (["--enforce-dependencies"], 2),
+        (["--enforce-dependencies", "--task", "morning_review"], 1),
+    ],
+)
+def test_morning_final_cli_requires_policy_and_fails_on_rejected_fields(
+    tmp_path, monkeypatch, extra, exit_code
+):
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "host",
+            "--model-path",
+            str(tmp_path),
+            "--model-id",
+            "test",
+            "--revision",
+            "test",
+            "--output",
+            str(tmp_path / "new.json"),
+            "--review-morning-final",
+            *extra,
+        ],
+    )
+    calls = []
+
+    async def fake_run(args):
+        calls.append(args.review_morning_final)
+        return "rejected"
+
+    monkeypatch.setattr(run_local_host, "run", fake_run)
+    with pytest.raises(SystemExit) as exc:
+        run_local_host.main()
+    assert exc.value.code == exit_code
+    assert calls == ([True] if exit_code == 1 else [])
 
 
 class ScriptedWorker:

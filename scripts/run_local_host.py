@@ -21,6 +21,11 @@ from csm_copilot.host_protocol import (
     parse_actions,
     trace_coverage,
 )
+from csm_copilot.morning_review import (
+    MORNING_FINAL_GUIDANCE,
+    morning_final_schema,
+    review_morning_final,
+)
 from csm_copilot.response_review import final_response_schema, parse_grounded_actions, review_final
 
 TASK = (
@@ -168,6 +173,7 @@ async def start_worker(args, env):
 
 async def run(args):
     task = TASKS[args.task]
+    review_morning = getattr(args, "review_morning_final", False)
     policy = MorningReviewPolicy() if args.enforce_dependencies else None
     env = dict(os.environ)
     env.update(
@@ -186,7 +192,9 @@ async def run(args):
         "task": task,
         "task_id": args.task,
         "host": "csm-copilot custom JSON-action host",
-        "protocol_version": {
+        "protocol_version": "4-morning-structured-final"
+        if review_morning
+        else {
             "single": "1-single-action",
             "batch": "2-bounded-batches",
             "grounded": "3-structured-final",
@@ -201,6 +209,7 @@ async def run(args):
         "sequence_dependencies": args.sequence_dependencies,
         "enforce_dependencies": args.enforce_dependencies,
         "constrain_actions": args.constrain_actions,
+        "review_morning_final": review_morning,
         "steps": [],
         "status": "initializing",
         "final": None,
@@ -264,6 +273,7 @@ async def run(args):
                 save()
                 for number in range(1, args.max_steps + 1):
                     policy_message = None
+                    final_contract_message = None
                     if policy:
                         policy_message = {
                             "role": "user",
@@ -278,9 +288,19 @@ async def run(args):
                             + json.dumps(policy.snapshot(), ensure_ascii=False),
                         }
                         messages.append(policy_message)
+                    if review_morning and not policy.pending:
+                        final_contract_message = {
+                            "role": "system",
+                            "content": MORNING_FINAL_GUIDANCE,
+                        }
+                        messages.append(final_contract_message)
                     request = {"messages": messages}
                     if args.constrain_actions:
-                        request["json_schema"] = policy.next_action_schema()
+                        request["json_schema"] = (
+                            morning_final_schema()
+                            if final_contract_message
+                            else policy.next_action_schema()
+                        )
                     coverage = trace_coverage(trace)
                     if args.constrain_final and coverage["observed"] == coverage["required"]:
                         request["json_schema"] = final_response_schema()
@@ -297,6 +317,8 @@ async def run(args):
                     if policy:
                         step["policy_before"] = policy.snapshot()
                         step["policy_message"] = policy_message
+                    if final_contract_message:
+                        step["final_contract_message"] = final_contract_message
                     if "json_schema" in request:
                         step["generation_schema"] = request["json_schema"]
                     trace["steps"].append(step)
@@ -346,7 +368,7 @@ async def run(args):
                     trace["model_inference"] = True
                     messages.append({"role": "assistant", "content": response["text"]})
                     try:
-                        if args.protocol == "grounded":
+                        if args.protocol == "grounded" or review_morning:
                             actions = parse_grounded_actions(response["text"], allowed)
                         elif args.protocol == "batch":
                             actions = parse_actions(response["text"], allowed)
@@ -371,8 +393,9 @@ async def run(args):
                     if "final" in actions[0]:
                         trace["final"] = actions[0]["final"]
                         trace["status"] = "final_response"
-                        if args.protocol == "grounded":
-                            trace["response_review"] = review_final(trace["final"], trace)
+                        if args.protocol == "grounded" or review_morning:
+                            reviewer = review_morning_final if review_morning else review_final
+                            trace["response_review"] = reviewer(trace["final"], trace)
                             step["response_review"] = trace["response_review"]
                             trace["status"] = trace["response_review"]["status"]
                             if trace["status"] == "rejected" and request_correction(
@@ -462,6 +485,11 @@ def main():
     )
     parser.add_argument("--repair-attempts", type=int, choices=(0, 1, 2), default=0)
     parser.add_argument(
+        "--review-morning-final",
+        action="store_true",
+        help="Require --enforce-dependencies; request and review structured morning-final fields while leaving prose unverified",
+    )
+    parser.add_argument(
         "--constrain-actions",
         action="store_true",
         help="Require --enforce-dependencies and optional lm-format-enforcer; decode one pending action per turn, then a final JSON string",
@@ -488,6 +516,8 @@ def main():
         parser.error("--response-timeout-seconds must be 1..600")
     if args.constrain_actions and not args.enforce_dependencies:
         parser.error("--constrain-actions requires --enforce-dependencies")
+    if args.review_morning_final and not args.enforce_dependencies:
+        parser.error("--review-morning-final requires --enforce-dependencies")
     if args.enforce_dependencies and (args.task != "morning_review" or args.protocol != "batch"):
         parser.error("--enforce-dependencies requires --task morning_review --protocol batch")
     if args.sequence_dependencies and (args.task != "morning_review" or args.protocol != "batch"):
@@ -501,7 +531,9 @@ def main():
     if args.output.exists():
         parser.error("Refusing to overwrite a trace; choose a new output path")
     status = asyncio.run(run(args))
-    if status in ("response_timeout", "worker_response_error", "model_error"):
+    if status in ("response_timeout", "worker_response_error", "model_error") or (
+        args.review_morning_final and status == "rejected"
+    ):
         raise SystemExit(1)
 
 

@@ -46,6 +46,8 @@ These are role attributions within saved runs, not a controlled comparison betwe
 
 In an interview, explain the intended benefit as a hypothesis: a conversational layer might make an established workflow easier to access or summarize. Then show the observed cost of that layer—an unsupported claim—and how a reviewer can trace it back to the tool result. A future usefulness comparison would need separately defined tasks, a baseline, independent review and an explicit measure of useful output or effort. None has been completed here. [Learning Session 3](LEARNING.md#session-3--understand-the-mcp-boundary-45-minutes) provides a no-model protocol exercise before comparing an actual model recording.
 
+The optional [morning final-answer contract](MORNING_FINAL.md) composes the dependency-policy replay with the existing readiness-field reviewer. It derives scope from observed queue/context results, adds selection, follow-up-purpose and handoff checks, and renders a separate summary on agreement. The host supplies the new contract after tool completion; scripted integration tests preserve the preceding seven requests. This is field checking, not a semantic validator of model prose, and it has not yet been exercised in a new model recording.
+
 ## Readiness aggregation
 
 1. A required check with `not_met` makes the integration `blocked`.
