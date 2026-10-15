@@ -56,6 +56,20 @@ test("the actual morning field-review recording exposes its rejected citation an
   assert.equal(JSON.stringify(input), before);
 });
 
+test("the actual compact-context run exposes its omission audit and unchanged citation failure", () => {
+  const input = trace("qwen4-morning-compact-context"), before = JSON.stringify(input);
+  const html = api.render(input);
+  assert.match(html, /Final context reduction/);
+  assert.match(html, /retained 18 of 25 messages/);
+  assert.match(html, /steps\[7\].context_reduction/);
+  assert.match(html, /Inspect omitted host messages and original positions/);
+  assert.match(html, /Turn 8 — Host rejected the structured response/);
+  assert.match(html, /lantern_android.evidence_ids/);
+  assert.match(html, /msg_issue_blank/);
+  assert.doesNotMatch(html, /Host correction request|Structured fields matched; prose still needs review/);
+  assert.equal(JSON.stringify(input), before);
+});
+
 test("a saved request without a response is not displayed as a model proposal", () => {
   for (const state of ["prepared", "sent", "response_timeout", "response_error", "cancelled", "host_error"]) {
     const input = {status: state, error_type: "TimeoutError", error_causes: [{type: "TimeoutError", message: "<script>"}], steps: [{
@@ -98,7 +112,7 @@ test("claim comparison keeps quoted source fields and review separate and escape
 
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
-  assert.equal(names.length, 16);
+  assert.equal(names.length, 17);
   for (const name of names) {
     const input = trace(name.slice(0, -5)), before = JSON.stringify(input);
     const html = api.render(input);

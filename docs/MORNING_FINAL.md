@@ -2,7 +2,7 @@
 
 The [fifteenth recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs) completes seven calls and returns an answer, but describes unknown currency approval and a recorded failed device check together as missing verification. Its final schema only requires a nonempty string. This optional host extension asks for explicit fields and checks them against the returned workflow before producing a separate summary.
 
-**Current evidence:** authored counterexamples, decoder-parser checks, scripted workers through the real MCP server and [one actual model attempt](LOCAL_MODEL.md#morning-field-review-a-real-citation-with-the-wrong-purpose). That attempt returns a schema-valid answer with the correct unknown/failed distinction, but the reviewer rejects an issue-only readiness citation. No correction occurs and no checked summary is issued. All fifteen earlier recordings retain their original contracts and outcomes. One attempt does not establish reliable generation or faithful prose.
+**Current evidence:** authored counterexamples, decoder-parser checks, scripted workers through the real MCP server and two actual model attempts: the [original field-review run](LOCAL_MODEL.md#morning-field-review-a-real-citation-with-the-wrong-purpose) and the [reduced-context run](LOCAL_MODEL.md#reduced-final-context-lower-recorded-latency-same-field-failure). Both return schema-valid answers with the correct unknown/failed distinction, but the reviewer rejects the same issue-only readiness citation. No correction occurs and no checked summary is issued. All fifteen earlier recordings retain their original contracts and outcomes. These two development attempts do not establish reliable generation or faithful prose.
 
 ## The contract
 
@@ -43,7 +43,7 @@ The recorded result is a rejected final answer, not a passing field review. The 
 
 ## Optional final context reduction
 
-The sixteenth attempt's final generation took 405.461 seconds. The optional `--compact-final-context` flag prepares a narrower input for a future latency experiment. It requires `--review-morning-final` and applies only after all tool work is complete. Existing defaults and all sixteen saved model recordings are unchanged; no model recording uses the reduction yet.
+The sixteenth attempt's final generation took 405.461 seconds. The optional `--compact-final-context` flag prepares a narrower final input. It requires `--review-morning-final` and applies only after all tool work is complete. The seventeenth recording uses the reduction: final input falls to 7,728 tokens and final generation takes 94.323 seconds, while the same citation mismatch remains. Existing defaults and all sixteen earlier recordings are unchanged. This single observed pair is not a general latency benchmark.
 
 The host records the position of each workflow-policy message when it creates that message. For a final request, it omits earlier policy messages and retains the latest policy, initial instructions, task, every model response and tool-result message, final contracts and any correction feedback. Selection uses these host-owned positions rather than matching customer text. The canonical conversation remains intact; a later correction builds its request from that full history again.
 

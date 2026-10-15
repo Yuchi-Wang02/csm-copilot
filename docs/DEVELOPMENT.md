@@ -1,5 +1,15 @@
 # Development notes
 
+## Record reduced input and unchanged citation failure separately
+
+One Qwen3-4B attempt used committed host `f87b540911c5bb6e0a8c5cf9516789cfcd088c9e` with optional final-context reduction. Runtime settings, initial messages, all seven tool-stage requests and returned model text match the preceding field-review attempt. The final request retains 18 of 25 messages and every tool result. Combining the saved omitted messages and retained positions reconstructs the preceding final history exactly. All sixteen earlier raw recordings remain unchanged.
+
+Final input fell from 9,386 to 7,728 tokens. Recorded final generation took 94.323 seconds versus 405.461 seconds, with 322 versus 314 output tokens. Every structured answer field is identical; only the explanation differs. The host again rejects the extra issue-report citation in Android readiness evidence, withholds the checked summary and performs no correction. The 52-word explanation still omits concrete next actions and evidence citations. This is one observed pair with uncontrolled hardware load and different prose, not a general latency or accuracy benchmark.
+
+The [recorded comparison](LOCAL_MODEL.md#reduced-final-context-lower-recorded-latency-same-field-failure) preserves raw SHA-256 `d22d9e66343c50b265720a358a1ae2ab62b26bbe154899d90c8b26ffecd967d6`. New checks verify unchanged tool work, complete history reconstruction, transmitted request fingerprints and the reproducible rejection. All 514 Python tests, 111 JavaScript tests and Ruff checks passed. Local Edge inspection confirmed seventeen recordings, the eighth-turn rejection and the exact context-omission audit. Both pages of the refreshed brief were rendered and visually inspected; seven links remain.
+
+The portfolio now separates execution time from answer quality. This recording postdates the fixed v0.29.8 bundle. The comparison is AI-assisted; no independent human evaluation or personal practice response was completed.
+
 ## Reduce the final request while preserving its complete history
 
 The sixteenth model attempt spent 405.461 seconds generating its final response. An optional `--compact-final-context` flag now prepares a narrower request for a future experiment: only superseded host policy messages are omitted after tool work completes. The host records message positions as it creates them, retains the latest policy and every task, model, tool-result, contract and correction message, and keeps the canonical conversation intact. Each request saves retained positions and the exact omitted messages so the original history can be reconstructed. Default requests and all sixteen historical recordings remain unchanged.

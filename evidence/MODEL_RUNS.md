@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Sixteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Seventeen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -303,6 +303,32 @@ Structured review: **rejected**. Free explanation: **not semantically verified**
 ### Unedited model response — needs review
 
 > Account acc\_014 was selected due to being non-live and over three days since contact. Lantern Android is blocked due to unknown currency approval, Test Only status, and callback verification, with device verification failed. Lantern iOS is checklist complete. The issue\_blank requires additional evidence. Nothing was sent.
+
+Narrow promise lint flags: []. No flags does not establish fidelity.
+
+## Qwen3-4B · reduced final context
+
+**Review verdict:** Shorter input and faster recorded response; same citation rejected.
+The final request retains 18 of 25 messages and every tool result. Its input is 7,728 tokens, versus 9,386 previously; final generation takes 94.323 seconds, versus 405.461, with 322 versus 314 output tokens. The structured fields are unchanged and the same issue-only readiness citation is rejected. The 52-word explanation still omits concrete next actions and evidence citations. This single development pair is not a general speed or accuracy benchmark.
+
+**Task:** Use the fixed synthetic snapshot to find non-live accounts strictly more than three days since recorded contact, including unknown contact history. From the returned queue, select the first account under its planned-launch ordering. Retrieve that account's context, check each of its integrations and prepare an English follow-up for each. Prepare a handoff for each recorded issue on that account. Then explain in at most 220 words why it was selected, how its platform next steps differ, and what is missing from its handoffs. Cite source IDs for recorded facts. Keep missing evidence separate from recorded failures; do not imply launch approval, a confirmed cause or issue resolution. State that nothing was sent or submitted.
+
+Observed requested tool actions: 7/7. Final response present: True.
+[Complete trace](model-runs/qwen4-morning-compact-context.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+- **control: Only superseded host policy messages leave the final request.** Host source f87b540911c5bb6e0a8c5cf9516789cfcd088c9e adds --compact-final-context. Model revision, recorded runtime settings, task, initial messages, eight-turn cap, 600-second response budget and zero-correction budget match the preceding field-review attempt. All seven tool-stage requests, model proposals and tool results match exactly. The final contract and generation schema are unchanged.
+- **provenance: 18 retained messages reconstruct the same 25-message history.** The final request omits seven earlier host policy messages by recorded position. It retains the current policy, original instructions and task, every model proposal, every tool-result message and the final contract. The omission audit stores the exact removed messages and positions. Combining it with retained messages reconstructs the preceding run's complete final history exactly; no tool evidence was summarized or removed.
+- **timing: 9,386 to 7,728 input tokens; 405.461 to 94.323 final-generation seconds.** The worker reports 7,728 input tokens and 322 generated tokens without reaching the 1536-token cap. The preceding run generated 314 tokens. These are two observed final-generation times, not total workflow times. Hardware load and timing were not controlled and the wording differs, so the pair does not establish a general speedup, causal latency estimate or production performance guarantee.
+- **unchanged\_failure: The same issue-only readiness citation is rejected.** Every structured final field except explanation is identical to the preceding attempt. Android readiness evidence again adds msg\_issue\_blank to the three readiness sources. The host returns the same single lantern\_android.evidence\_ids mismatch, exits 1 and withholds the checked summary. Unknown/failed distinctions, both follow-up purposes and handoff fields still agree with the tools. No correction or retry occurs.
+- **incomplete: Shorter context does not supply the missing explanation.** The 52-word prose names Lantern Games, distinguishes unknown checks from the failed device check and states that nothing was sent or submitted. It does not explain the contact threshold and first-account planned-launch ordering, specify platform next actions, name the missing handoff fields or cite evidence IDs. Field values elsewhere in the JSON do not make the prose complete. This is AI-assisted review; the host leaves free\_text\_verification=not\_performed.
+- **boundary: Preserve a runtime observation separately from answer quality.** This is one additional development attempt on the same inspected synthetic task. All sixteen earlier raw traces remain unchanged. The result does not establish a reliability gain, customer outcome, production time saving, independent human validation or personal mastery. The rejected payload and complete omission audit remain inspectable.
+
+Structured review: **rejected**. Free explanation: **not semantically verified**.
+
+
+### Unedited model response — needs review
+
+> Account acc\_014 \(Lantern Games\) was selected due to its recorded contact and planned launch. Android platform is blocked due to unknown currency approval, Test Only status, and callback verification, along with a failed device verification. iOS platform is checklist complete. The issue on Android requires missing evidence. Nothing was sent or submitted.
 
 Narrow promise lint flags: []. No flags does not establish fidelity.
 
