@@ -53,6 +53,10 @@ An authored check replays the sixteenth recording's final input through this hel
 
 Add `--compact-final-context` to the command above for a new experiment with a fresh output path. Compare recorded input tokens, generation time, field review and explanation quality; a shorter input alone establishes none of the latter outcomes. See [the helper](../src/csm_copilot/host_context.py), [preservation checks](../tests/test_host_context.py) and [integration checks](../tests/test_host_dependency_integration.py).
 
+## Recorded correction after the citation rejection
+
+The [eighteenth attempt](LOCAL_MODEL.md#one-correction-matching-fields-unchanged-explanation) permits one correction and a ninth turn. Its first eight requests and response texts reproduce the reduced-context attempt exactly. The host supplies the expected readiness source list; the model removes the extra issue citation, retains its handoff use and matches the checked fields. The explanation remains identical. The saved ninth request includes the rejected answer, feedback and every tool result, with its own context-omission audit. This is an observed recovery with expected-value assistance, not independent self-correction.
+
 ## Checked summary versus model prose
 
 On agreement, the host renders a separate summary from the actual queue, readiness, follow-up and handoff results. It preserves unknown versus failed checks, citations and distinct next actions. The model's own explanation remains separate, and the browser identifies the final-contract message as host assistance.

@@ -6,15 +6,28 @@ const api = require("../demo/model-turns.js");
 const directory = path.join(__dirname, "../evidence/model-runs");
 const trace = (id) => JSON.parse(fs.readFileSync(path.join(directory, id + ".json"), "utf8"));
 
+test("morning correction keeps the rejected answer, supplied feedback and unverified prose distinct", () => {
+  const input = trace("qwen4-morning-correction"), before = JSON.stringify(input);
+  const html = api.render(input);
+  assert.match(html, /Turn 8 — Host rejected the structured response/);
+  assert.match(html, /Turn 9 — Structured fields matched; prose still needs review/);
+  assert.equal((html.match(/<h4>Host correction request 1<\/h4>/g) || []).length, 1);
+  assert.match(html, /It may include expected values; this is assisted recovery/);
+  assert.match(html, /retained 21 of 29 messages/);
+  assert.equal(input.steps[7].actions[0].final.explanation, input.final.explanation);
+  assert.equal(input.steps[8].tool_calls, undefined);
+  assert.equal(JSON.stringify(input), before);
+});
+
 test("morning comparison separates recorded coverage, missing finals and field rejection", () => {
   const review = JSON.parse(fs.readFileSync(path.join(directory, "review.json"), "utf8"));
   const runs = review.runs.map((entry) => ({...entry, trace: trace(entry.id)}));
   const before = JSON.stringify(runs), html = api.renderMorningComparison(runs);
-  assert.equal((html.match(/<th scope="row">/g) || []).length, 7);
+  assert.equal((html.match(/<th scope="row">/g) || []).length, 8);
   assert.equal((html.match(/0 \/ 7 requested actions observed/g) || []).length, 3);
-  assert.equal((html.match(/7 \/ 7 requested actions observed/g) || []).length, 4);
+  assert.equal((html.match(/7 \/ 7 requested actions observed/g) || []).length, 5);
   assert.equal((html.match(/No final response recorded/g) || []).length, 4);
-  assert.equal((html.match(/<p>Final response recorded<\/p>/g) || []).length, 3);
+  assert.equal((html.match(/<p>Final response recorded<\/p>/g) || []).length, 4);
   assert.equal((html.match(/Field review: <code>rejected/g) || []).length, 2);
   assert.match(html, /Host status: <code>host_error/);
   assert.match(html, /Response wait budget<\/dt><dd>Not recorded/);
@@ -152,7 +165,7 @@ test("claim comparison keeps quoted source fields and review separate and escape
 
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
-  assert.equal(names.length, 17);
+  assert.equal(names.length, 18);
   for (const name of names) {
     const input = trace(name.slice(0, -5)), before = JSON.stringify(input);
     const html = api.render(input);

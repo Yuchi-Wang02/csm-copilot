@@ -1,8 +1,8 @@
 # An actual model run, including the failures
 
-The project contains seventeen exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
+The project contains eighteen exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
 
-The newest attempt adds constrained decoding to the host dependency policy. It completes the queue, selected account context, both readiness checks, both English drafts and the issue handoff in seven turns. The host then times out waiting for the final explanation. This is completed tool work under host assistance, not a complete model-written answer. The preceding three morning attempts remain unchanged with zero executed calls. Each returned turn exposes its host state, decoding schema, model proposal and actual tool result.
+The queue-first sequence separates several failure modes. The first three morning attempts stop before tool execution. Constrained actions then complete seven calls but time out on the final answer. A longer response budget returns prose with evidence-state gaps; structured field review subsequently catches an issue report used as a readiness citation. Reducing the final context preserves that same citation failure. The dated source references and complete recordings below retain each outcome and its host assistance, rather than treating the sequence as a controlled benchmark.
 
 **The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
@@ -63,7 +63,7 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 Since v0.26, the browser also renders the existing trace as a turn-by-turn conversation. It distinguishes parsed model proposals, recorded tool calls and errors, parser rejection, structured-field checks, and host correction requests. A model proposal is not counted as an executed call. Correction feedback is labeled as host-supplied assistance, including when it provides expected values. Final prose remains unverified even after fields match. The view retains initial messages, unedited model output and the full raw steps; no historical file is rewritten.
 
-Browser-logic tests cover all seventeen recordings, the four-call unsupported answer, parser rejection with no execution, host state and decoding schemas, seven successful calls ending in a host error without final prose, distinct dependency-rejection and result-failure displays, a tool error beside successful calls, field-review corrections and escaped data. These are presentation and provenance checks, not model-quality scores. Dependency rejection and result-failure display tests use constructed cases; the policy-enabled model recording stops earlier, at parsing.
+Browser-logic tests cover all eighteen recordings, the four-call unsupported answer, parser rejection with no execution, host state and decoding schemas, seven successful calls ending in a host error without final prose, distinct dependency-rejection and result-failure displays, a tool error beside successful calls, field-review corrections and escaped data. These are presentation and provenance checks, not model-quality scores. Dependency rejection and result-failure display tests use constructed cases; the policy-enabled model recording stops earlier, at parsing.
 
 The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, two exact-message triage calls for inbound scope review, and seven fixed-fixture calls for morning review. Coverage does not check dependency order or prove that IDs were discovered from tool results; inspect the sequence separately. The separate source review examines final prose when present. Do not combine these into one unqualified accuracy number.
 
@@ -300,3 +300,31 @@ Every structured final field except `explanation` is identical to the preceding 
 The 52-word explanation names Lantern Games, preserves unknown versus failed checks and says nothing was sent or submitted. It still does not explain the contact threshold and first-account ordering, specify platform-specific next actions, list the missing handoff fields or cite evidence IDs. Correct fields elsewhere in the JSON do not fill those gaps in the prose. This is AI-assisted source comparison, not independent human evaluation.
 
 [Open the reduced-context replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-compact-context#model-runs), [compare the prior run](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-field-review#model-runs), or inspect the [raw trace](../evidence/model-runs/qwen4-morning-compact-context.json). SHA-256: `d22d9e66343c50b265720a358a1ae2ab62b26bbe154899d90c8b26ffecd967d6`. All sixteen earlier raw traces remain unchanged. This recording postdates the fixed v0.29.8 bundle. It demonstrates why input reduction, latency, field correctness and explanation usefulness should be assessed separately.
+
+
+## One correction: matching fields, unchanged explanation
+
+The eighteenth attempt uses host source `5412145c0f5207a3ab0bae3cdcf7e72315c28ac2`. It keeps the preceding reduced-context configuration and allows **one correction** with a **nine-turn cap**. Model revision, recorded runtime settings, task, initial instructions, final contract, decoder schema and 600-second response budget match. The first eight worker requests and model response texts are identical to the seventeenth recording, including the rejected final answer; all seven tool results match exactly. Hardware load and timing are not controlled.
+
+The host supplies the expected readiness citation list after the same `lantern_android.evidence_ids` mismatch. Turn 9 removes `msg_issue_blank` from Android readiness evidence while keeping it in the handoff. **Every other field, including the 52-word explanation, is unchanged.** The host exits 0 with `status=structured_fields_match`, no review issues and a separate system-rendered summary. This is recovery with supplied expected values on an inspected task, not independent self-correction or a reliability estimate.
+
+| Recorded final response | Initial answer | After one correction |
+|---|---:|---:|
+| Turn | 8 | 9 |
+| Input tokens | 7,728 | 8,540 |
+| Generated tokens | 322 | 318 |
+| Generation seconds | 86.177 | 264.883 |
+| Field review | Rejected | Structured fields match |
+| Explanation words | 52 | 52, identical text |
+
+The correction request retains 21 of 29 messages. It includes all tool results, the rejected answer, both final-contract messages and the explicit correction feedback; eight superseded policy messages are recorded in the omission audit. The saved requests and hashes permit exact reconstruction. No tool call is repeated and neither final generation hits the output cap. These are observed response measurements, not total workflow time or a general latency comparison.
+
+The explanation still omits the contact-threshold and first-account ordering rationale, the distinct platform next actions, the three missing handoff fields and source IDs. It preserves unknown versus failed checks and the nothing-sent statement. The host explicitly leaves `free_text_verification=not_performed`; the system-rendered summary supplies checked tool facts separately. This prose assessment is AI-assisted rather than independent human review.
+
+Reproduction uses the same cached model and local worker environment described above, a fresh output path, and these arguments:
+
+```sh
+python scripts/run_local_host.py --model-python <local-model-python> --model-path <cached-Qwen3-4B-snapshot> --model-id Qwen/Qwen3-4B --revision 1cfa9a7208912126459214e8b04321603b3df60c --task morning_review --protocol batch --enforce-dependencies --constrain-actions --review-morning-final --compact-final-context --response-timeout-seconds 600 --max-steps 9 --max-new-tokens 1536 --repair-attempts 1 --output <new-trace-path>
+```
+
+[Open the correction replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-correction#model-runs), [inspect the raw trace](../evidence/model-runs/qwen4-morning-correction.json), or review the [recording audit](../tests/test_morning_correction_recording.py). SHA-256: `30e84bfb72ba5b9918a74c64137403c421149889119179da82cb284e07347e50`. All seventeen earlier raw traces and their review entries remain unchanged. This recording postdates the fixed v0.30.1 package. It adds a concrete example of a repaired structured claim alongside an unchanged, incomplete explanation; no customer outcome or personal mastery is inferred.

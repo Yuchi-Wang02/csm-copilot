@@ -60,6 +60,8 @@ For an overview of that development sequence, expand **Compare the morning-revie
 
 For the next failure-to-fix step, open the [morning field-review attempt](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-field-review#model-runs). The answer now separates unknown and failed checks, but the host rejects an issue report included among readiness citations. Explain why a real source on the correct platform can still serve the wrong evidentiary purpose. Show the exact final contract as host assistance, the single mismatch and the unedited explanation. No correction was attempted; the result is a useful rejection, not a successful final answer or evidence of independent self-correction.
 
+For the subsequent repair, open the [one-correction morning run](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-correction#model-runs). Compare turn 8's rejected source list with the host's explicit expected-value feedback and turn 9's matching fields. Only the extra readiness citation changes; the 52-word explanation stays identical. Explain why this is a useful assisted repair while the customer explanation still needs work. Keep the system-rendered summary separate from model prose. This recording postdates the fixed v0.30.1 ZIP.
+
 ## Optional deeper walkthrough
 
 Open this only after the short story, or use it to prepare for a longer conversation. Choose one customer, AI or evaluation branch relevant to the interviewer's question; it is not part of the three-minute pacing plan.

@@ -479,9 +479,48 @@
           "assessment": "This is one additional development attempt on the same inspected synthetic task. All sixteen earlier raw traces remain unchanged. The result does not establish a reliability gain, customer outcome, production time saving, independent human validation or personal mastery. The rejected payload and complete omission audit remain inspectable."
         }
       ]
+    },
+    {
+      "id": "qwen4-morning-correction",
+      "label": "Qwen3-4B · one morning-field correction",
+      "protocol": "batch + constrained actions + structured final + reduced policy history + one correction",
+      "verdict": "One supplied correction fixes the citation; explanation stays unchanged",
+      "summary": "All seven tool calls complete. The first answer repeats the issue-only readiness citation and is rejected. Host feedback supplies the expected source list; the next answer removes only that extra readiness citation and matches the structured fields. The 52-word explanation is unchanged and still omits specific next actions and citations. This is assisted recovery on one inspected task, not independent self-correction.",
+      "findings": [
+        {
+          "kind": "control",
+          "claim": "The first eight requests and model texts match the prior attempt",
+          "assessment": "Host source 5412145c0f5207a3ab0bae3cdcf7e72315c28ac2 keeps the model revision, runtime settings, task, final contract, constrained actions and reduced context. The turn cap changes from eight to nine and the correction budget from zero to one. All seven tool results also match the prior run exactly. Timing and hardware load are not controlled."
+        },
+        {
+          "kind": "assistance",
+          "claim": "Expected values are supplied after the original rejection",
+          "assessment": "Turn 8 retains the rejected answer and its single lantern_android.evidence_ids mismatch. The recorded host feedback gives the three expected readiness source IDs and the observed list containing msg_issue_blank. Turn 9 retains that feedback, the original answer and every tool-result message. Its reduced request keeps 21 of 29 messages with an exact omission audit."
+        },
+        {
+          "kind": "repair",
+          "claim": "Only the extra readiness citation changes",
+          "assessment": "The corrected JSON removes msg_issue_blank from Android readiness evidence while retaining it in the handoff. Every other field, including the explanation, is unchanged. Field review reports structured_fields_match with no issues and renders a separate summary from the tool results. Source truth, freshness and free prose are not verified."
+        },
+        {
+          "kind": "incomplete",
+          "claim": "The same 52-word explanation remains",
+          "assessment": "The prose still lacks the contact-threshold and first-account ordering explanation, distinct Android and iOS next actions, the three missing intake fields and evidence IDs. Its unknown-versus-failed distinction and nothing-sent statement remain. A corrected field list does not complete the requested customer explanation. This assessment is AI-assisted, not independent human review."
+        },
+        {
+          "kind": "cost",
+          "claim": "One additional model response, with no repeated tool calls",
+          "assessment": "The initial final response uses 7,728 input and 322 output tokens in 86.177 generation seconds. The correction uses 8,540 input and 318 output tokens in 264.883 seconds. These are recorded response measurements from one run, not total workflow time or a general performance estimate. Neither response reaches the 1536-token cap."
+        },
+        {
+          "kind": "boundary",
+          "claim": "A useful repair with visible assistance and remaining work",
+          "assessment": "The host exits 0 after one correction; nothing was sent or submitted. All seventeen earlier raw recordings remain unchanged. The checked summary is system-rendered and the unchanged model explanation remains unverified. This attempt does not establish a reliability rate, customer outcome or personal mastery."
+        }
+      ]
     }
   ],
-  "boundary": "Seventeen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Eighteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

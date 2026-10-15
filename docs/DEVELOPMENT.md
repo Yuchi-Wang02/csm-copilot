@@ -1,5 +1,15 @@
 # Development notes
 
+## Record a bounded correction that fixes fields but leaves prose unchanged
+
+The eighteenth actual Qwen3-4B attempt uses the existing reduced-context morning host with one correction and a nine-turn cap. Its first eight requests and model texts reproduce the preceding attempt exactly. All seven calls complete, then the same extra Android readiness citation is rejected. The host supplies the expected source list. The ninth response removes only that citation, retains its handoff use and reaches structured_fields_match. Every other field, including the 52-word explanation, stays unchanged. The original failure, expected-value feedback and corrected answer remain in one trace; no repeated tool call or hidden retry occurred.
+
+The raw recording is 420,294 bytes with SHA-256 `30e84bfb72ba5b9918a74c64137403c421149889119179da82cb284e07347e50`. The correction input retains 21 of 29 messages, including every tool result, the original answer and feedback. Two added audits reconstruct requests, omission records and fingerprints, compare tools with the engine, reproduce each field review and verify the single citation change. The general prompt/coverage audit now includes the new trace. One browser-logic check preserves the distinction between rejection, host-supplied correction and matching fields with unverified prose. All 517 Python and 118 JavaScript tests pass locally, along with Ruff.
+
+The replay now presents eighteen recordings and eight morning attempts. Edge inspection confirmed turn 8's rejection and expected-value feedback, turn 9's matching fields and context audit, and the separate system-rendered summary with concrete next actions. The single-correction notice uses singular wording. No browser errors were recorded. Both pages of the refreshed project brief were rendered and visually inspected; its seven links remain and the evidence fingerprint is `e5a03bc324ff`. The experiment guide's stale opening description was replaced with the observed sequence.
+
+The unchanged prose still lacks the selection rationale, distinct next actions, missing handoff fields and citations. The source review is AI-assisted; supplying expected values is disclosed assistance. All seventeen earlier raw recordings and their review entries remain unchanged. No personal practice was completed. This evidence postdates the fixed v0.30.1 ZIP and does not replace its assets.
+
 ## Package the comparison and six practice decisions for presentation
 
 The v0.30.1 source includes a portable English `PRESENTATION.txt` alongside the demo and PDFs. It provides a proposed three-minute customer story, routes into the original AI failure and citation-purpose exercise, and blank preparation prompts. It distinguishes a presentation aid from personal learning evidence and explains that local share links lead to the evolving public site. The hero exposes the text download. The bundle start guide mentions it only when that file exists in the selected committed tree, preserving appropriate instructions for older revisions.

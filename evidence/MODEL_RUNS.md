@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Seventeen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Eighteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -325,6 +325,58 @@ Observed requested tool actions: 7/7. Final response present: True.
 
 Structured review: **rejected**. Free explanation: **not semantically verified**.
 
+
+### Unedited model response — needs review
+
+> Account acc\_014 \(Lantern Games\) was selected due to its recorded contact and planned launch. Android platform is blocked due to unknown currency approval, Test Only status, and callback verification, along with a failed device verification. iOS platform is checklist complete. The issue on Android requires missing evidence. Nothing was sent or submitted.
+
+Narrow promise lint flags: []. No flags does not establish fidelity.
+
+## Qwen3-4B · one morning-field correction
+
+**Review verdict:** One supplied correction fixes the citation; explanation stays unchanged.
+All seven tool calls complete. The first answer repeats the issue-only readiness citation and is rejected. Host feedback supplies the expected source list; the next answer removes only that extra readiness citation and matches the structured fields. The 52-word explanation is unchanged and still omits specific next actions and citations. This is assisted recovery on one inspected task, not independent self-correction.
+
+**Task:** Use the fixed synthetic snapshot to find non-live accounts strictly more than three days since recorded contact, including unknown contact history. From the returned queue, select the first account under its planned-launch ordering. Retrieve that account's context, check each of its integrations and prepare an English follow-up for each. Prepare a handoff for each recorded issue on that account. Then explain in at most 220 words why it was selected, how its platform next steps differ, and what is missing from its handoffs. Cite source IDs for recorded facts. Keep missing evidence separate from recorded failures; do not imply launch approval, a confirmed cause or issue resolution. State that nothing was sent or submitted.
+
+Observed requested tool actions: 7/7. Final response present: True.
+[Complete trace](model-runs/qwen4-morning-correction.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+- **control: The first eight requests and model texts match the prior attempt.** Host source 5412145c0f5207a3ab0bae3cdcf7e72315c28ac2 keeps the model revision, runtime settings, task, final contract, constrained actions and reduced context. The turn cap changes from eight to nine and the correction budget from zero to one. All seven tool results also match the prior run exactly. Timing and hardware load are not controlled.
+- **assistance: Expected values are supplied after the original rejection.** Turn 8 retains the rejected answer and its single lantern\_android.evidence\_ids mismatch. The recorded host feedback gives the three expected readiness source IDs and the observed list containing msg\_issue\_blank. Turn 9 retains that feedback, the original answer and every tool-result message. Its reduced request keeps 21 of 29 messages with an exact omission audit.
+- **repair: Only the extra readiness citation changes.** The corrected JSON removes msg\_issue\_blank from Android readiness evidence while retaining it in the handoff. Every other field, including the explanation, is unchanged. Field review reports structured\_fields\_match with no issues and renders a separate summary from the tool results. Source truth, freshness and free prose are not verified.
+- **incomplete: The same 52-word explanation remains.** The prose still lacks the contact-threshold and first-account ordering explanation, distinct Android and iOS next actions, the three missing intake fields and evidence IDs. Its unknown-versus-failed distinction and nothing-sent statement remain. A corrected field list does not complete the requested customer explanation. This assessment is AI-assisted, not independent human review.
+- **cost: One additional model response, with no repeated tool calls.** The initial final response uses 7,728 input and 322 output tokens in 86.177 generation seconds. The correction uses 8,540 input and 318 output tokens in 264.883 seconds. These are recorded response measurements from one run, not total workflow time or a general performance estimate. Neither response reaches the 1536-token cap.
+- **boundary: A useful repair with visible assistance and remaining work.** The host exits 0 after one correction; nothing was sent or submitted. All seventeen earlier raw recordings remain unchanged. The checked summary is system-rendered and the unchanged model explanation remains unverified. This attempt does not establish a reliability rate, customer outcome or personal mastery.
+
+Structured review: **structured_fields_match**. Free explanation: **not semantically verified**.
+
+### System-rendered summary from checked tool fields
+
+> First account in the returned snapshot queue: Lantern Games \(acc\_014\).
+> Contact state: recorded; days since contact: 5.0; days to planned launch: 2.0.
+> Contact sources: contact\_acc\_014.
+> Moon Garden / Android: blocked.
+> - Platform currency approval: unknown \[no applicable record\].
+> - Production visibility setting: unknown \[no applicable record\].
+> - Placement and content: met \[lantern\_android\_placement\_linked\].
+> - SDK connection sequence: met \[lantern\_android\_sdk\_connected\].
+> - Non-test device verification: not\_met \[lantern\_android\_device\_verified\].
+> - Reward callback verification: unknown \[no applicable record\].
+> Proposed next action: Review and send the evidence request, then reassess when new records arrive.
+> Moon Garden / iOS: checklist\_complete.
+> - Platform currency approval: met \[lantern\_ios\_currency\_approved\].
+> - Production visibility setting: met \[lantern\_ios\_test\_only\_off\].
+> - Placement and content: met \[lantern\_ios\_placement\_linked\].
+> - SDK connection sequence: met \[lantern\_ios\_sdk\_connected\].
+> - Non-test device verification: met \[lantern\_ios\_device\_verified\].
+> - Reward callback verification: met \[lantern\_ios\_callback\_verified\].
+> Proposed next action: Review the launch plan and confirm any changes since the recorded checks.
+> Nothing was sent. This scoped checklist does not grant launch approval.
+> Issue issue\_blank: needs\_information; root cause: unconfirmed.
+> Missing intake: sdk\_version, time\_window, redacted\_logs.
+> Issue sources: msg\_issue\_blank.
+> Proposed next action: Request missing evidence, then review the handoff; no ticket was submitted.
 
 ### Unedited model response — needs review
 

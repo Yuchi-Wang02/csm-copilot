@@ -391,7 +391,7 @@ function renderResponseReview(run) {
   const review = run.trace.response_review;
   const corrections = run.trace.steps.filter((s) => s.correction_feedback);
   let html = corrections.length
-    ? `<p class="boundary">${corrections.length} correction requests recorded. Original responses and exact feedback remain in the raw trace.</p>`
+    ? `<p class="boundary">${corrections.length} correction ${corrections.length === 1 ? "request" : "requests"} recorded. Original responses and exact feedback remain in the raw trace.</p>`
     : "";
   if (!review) return html;
   html += `<div class="structured-review"><h3>Structured field review</h3><strong>${esc(review.status.replaceAll("_", " "))}</strong><p>Free-form explanation: not semantically verified. Human review remains required.</p>${review.issues.length ? `<ul>${review.issues.map((i) => `<li>${esc(i.field)}: ${esc(i.code)}</li>`).join("")}</ul>` : "<p>The declared states and readiness source IDs match the observed tool outputs.</p>"}${review.checked_summary ? `<details><summary>Inspect system-rendered checked summary</summary><pre class="checked-summary">${esc(review.checked_summary)}</pre></details>` : ""}<p class="boundary">${esc(review.boundary)}</p></div>`;
