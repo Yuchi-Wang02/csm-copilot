@@ -1,42 +1,46 @@
 # Build a portable interview demo
 
-The [v0.29.8 prerelease](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.29.8) is a fixed interview package pinned to commit `90670ba0cc31ee83c985da0b1ce1f38a4d7b4e86`. It includes the interactive case explorer, bilingual review briefs, five practice decisions, ten recorded model attempts, the two-page project brief and the one-page publisher teaching handout.
+The [v0.30.0 prerelease](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.30.0) is a fixed interview package pinned to commit `d899e2625bb3aaf5cb9a8d8b3ee67a2794c338da`. It includes the interactive case explorer, bilingual review briefs, five practice decisions, seventeen recorded model attempts, the two-page project brief and the one-page publisher teaching handout.
 
-Compared with v0.29.7, the static demo previews saved practice choices, initial reasoning and later reflections before replacement; cancellation restores keyboard focus. Customer drafts include a read-only manual-copy field that also opens on clipboard failure. The tagged Python source adds issue descriptions and scope-first clarification to terminal reviews. Its learning material includes a runnable MCP exercise and an explicit model-versus-baseline explanation. Python source changes do not execute inside the static ZIP.
+Compared with v0.29.8, seven additional recordings follow a queue-first morning review. The replay exposes host planning assistance, saved requests, final-field rejections and an exact context-omission audit. The latest pair returned sooner with reduced input but retained the same citation error. These are inspectable development attempts, not a model ranking or general performance benchmark. The tagged Python source includes the optional host policies and request-preservation changes; Python does not execute inside the static ZIP.
 
 ## Choose the right take-away
 
 | Item | Use it for |
 |---|---|
 | [Hosted portfolio](https://yuchi-wang02.github.io/csm-copilot/) | Open the interactive review with no setup; it may advance after this release |
-| [csm-copilot-demo-v0.29.8.zip](https://github.com/Yuchi-Wang02/csm-copilot/releases/download/v0.29.8/csm-copilot-demo-v0.29.8.zip) | Keep a fixed static demo with both PDFs, review briefs and recorded results |
+| [csm-copilot-demo-v0.30.0.zip](https://github.com/Yuchi-Wang02/csm-copilot/releases/download/v0.30.0/csm-copilot-demo-v0.30.0.zip) | Keep a fixed static demo with both PDFs, review briefs and recorded results |
 | GitHub's Source code archives on the release page | Inspect the Python implementation, tests and full documentation at the tag |
 
-Extract the entire demo ZIP and read `START_HERE.txt`. Start with `project-brief.pdf` for the overview or `publisher-teaching-example.pdf` for a customer-education example. The guide provides a localhost HTTP command for the interactive review. Direct file opening remains unverified; use the PDFs or hosted site if local browser restrictions prevent the walkthrough.
+Extract the entire ZIP and read `START_HERE.txt`. Start with `project-brief.pdf` for the overview or `publisher-teaching-example.pdf` for a customer-education example. The guide provides a localhost HTTP command for the interactive review. Direct file opening remains unverified; use the PDFs or hosted site if local browser restrictions prevent the walkthrough.
 
 Write your own practice reasoning before revealing guidance. Save a progress JSON file to resume later; readable Markdown notes are a separate download. The package includes no personal responses. See [practice-file compatibility and limits](PRACTICE.md#resume-without-rewriting-the-learning-record).
 
-The full Markdown guides are not separate files inside the demo ZIP. For this exact release, use the pinned [learning guide](https://github.com/Yuchi-Wang02/csm-copilot/blob/90670ba0cc31ee83c985da0b1ce1f38a4d7b4e86/docs/LEARNING.md), [interview script](https://github.com/Yuchi-Wang02/csm-copilot/blob/90670ba0cc31ee83c985da0b1ce1f38a4d7b4e86/docs/INTERVIEW.md), [teaching example](https://github.com/Yuchi-Wang02/csm-copilot/blob/90670ba0cc31ee83c985da0b1ce1f38a4d7b4e86/docs/CLIENT_EDUCATION.md) and [local setup guide](https://github.com/Yuchi-Wang02/csm-copilot/blob/90670ba0cc31ee83c985da0b1ce1f38a4d7b4e86/docs/LOCAL_SETUP.md). External documentation requires internet access; application links may point to the evolving site or repository.
+The full Markdown guides are not separate files inside the demo ZIP. For this exact release, use the pinned [learning guide](https://github.com/Yuchi-Wang02/csm-copilot/blob/d899e2625bb3aaf5cb9a8d8b3ee67a2794c338da/docs/LEARNING.md), [interview script](https://github.com/Yuchi-Wang02/csm-copilot/blob/d899e2625bb3aaf5cb9a8d8b3ee67a2794c338da/docs/INTERVIEW.md), [model experiment notes](https://github.com/Yuchi-Wang02/csm-copilot/blob/d899e2625bb3aaf5cb9a8d8b3ee67a2794c338da/docs/LOCAL_MODEL.md) and [local setup guide](https://github.com/Yuchi-Wang02/csm-copilot/blob/d899e2625bb3aaf5cb9a8d8b3ee67a2794c338da/docs/LOCAL_SETUP.md). External documentation requires internet access; application links may point to the evolving site or repository.
 
 ## Verify the fixed package
 
-The published ZIP is **863,989 bytes**. Its SHA-256 is:
+The published ZIP is **2,134,863 bytes**. Its SHA-256 is:
 
 ```text
-55042d9d29ed996838b8cc0e86072aaf59a48b4fb046fe51cd14206b98fde9a5
+85504841bc0557c12219047f63adc7bad921b8a48dc99131b5726153e88dbe10
 ```
 
 In PowerShell, from the folder containing the download:
 
 ```powershell
-Get-FileHash -LiteralPath .\csm-copilot-demo-v0.29.8.zip -Algorithm SHA256
+Get-FileHash -LiteralPath .\csm-copilot-demo-v0.30.0.zip -Algorithm SHA256
 ```
 
-The release also provides a `.zip.sha256` file. All 26 committed demo files were checked byte-for-byte against the pinned Git tree, the generated guide matched its manifest hash, and ZIP integrity passed. With `START_HERE.txt` and `SHA256SUMS.json`, the archive contains 28 entries. The local, Windows and Ubuntu builds produced the same inner ZIP checksum in [the source commit's CI run](https://github.com/Yuchi-Wang02/csm-copilot/actions/runs/38653207565), which passed 335 Python tests, 100 JavaScript tests and installed CLI/MCP checks on both runners.
+The release also provides a `.zip.sha256` file. All 26 committed demo files were checked byte-for-byte against the pinned Git tree, the generated guide matched its manifest hash, and ZIP integrity passed. With `START_HERE.txt` and `SHA256SUMS.json`, the archive contains 28 entries. Downloaded Windows and Ubuntu CI archives match the local build exactly. The public ZIP and checksum downloads also match the local files. The [source verification run](https://github.com/Yuchi-Wang02/csm-copilot/actions/runs/38669105626) passed 514 Python tests, 111 JavaScript tests, generated-artifact checks and isolated installed CLI/MCP checks on both runners.
 
-The extracted package was opened over localhost HTTP in Edge. Its version banner displayed v0.29.8. Manual keyboard selection captured all 621 characters of the English Android draft and matched the displayed draft exactly. A QA-only saved progress file exposed separate initial reasoning and later reflection; Escape cancelled the preview, returned focus to the file chooser and left the current note blank. Seven archive entries differ from v0.29.7: manifest, start guide, app script, versioned data, index page, practice script and stylesheet. Recorded model data, both PDFs and every review brief are byte-identical. Earlier workflow, reset, save/resume and PDF-download observations remain in [Verification](VERIFICATION.md); they were not all repeated for this packaging pass. No new model inference was performed. These checks establish specific behavior and file identity, not independent model reliability, customer impact or personal mastery.
+An earlier preparation commit failed the generated-artifact check because two diagnostic reports retained the old version. Those reports were regenerated before selecting the release's source commit. The published package uses the corrected, passing revision.
 
-The preceding handoff check observed successful-copy feedback, but the browser-control tool's separate virtual clipboard prevented independent payload read-back. The controlled session also did not expose a native leave-page prompt. These remain explicit verification limits; the preview supports manual copying and progress JSON is the reliable way to retain practice work.
+The extracted package was opened over localhost HTTP in Edge. Checks covered the v0.30.0 banner, seventeen recording choices, the final-turn rejection and omitted-message audit, Android's evidence-request follow-up, iOS's launch-plan review and the issue handoff's three missing intake fields. No browser errors were recorded during those interactions. The PDFs match the committed, previously rendered files; this packaging pass did not change their content or repeat every prior practice, clipboard or responsive-layout check. No personal practice response or new model inference was produced.
+
+Eight ZIP entries differ from v0.29.8: manifest, start guide, app script, versioned data, index page, model recordings, turn renderer and project brief. The teaching PDF, customer review briefs and practice modules are unchanged. Every raw model recording and its review file remain unchanged from the previously published seventeen-run source.
+
+These checks establish file identity and the observed behaviors. They do not establish independent model reliability, customer impact or personal mastery. Earlier clipboard payload read-back and native leave-page-prompt limitations remain; use the read-only text fields for manual copying and save progress JSON to retain practice work. The [v0.29.8 package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.29.8) and its [verification notes](https://github.com/Yuchi-Wang02/csm-copilot/blob/1320c312e655143b6114765b848ee41203cdf6f2/docs/INTERVIEW_BUNDLE.md) remain available as a separate historical snapshot.
 
 ## Rebuild from source
 

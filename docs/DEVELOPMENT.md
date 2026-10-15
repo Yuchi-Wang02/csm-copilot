@@ -1,5 +1,11 @@
 # Development notes
 
+## Publish a reproducible v0.30.0 take-away
+
+The new fixed interview package is pinned to `d899e2625bb3aaf5cb9a8d8b3ee67a2794c338da`. It contains seventeen recorded attempts and both PDFs. All 26 static source files match that Git tree; the generated guide matches its manifest hash. Downloaded Windows and Ubuntu CI archives match the local ZIP byte-for-byte, as do the public ZIP and checksum downloads. The [package guide](INTERVIEW_BUNDLE.md) records the source, 2,134,863-byte size and full checksum. Earlier releases remain intact.
+
+The first preparation commit exposed stale version metadata in two generated diagnostic reports. Regenerating them resolved the CI artifact mismatch before tagging. The selected source passes 514 Python tests, 111 JavaScript tests, lint, generated-artifact checks and isolated installed CLI/MCP checks on both runners. Local Edge inspection of the extracted package covers the version banner, seventeen recording choices, the final-turn omission audit, both platform follow-up purposes and the handoff's missing intake fields. It recorded no browser errors in those interactions. Existing practice and clipboard observations were not all repeated; this packaging pass adds no model inference or personal learning response.
+
 ## Prepare the v0.30.0 interview snapshot
 
 The portable v0.29.8 package contains ten model recordings. This version prepares a fresh snapshot of the current seventeen-attempt explorer, including the queue-first workflow, explicit request lifecycle, optional dependency and final-field checks, and inspectable context reduction. The Python package version and browser asset keys now identify v0.30.0. The fixed dataset, model outputs and review judgments are unchanged.
