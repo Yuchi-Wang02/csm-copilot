@@ -181,7 +181,8 @@
       const section = document.createElement("details");
       section.className = "practice-resume-item";
       const heading = document.createElement("summary");
-      heading.textContent = `${index + 1}. ${decision.title} · ${item.reviewed ? "Saved as reviewed" : "Unfinished"}`;
+      const added = loaded.addedDecisionIds.includes(item.id);
+      heading.textContent = `${index + 1}. ${decision.title} · ${added ? "New blank decision" : item.reviewed ? "Saved as reviewed" : "Unfinished"}`;
       section.appendChild(heading);
       function field(label, value) {
         const title = document.createElement("p");
@@ -193,7 +194,7 @@
         section.append(title, content);
       }
       const option = decision.options.find((o) => o.id === item.choice);
-      field("Saved choice", option ? option.text : "No option selected");
+      field(added ? "New choice" : "Saved choice", option ? option.text : "No option selected");
       field(item.reviewed ? "Saved initial reasoning" : "Unfinished reasoning", item.reasoning || "No note saved");
       if (item.reviewed) field("Saved later reflection", item.reflection || "No reflection saved");
       container.appendChild(section);
@@ -227,7 +228,8 @@
       if (attempt !== fileAttempt) return;
       pending = loaded;
       const reviewed = loaded.session.filter((s) => s.reviewed).length;
-      get("practice-load-summary").textContent = `${loaded.session.length} decisions · ${reviewed} with guidance revealed. Opens: ${cases.find((c) => c.id === loaded.selectedId).title}`;
+      const added = loaded.addedDecisionIds.length;
+      get("practice-load-summary").textContent = `${loaded.session.length} current decisions · ${loaded.session.length - added} saved · ${added} added blank · ${reviewed} with guidance revealed. Opens: ${cases.find((c) => c.id === loaded.selectedId).title}`;
       previewResponses(loaded);
       get("practice-load-preview").hidden = false;
       get("practice-file-status").textContent = "File is compatible. Review the replacement notice before resuming; your current work has not changed.";

@@ -71,10 +71,20 @@
     try { file = JSON.parse(content); } catch { fail("This is not a valid progress JSON file. Markdown notes cannot restore progress."); }
     keys(file, ["format", "snapshot", "exercise_signature", "selected_id", "items"]);
     if (file.format !== FORMAT) fail("This progress-file version is not supported.");
-    if (file.snapshot !== asOf || file.exercise_signature !== await signature(cases))
+    if (!Array.isArray(file.items) || !file.items.length)
+      fail("The progress file must contain saved decisions.");
+    const savedIds = file.items.map((item) => item?.id);
+    if (new Set(savedIds).size !== savedIds.length || savedIds.some((id) => !cases.some((c) => c.id === id)))
+      fail("A saved decision is unknown or repeated.");
+    const savedCases = cases.filter((c) => savedIds.includes(c.id));
+    const savedSession = validateItems(file.items, savedCases);
+    if (file.snapshot !== asOf || file.exercise_signature !== await signature(savedCases))
       fail("These saved responses use different exercise content. Keep them as a record; they cannot be resumed against this version.");
-    if (!cases.some((c) => c.id === file.selected_id)) fail("The saved selected decision is unavailable.");
-    return { session: validateItems(file.items, cases), selectedId: file.selected_id };
+    if (!savedIds.includes(file.selected_id)) fail("The saved selected decision is unavailable.");
+    const addedDecisionIds = cases.filter((c) => !savedIds.includes(c.id)).map((c) => c.id);
+    const session = cases.map((c) => savedSession.find((item) => item.id === c.id) ||
+      {id: c.id, choice: "", reasoning: "", reviewed: false, initial: null, reflection: ""});
+    return { session, selectedId: file.selected_id, addedDecisionIds };
   }
   const api = { MAX_BYTES, save, load };
   if (typeof module !== "undefined" && module.exports) module.exports = api;

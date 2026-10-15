@@ -1,5 +1,13 @@
 # Development notes
 
+## Practice citation purpose while preserving earlier saved work
+
+A sixth decision uses the preserved morning field-review attempt to distinguish a source's identity and platform scope from the claim it supports. Before guidance, it shows the original report, model citation list, recorded readiness sources, failed-device source and handoff attribution. It does not include the checker verdict. The learner chooses a next action and keeps initial reasoning separate from later reflection. The first five decisions and all recorded model outputs remain unchanged.
+
+Adding a decision previously made older progress signatures incompatible. The loader now validates each saved decision against the matching current content, rejects unknown/repeated IDs and changed saved content, and fills newly introduced decisions with blank state. It still requires the same snapshot and consistent original/reviewed responses. The preview distinguishes saved decisions from additions before the existing explicit replacement action. File format and signature algorithm are unchanged; the imported file is not rewritten. A six-decision export remains incompatible with the older fixed v0.30.0 application.
+
+Four new JavaScript checks cover source-purpose grounding, the sixth decision's draft/reflection export, a frozen five-decision QA fixture and changed/invalid older files. All 117 JavaScript checks pass. Local Edge QA verified the new choice and guidance, retention of initial/later notes after cancelling an import, the 5-saved/1-added preview, explicit restoration and a blank sixth decision. The actual downloaded resumed JSON preserves all five original fixture responses exactly. Confirmed reset returned to 0/6 with both downloads disabled. These are explicitly labeled QA responses, not personal learning work. No model inference was added. This feature postdates the fixed v0.30.0 package.
+
 ## Compare morning attempts without combining execution and fidelity
 
 The explorer's queue-first overview was a long paragraph with seven links. A collapsed comparison now reads the existing morning-task traces and their authored review verdicts into three columns: attempt/setup, recorded execution and AI-assisted review finding. It preserves the distinction between zero tool coverage, seven calls without a final response, and returned final fields rejected by the host. Setup disclosures show recorded assistance flags, token and response budgets, and correction budgets. Missing fields stay unavailable rather than inheriting current defaults. No raw trace or review finding changes.

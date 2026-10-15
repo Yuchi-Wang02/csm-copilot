@@ -11,6 +11,14 @@
     const callback = harbor.tickets.find((t) => t.draft_id === "ticket-issue_callback");
     const report = harbor.context.evidence.find((e) => e.id === "msg_issue_callback");
     const denial = data.callback_denial.cases.find((c) => c.id === "not_failing");
+    const morning = modelRuns.runs.find((r) => r.id === "qwen4-morning-field-review").trace;
+    const morningCalls = morning.steps.flatMap((s) => s.tool_calls || []);
+    const recordedReadiness = morningCalls.find((c) => c.action.tool === "check_readiness" && c.action.arguments.integration_id === "lantern_android").tool_result;
+    const recordedHandoff = morningCalls.find((c) => c.action.tool === "draft_ticket" && c.action.arguments.issue_id === "issue_blank").tool_result;
+    const recordedContext = morningCalls.find((c) => c.action.tool === "get_account_context").tool_result;
+    const issueSource = recordedContext.evidence.find((e) => e.id === "msg_issue_blank");
+    const proposedReadiness = morning.final.platforms.find((p) => p.integration_id === "lantern_android");
+    const failedCheck = recordedReadiness.checks.find((c) => c.id === "device_verified");
     return [
       {
         id: "android_update",
@@ -224,6 +232,30 @@
           "This recorded failure was later repaired by a bounded present-tense rule; the original output remains available for review. Keep the customer's stated intent separate from a tool's retrieved category, and keep a reported absence of trouble separate from verified technical health. The comparison is project-authored guidance, not independent validation.",
         prompt:
           "Write a two-sentence reply that addresses invoicing without certifying callback health or promising a resolution. Which part of the tool output would you question, and what information would you request next?",
+      },
+      {
+        id: "citation_purpose",
+        title: "The citation exists. Does it support this claim?",
+        situation:
+          "A recorded model answer lists msg_issue_blank among Android readiness sources. The same report also appears in the technical handoff. Compare the model's citation list with the recorded tool evidence, then decide how to review those two uses. All evidence below comes from one saved attempt.",
+        evidence: [
+          {label: "Report type and scope", value: `${issueSource.kind} · ${issueSource.account_id} · ${issueSource.integration_id}`, sources: [issueSource.id]},
+          {label: "Original customer report", value: issueSource.text, sources: [issueSource.id]},
+          {label: "Model's Android readiness citation list", value: proposedReadiness.evidence_ids.join(", "), sources: ["qwen4-morning-field-review.json: final.platforms[0].evidence_ids"]},
+          {label: "Sources attached to recorded readiness checks", value: [...new Set(recordedReadiness.checks.flatMap((c) => c.evidence_ids))].sort().join(", "), sources: ["qwen4-morning-field-review.json: check_readiness(lantern_android).checks"]},
+          {label: "Recorded non-test-device check", value: failedCheck.status, sources: failedCheck.evidence_ids},
+          {label: "Handoff fields attributed to this report", value: Object.entries(recordedHandoff.field_sources).filter(([, source]) => source.source_id === issueSource.id).map(([field]) => field).join(", "), sources: [issueSource.id]},
+        ],
+        options: [
+          {id: "keep_both", text: "Keep both uses because the source ID exists and matches the account and Android integration.", feedback: "Identity and scope are necessary but do not establish which claim a source supports. This report is not a source attached to the returned readiness checks."},
+          {id: "remove_everywhere", text: "Remove the source from the whole answer because customer reports can never support an operational claim.", feedback: "That discards supported handoff attribution. The recorded handoff uses this report for region and reproduction steps. Review the specific claim; source type alone does not decide every use."},
+          {id: "separate_purposes", text: "Remove the extra readiness citation while retaining its attributed handoff use, and preserve the separate failed-device evidence.", feedback: "The recorded readiness sources exclude msg_issue_blank, while the handoff maps region and reproduction steps to it. The failed device check has its own source. Changing a citation list does not resolve that failure or verify the whole explanation."},
+        ],
+        expected: "separate_purposes",
+        source: "?run=qwen4-morning-field-review#model-runs",
+        sourceLabel: "Inspect the original morning answer and field review",
+        explanation: "Match the citation to the specific claim as well as the account and platform. In this recording, the issue report supports attributed handoff details, not the returned readiness checks. This is not a blanket ban on customer reports as evidence, and fixing this list would not establish source truth or faithful prose.",
+        prompt: "Explain in two sentences what this report supports and why matching the account and platform is insufficient. Name the separate source for the failed device check and one conclusion that remains unverified.",
       },
     ];
   }

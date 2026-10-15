@@ -1,0 +1,51 @@
+{
+  "format": "csm-practice-progress-v1",
+  "snapshot": "2026-10-14T09:00:00+00:00",
+  "exercise_signature": "bfc03d88c19f4b73ea4e8224679bc89c6b0d62c33daa8813c3135f7fc37bf1d0",
+  "selected_id": "callback_handoff",
+  "items": [
+    {
+      "id": "android_update",
+      "choice": "approve",
+      "reasoning": "QA ONLY: legacy initial response, not personal work.",
+      "reviewed": true,
+      "initial": {
+        "choice": "approve",
+        "reasoning": "QA ONLY: legacy initial response, not personal work."
+      },
+      "reflection": "QA ONLY: legacy later reflection."
+    },
+    {
+      "id": "ios_followup",
+      "choice": "",
+      "reasoning": "",
+      "reviewed": false,
+      "initial": null,
+      "reflection": ""
+    },
+    {
+      "id": "model_review",
+      "choice": "",
+      "reasoning": "",
+      "reviewed": false,
+      "initial": null,
+      "reflection": ""
+    },
+    {
+      "id": "callback_handoff",
+      "choice": "",
+      "reasoning": "QA ONLY: unfinished handoff note.",
+      "reviewed": false,
+      "initial": null,
+      "reflection": ""
+    },
+    {
+      "id": "question_triage",
+      "choice": "",
+      "reasoning": "",
+      "reviewed": false,
+      "initial": null,
+      "reflection": ""
+    }
+  ]
+}

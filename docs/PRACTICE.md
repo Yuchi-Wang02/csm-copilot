@@ -2,9 +2,9 @@
 
 [Open the interactive practice](https://yuchi-wang02.github.io/csm-copilot/#practice).
 
-This exercise turns five existing project decisions into a conversation about customer-success judgment. It is self-directed practice with published guidance, not a blinded test, hiring assessment, certification, or measurement of personal mastery. The application compares selected options with the project policy; it does not grade written reasoning.
+This exercise turns six existing project decisions into a conversation about customer-success judgment. It is self-directed practice with published guidance, not a blinded test, hiring assessment, certification, or measurement of personal mastery. The application compares selected options with the project policy; it does not grade written reasoning.
 
-## Five decisions
+## Six decisions
 
 | Decision | Evidence used | What to explain |
 |---|---|---|
@@ -13,6 +13,7 @@ This exercise turns five existing project decisions into a conversation about cu
 | Model fields after two corrections | The published `qwen4-constrained` recording and its response review | Why matching fields do not certify the model's prose or establish general accuracy |
 | Callback handoff with details already supplied | Harbor's original issue record, known fields and missing-field list | How to acknowledge known facts, request unresolved details and avoid a premature diagnosis |
 | Customer intent disagrees with the tool | The preserved `not_failing` probe: customer text and the recorded before-repair callback candidate, route and questions | Why to clarify invoicing instead of blindly sending callback questions or claiming verified callback health |
+| Citation identity versus purpose | The original `qwen4-morning-field-review` answer, issue report, readiness sources and handoff attribution | Why one real, correctly scoped source can support a handoff detail without supporting the readiness claim beside it |
 
 The displayed evidence comes from the same artifacts used by the case explorer and model replay. Option wording and explanations are authored teaching material based on the project's operating policy. They are not official vendor training or independently validated assessment items. Automated checks detect changes to the key fixture conditions on which these lessons depend.
 
@@ -45,7 +46,7 @@ The interface uses native radio inputs and labeled text areas. Revealing guidanc
 
 Evidence labels, values and source IDs are also escaped in the Markdown download. A customer message's formatting remains source text instead of becoming a heading, HTML element or authored Markdown link in the report. Evidence line breaks are flattened for the list; your own notes retain quoted line breaks. Escaping changes the file's Markdown syntax, not the stored source record.
 
-Run `node --test tests-js/practice.test.cjs tests-js/practice-session.test.cjs` with Node 24. The fifteen core checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished report content, note escaping, a clean reset, pre-guidance export availability, the exact model-recording link, the callback exercise's source grounding and reflection export, literal-text handling for evidence labels, values and source IDs, and the fifth decision's preserved failure, direct probe link and separate draft/reflection export. Six checkpoint checks cover mixed-state round trips, stable IDs despite reordering, changed exercise content, invalid files, Unicode/markup and state capture before asynchronous hashing. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
+Run `node --test tests-js/practice.test.cjs tests-js/practice-session.test.cjs` with Node 24. The seventeen core checks cover fixture grounding, valid choices and preserved initial work, reviewed and unfinished exports, escaping, clean reset, source links, and the six decisions' key evidence and reflection boundaries. Eight checkpoint checks cover mixed-state round trips, stable IDs, changed content, invalid files, Unicode/markup, asynchronous save capture and additive compatibility with a frozen v0.30.0 QA file. GitHub CI runs these alongside the Python suite on Windows and Ubuntu. They verify application behavior, not learning outcomes.
 
 ## Save unfinished work
 
@@ -53,17 +54,19 @@ You do not have to reveal guidance to save your reasoning. A choice without a no
 
 ## Resume without rewriting the learning record
 
-The progress file stores only decision IDs, selected option IDs, notes, guidance-revealed state and the selected decision, alongside the evidence-snapshot date and a SHA-256 signature of the current exercise content. The signature checks compatibility, not authenticity. Case and option reordering remains compatible; changes to evidence, option wording, policy or prompts require keeping the old file as a separate record. Imported files cannot supply new evidence, guidance, source links or executable content.
+The progress file stores only decision IDs, selected option IDs, notes, guidance-revealed state and the selected decision, alongside the evidence-snapshot date and a SHA-256 signature of the saved exercise content. The signature checks compatibility, not authenticity. Case and option reordering remains compatible. When the current catalog adds decisions, the loader compares the signature with the current content of the saved decisions and adds the new ones blank. Changes to a saved decision's evidence, option wording, policy or prompt still require keeping the old file as a separate record. Imported files cannot supply new evidence, guidance, source links or executable content.
 
-Validation requires every current decision exactly once, allowed option IDs, consistent original/reviewed state, text notes of at most 4,000 characters, and a file no larger than 512 KiB. A rejected file leaves the current session unchanged. A valid file first opens a preview and replacement notice; applying it replaces the whole in-page session rather than merging potentially conflicting notes. Save current work before replacing it. Confirming reset also cancels any pending import.
+Validation requires a nonempty set of unique, currently supported saved decisions, allowed option IDs, consistent original/reviewed state, text notes of at most 4,000 characters, and a file no larger than 512 KiB. The saved selected decision must belong to that saved set. A rejected file leaves the current session unchanged. A valid file first opens a preview and replacement notice; applying it replaces the whole in-page session rather than merging potentially conflicting notes. Save current work before replacing it. Confirming reset also cancels any pending import.
 
-The preview lists each saved decision in an expandable section. Inspect its selected option, unfinished or initial reasoning, and any later reflection before choosing whether to replace the current session. Empty choices and notes are labeled explicitly. The preview uses the current compatible decision titles and option text; it does not display policy feedback or reveal guidance for unfinished work. Saved notes are rendered as literal text, including line breaks and markup. Cancelling or resetting clears the preview. This is a way to inspect a local file, not proof that its saved review states or authorship are authentic. The progress-file format and compatibility signature are unchanged.
+For a compatible five-decision v0.30.0 file, the preview reports **5 saved · 1 added blank** and labels the citation-purpose exercise **New blank decision**. Original choices, reasoning, reviewed states and later reflections remain intact. The new decision receives no choice, note, guidance or reflection. Saving again writes all six current decisions. A six-decision file cannot resume in the older fixed v0.30.0 application; keep the original file if you also use that release. The application does not rewrite the imported file on disk.
+
+The preview lists saved and newly added decisions in expandable sections. Inspect the saved option, unfinished or initial reasoning, and any later reflection before choosing whether to replace the current session. Empty choices and notes are labeled explicitly. The preview uses the current compatible decision titles and option text; it does not display policy feedback or reveal guidance for unfinished work. Saved notes are rendered as literal text, including line breaks and markup. Cancelling or resetting clears the preview. This is a way to inspect a local file, not proof that its saved review states or authorship are authentic. The file format and signature algorithm are unchanged; the loader now accepts a matching saved subset when the catalog adds decisions.
 
 For keyboard review, Tab from the file chooser to the saved decision headings and use Enter or Space to expand them. **Keep current work**, or Escape while focus is inside the preview, cancels the pending resume and returns focus to the file chooser. Current answers and notes remain unchanged. Escape elsewhere on the page does not cancel this preview. After an explicit replacement, focus moves to the practice decision selector.
 
 ## Review before clearing practice
 
-When any choice, nonblank reasoning or reviewed decision exists, **Reset all practice and clear notes** opens a confirmation without changing the session. Keyboard focus moves to **Keep my work**. That button or Escape closes the confirmation and returns focus to Reset. **Clear all practice work** clears the choices, original notes and later reflections across all five decisions, cancels pending imports and returns to the first decision. Existing downloaded files are unaffected.
+When any choice, nonblank reasoning or reviewed decision exists, **Reset all practice and clear notes** opens a confirmation without changing the session. Keyboard focus moves to **Keep my work**. That button or Escape closes the confirmation and returns focus to Reset. **Clear all practice work** clears the choices, original notes and later reflections across all six decisions, cancels pending imports and returns to the first decision. Existing downloaded files are unaffected.
 
 Changing the practice decision, revealing guidance or applying a saved session dismisses an open reset confirmation, so it does not remain attached to a newly rendered view. A blank session resets immediately. This confirmation applies to the Reset control.
 
@@ -79,8 +82,12 @@ The model exercise links directly to `qwen4-constrained`, the recording its evid
 
 The fifth decision uses an actual recorded mismatch from before the present-tense denial repair. Before you reveal guidance, the page shows only the customer message and tool result, without the authored expected category. Afterward, its evidence link opens that exact probe and the raw output while retaining your notes. The current baseline now handles this specific wording. The exercise preserves the original output and links to the before/current comparison; it does not present that historical result as current behavior. See [the failure and bounded repair](CALLBACK_HEALTH.md).
 
+## Match a source to its purpose
+
+The sixth decision shows the original issue report, the model's Android readiness citations, the sources attached to the recorded readiness checks, the failed-device source and the handoff fields attributed to the report. It does not reveal the checker verdict before guidance. Explain which use is supported and why matching an ID, account and platform is insufficient by itself. This teaches a claim-specific review, not a blanket rule that customer reports cannot be evidence. [Open the citation-purpose decision](https://yuchi-wang02.github.io/csm-copilot/?practice=citation_purpose#practice). This exercise and additive resume support postdate the fixed v0.30.0 package.
+
 Explain the distinction between what a customer reports, what a tool retrieves, and what has been independently checked. Draft a reply that acknowledges the invoice request and asks for the missing account or invoice context. Do not infer a Finance owner, invoice defect, service deadline or verified callback health from this record.
 
 ## Open the decision you want to discuss
 
-Each decision has a public copy button and a selectable link fallback. For example, [open the tool-disagreement exercise directly](https://yuchi-wang02.github.io/csm-copilot/?practice=question_triage#practice). Shared links select only the exercise; they do not include your choices, notes or guidance state. Back and Forward retain work within the loaded page, while reload starts a fresh session. See [all five direct links and navigation rules](SHARING.md#share-a-practice-decision).
+Each decision has a public copy button and a selectable link fallback. For example, [open the tool-disagreement exercise directly](https://yuchi-wang02.github.io/csm-copilot/?practice=question_triage#practice). Shared links select only the exercise; they do not include your choices, notes or guidance state. Back and Forward retain work within the loaded page, while reload starts a fresh session. See [all six direct links and navigation rules](SHARING.md#share-a-practice-decision).

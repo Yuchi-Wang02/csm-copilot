@@ -12,6 +12,39 @@ for (const name of ["data.js", "model-runs.js"])
 const cases = JSON.parse(JSON.stringify(core.buildCases(context.window.CSM_DATA, context.window.CSM_MODEL_RUNS)));
 const asOf = context.window.CSM_DATA.workflow.as_of;
 const clone = (x) => JSON.parse(JSON.stringify(x));
+
+// Created with the published v0.30.0 five-decision catalog before adding this exercise.
+// Contains authored QA notes only, never a learner's personal work.
+const legacy = fs.readFileSync(path.join(__dirname, "fixtures/practice-v0300-qa.json"), "utf8");
+
+test("v0.30.0 responses resume unchanged with only the new decision added blank", async () => {
+  const original = JSON.parse(legacy), loaded = await files.load(legacy, cases, asOf);
+  assert.equal(original.exercise_signature, "bfc03d88c19f4b73ea4e8224679bc89c6b0d62c33daa8813c3135f7fc37bf1d0");
+  assert.deepEqual(loaded.addedDecisionIds, ["citation_purpose"]);
+  assert.equal(loaded.selectedId, "callback_handoff");
+  assert.deepEqual(loaded.session.slice(0, 5), original.items);
+  assert.deepEqual(loaded.session[5], {id:"citation_purpose",choice:"",reasoning:"",reviewed:false,initial:null,reflection:""});
+  const resaved = await files.save(cases, loaded.session, loaded.selectedId, asOf);
+  const resumed = await files.load(resaved, cases, asOf);
+  assert.deepEqual(resumed.session, loaded.session);
+  assert.deepEqual(resumed.addedDecisionIds, []);
+  assert.equal(fs.readFileSync(path.join(__dirname, "fixtures/practice-v0300-qa.json"), "utf8"), legacy);
+});
+
+test("older files still reject changed saved content and cannot select an unsaved decision", async () => {
+  const altered = clone(cases);
+  altered[0].evidence[0].value = "changed evidence";
+  await assert.rejects(files.load(legacy, altered, asOf), /different exercise content/);
+  const file = JSON.parse(legacy);
+  file.selected_id = "citation_purpose";
+  await assert.rejects(files.load(JSON.stringify(file), cases, asOf), /selected decision is unavailable/);
+  file.items = [];
+  await assert.rejects(files.load(JSON.stringify(file), cases, asOf), /must contain saved decisions/);
+  const reordered = [...cases].reverse();
+  const loaded = await files.load(legacy, reordered, asOf);
+  assert.equal(loaded.session[0].id, "citation_purpose");
+  assert.equal(loaded.session.at(-1).reasoning, JSON.parse(legacy).items[0].reasoning);
+});
 function mixedSession() {
   const session = core.createSession(cases);
   session[0].choice = "approve";
@@ -26,7 +59,7 @@ test("a mixed session round-trips first responses, reflection, drafts and select
   const session = mixedSession(), before = clone(session);
   const saved = await files.save(cases, session, "callback_handoff", asOf);
   const loaded = await files.load(saved, cases, asOf);
-  assert.deepEqual(loaded, {session, selectedId:"callback_handoff"});
+  assert.deepEqual(loaded, {session, selectedId:"callback_handoff", addedDecisionIds:[]});
   assert.deepEqual(session, before);
   loaded.session[0].reflection = "Caller edit";
   assert.deepEqual(session, before);

@@ -183,7 +183,7 @@ test("fourth decision preserves first reasoning, later reflection and its eviden
 test("tool-disagreement decision uses the actual preserved failure without revealing expected categories", () => {
   const decision = cases.find((c) => c.id === "question_triage");
   const probe = context.window.CSM_DATA.callback_denial.cases.find((c) => c.id === "not_failing");
-  assert.equal(cases.length, 5);
+  assert.equal(cases.length, 6);
   assert.equal(probe.original_kind, "known_limit");
   assert.equal(probe.kind, "repair");
   assert.deepEqual(Array.from(probe.expected), ["unknown"]);
@@ -209,7 +209,7 @@ test("fifth decision exports unfinished reasoning, then preserves original work 
   const draft = api.exportReflection(cases, session, "2026-10-14");
   assert.match(draft, /QA\\-only: initial interpretation/);
   assert.ok(!draft.includes("Project guidance:"));
-  assert.equal((draft.match(/Status: not reviewed/g) || []).length, 5);
+  assert.equal((draft.match(/Status: not reviewed/g) || []).length, cases.length);
   session[index] = api.reveal(session[index], cases[index]);
   session[index].reflection = "QA-only: reconsider the invoice request.";
   const reviewed = api.exportReflection(cases, session, "2026-10-14");
@@ -219,6 +219,42 @@ test("fifth decision exports unfinished reasoning, then preserves original work 
   assert.match(reviewed, /Option comparison: differs from the project policy/);
   assert.match(reviewed, /Callbacks are not failing/);
   assert.match(reviewed, /probe=not_failing#triage-review/);
-  assert.equal((reviewed.match(/Status: not reviewed/g) || []).length, 4);
+  assert.equal((reviewed.match(/Status: not reviewed/g) || []).length, cases.length - 1);
   assert.equal(api.createSession(cases).filter((s) => s.reviewed).length, 0);
+});
+
+test("citation-purpose decision uses the original report, proposed citations and recorded source mappings", () => {
+  const decision = cases.find((c) => c.id === "citation_purpose");
+  const run = context.window.CSM_MODEL_RUNS.runs.find((r) => r.id === "qwen4-morning-field-review");
+  const before = JSON.stringify(run), calls = run.trace.steps.flatMap((s) => s.tool_calls || []);
+  const readiness = calls.find((c) => c.action.tool === "check_readiness" && c.action.arguments.integration_id === "lantern_android").tool_result;
+  const ticket = calls.find((c) => c.action.tool === "draft_ticket").tool_result;
+  assert.equal(decision.evidence[1].value, ticket.customer_report);
+  assert.equal(decision.evidence[2].value, run.trace.final.platforms[0].evidence_ids.join(", "));
+  assert.equal(decision.evidence[3].value, [...new Set(readiness.checks.flatMap((c) => c.evidence_ids))].sort().join(", "));
+  assert.match(decision.evidence[2].value, /msg_issue_blank/);
+  assert.doesNotMatch(decision.evidence[3].value, /msg_issue_blank/);
+  assert.equal(decision.evidence[4].value, "not_met");
+  assert.deepEqual(Array.from(decision.evidence[4].sources), ["lantern_android_device_verified"]);
+  assert.equal(decision.evidence[5].value, "region, reproduction_steps");
+  assert.doesNotMatch(JSON.stringify(decision.evidence), /response_review|rejected|expected/);
+  assert.equal(decision.expected, "separate_purposes");
+  assert.match(decision.source, /run=qwen4-morning-field-review#model-runs/);
+  assert.equal(JSON.stringify(run), before);
+});
+
+test("sixth decision keeps a draft, original answer and later reflection distinct", () => {
+  const session = api.createSession(cases), index = cases.findIndex((c) => c.id === "citation_purpose");
+  session[index].choice = "keep_both";
+  session[index].reasoning = "QA ONLY: citation initial note.";
+  const draft = api.exportReflection(cases, session, "2026-10-14");
+  assert.doesNotMatch(draft, /Project guidance:|Option comparison:/);
+  session[index] = api.reveal(session[index], cases[index]);
+  session[index].reflection = "QA ONLY: citation later note.";
+  const reviewed = api.exportReflection(cases, session, "2026-10-14");
+  assert.match(reviewed, /QA ONLY: citation initial note/);
+  assert.match(reviewed, /QA ONLY: citation later note/);
+  assert.match(reviewed, /Option comparison: differs from the project policy/);
+  assert.equal(session[index].initial.choice, "keep_both");
+  assert.equal((reviewed.match(/Status: not reviewed/g) || []).length, cases.length - 1);
 });

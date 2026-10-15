@@ -55,6 +55,7 @@ Use **Copy this practice link** or the selectable **View practice link** to open
 | Android after confirmations | [Choose the next evidence request](https://yuchi-wang02.github.io/csm-copilot/?practice=android_update#practice) |
 | Complete iOS checklist | [Choose the follow-up purpose](https://yuchi-wang02.github.io/csm-copilot/?practice=ios_followup#practice) |
 | Model fields and prose | [Review the explanation separately](https://yuchi-wang02.github.io/csm-copilot/?practice=model_review#practice) |
+| Citation purpose | [Match the source to the specific claim](https://yuchi-wang02.github.io/csm-copilot/?practice=citation_purpose#practice) |
 | Callback handoff | [Use details already supplied](https://yuchi-wang02.github.io/csm-copilot/?practice=callback_handoff#practice) |
 | Tool disagreement | [Question the callback recommendation](https://yuchi-wang02.github.io/csm-copilot/?practice=question_triage#practice) |
 
