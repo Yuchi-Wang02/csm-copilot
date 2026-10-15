@@ -1,5 +1,11 @@
 # Development notes
 
+## Start the learning guide with the customer decision
+
+The learning guide had accumulated advanced dependency-policy and model-output exercises ahead of its beginner route. The three-step route now comes first, followed by the blank reflection template and the runnable workflow sessions. A short navigation row points to the route, reflection, first run, customer conversation, self-review and advanced exercises. The relocated model exercises have question-based subsection headings, including what should survive a timeout. The evidence-scope exercise now belongs with optional extensions rather than inside the reflection template.
+
+The reorganization preserves every original content block verbatim, including commands, code examples, exercise expectations and unchecked mastery items. A one-off comparison against the previous file confirmed preservation and the intended ordering; `git diff --check` passed. This improves access to the existing learning path without recording personal completion, changing executable behavior or adding a model run. The fixed v0.30.2 package is unchanged.
+
 ## Make recorded evidence arrays easier to read
 
 The excerpt-to-field comparisons now render each array item as a separate list entry instead of dense inline JSON. Source IDs and missing intake fields retain their exact values and raw-trace locations. Empty arrays display "Empty list in the recorded result"; scalar states and booleans retain their literal values. All values remain escaped, and neither recordings nor generated comparison data change.

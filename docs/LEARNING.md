@@ -2,23 +2,9 @@
 
 The project is a starting point for demonstrated understanding. These exercises are **not marked complete**. Keep personal notes and small commits as you work through them; that is stronger evidence of learning than an oversized feature list.
 
-## Optional engineering exercise: a correct ID can still arrive too early
-
-Inspect the two failed [morning-review recordings](LOCAL_MODEL.md#queue-first-morning-review-first-recorded-attempt), then consider a smaller two-call proposal: a queue lookup followed immediately by context for an account ID that happens to be correct. Before reading the [new host policy](DEPENDENCY_POLICY.md), predict whether that proposal should execute. Explain what the host has actually observed at that point, and why knowing the fixture answer differs from discovering it through a tool result.
-
-With the current Python checkout, run `python -m pytest -q tests/test_host_dependency_integration.py -k dependent_batch`. Find the assertion that no tool calls executed. Then predict how a failed readiness call should affect the pending work, and run the `tool_error` case in the same file. These use scripted responses and a real MCP server, with no language model. Explain why passing them cannot establish model reliability or accurate final prose. Record your own prediction, observed result and revised explanation; this exercise is not marked completed for you.
-
-For the constrained-generation extension, predict whether a final JSON object containing the sentence "All launches are approved" can satisfy an output schema after the tool work is complete. Run `python -m pytest -q tests/test_action_schema.py -k final_schema` and inspect that test. Explain what the schema checks and what evidence a reviewer would still need. Compare this with the [actual constrained run](LOCAL_MODEL.md#constrained-morning-workflow-seven-calls-then-a-response-timeout), which completed the calls but captured no final explanation. Keep your prediction and explanation as your own work; passing the supplied test is not evidence that you have completed the exercise.
-
-Compare the two excerpts in the [longer-budget morning run](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs). Before opening the source fields, predict which wording is supported and which collapses two evidence states. Then write your own two-sentence revision: one sentence preserving Android's failed check and unknown settings, and one distinguishing its next action from iOS's. Cite the records you used. Keep the model's original answer separate from your revision; this exercise is not marked completed for you.
-
-Then inspect the [morning field-review attempt](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-field-review#model-runs). Compare where `msg_issue_blank` appears in the final JSON with the original readiness and handoff results. Explain which use is justified, why schema validation cannot decide that, and what the model's short explanation still leaves out. Keep your prediction, source comparison and revised answer as separate notes. The supplied review is guidance, not evidence that you completed this exercise.
-
-The [citation-purpose practice decision](https://yuchi-wang02.github.io/csm-copilot/?practice=citation_purpose#practice) presents those source mappings before revealing the checker verdict. Record your own choice and reasoning, then compare the guidance and retain a separate reflection. A compatible older five-decision progress file can resume with this new decision blank; inspect the preview before replacing current work. Neither the exercise nor its QA records establish that you have completed it.
+**Choose a starting point:** [Three-step route](#start-here-three-things-to-explain) · [Reflection template](#short-reflection-template) · [Run the workflow](#first-run--read-the-decision-before-the-full-packet) · [Customer conversation](#session-5--practice-the-customer-conversation-30-minutes) · [Self-review](#personal-mastery-checklist) · [Advanced model exercises](#optional-engineering-exercise-a-correct-id-can-still-arrive-too-early)
 
 ## Start here: three things to explain
-
-An optional debugging exercise: before running `python -m pytest -q tests/test_host_dependency_integration.py -k request_lifecycle`, predict what should remain inspectable when the worker times out after all seven tool calls. Explain why a sent request is not a model acknowledgment, why completed tools are not a finished answer, and why retrying on the same stream could confuse request/response attribution. Compare your prediction with the [new trace lifecycle](LOCAL_MODEL.md#preserve-a-request-before-waiting-for-its-response). The tests use scripted worker behavior; record your own explanation rather than treating the supplied checks as proof of personal mastery.
 
 Use this route before the longer exercises. The time estimates are planning suggestions, not measured completion times. The first two steps work in the hosted portfolio without installing Python or connecting a model.
 
@@ -31,6 +17,20 @@ Use this route before the longer exercises. The time estimates are planning sugg
 For an interview, choose one customer decision and one AI failure you can explain without reading this guide. Use the [three-minute walkthrough](INTERVIEW.md) to organize them. A useful stopping point for this preparation pass is being able to point to the exact supporting record, explain a limitation, and describe the next action. It is not a certification or a requirement to finish every extension below.
 
 Save your first reasoning in [Practice](https://yuchi-wang02.github.io/csm-copilot/?practice=android_update#practice) before revealing guidance. Download readable notes for discussion; use **Save progress file** if you want to resume later. Guidance, model review and AI-suggested wording should remain distinguishable from your own initial answer.
+
+## Short reflection template
+
+```text
+Date:
+Question I investigated:
+My prediction:
+Code or record I inspected:
+Observed result:
+What I misunderstood:
+What I changed:
+How I checked it:
+What remains uncertain:
+```
 
 ## First run — read the decision before the full packet
 
@@ -241,7 +241,33 @@ Use this as a self-review after the three-step route. Leave items unchecked unti
 - [ ] I can explain at least two limits of the evaluation.
 - [ ] I can point to one improvement I personally made and verified.
 
+## Optional engineering exercise: a correct ID can still arrive too early
+
+Inspect the two failed [morning-review recordings](LOCAL_MODEL.md#queue-first-morning-review-first-recorded-attempt), then consider a smaller two-call proposal: a queue lookup followed immediately by context for an account ID that happens to be correct. Before reading the [new host policy](DEPENDENCY_POLICY.md), predict whether that proposal should execute. Explain what the host has actually observed at that point, and why knowing the fixture answer differs from discovering it through a tool result.
+
+With the current Python checkout, run `python -m pytest -q tests/test_host_dependency_integration.py -k dependent_batch`. Find the assertion that no tool calls executed. Then predict how a failed readiness call should affect the pending work, and run the `tool_error` case in the same file. These use scripted responses and a real MCP server, with no language model. Explain why passing them cannot establish model reliability or accurate final prose. Record your own prediction, observed result and revised explanation; this exercise is not marked completed for you.
+
+### What can an output schema establish?
+
+For the constrained-generation extension, predict whether a final JSON object containing the sentence "All launches are approved" can satisfy an output schema after the tool work is complete. Run `python -m pytest -q tests/test_action_schema.py -k final_schema` and inspect that test. Explain what the schema checks and what evidence a reviewer would still need. Compare this with the [actual constrained run](LOCAL_MODEL.md#constrained-morning-workflow-seven-calls-then-a-response-timeout), which completed the calls but captured no final explanation. Keep your prediction and explanation as your own work; passing the supplied test is not evidence that you have completed the exercise.
+
+### Does the explanation preserve the evidence states?
+
+Compare the two excerpts in the [longer-budget morning run](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs). Before opening the source fields, predict which wording is supported and which collapses two evidence states. Then write your own two-sentence revision: one sentence preserving Android's failed check and unknown settings, and one distinguishing its next action from iOS's. Cite the records you used. Keep the model's original answer separate from your revision; this exercise is not marked completed for you.
+
+### Can a real source support the wrong claim?
+
+Then inspect the [morning field-review attempt](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-field-review#model-runs). Compare where `msg_issue_blank` appears in the final JSON with the original readiness and handoff results. Explain which use is justified, why schema validation cannot decide that, and what the model's short explanation still leaves out. Keep your prediction, source comparison and revised answer as separate notes. The supplied review is guidance, not evidence that you completed this exercise.
+
+The [citation-purpose practice decision](https://yuchi-wang02.github.io/csm-copilot/?practice=citation_purpose#practice) presents those source mappings before revealing the checker verdict. Record your own choice and reasoning, then compare the guidance and retain a separate reflection. A compatible older five-decision progress file can resume with this new decision blank; inspect the preview before replacing current work. Neither the exercise nor its QA records establish that you have completed it.
+
+### What should survive a timeout?
+
+An optional debugging exercise: before running `python -m pytest -q tests/test_host_dependency_integration.py -k request_lifecycle`, predict what should remain inspectable when the worker times out after all seven tool calls. Explain why a sent request is not a model acknowledgment, why completed tools are not a finished answer, and why retrying on the same stream could confuse request/response attribution. Compare your prediction with the [new trace lifecycle](LOCAL_MODEL.md#preserve-a-request-before-waiting-for-its-response). The tests use scripted worker behavior; record your own explanation rather than treating the supplied checks as proof of personal mastery.
+
 ## Optional extensions: choose one question
+
+Additional v0.2 exercise: read [the evidence-scope failure and fix](EVIDENCE.md), predict the eight probe outcomes, then write a new provenance test in your own words. Explain why validating source ownership does not prove that the source is true.
 
 Additional v0.11 exercise: select **Qwen3-4B · two inbound messages** and read its unedited answer before the review panel. Separate three judgments: were the correct tools called, does the answer follow their results, and do its questions fit the customer's request? Rewrite only the invoice questions in your own words. Do not invent billing procedures or imply that an invoice was sent. Keep your initial assessment and later reflection separate.
 
@@ -250,22 +276,6 @@ Additional v0.10.1 exercise: before opening the [phrase-boundary report](../evid
 Additional v0.5 exercise: inspect [the unedited local model response](LOCAL_MODEL.md) before opening the review notes. Mark supported, unsupported and omitted claims. Explain how all four requested tool calls can succeed while the final explanation remains unsuitable for use, and why the narrow promise lint returned zero flags.
 
 Additional v0.4 exercise: work through [the Product feedback review](PRODUCT_FEEDBACK.md). Predict how counts change if a second platform from the same account has a gap. Explain why the callback denominator differs from the device-check denominator, then write a Product question without asserting an unverified cause.
-
-## Short reflection template
-
-Additional v0.2 exercise: read [the evidence-scope failure and fix](EVIDENCE.md), predict the eight probe outcomes, then write a new provenance test in your own words. Explain why validating source ownership does not prove that the source is true.
-
-```text
-Date:
-Question I investigated:
-My prediction:
-Code or record I inspected:
-Observed result:
-What I misunderstood:
-What I changed:
-How I checked it:
-What remains uncertain:
-```
 
 ## v0.6 demonstration exercise
 
