@@ -1,5 +1,15 @@
 # Development notes
 
+## Record the explanation-checklist attempt and simplify the reviewer route
+
+The nineteenth local Qwen3-4B attempt adds the optional writing checklist to the preceding one-correction morning configuration. All seven tool-stage requests, model texts and returned tool results match the baseline. Removing the added guidance reconstructs its first final request exactly. The model repeats the issue-only readiness citation, receives expected-value feedback and removes only that citation. The host exits 0 with matching structured fields; the 48-word explanation stays identical across the correction.
+
+Compared with the prior explanation, it adds contact/launch timing and missing intake details but still omits concrete platform next actions and evidence citations, and no longer mentions two unknown checks. Logs are not qualified as redacted and the unconfirmed cause is absent from the prose. These are AI-assisted observations on an already inspected synthetic task, not an independent quality score or evidence of a causal improvement. The complete 427,026-byte raw trace and all eighteen earlier recordings/reviews are preserved.
+
+The replay now includes nineteen recordings and nine morning attempts. Request reconstruction checks reproduce the system guidance, omission audit, schemas, hashes, actual tool results, rejection, feedback and matching final fields. Browser tests verify both guidance panels and the unchanged explanation. All 536 Python and 123 JavaScript tests pass locally, alongside Ruff. Edge inspection confirms the actual guidance text, original rejection, correction context and prose-review boundary without browser errors. Both project-brief pages were rendered and visually inspected; the PDF retains seven links and its evidence fingerprint is `0d772be81055`.
+
+The README now presents four interviewer-facing examples in a comparison table, linking the complete experimental history for deeper inspection. The source-based prose review identifies remaining work without inventing personal practice, customer impact or independent validation. The fixed v0.30.1 download remains unchanged and predates this new recording.
+
 ## Prepare an explicit explanation checklist without claiming a model improvement
 
 The eighteenth recording fixes a readiness citation while retaining its incomplete explanation. An optional `--explanation-checklist` now adds fixture-independent writing guidance after tool work, immediately before the existing morning final contract. It requires `--review-morning-final`, defaults off and records both its setting and exact system-role message. The checklist covers queue selection, per-platform next actions, missing handoff fields, source citations and the nothing-sent/no-approval boundaries. It does not supply fixture identifiers or expected values and does not alter the structured schema or semantic-review boundary.

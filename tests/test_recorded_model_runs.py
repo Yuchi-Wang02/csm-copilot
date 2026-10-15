@@ -64,6 +64,7 @@ def assert_historical_callback_result(engine, action, recorded):
         "qwen4-morning-field-review",
         "qwen4-morning-compact-context",
         "qwen4-morning-correction",
+        "qwen4-morning-explanation-checklist",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):

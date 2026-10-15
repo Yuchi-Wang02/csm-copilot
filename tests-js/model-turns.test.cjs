@@ -71,11 +71,11 @@ test("morning comparison separates recorded coverage, missing finals and field r
   const review = JSON.parse(fs.readFileSync(path.join(directory, "review.json"), "utf8"));
   const runs = review.runs.map((entry) => ({...entry, trace: trace(entry.id)}));
   const before = JSON.stringify(runs), html = api.renderMorningComparison(runs);
-  assert.equal((html.match(/<th scope="row">/g) || []).length, 8);
+  assert.equal((html.match(/<th scope="row">/g) || []).length, 9);
   assert.equal((html.match(/0 \/ 7 requested actions observed/g) || []).length, 3);
-  assert.equal((html.match(/7 \/ 7 requested actions observed/g) || []).length, 5);
+  assert.equal((html.match(/7 \/ 7 requested actions observed/g) || []).length, 6);
   assert.equal((html.match(/No final response recorded/g) || []).length, 4);
-  assert.equal((html.match(/<p>Final response recorded<\/p>/g) || []).length, 4);
+  assert.equal((html.match(/<p>Final response recorded<\/p>/g) || []).length, 5);
   assert.equal((html.match(/Field review: <code>rejected/g) || []).length, 2);
   assert.match(html, /Host status: <code>host_error/);
   assert.match(html, /Response wait budget<\/dt><dd>Not recorded/);
@@ -213,7 +213,7 @@ test("claim comparison keeps quoted source fields and review separate and escape
 
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
-  assert.equal(names.length, 18);
+  assert.equal(names.length, 19);
   for (const name of names) {
     const input = trace(name.slice(0, -5)), before = JSON.stringify(input);
     const html = api.render(input);
@@ -377,4 +377,19 @@ test("model text, arguments, errors, host feedback and message roles remain iner
   const html = api.render(input);
   assert.doesNotMatch(html, /<img|<script/);
   assert.ok((html.match(/&lt;img/g) || []).length >= 9);
+});
+
+
+test("recorded explanation checklist retains both host messages and an unchanged corrected explanation", () => {
+  const input = trace("qwen4-morning-explanation-checklist"), before = JSON.stringify(input);
+  const html = api.render(input);
+  assert.equal((html.match(/<h4>Host explanation checklist<\/h4>/g) || []).length, 2);
+  assert.match(html, /Turn 8 — Host rejected the structured response/);
+  assert.match(html, /Turn 9 — Structured fields matched; prose still needs review/);
+  assert.match(html, /retained 19 of 26 messages/);
+  assert.match(html, /retained 23 of 31 messages/);
+  assert.match(html, /steps\[7\].explanation_guidance_message/);
+  assert.match(html, /steps\[8\].explanation_guidance_message/);
+  assert.equal(input.steps[7].actions[0].final.explanation, input.final.explanation);
+  assert.equal(JSON.stringify(input), before);
 });

@@ -518,9 +518,48 @@
           "assessment": "The host exits 0 after one correction; nothing was sent or submitted. All seventeen earlier raw recordings remain unchanged. The checked summary is system-rendered and the unchanged model explanation remains unverified. This attempt does not establish a reliability rate, customer outcome or personal mastery."
         }
       ]
+    },
+    {
+      "id": "qwen4-morning-explanation-checklist",
+      "label": "Qwen3-4B · explicit explanation checklist",
+      "protocol": "batch + constrained actions + structured final + reduced policy history + explanation checklist + one correction",
+      "verdict": "Citation repaired; explicit writing guidance still leaves next actions and citations out",
+      "summary": "All seven tool-stage requests and returns match the preceding attempt. Added final-answer guidance produces a 48-word explanation with contact/launch timing and intake gaps, but no platform next actions or source citations. The first answer repeats the readiness-citation error. Supplied feedback fixes that field alone; the explanation remains identical. This is one assisted development attempt, not evidence of a general quality improvement.",
+      "findings": [
+        {
+          "kind": "control",
+          "claim": "The added checklist is the only change to the first final request",
+          "assessment": "Host source deab99da8d469af22723cbcef821cafb1c71fcdc keeps the model revision, runtime settings, task, schema, nine-turn cap, 600-second response budget and one-correction allowance. All seven tool-stage requests, model texts and tool returns match the eighteenth recording exactly. Removing the added guidance message reconstructs its first final request. Hardware load and timing are not controlled."
+        },
+        {
+          "kind": "assistance",
+          "claim": "Writing guidance and expected-value feedback remain visible",
+          "assessment": "The initial final request retains 19 of 26 messages, including the fixture-independent writing checklist before the unchanged final contract. Its Android readiness list again includes the issue-only msg_issue_blank source and is rejected. The correction retains 23 of 31 messages: every tool return, the rejected answer, both checklist/contract pairs and feedback supplying expected readiness IDs. Only superseded policy messages are omitted, with an exact audit."
+        },
+        {
+          "kind": "repair",
+          "claim": "Only the extra readiness citation changes after feedback",
+          "assessment": "Turn 9 removes msg_issue_blank from Android readiness evidence while retaining it in the handoff. Every other field, including the 48-word explanation, stays unchanged. The host exits 0 with structured_fields_match and a separate system-rendered summary. Free-text verification remains not_performed and human_review_required remains true."
+        },
+        {
+          "kind": "prose_review",
+          "claim": "Some details are added, but a usable next step is still missing",
+          "assessment": "Compared with the prior 52-word explanation, the new prose names the five-day contact age, two-day launch timing, SDK version, time window and logs, and explicitly denies that checklist completion implies approval. It does not state the greater-than-three-day contact threshold or planned-launch ordering, describe Android evidence collection or iOS launch-plan review, request redaction, preserve the unconfirmed-cause statement, or cite any evidence ID. It mentions unknown currency approval versus a failed device check, but omits unknown Test Only and callback checks. Correct structured fields do not fill these prose gaps. This assessment is AI-assisted comparison, not independent human validation."
+        },
+        {
+          "kind": "timing",
+          "claim": "Two final responses, neither at the output cap",
+          "assessment": "The first final response uses 7,969 input and 323 generated tokens in 123.268 generation seconds. The correction uses 9,023 input and 319 generated tokens in 381.245 seconds. Neither reaches the 1536-token cap. These are response measurements from one run, not total workflow time, controlled latency comparisons or a production performance estimate."
+        },
+        {
+          "kind": "boundary",
+          "claim": "A known-task prompt revision with preserved limitations",
+          "assessment": "The checklist was developed after inspecting earlier attempts on this same synthetic task. All eighteen earlier raw traces and review entries remain unchanged. No output was sent or submitted. This result does not establish a reliability rate, causal quality gain, customer impact or personal mastery. The fixed v0.30.1 download predates this recording."
+        }
+      ]
     }
   ],
-  "boundary": "Eighteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Nineteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

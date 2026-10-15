@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Eighteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Nineteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -381,6 +381,58 @@ Structured review: **structured_fields_match**. Free explanation: **not semantic
 ### Unedited model response — needs review
 
 > Account acc\_014 \(Lantern Games\) was selected due to its recorded contact and planned launch. Android platform is blocked due to unknown currency approval, Test Only status, and callback verification, along with a failed device verification. iOS platform is checklist complete. The issue on Android requires missing evidence. Nothing was sent or submitted.
+
+Narrow promise lint flags: []. No flags does not establish fidelity.
+
+## Qwen3-4B · explicit explanation checklist
+
+**Review verdict:** Citation repaired; explicit writing guidance still leaves next actions and citations out.
+All seven tool-stage requests and returns match the preceding attempt. Added final-answer guidance produces a 48-word explanation with contact/launch timing and intake gaps, but no platform next actions or source citations. The first answer repeats the readiness-citation error. Supplied feedback fixes that field alone; the explanation remains identical. This is one assisted development attempt, not evidence of a general quality improvement.
+
+**Task:** Use the fixed synthetic snapshot to find non-live accounts strictly more than three days since recorded contact, including unknown contact history. From the returned queue, select the first account under its planned-launch ordering. Retrieve that account's context, check each of its integrations and prepare an English follow-up for each. Prepare a handoff for each recorded issue on that account. Then explain in at most 220 words why it was selected, how its platform next steps differ, and what is missing from its handoffs. Cite source IDs for recorded facts. Keep missing evidence separate from recorded failures; do not imply launch approval, a confirmed cause or issue resolution. State that nothing was sent or submitted.
+
+Observed requested tool actions: 7/7. Final response present: True.
+[Complete trace](model-runs/qwen4-morning-explanation-checklist.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+- **control: The added checklist is the only change to the first final request.** Host source deab99da8d469af22723cbcef821cafb1c71fcdc keeps the model revision, runtime settings, task, schema, nine-turn cap, 600-second response budget and one-correction allowance. All seven tool-stage requests, model texts and tool returns match the eighteenth recording exactly. Removing the added guidance message reconstructs its first final request. Hardware load and timing are not controlled.
+- **assistance: Writing guidance and expected-value feedback remain visible.** The initial final request retains 19 of 26 messages, including the fixture-independent writing checklist before the unchanged final contract. Its Android readiness list again includes the issue-only msg\_issue\_blank source and is rejected. The correction retains 23 of 31 messages: every tool return, the rejected answer, both checklist/contract pairs and feedback supplying expected readiness IDs. Only superseded policy messages are omitted, with an exact audit.
+- **repair: Only the extra readiness citation changes after feedback.** Turn 9 removes msg\_issue\_blank from Android readiness evidence while retaining it in the handoff. Every other field, including the 48-word explanation, stays unchanged. The host exits 0 with structured\_fields\_match and a separate system-rendered summary. Free-text verification remains not\_performed and human\_review\_required remains true.
+- **prose\_review: Some details are added, but a usable next step is still missing.** Compared with the prior 52-word explanation, the new prose names the five-day contact age, two-day launch timing, SDK version, time window and logs, and explicitly denies that checklist completion implies approval. It does not state the greater-than-three-day contact threshold or planned-launch ordering, describe Android evidence collection or iOS launch-plan review, request redaction, preserve the unconfirmed-cause statement, or cite any evidence ID. It mentions unknown currency approval versus a failed device check, but omits unknown Test Only and callback checks. Correct structured fields do not fill these prose gaps. This assessment is AI-assisted comparison, not independent human validation.
+- **timing: Two final responses, neither at the output cap.** The first final response uses 7,969 input and 323 generated tokens in 123.268 generation seconds. The correction uses 9,023 input and 319 generated tokens in 381.245 seconds. Neither reaches the 1536-token cap. These are response measurements from one run, not total workflow time, controlled latency comparisons or a production performance estimate.
+- **boundary: A known-task prompt revision with preserved limitations.** The checklist was developed after inspecting earlier attempts on this same synthetic task. All eighteen earlier raw traces and review entries remain unchanged. No output was sent or submitted. This result does not establish a reliability rate, causal quality gain, customer impact or personal mastery. The fixed v0.30.1 download predates this recording.
+
+Structured review: **structured_fields_match**. Free explanation: **not semantically verified**.
+
+### System-rendered summary from checked tool fields
+
+> First account in the returned snapshot queue: Lantern Games \(acc\_014\).
+> Contact state: recorded; days since contact: 5.0; days to planned launch: 2.0.
+> Contact sources: contact\_acc\_014.
+> Moon Garden / Android: blocked.
+> - Platform currency approval: unknown \[no applicable record\].
+> - Production visibility setting: unknown \[no applicable record\].
+> - Placement and content: met \[lantern\_android\_placement\_linked\].
+> - SDK connection sequence: met \[lantern\_android\_sdk\_connected\].
+> - Non-test device verification: not\_met \[lantern\_android\_device\_verified\].
+> - Reward callback verification: unknown \[no applicable record\].
+> Proposed next action: Review and send the evidence request, then reassess when new records arrive.
+> Moon Garden / iOS: checklist\_complete.
+> - Platform currency approval: met \[lantern\_ios\_currency\_approved\].
+> - Production visibility setting: met \[lantern\_ios\_test\_only\_off\].
+> - Placement and content: met \[lantern\_ios\_placement\_linked\].
+> - SDK connection sequence: met \[lantern\_ios\_sdk\_connected\].
+> - Non-test device verification: met \[lantern\_ios\_device\_verified\].
+> - Reward callback verification: met \[lantern\_ios\_callback\_verified\].
+> Proposed next action: Review the launch plan and confirm any changes since the recorded checks.
+> Nothing was sent. This scoped checklist does not grant launch approval.
+> Issue issue\_blank: needs\_information; root cause: unconfirmed.
+> Missing intake: sdk\_version, time\_window, redacted\_logs.
+> Issue sources: msg\_issue\_blank.
+> Proposed next action: Request missing evidence, then review the handoff; no ticket was submitted.
+
+### Unedited model response — needs review
+
+> Lantern Games \(acc\_014\) was selected for its 5-day contact age and 2-day launch window. Android is blocked due to unknown currency approval and failed device verification. iOS is checklist-complete. The Android issue lacks SDK version, time window, and logs. Nothing was sent; checklist completion does not imply approval.
 
 Narrow promise lint flags: []. No flags does not establish fidelity.
 
