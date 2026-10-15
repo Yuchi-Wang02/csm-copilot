@@ -29989,7 +29989,107 @@ window.CSM_MODEL_RUNS = {
       },
       "display_final": "Lantern Games (acc_014) was selected for its 5-day contact age and 2-day launch window. Android is blocked due to unknown currency approval and failed device verification. iOS is checklist-complete. The Android issue lacks SDK version, time window, and logs. Nothing was sent; checklist completion does not imply approval.",
       "correction_comparison": null,
-      "claim_comparisons": []
+      "claim_comparisons": [
+        {
+          "claim": "Android is blocked due to unknown currency approval and failed device verification.",
+          "assessment": "The distinction between unknown approval and a failed device check is useful. The explanation omits the proposed evidence request and fresh non-test-device check available in the returned draft. It also omits source citations.",
+          "source_label": "Turn 5 · call 1 · followup-24119186ba19",
+          "fields": [
+            {
+              "label": "intent",
+              "path": "steps[4].tool_calls[0].tool_result.intent",
+              "value": "evidence_request"
+            },
+            {
+              "label": "next action",
+              "path": "steps[4].tool_calls[0].tool_result.next_action",
+              "value": "Review and send the evidence request, then reassess when new records arrive."
+            },
+            {
+              "label": "evidence ids",
+              "path": "steps[4].tool_calls[0].tool_result.evidence_ids",
+              "value": [
+                "lantern_android_device_verified",
+                "lantern_android_placement_linked",
+                "lantern_android_sdk_connected",
+                "msg_issue_blank"
+              ]
+            },
+            {
+              "label": "device verified request",
+              "path": "steps[4].tool_calls[0].tool_result.requests[2].request",
+              "value": "Share a fresh non-test-device check with region, time and observed result."
+            }
+          ]
+        },
+        {
+          "claim": "iOS is checklist-complete.",
+          "assessment": "The state agrees with the scoped checklist. The explanation stops before the proposed action: review the launch plan and confirm changes since those checks. Its separate no-approval statement remains valid.",
+          "source_label": "Turn 6 · call 1 · followup-eb6ab5b3759e",
+          "fields": [
+            {
+              "label": "intent",
+              "path": "steps[5].tool_calls[0].tool_result.intent",
+              "value": "launch_plan_review"
+            },
+            {
+              "label": "next action",
+              "path": "steps[5].tool_calls[0].tool_result.next_action",
+              "value": "Review the launch plan and confirm any changes since the recorded checks."
+            },
+            {
+              "label": "evidence ids",
+              "path": "steps[5].tool_calls[0].tool_result.evidence_ids",
+              "value": [
+                "lantern_ios_callback_verified",
+                "lantern_ios_currency_approved",
+                "lantern_ios_device_verified",
+                "lantern_ios_placement_linked",
+                "lantern_ios_sdk_connected",
+                "lantern_ios_test_only_off"
+              ]
+            }
+          ]
+        },
+        {
+          "claim": "The Android issue lacks SDK version, time window, and logs.",
+          "assessment": "The explanation names the intake gaps but does not specify redaction, request-and-review as the next step, the unconfirmed cause, or the issue source. Those details are present in the returned handoff.",
+          "source_label": "Turn 7 · call 1 · ticket-issue_blank",
+          "fields": [
+            {
+              "label": "missing fields",
+              "path": "steps[6].tool_calls[0].tool_result.missing_fields",
+              "value": [
+                "sdk_version",
+                "time_window",
+                "redacted_logs"
+              ]
+            },
+            {
+              "label": "next action",
+              "path": "steps[6].tool_calls[0].tool_result.next_action",
+              "value": "Request missing evidence, then review the handoff; no ticket was submitted."
+            },
+            {
+              "label": "root cause",
+              "path": "steps[6].tool_calls[0].tool_result.root_cause",
+              "value": "unconfirmed"
+            },
+            {
+              "label": "evidence ids",
+              "path": "steps[6].tool_calls[0].tool_result.evidence_ids",
+              "value": [
+                "msg_issue_blank"
+              ]
+            },
+            {
+              "label": "redacted logs request",
+              "path": "steps[6].tool_calls[0].tool_result.collection_requests[2].request",
+              "value": "Share relevant logs with credentials, tokens, personal data and other secrets removed."
+            }
+          ]
+        }
+      ]
     }
   ],
   "review_method": "AI-assisted comparison with recorded tool results; not independent human review",

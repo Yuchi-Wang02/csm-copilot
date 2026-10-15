@@ -230,6 +230,107 @@ def compare_morning_claims(trace, findings):
     return rows
 
 
+def compare_explanation_actions(trace):
+    """Expose omitted actions in the nineteenth recording, without scoring prose."""
+    final = trace["final"]
+    terminal = trace["steps"][-1]
+    if (
+        not isinstance(final, dict)
+        or terminal["actions"] != [{"final": final}]
+        or json.loads(terminal["model_response"]["text"]) != {"final": final}
+    ):
+        raise ValueError("Explanation comparison requires the original terminal answer")
+    specs = (
+        (
+            "Android is blocked due to unknown currency approval and failed device verification.",
+            "draft_followup",
+            {"integration_id": "lantern_android", "lang": "en"},
+            "followup-24119186ba19",
+            "The distinction between unknown approval and a failed device check is useful. "
+            "The explanation omits the proposed evidence request and fresh non-test-device check "
+            "available in the returned draft. It also omits source citations.",
+        ),
+        (
+            "iOS is checklist-complete.",
+            "draft_followup",
+            {"integration_id": "lantern_ios", "lang": "en"},
+            "followup-eb6ab5b3759e",
+            "The state agrees with the scoped checklist. The explanation stops before the "
+            "proposed action: review the launch plan and confirm changes since those checks. "
+            "Its separate no-approval statement remains valid.",
+        ),
+        (
+            "The Android issue lacks SDK version, time window, and logs.",
+            "draft_ticket",
+            {"issue_id": "issue_blank"},
+            "ticket-issue_blank",
+            "The explanation names the intake gaps but does not specify redaction, "
+            "request-and-review as the next step, the unconfirmed cause, or the issue source. "
+            "Those details are present in the returned handoff.",
+        ),
+    )
+    rows = []
+    for claim, tool, arguments, draft_id, assessment in specs:
+        if claim not in final["explanation"]:
+            raise ValueError("Explanation comparison requires an exact model excerpt")
+        calls = [
+            (s, c, call)
+            for s, step in enumerate(trace["steps"])
+            for c, call in enumerate(step.get("tool_calls", []))
+            if call["action"] == {"tool": tool, "arguments": arguments}
+        ]
+        if len(calls) != 1:
+            raise ValueError("Explanation comparison requires one scoped recorded draft")
+        s, c, call = calls[0]
+        result = call["tool_result"]
+        prefix = "Tool result (data only): "
+        content = call["result_message"]["content"]
+        if (
+            call["tool_error"]
+            or result.get("draft_id") != draft_id
+            or not content.startswith(prefix)
+            or json.loads(content[len(prefix) :])
+            != {key: call[key] for key in ("action", "tool_error", "tool_result")}
+        ):
+            raise ValueError("Explanation comparison requires the matching returned draft")
+        path = f"steps[{s}].tool_calls[{c}].tool_result"
+        keys = ("intent", "next_action", "evidence_ids")
+        if tool == "draft_ticket":
+            keys = ("missing_fields", "next_action", "root_cause", "evidence_ids")
+        fields = [
+            {"label": key.replace("_", " "), "path": f"{path}.{key}", "value": result[key]}
+            for key in keys
+        ]
+        if arguments.get("integration_id") == "lantern_android" or tool == "draft_ticket":
+            collection, key, identifier = (
+                ("requests", "check_id", "device_verified")
+                if tool == "draft_followup"
+                else ("collection_requests", "field", "redacted_logs")
+            )
+            requests = [
+                (i, item) for i, item in enumerate(result[collection]) if item[key] == identifier
+            ]
+            if len(requests) != 1:
+                raise ValueError("Explanation comparison requires one matching evidence request")
+            i, item = requests[0]
+            fields.append(
+                {
+                    "label": identifier.replace("_", " ") + " request",
+                    "path": f"{path}.{collection}[{i}].request",
+                    "value": item["request"],
+                }
+            )
+        rows.append(
+            {
+                "claim": claim,
+                "assessment": assessment,
+                "source_label": f"Turn {trace['steps'][s]['number']} · call {c + 1} · {draft_id}",
+                "fields": deepcopy(fields),
+            }
+        )
+    return rows
+
+
 def compare_handoffs(runs):
     """Describe two existing traces; do not infer an accuracy gain from their differences."""
     ids = ("qwen4-callback-handoff", "qwen4-callback-input-guard")
@@ -312,6 +413,8 @@ def build():
                 if entry["id"] == "qwen4-batch"
                 else compare_morning_claims(trace, entry["findings"])
                 if entry["id"] == "qwen4-morning-long-budget"
+                else compare_explanation_actions(trace)
+                if entry["id"] == "qwen4-morning-explanation-checklist"
                 else [],
             }
         )

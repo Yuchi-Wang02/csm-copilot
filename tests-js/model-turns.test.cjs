@@ -393,3 +393,19 @@ test("recorded explanation checklist retains both host messages and an unchanged
   assert.equal(input.steps[7].actions[0].final.explanation, input.final.explanation);
   assert.equal(JSON.stringify(input), before);
 });
+
+
+test("explanation omissions are paired with three actual draft actions without changing the source", () => {
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../demo/model-runs.js"), "utf8").replace(/^window.CSM_MODEL_RUNS = /, "").replace(/;\s*$/, ""));
+  const rows = data.runs.find(r => r.id === "qwen4-morning-explanation-checklist").claim_comparisons;
+  const before = JSON.stringify(rows), html = api.renderComparisons(rows);
+  assert.equal(rows.length, 3);
+  assert.equal((html.match(/class="claim-pair"/g) || []).length, 3);
+  assert.match(html, /Share a fresh non-test-device check with region, time and observed result/);
+  assert.match(html, /Review the launch plan and confirm any changes since the recorded checks/);
+  assert.match(html, /credentials, tokens, personal data and other secrets removed/);
+  assert.match(html, /steps\[6\].tool_calls\[0\].tool_result.collection_requests\[2\].request/);
+  assert.match(html, /not an automated semantic verdict/);
+  assert.doesNotMatch(html, /Two excerpts/);
+  assert.equal(JSON.stringify(rows), before);
+});

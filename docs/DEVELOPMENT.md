@@ -1,5 +1,13 @@
 # Development notes
 
+## Put omitted CSM actions beside the model's actual words
+
+The nineteenth attempt's prose review now has three excerpt-to-field comparisons above the full transcript. Android's status statement is paired with the recorded evidence request and fresh non-test-device check; iOS's checklist statement is paired with launch-plan review; the intake sentence is paired with the redacted-log request, unconfirmed cause and handoff next action. Every displayed field has a raw-trace location. The original explanation, tool results and review entries remain unchanged, and the display labels the assessment as AI-assisted rather than an automated semantic verdict.
+
+The builder requires exact model excerpts, agreement with the original terminal output, one scoped draft call, the expected recorded draft identity, a successful result, and agreement with the tool-result message supplied to the model. Seven checks cover resolvable locations, preservation and missing/conflicting provenance; a browser-renderer check covers all three actual comparisons. All 543 Python and 124 JavaScript tests pass locally, alongside Ruff. Edge inspection confirms desktop columns, the handoff source-location disclosure, and mobile stacking at 390 pixels with equal 375-pixel document/scroll widths. The viewport was restored; no browser errors were recorded.
+
+The interview and architecture guides also correct stale statements that no queue-first workflow had executed. Later recordings do complete the seven calls under host policy and constrained decoding; this is assisted execution, with prose gaps remaining. No new inference, personal practice response, model-quality score or customer result is added. The fixed v0.30.1 package predates this display update.
+
 ## Record the explanation-checklist attempt and simplify the reviewer route
 
 The nineteenth local Qwen3-4B attempt adds the optional writing checklist to the preceding one-correction morning configuration. All seven tool-stage requests, model texts and returned tool results match the baseline. Removing the added guidance reconstructs its first final request exactly. The model repeats the issue-only readiness citation, receives expected-value feedback and removes only that citation. The host exits 0 with matching structured fields; the 48-word explanation stays identical across the correction.
