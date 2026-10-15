@@ -209,6 +209,14 @@ test("scope-first copied handoff does not turn populated or missing fields into 
     assert.match(text, /Clarify the request first/);
     assert.match(text, /Which account does the invoice concern/);
     assert.doesNotMatch(text, /Missing intake fields|TECHNICAL REQUEST MUST NOT APPEAR/);
+    const before = JSON.stringify(data);
+    const html = api.handoffHTML(api.issuesFor(data, "android").slice(0, 1), "unused", "snapshot");
+    assert.match(html, /Clarify the request first/);
+    assert.match(html, /Which account does the invoice concern/);
+    assert.doesNotMatch(html, /Request missing intake details|TECHNICAL REQUEST MUST NOT APPEAR/);
+    assert.match(html, /Technical intake requests are withheld while issue scope is unresolved/);
+    assert.match(text, /Technical intake requests are withheld while issue scope is unresolved/);
+    assert.equal(JSON.stringify(data), before);
   }
 });
 

@@ -1,5 +1,13 @@
 # Development notes
 
+## Keep scope clarification ahead of conflicting intake requests
+
+A deliberately inconsistent copied packet exposed a presentation mismatch: a `needs_scope` draft with populated `collection_requests` withheld technical requests in its portable text but still rendered them under "Request missing intake details" on screen. The engine's normal output already leaves that array empty for scope clarification; this was a renderer robustness probe, not an observed customer case or a model failure.
+
+The screen now withholds that conflicting intake section. Both the screen and portable text explain that the technical requests were withheld because scope remains unresolved and the draft needs review. Scope questions, attributed fields and source disclosures remain available. The source packet is not mutated. This is a narrow precedence rule for `collection_requests`, not a general validator for all contradictions in a draft.
+
+The existing scope-first regression was extended to cover both empty and populated missing-field lists, screen/text agreement, conflict disclosure and non-mutation. It failed against the previous renderer and passes after the change; all 126 JavaScript tests pass. An Edge check of a clearly labeled local QA page confirmed the warning and preview agreement with no conflicting request in the preview. The published fixture, recorded model runs, Python exports and fixed v0.30.2 package are unchanged.
+
 ## Start the learning guide with the customer decision
 
 The learning guide had accumulated advanced dependency-policy and model-output exercises ahead of its beginner route. The three-step route now comes first, followed by the blank reflection template and the runnable workflow sessions. A short navigation row points to the route, reflection, first run, customer conversation, self-review and advanced exercises. The relocated model exercises have question-based subsection headings, including what should survive a timeout. The evidence-scope exercise now belongs with optional extensions rather than inside the reflection template.

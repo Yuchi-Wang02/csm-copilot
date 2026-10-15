@@ -17,6 +17,7 @@
     `<span class="badge ${esc(status)}">${esc(status.replaceAll("_", " "))}</span>`;
   const sourceLabel = (kind) => kind === "customer_report" ? "Customer report" : kind === "test_record" ? "Test record" : "Source type unavailable";
   const sourceDisclosure = (kind) => kind === "customer_report" ? "Read original customer message" : kind === "test_record" ? "Read original test record" : "Read original issue record";
+  const scopeConflict = "Technical intake requests are withheld while issue scope is unresolved. Review the conflicting draft before use.";
   const one = (items, predicate) => {
     const matches = (items || []).filter(predicate);
     return matches.length === 1 ? matches[0] : null;
@@ -186,6 +187,7 @@
     lines.push("Verify field values and source references in the handoff's source view before use.", "");
     if (t.handoff_state === "needs_scope") {
       lines.push("Clarify the request first. Generic field completeness does not establish scope.");
+      if (t.collection_requests?.length) lines.push(scopeConflict);
       for (const candidate of t.triage.candidates || []) {
         if (candidate.category === "unknown") lines.push(...candidate.questions.map((q) => `- ${q}`));
       }
@@ -225,7 +227,9 @@
         )}<dt>Evidence</dt><dd>${esc(t.evidence_ids.join(", "))}</dd><dt>Suggested owner</dt><dd>${esc(t.suggested_owner)}</dd></dl>` +
       `<div class="missing">${fieldStatus}</div><p class="boundary">${esc(t.next_action)}</p>` +
       (t.collection_requests?.length
-        ? `<section class="handoff-questions"><h3>Request missing intake details</h3><ul>${t.collection_requests.map((r) => `<li>${esc(r.request)}</li>`).join("")}</ul></section>`
+        ? t.handoff_state === "needs_scope"
+          ? `<p class="notice">${scopeConflict}</p>`
+          : `<section class="handoff-questions"><h3>Request missing intake details</h3><ul>${t.collection_requests.map((r) => `<li>${esc(r.request)}</li>`).join("")}</ul></section>`
         : "") +
       (t.collection_boundary ? `<p class="boundary">${esc(t.collection_boundary)}</p>` : "") +
       (evidence
