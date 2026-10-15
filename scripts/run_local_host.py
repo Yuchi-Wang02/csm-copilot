@@ -166,6 +166,7 @@ async def run(args):
         "constrain_final": args.constrain_final,
         "sequence_dependencies": args.sequence_dependencies,
         "enforce_dependencies": args.enforce_dependencies,
+        "constrain_actions": args.constrain_actions,
         "steps": [],
         "status": "initializing",
         "final": None,
@@ -235,13 +236,20 @@ async def run(args):
                     if policy:
                         policy_message = {
                             "role": "user",
-                            "content": "Host workflow policy (not customer data): choose up to four "
-                            "pending actions below, or a final response only when final_allowed is true. "
+                            "content": "Host workflow policy (not customer data): choose "
+                            + (
+                                "exactly one pending action"
+                                if args.constrain_actions
+                                else "up to four pending actions"
+                            )
+                            + " below, or a final response only when final_allowed is true. "
                             "The whole batch is rejected if any action is not pending. "
                             + json.dumps(policy.snapshot(), ensure_ascii=False),
                         }
                         messages.append(policy_message)
                     request = {"messages": messages}
+                    if args.constrain_actions:
+                        request["json_schema"] = policy.next_action_schema()
                     coverage = trace_coverage(trace)
                     if args.constrain_final and coverage["observed"] == coverage["required"]:
                         request["json_schema"] = final_response_schema()
@@ -357,6 +365,11 @@ def main():
     parser.add_argument("--max-steps", type=int, default=8)
     parser.add_argument("--repair-attempts", type=int, choices=(0, 1, 2), default=0)
     parser.add_argument(
+        "--constrain-actions",
+        action="store_true",
+        help="Require --enforce-dependencies and optional lm-format-enforcer; decode one pending action per turn, then a final JSON string",
+    )
+    parser.add_argument(
         "--enforce-dependencies",
         action="store_true",
         help="Enforce the morning_review dependency policy and supply pending-action state each turn",
@@ -374,6 +387,8 @@ def main():
     parser.add_argument("--max-new-tokens", type=int, default=768)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if args.constrain_actions and not args.enforce_dependencies:
+        parser.error("--constrain-actions requires --enforce-dependencies")
     if args.enforce_dependencies and (args.task != "morning_review" or args.protocol != "batch"):
         parser.error("--enforce-dependencies requires --task morning_review --protocol batch")
     if args.sequence_dependencies and (args.task != "morning_review" or args.protocol != "batch"):

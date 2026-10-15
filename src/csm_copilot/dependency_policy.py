@@ -33,6 +33,41 @@ class MorningReviewPolicy:
             }
         )
 
+    def next_action_schema(self):
+        """Decoder assistance: one pending action, or a final string after completion.
+
+        Queue arguments are omitted to use the fixed defaults. Other arguments are
+        exact strings discovered by this policy. The runtime checks still apply.
+        """
+
+        def closed_object(properties):
+            return {
+                "type": "object",
+                "properties": properties,
+                "required": list(properties),
+                "additionalProperties": False,
+            }
+
+        if not self.pending:
+            return closed_object({"final": {"type": "string", "minLength": 1}})
+        choices = []
+        for pending in self.pending:
+            arguments = {} if pending["tool"] == "list_accounts" else pending["arguments"]
+            choices.append(
+                closed_object(
+                    {
+                        "tool": {"type": "string", "enum": [pending["tool"]]},
+                        "arguments": closed_object(
+                            {
+                                key: {"type": "string", "enum": [value]}
+                                for key, value in arguments.items()
+                            }
+                        ),
+                    }
+                )
+            )
+        return choices[0] if len(choices) == 1 else {"anyOf": choices}
+
     @staticmethod
     def _canonical(proposal):
         if not isinstance(proposal, dict) or set(proposal) != {"tool", "arguments"}:

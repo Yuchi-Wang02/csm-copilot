@@ -9,6 +9,7 @@ import sys
 from types import SimpleNamespace
 
 import pytest
+from jsonschema import Draft202012Validator
 
 from scripts import run_local_host
 
@@ -33,7 +34,10 @@ class ScriptedWorker:
                 {"tool": "list_accounts", "arguments": {}},
                 {"tool": "get_account_context", "arguments": {"account_id": "acc_014"}},
             ]
-        elif self.mode == "unknown_account" and policy["stage"] == "awaiting_context":
+        elif (
+            self.mode in ("unknown_account", "constrained_unknown_account")
+            and policy["stage"] == "awaiting_context"
+        ):
             actions = {"tool": "get_account_context", "arguments": {"account_id": "12345"}}
         elif self.mode == "mixed_scope" and policy["stage"] == "reviewing":
             actions = [
@@ -41,9 +45,16 @@ class ScriptedWorker:
                 {"tool": "draft_ticket", "arguments": {"issue_id": "foreign-issue"}},
             ]
         elif policy["pending_actions"]:
-            actions = policy["pending_actions"][:4]
+            if self.mode.startswith("constrained_"):
+                actions = policy["pending_actions"][0]
+                if actions["tool"] == "list_accounts":
+                    actions["arguments"] = {}
+            else:
+                actions = policy["pending_actions"][:4]
         else:
             actions = {"final": "Scripted test completion; nothing was sent or submitted."}
+        if self.mode == "constrained_happy":
+            Draft202012Validator(request["json_schema"]).validate(actions)
         self.responses.append({"text": json.dumps(actions)})
 
     async def drain(self):
@@ -67,6 +78,8 @@ class ScriptedWorker:
         ("premature_final", "policy_rejected", 0),
         ("unknown_account", "policy_rejected", 1),
         ("mixed_scope", "policy_rejected", 2),
+        ("constrained_happy", "final_response", 7),
+        ("constrained_unknown_account", "policy_rejected", 1),
     ],
 )
 def test_host_enforces_dependencies_before_real_mcp_calls(
@@ -89,6 +102,7 @@ def test_host_enforces_dependencies_before_real_mcp_calls(
         repair_attempts=0,
         sequence_dependencies=False,
         enforce_dependencies=True,
+        constrain_actions=mode.startswith("constrained_"),
         constrain_final=False,
         max_new_tokens=768,
         output=tmp_path / "temporary-test-trace.json",
@@ -102,16 +116,28 @@ def test_host_enforces_dependencies_before_real_mcp_calls(
     assert all(call["tool_error"] is False for call in calls)
     assert all("policy_message" in step for step in trace["steps"])
     assert worker.returncode == 0
-    if mode == "happy_path":
+    if mode in ("happy_path", "constrained_happy"):
         assert trace["dependency_policy"]["stage"] == "complete"
         assert len(trace["dependency_policy"]["completed_actions"]) == 7
         assert calls[0]["tool_result"]["accounts"][0]["account_id"] == "acc_014"
         assert calls[1]["action"]["arguments"]["account_id"] == "acc_014"
-        assert [len(step.get("tool_calls", [])) for step in trace["steps"]] == [1, 1, 4, 1, 0]
+        assert [len(step.get("tool_calls", [])) for step in trace["steps"]] == (
+            [1] * 7 + [0] if mode == "constrained_happy" else [1, 1, 4, 1, 0]
+        )
     else:
         assert trace["final"] is None
         assert "policy_error" in trace["steps"][-1]
         assert trace["dependency_policy"]["final_allowed"] is False
+    if mode.startswith("constrained_"):
+        assert all("generation_schema" in step for step in trace["steps"])
+        assert all(
+            "choose exactly one pending action" in step["policy_message"]["content"]
+            for step in trace["steps"]
+        )
+        assert trace["steps"][0]["generation_schema"] == worker.requests[0]["json_schema"]
+    else:
+        assert all("generation_schema" not in step for step in trace["steps"])
+        assert "choose up to four pending actions" in trace["steps"][0]["policy_message"]["content"]
 
 
 @pytest.mark.parametrize("fault", ["tool_error", "wrong_result_scope"])
@@ -150,6 +176,7 @@ def test_real_host_preserves_pending_work_after_injected_result_fault(tmp_path, 
         repair_attempts=0,
         sequence_dependencies=False,
         enforce_dependencies=True,
+        constrain_actions=False,
         constrain_final=False,
         max_new_tokens=768,
         output=tmp_path / "temporary-fault-test-trace.json",

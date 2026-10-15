@@ -52,6 +52,18 @@ Use the [local-model setup and command](LOCAL_MODEL.md#reproduce-a-local-attempt
 
 The trace retains the policy state and the exact state message supplied before each generation, plus each accepted result's resulting state. `policy_rejected` means a proposed batch or premature final failed policy checks. `policy_result_rejected` means a dispatched call returned data that failed the policy's result checks. Parser errors still occur before policy validation and retain their existing status. Correction requests remain explicitly budgeted and recorded; enabling this policy does not silently retry a rejected proposal.
 
+## Optional constrained generation
+
+`--constrain-actions` requires `--enforce-dependencies` and `lm-format-enforcer==0.11.3` in the model environment. The host sends a schema derived from its current pending actions to the existing local worker. It also changes the per-turn state instruction from "up to four" to "exactly one" pending action. The default prompts and unconstrained behavior remain unchanged.
+
+The schema permits one action object per turn, not an array. Initially it permits `list_accounts` with an empty argument object, so the tool uses its fixed snapshot defaults. After queue and context results it permits only the corresponding tool/ID combinations still pending, with English for follow-ups. Once the work is complete it permits a single `final` string. This fixed fixture requires seven single-call turns and an eighth turn for the explanation; larger tasks need a sufficient explicit turn budget.
+
+This is additional decoding assistance. The model chooses among permitted pending actions, while the host determines the admissible plan and identities. It is not evidence of unaided planning or discovery. The original parser and runtime policy still check the decoded response; a token limit or generation failure can still prevent completion. A well-formed final string can still contain false claims or omit citations.
+
+[Schema tests](../tests/test_action_schema.py) check both JSON Schema validation and the real `lm-format-enforcer` character parser, without loading model weights. They cover the queue-only start, returned account scope, tool/argument pairing, removal of completed actions, failed work remaining pending, the complete fixture sequence, and the fact that the final schema does not certify prose. The host integration suite checks that schemas reach the worker each turn and that the runtime policy still rejects an invalid ID when a scripted worker ignores the schema. The decoder library is a development-test dependency; the MCP server's runtime dependencies remain unchanged.
+
+No model recording uses this new decoding mode yet. A fresh attempt must preserve the per-turn schema, state message, actual model text and tool returns. The earlier policy-enabled failure remains available for comparison.
+
 ## Limits to explain in an interview
 
 This is a policy for the project's optional local host and one prescribed morning-review task. Other MCP clients do not inherit it. It is neither CRM authorization nor a general planner. It trusts the scoped, validated synthetic server records; it does not independently verify source truth, refresh records or assess which customer deserves commercial priority.
@@ -60,4 +72,4 @@ Result checks establish the minimum structure and available identity needed to t
 
 Allowing a final response means the requested tool work has completed, **not that the explanation is accurate**. It does not check the word limit, factual support, citation coverage, tone, approval promises or customer usefulness. The existing fixed-fixture call-coverage count is also separate from this dynamic policy state. Preserve both in future reviews.
 
-The learning point to discuss is concrete: inspect a failed proposal, identify the dependency it violated, turn that dependency into a testable host rule, then run a new model attempt without rewriting the earlier failure. The new attempt still fails before its first tool call, even with the pending-action input. A next experiment could constrain generation to valid pending actions; that would add decoding assistance and require its own implementation, tests and recording. The unresolved goal is successful tool use followed by a useful, evidence-grounded explanation, not merely a rejected unsafe proposal.
+The learning point to discuss is concrete: inspect a failed proposal, identify the dependency it violated, turn that dependency into a testable host rule, then run a new model attempt without rewriting the earlier failure. The policy-enabled attempt still fails before its first tool call, even with the pending-action input. The next implemented option constrains generation to valid pending actions; its tests do not substitute for a fresh model recording. The unresolved goal is successful tool use followed by a useful, evidence-grounded explanation, not merely a rejected unsafe proposal.

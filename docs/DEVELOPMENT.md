@@ -1,5 +1,11 @@
 # Development notes
 
+## Constrain the next action without certifying the final explanation
+
+The optional `--constrain-actions` mode derives a JSON schema from the morning policy's current pending work and sends it to the existing local model worker. It allows one action per turn, with IDs learned from successful results, then a final string only after all requested work. The state message explicitly asks for one action. The earlier unconstrained mode and recordings are unchanged. Parser and runtime policy validation remain in place.
+
+All 406 Python tests and Ruff checks passed. The schema is tested with both JSON Schema validation and the installed `lm-format-enforcer==0.11.3` character parser. A seven-call fixture walkthrough checks each successive schema; separate cases cover unknown IDs, wrong argument/tool pairings, premature finals, completed work and failed calls. Real-MCP scripted-host checks verify delivery of every schema and runtime rejection when a scripted worker ignores it. The final-string schema intentionally does not evaluate factuality. These are software checks before a new model attempt, not evidence that the model completes the task. See [the decoding assistance and limits](DEPENDENCY_POLICY.md#optional-constrained-generation).
+
 ## Record what happened after enabling the dependency policy
 
 One new Qwen3-4B morning-review attempt used committed host `f0cb1e428ec09cd6b595f2ecb4766fecb72db85a` with `--enforce-dependencies`, eight turns, 768 output tokens and no corrections. The host supplied a one-action pending queue state before generation. The model still proposed five actions, with invented account, integration and issue IDs. The existing parser rejected the batch before dependency validation. No tool executed; the policy stayed at `awaiting_queue` with one pending action and no completed work. This is a failed model-use observation, not a failure of a policy check that was never reached.
