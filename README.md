@@ -4,125 +4,102 @@
 
 **Move customer onboarding forward without turning uncertainty into a promise.**
 
-A customer-success portfolio by **Yuchi Wang**: a working Model Context Protocol (MCP) server and interactive case explorer that turn account evidence into bilingual follow-ups and technical handoffs.
+A customer-success portfolio by **Yuchi Wang**. A Python workflow and Model Context Protocol (MCP) server turn incomplete account evidence into bilingual follow-ups and technical handoffs.
 
-**[Start the three-minute review](https://yuchi-wang02.github.io/csm-copilot/#start)** · **[Project brief (PDF)](demo/project-brief.pdf)** · **[Interview walkthrough](docs/INTERVIEW.md)** · **[Run locally](docs/LOCAL_SETUP.md)**
-
-[![Morning review with three queued accounts and an Android follow-up requesting missing confirmations, a fresh device check, and callback evidence. The draft is explicitly unsent.](docs/assets/workflow-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=followup&lang=en#workspace)
-
-Workflow screenshot from [source revision 0ea4b88](https://github.com/Yuchi-Wang02/csm-copilot/commit/0ea4b88a0d4a1a4c1a4ea364440960563ddf39b6). The website replays Python workflow outputs and saved model attempts; it does not run a live AI chat or send messages.
+**[Explore the three-minute demo →](https://yuchi-wang02.github.io/csm-copilot/#start)** · **[Project brief (PDF)](demo/project-brief.pdf)** · **[Interview walkthrough](docs/INTERVIEW.md)**
 
 [![Verify workflow](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml)
 [![Publish case explorer](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml/badge.svg)](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml)
 
+[![Review queue and an Android follow-up requesting missing confirmations, a fresh device check and callback evidence. The draft is unsent.](docs/assets/workflow-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=followup&lang=en#workspace)
+
+Workflow preview from [revision 0ea4b88](https://github.com/Yuchi-Wang02/csm-copilot/commit/0ea4b88a0d4a1a4c1a4ea364440960563ddf39b6). **The website replays saved outputs; it does not run a live AI chat or send messages.**
+
 ## The business problem
 
-A publisher wants to launch on Friday. An iOS test passed, but a non-test Android device shows a blank Offerwall. The CSM needs to decide what to ask the customer, what to document, and when to involve technical support.
+A publisher wants to launch on Friday. iOS checks are complete, but a non-test Android device shows a blank Offerwall. The CSM needs a focused customer question, a clear technical handoff and a record of what remains uncertain.
 
-The prototype follows that work across **five fictional accounts and six app/platform integrations**, covering Offerwall onboarding, blank-offerwall reports and reward callbacks. It preserves the difference between a recorded failure, missing evidence and a possible explanation.
+The prototype covers **five fictional accounts and six app/platform integrations**. It separates missing evidence from a recorded failure and keeps each platform's conclusions tied to its own sources.
 
 ## Start with one case
 
-1. **[Inspect Android](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace).** Currency approval and Test Only are unknown; the device check is recorded as not met. Expand the source view to read the dated evidence.
-2. **[Read the next customer question](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=followup&lang=en#workspace).** The draft asks for missing confirmations and a fresh device result. Switch to Chinese, then inspect the handoff's missing fields.
-3. **[Compare iOS](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=en#workspace).** Its separate checklist is complete, so the next action is a launch-plan review. Completion is not launch approval.
-4. **[Add fresh evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en&update=2#customer-update).** Passing new checks changes the Android follow-up to an issue-status question; it does not automatically close the earlier complaint.
+| Step | Open the evidence | What to look for |
+|---|---|---|
+| 1. Decide what to ask | [Android follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=followup&lang=en#workspace) | Unknown settings require confirmation; a failed device check requires a fresh test. Switch between English and Chinese. |
+| 2. Prepare the handoff | [Android issue](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=handoff&lang=en#workspace) | Retain supplied details; request the SDK version, time window and redacted logs. Keep the root cause unconfirmed. |
+| 3. Compare the next action | [iOS follow-up](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_ios&view=followup&lang=en#workspace) | Its complete checklist leads to launch-plan review, not launch approval. |
 
-Every draft remains unsent. Drafting does not update contact history. Review dates and source dates stay distinct: moving the review clock forward does not refresh customer records.
+Then [add fresh Android evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en&update=2#customer-update): passing checks changes the next question without automatically resolving the earlier complaint. Drafts remain unsent and contact history stays unchanged.
 
 ## Where AI fits
 
-**CSM request → AI host → scoped tools → results returned to the AI host → human review**
-
-An AI host can choose tools and rewrite drafts. The Python server handles dates, platform scope, checklist states and source references deterministically. Its default drafts are templates, so the workflow can run without a model or API key.
-
-The repository preserves **nineteen local Qwen attempts across four prescribed tasks**. These are exploratory development runs with changing prompts and settings. The public replay retains unsuccessful outputs, exact host instructions, tool returns and correction feedback.
-
-The deterministic workflow already selects accounts, checks readiness and assembles drafts. The model experiments explore tool orchestration and explanation. In the original platform task, both integration IDs were supplied; that task does not demonstrate autonomous account discovery. Later morning attempts retrieve the queue under an explicit host dependency policy. No experiment has established that adding a model saves time or improves customer outcomes. [Inspect the division of work](docs/ARCHITECTURE.md#what-the-model-layer-contributes).
-
-**Four useful moments to show an interviewer:**
-
-| Open this recording | What it demonstrates | What remains unresolved |
-|---|---|---|
-| [Original AI claim review](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) | Four successful tool calls can still be followed by an unsupported description of iOS as having “full compliance” | Tool execution is separate from faithful explanation |
-| [Queue-first workflow](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs) | Seven calls retrieve the queue, inspect both platforms, prepare two English drafts and draft a handoff | The explanation blurs unknown evidence with a recorded failed check |
-| [One recorded correction](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-correction#model-runs) | Host feedback supplies expected citations; the model removes an issue-only source from readiness evidence while retaining its handoff use | The 52-word explanation remains unchanged and incomplete |
-| [Explicit explanation guidance](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-explanation-checklist#model-runs) | The same seven tool-stage requests receive an additional final-answer writing checklist | The first answer still omits specific next actions and citations; added instructions alone do not establish a better explanation |
-
-The [morning field checker](docs/MORNING_FINAL.md) compares structured claims with returned records and renders a separate summary on agreement. It does not semantically verify arbitrary prose. The [local-model record](docs/LOCAL_MODEL.md) preserves the intervening parsing failures, timeout, rejected citation and context-reduction experiment, including exact settings and observed timing. The explorer's **Compare morning attempts** table keeps tool coverage, field review and AI-assisted prose findings separate.
-
-[Read every recorded result](evidence/MODEL_RUNS.md) · [Inspect the host dependency policy](docs/DEPENDENCY_POLICY.md) · [Trace a rejected answer to its correction](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-correction#model-runs)
-
-[![Two saved model claims compared with recorded tool results: iOS full compliance overstates a scoped checklist, and Android missing evidence omits a recorded unmet device check.](docs/assets/ai-claim-review-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs)
-
-Comparison screenshot from the same source revision. The assessment is an AI-assisted review of a saved attempt; open the replay to locate each field in its raw trace.
-
-## Choose what to inspect
-
-| Reviewer question | Evidence to open |
+| Layer | Responsibility |
 |---|---|
-| Why was this account selected for review? | [Lantern's queue evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace): expand **Why this account is in the queue** to inspect its contact record, threshold and fixed review time |
-| Can the workflow prepare a useful technical handoff? | [Harbor callback case](https://yuchi-wang02.github.io/csm-copilot/?case=harbor_android&view=handoff&lang=en#workspace): request missing reproduction steps and redacted logs while retaining the supplied details |
-| Can a CSM explain the next step to a publisher? | [Customer-education example](docs/CLIENT_EDUCATION.md) and [one-page teaching handout](demo/publisher-teaching-example.pdf) |
-| Can recurring gaps become useful Product questions? | [Feedback review](https://yuchi-wang02.github.io/csm-copilot/#feedback): distinct account counts, source records and a proposed validation step |
-| Can the system keep evidence in the right scope? | [Evidence probes](https://yuchi-wang02.github.io/csm-copilot/#integrity) and [the failure and fix](docs/EVIDENCE.md) |
-| Can customer text authorize an action? | [Text/action probes](https://yuchi-wang02.github.io/csm-copilot/#trust-boundary), including remaining gaps |
-| Can I explain the reasoning myself? | [Six practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice) and [learning exercises](docs/LEARNING.md) |
+| Python tools | Select accounts, calculate dates, apply scoped checklist rules and assemble draft templates. Works without a model or API key. |
+| Optional AI host | Propose tool calls and write explanations. Later recorded workflows use explicit host constraints and correction feedback. |
+| Human reviewer | Judge evidence adequacy, tailor communication and decide what to do next. |
 
-For presentation details, use the [interview walkthrough](docs/INTERVIEW.md). For a portable replay, download the fixed [v0.30.2 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.30.2); the [package guide](docs/INTERVIEW_BUNDLE.md) distinguishes that release from newer source changes. [Sharing instructions](docs/SHARING.md) cover direct links, platform briefs and practice exports.
+**One finding worth inspecting:** a model completed four requested tool calls, then described a scoped iOS checklist as “full compliance.” [Compare its words with the recorded result →](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs)
 
-## Tools
-
-All eight MCP tools are read-only. The two prompts compose a morning review and a Product-feedback discussion.
-
-| Tool | Role in the workflow |
-|---|---|
-| `list_accounts` | Queue stale contacts and unknown-contact entries; prioritize planned launches |
-| `get_account_context` | Read an account's integrations, issues and attributed evidence |
-| `check_readiness` | Evaluate each app/platform separately; preserve unknown and unmet checks |
-| `triage_issue` | Retrieve possible checks and questions using a lexical baseline |
-| `draft_ticket` | Prepare a technical handoff with explicit missing fields |
-| `draft_followup` | Produce an English or Chinese template for the current next action |
-| `validate_draft` | Flag narrow promise patterns; this does not verify factual support |
-| `friction_digest` | Turn snapshot gaps into proposed Product questions, without diagnosing defects |
-
-[MCP setup and prompts](docs/MCP.md) · [Actual protocol transcript](evidence/mcp-transcript.json) · [Architecture and decisions](docs/ARCHITECTURE.md)
+The repository preserves **19 local Qwen attempts across four prescribed tasks**, including failures and assisted corrections. Later morning runs complete seven calls, but matching structured fields still leaves gaps in the explanation. These are exploratory development records, not a controlled benchmark. [Browse the experiments](evidence/MODEL_RUNS.md) · [Inspect the division of work](docs/ARCHITECTURE.md#what-the-model-layer-contributes)
 
 ## What the evaluation actually shows
 
-| Evidence | Observed result | Interpretation |
-|---|---|---|
-| Synthetic triage messages | 12/12 development; 16/18 reused cases, previously 14/18 | Rules were adapted after inspecting failures; the latter result is not a fresh holdout |
-| Eight promise-lint probes | 4 true positives, 2 false negatives, 1 false positive, 1 true negative | Fluent unsupported claims can pass; one negated promise is flagged |
-| Scripted MCP client | Eight tools and both prompts retrieved over real stdio | Protocol integration, separate from model tool choice |
-| Windows and Linux CI | Workflow, browser-logic, export and installed-package checks | Reproducible authored cases; see the badges for current run status |
+- **Triage:** 12/12 development cases and 16/18 reused cases match the authored categories. Inspected failures informed rule changes; this is not independent accuracy.
+- **Promise checks:** eight diagnostic probes include false positives and false negatives. Zero flags does not establish factuality.
+- **Engineering:** Windows and Ubuntu CI check workflow behavior, browser logic, real MCP transport, generated artifacts and installed packages. Use the badges above for current status.
 
-Known failures remain visible, including indirect wording, qualified negation and quoted topics. There is no independent human validation, measured customer impact or general model-reliability estimate.
-
-[Methodology and results](evidence/EVALUATION.md) · [Verification scope](docs/VERIFICATION.md) · [Before/after triage explorer](https://yuchi-wang02.github.io/csm-copilot/#triage-review) · [Detailed development history](docs/DEVELOPMENT.md)
+No independent human validation, measured customer benefit or production readiness is claimed. [Evaluation](evidence/EVALUATION.md) · [Verification scope](docs/VERIFICATION.md) · [Limitations](docs/LIMITATIONS.md)
 
 ## Portfolio rationale
 
-This project connects customer communication, business analytics and process controls. It makes a chain of decisions inspectable: identify the account, separate evidence from assumptions, ask a focused question, prepare a handoff, and review what an AI explanation adds.
+This project connects customer communication, business analytics and process controls. **Yuchi selected the direction, audience and CSM workflow.** Implementation, tests, documentation and synthetic cases used substantial AI assistance; unaided implementation and completed personal mastery are not claimed.
 
-**Contribution transparency:** Yuchi selected the direction, intended audience and CSM workflow, and commissioned the build. Implementation, tests, documentation and synthetic cases used substantial AI assistance. Unaided coding, completed personal mastery exercises and independent customer validation are not claimed.
+The [learning path](docs/LEARNING.md) turns the project into three concrete exercises: explain one customer decision, trace one AI mistake and run one experiment on a copied dataset. [Six interactive practice decisions](https://yuchi-wang02.github.io/csm-copilot/#practice) keep initial reasoning separate from reflection.
 
-The [learning path](docs/LEARNING.md) asks you to predict a result, change a copied input, inspect the output and explain the difference. [Practice](https://yuchi-wang02.github.io/csm-copilot/#practice) keeps initial reasoning separate from later reflection, with local save/resume and export. Those responses can provide a concrete basis for discussing your own learning.
+## Explore or reproduce
 
-## Run locally
+| Your goal | Start here |
+|---|---|
+| Present the project | [Three-minute walkthrough](docs/INTERVIEW.md) and [project PDF](demo/project-brief.pdf) |
+| Explain a product question | [Customer-education example](docs/CLIENT_EDUCATION.md) and [one-page handout](demo/publisher-teaching-example.pdf) |
+| Connect cases to Product | [Feedback review](https://yuchi-wang02.github.io/csm-copilot/#feedback): attributed gaps and questions to validate |
+| Keep a fixed demo | [v0.30.2 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.30.2); [contents and checksum](docs/INTERVIEW_BUNDLE.md). The hosted site can be newer. |
+| Run locally | [Setup guide](docs/LOCAL_SETUP.md): browser replay or Python 3.11–3.13 workflow; model optional |
 
-To present the committed browser replay, follow the [local preview commands](docs/LOCAL_SETUP.md#view-the-browser-replay); no package installation or model is needed. To execute the workflow, use Python **3.11–3.13** and [install the Python package](docs/LOCAL_SETUP.md#install-the-python-workflow), then print a morning summary or export English/Chinese briefs. The [full verification sequence](docs/VERIFICATION.md#reproduction) includes JavaScript checks, package checks and PDF builders.
+<details>
+<summary><strong>Technical map: tools, source and reproduction</strong></summary>
+
+## Tools
+
+Eight read-only MCP tools and two workflow prompts:
+
+| Tool | Purpose |
+|---|---|
+| `list_accounts` | Select the follow-up queue |
+| `get_account_context` | Retrieve integrations, issues and evidence |
+| `check_readiness` | Evaluate each app/platform |
+| `triage_issue` | Suggest checks and questions using a lexical baseline |
+| `draft_ticket` | Prepare a handoff with explicit missing fields |
+| `draft_followup` | Produce an English or Chinese template |
+| `validate_draft` | Flag narrow promise patterns |
+| `friction_digest` | Aggregate snapshot gaps into Product questions |
+
+[MCP setup](docs/MCP.md) · [Protocol transcript](evidence/mcp-transcript.json) · [Architecture](docs/ARCHITECTURE.md) · [Full verification commands](docs/VERIFICATION.md#reproduction)
 
 ## Repository map
 
 ```text
-src/csm_copilot/   Evidence schema, workflow engine, MCP server and fixtures
-demo/             Interactive replay, downloadable briefs and PDFs
+src/csm_copilot/   Workflow engine, MCP server and synthetic fixtures
+demo/             Interactive replay, briefs and PDFs
 tests/, tests-js/  Authored behavior and boundary checks
-evaluation/       Synthetic diagnostic cases and evaluators
-evidence/         Workflow outputs, protocol transcript and model recordings
-docs/             Sources, methods, setup, interview and learning guides
-scripts/          Builders and protocol/package verification
+evaluation/       Diagnostic cases and evaluators
+evidence/         Outputs, protocol transcript and model recordings
+docs/, scripts/   Methods, learning guides, builders and verification
 ```
 
-Public sources are paraphrased and linked in the [source register](docs/SOURCES.md), reviewed **2026-10-14**. Project policies are labeled separately from official product guidance. See [limitations and data handling](docs/LIMITATIONS.md) before extending the prototype. Code is MIT licensed; referenced vendor documentation retains its own terms.
+[Evidence boundaries](docs/EVIDENCE.md) · [Development history](docs/DEVELOPMENT.md) · [Sharing guide](docs/SHARING.md)
+
+</details>
+
+Public guidance is paraphrased and cited in the [source register](docs/SOURCES.md), reviewed **2026-10-14**. Project policies are labeled separately. Code is MIT licensed; referenced documentation retains its own terms.
