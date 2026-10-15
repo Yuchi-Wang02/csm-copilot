@@ -2,14 +2,14 @@
 
 ## Reviewed source snapshot
 
-This summary describes the v0.30.0 release source, commit [`d899e26`](https://github.com/Yuchi-Wang02/csm-copilot/commit/d899e2625bb3aaf5cb9a8d8b3ee67a2794c338da), reviewed on **14 October 2026 (America/New_York)**. Both jobs in its [verification run](https://github.com/Yuchi-Wang02/csm-copilot/actions/runs/38669105626) passed: Windows / Python 3.13 and Ubuntu / Python 3.11. The [portable-package guide](INTERVIEW_BUNDLE.md) records its reproducible archive and observed browser behavior. The [earlier reviewed snapshot](https://github.com/Yuchi-Wang02/csm-copilot/blob/1320c312e655143b6114765b848ee41203cdf6f2/docs/VERIFICATION.md) remains available for comparison.
+This summary describes the v0.30.1 release source, commit [`b91ade8`](https://github.com/Yuchi-Wang02/csm-copilot/commit/b91ade82330c1c47bd86de5d679f9c6fdb7a3572), reviewed on **14 October 2026 (America/New_York)**. Both jobs in its [verification run](https://github.com/Yuchi-Wang02/csm-copilot/actions/runs/38671782230) passed: Windows / Python 3.13 and Ubuntu / Python 3.11. The [portable-package guide](INTERVIEW_BUNDLE.md) records its reproducible archive and observed browser behavior. The [earlier reviewed snapshot](https://github.com/Yuchi-Wang02/csm-copilot/blob/0d3ba7f8d2bb07c3c98f5962a3c0363fb0c121d3/docs/VERIFICATION.md) remains available for comparison.
 
 For newer commits, inspect the live [verification workflow](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/ci.yml) and [deployment workflow](https://github.com/Yuchi-Wang02/csm-copilot/actions/workflows/pages.yml). The table below is tied to the reviewed source, rather than an automatically updated claim about `main`.
 
 | Evidence | Verified observation | What it establishes |
 |---|---|---|
 | Python behavior checks | 514 passed in each CI job | The authored workflow, export, evidence-scope, host policy, request lifecycle, field review, recording integrity and packaging cases behaved as expected |
-| JavaScript checks | 111 passed in each CI job | Practice, local progress files, routing, source rendering, triage replay, recorded conversations and copy-feedback logic passed their authored cases |
+| JavaScript checks | 117 passed in each CI job | Six practice decisions, compatible earlier progress files, routing, source rendering, triage replay, recorded conversations, attempt comparison and copy-feedback logic passed their authored cases |
 | Real MCP transport | Scripted stdio calls, eight tools, both prompts and invalid-ID behavior passed | The client and server exchanged the expected protocol results; this is separate from model orchestration |
 | Installed package | Source distribution/wheel builds and isolated installed CLI/MCP checks passed on both runners | The checked package works outside the editable checkout in those environments |
 | Generated artifacts | CI regenerated the demo, briefs, diagnostic reports, model replay and both PDFs without a Git diff | The committed outputs agree with the builders at this source revision |
@@ -22,7 +22,7 @@ The counts are different kinds of evidence and should not be added into one reli
 
 ## Browser interactions inspected
 
-Browser checks are recorded observations, not a cross-browser automated acceptance suite. This package pass opened the extracted v0.30.0 archive over localhost HTTP in Edge. It confirmed the version banner, seventeen recording choices, the latest final-turn rejection and omitted-message audit, Android's evidence request, iOS's launch-plan review and the handoff's missing SDK version, time window and redacted logs. No browser errors were recorded during those interactions. The public ZIP and checksum downloads match the checked local files.
+Browser checks are recorded observations, not a cross-browser automated acceptance suite. This package pass opened the extracted v0.30.1 archive over localhost HTTP in Edge. It confirmed the version banner, presenter-download target, blank six-decision practice, seven-attempt comparison, recorded final-field rejection and Android handoff's missing SDK version, time window and redacted logs. The opening layout was visually inspected and no browser errors were recorded. The public ZIP and checksum downloads match the checked local files. The hosted version banner and presenter link were also inspected; the public index and presenter text match the selected source bytes.
 
 Earlier checks covered keyboard focus, direct links, browser history, practice save/resume, reset confirmation, downloads, readable evidence sources and selected mobile layouts. They were performed at their recorded versions; they were not all repeated for this source snapshot. Screen-reader behavior and other browser engines remain unverified. Read the [version-specific history](VERIFICATION_HISTORY.md) and [development notes](DEVELOPMENT.md) for what was observed and what was not.
 
