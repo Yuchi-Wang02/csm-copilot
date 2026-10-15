@@ -6,6 +6,25 @@ const api = require("../demo/model-turns.js");
 const directory = path.join(__dirname, "../evidence/model-runs");
 const trace = (id) => JSON.parse(fs.readFileSync(path.join(directory, id + ".json"), "utf8"));
 
+test("optional context reduction exposes omissions without claiming inference improvement", () => {
+  const input = trace("qwen4-morning-field-review");
+  input.steps[7].context_reduction = {
+    original_message_count: 25, retained_message_count: 18,
+    boundary: "Authored software test: no speed or quality claim. <script>",
+    omitted_messages: [{original_index: 2, message: {role: "user", content: "<img src=x>"}}],
+  };
+  const before = JSON.stringify(input), html = api.render(input);
+  assert.match(html, /Final context reduction/);
+  assert.match(html, /retained 18 of 25 messages/);
+  assert.match(html, /Inspect omitted host messages and original positions/);
+  assert.match(html, /steps\[7\].context_reduction/);
+  assert.match(html, /no speed or quality claim/);
+  assert.match(html, /&lt;img|&lt;script/);
+  assert.doesNotMatch(html, /<img|<script/);
+  assert.equal(JSON.stringify(input), before);
+  assert.doesNotMatch(api.render(trace("qwen4-morning-field-review")), /Final context reduction/);
+});
+
 test("an optional final contract remains visible as host assistance and inert text", () => {
   const input = trace("qwen4-morning-long-budget"), step = input.steps[7];
   step.final_contract_message = {role: "system", content: "<img src=x> Require separate unknown and failed fields."};

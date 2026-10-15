@@ -18,18 +18,24 @@ from scripts import run_local_host
 
 
 @pytest.mark.parametrize(
-    "mode,expected_status",
+    "mode,expected_status,compact",
     [
-        ("match", "structured_fields_match"),
-        ("conflation", "rejected"),
-        ("wrong_action", "rejected"),
-        ("missing_field", "rejected"),
-        ("corrected", "structured_fields_match"),
-        ("unsupported_prose", "structured_fields_match"),
-        ("unconstrained", "structured_fields_match"),
+        ("match", "structured_fields_match", False),
+        ("conflation", "rejected", False),
+        ("wrong_action", "rejected", False),
+        ("missing_field", "rejected", False),
+        ("corrected", "structured_fields_match", False),
+        ("unsupported_prose", "structured_fields_match", False),
+        ("unconstrained", "structured_fields_match", False),
+        ("match", "structured_fields_match", True),
+        ("unconstrained", "structured_fields_match", True),
+        ("corrected", "structured_fields_match", True),
+        ("timeout", "response_timeout", True),
     ],
 )
-def test_morning_final_contract_through_real_mcp(tmp_path, monkeypatch, mode, expected_status):
+def test_morning_final_contract_through_real_mcp(
+    tmp_path, monkeypatch, mode, expected_status, compact
+):
     from test_morning_final import morning_example
 
     from csm_copilot.morning_review import MORNING_FINAL_GUIDANCE, morning_final_schema
@@ -38,6 +44,11 @@ def test_morning_final_contract_through_real_mcp(tmp_path, monkeypatch, mode, ex
 
     class ReviewedWorker(ScriptedWorker):
         final_count = 0
+
+        async def readline(self):
+            if mode == "timeout" and self.final_count:
+                await asyncio.Event().wait()
+            return await super().readline()
 
         def write(self, data):
             request = json.loads(data)
@@ -76,13 +87,14 @@ def test_morning_final_contract_through_real_mcp(tmp_path, monkeypatch, mode, ex
         protocol="batch",
         task="morning_review",
         max_steps=9,
-        response_timeout_seconds=180,
+        response_timeout_seconds=0.05 if mode == "timeout" else 180,
         repair_attempts=1 if mode == "corrected" else 0,
         sequence_dependencies=False,
         enforce_dependencies=True,
         constrain_actions=mode != "unconstrained",
         constrain_final=False,
         review_morning_final=True,
+        compact_final_context=compact,
         max_new_tokens=768,
         output=tmp_path / "review.json",
     )
@@ -92,6 +104,32 @@ def test_morning_final_contract_through_real_mcp(tmp_path, monkeypatch, mode, ex
     assert trace["protocol_version"] == "4-morning-structured-final"
     assert trace["coverage"]["observed"] == 7 and trace["review_morning_final"] is True
     assert worker.returncode == 0
+    assert trace["compact_final_context"] is compact
+    history, positions = deepcopy(trace["initial_messages"]), []
+    for step in trace["steps"]:
+        positions.append(len(history))
+        history.append(step["policy_message"])
+        if "final_contract_message" in step:
+            history.append(step["final_contract_message"])
+        if compact and "final_contract_message" in step:
+            from test_host_context import reconstruct
+
+            audit = step["context_reduction"]
+            assert [item["original_index"] for item in audit["omitted_messages"]] == positions[:-1]
+            assert reconstruct(step["worker_request"]["messages"], audit) == history
+            assert step["worker_request"]["messages"] == [
+                m for i, m in enumerate(history) if i not in positions[:-1]
+            ]
+        else:
+            assert "context_reduction" not in step
+            assert step["worker_request"]["messages"] == history
+        payload = (json.dumps(step["worker_request"], ensure_ascii=False) + "\n").encode("utf-8")
+        assert hashlib.sha256(payload).hexdigest() == step["request_sha256"]
+        if "model_response" in step:
+            history.append({"role": "assistant", "content": step["model_response"]["text"]})
+        history.extend(call["result_message"] for call in step.get("tool_calls", []))
+        if "correction_feedback" in step:
+            history.append(step["correction_feedback"])
     tool_turns = 4 if mode == "unconstrained" else 7
     assert all("final_contract_message" not in step for step in trace["steps"][:tool_turns])
     for step in trace["steps"][tool_turns:]:
@@ -102,7 +140,11 @@ def test_morning_final_contract_through_real_mcp(tmp_path, monkeypatch, mode, ex
             assert "generation_schema" not in step
         else:
             assert step["generation_schema"] == morning_final_schema()
-        assert step["response_review"]["free_text_verification"] == "not_performed"
+        if mode == "timeout":
+            assert step["request_state"] == "response_timeout"
+            assert "model_response" not in step and "response_review" not in step
+        else:
+            assert step["response_review"]["free_text_verification"] == "not_performed"
     if mode == "corrected":
         assert len(trace["steps"]) == 9
         rejected = trace["steps"][7]
@@ -123,6 +165,7 @@ def test_morning_final_contract_through_real_mcp(tmp_path, monkeypatch, mode, ex
 
         monkeypatch.setattr(run_local_host, "start_worker", baseline_start)
         args.review_morning_final = False
+        args.compact_final_context = False
         args.output = tmp_path / "baseline.json"
         asyncio.run(asyncio.wait_for(run_local_host.run(args), timeout=45))
         assert worker.requests[:7] == baseline.requests[:7], "No new instructions before final work"
@@ -168,6 +211,39 @@ def test_morning_final_cli_requires_policy_and_fails_on_rejected_fields(
         run_local_host.main()
     assert exc.value.code == exit_code
     assert calls == ([True] if exit_code == 1 else [])
+
+
+@pytest.mark.parametrize("with_review", [False, True])
+def test_compact_final_cli_requires_the_morning_contract(tmp_path, monkeypatch, with_review):
+    argv = [
+        "host",
+        "--model-path",
+        str(tmp_path),
+        "--model-id",
+        "test",
+        "--revision",
+        "test",
+        "--output",
+        str(tmp_path / "new.json"),
+        "--compact-final-context",
+    ]
+    if with_review:
+        argv += ["--review-morning-final", "--enforce-dependencies", "--task", "morning_review"]
+    monkeypatch.setattr(sys, "argv", argv)
+    calls = []
+
+    async def fake_run(args):
+        calls.append(args.compact_final_context)
+        return "structured_fields_match"
+
+    monkeypatch.setattr(run_local_host, "run", fake_run)
+    if with_review:
+        run_local_host.main()
+        assert calls == [True]
+    else:
+        with pytest.raises(SystemExit) as exc:
+            run_local_host.main()
+        assert exc.value.code == 2 and calls == []
 
 
 class ScriptedWorker:

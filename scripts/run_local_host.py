@@ -15,6 +15,7 @@ from mcp.client.stdio import stdio_client
 
 from csm_copilot import __version__
 from csm_copilot.dependency_policy import DependencyPolicyError, MorningReviewPolicy
+from csm_copilot.host_context import compact_final_messages
 from csm_copilot.host_protocol import (
     TRIAGE_SCOPE_MESSAGES,
     parse_action,
@@ -174,6 +175,7 @@ async def start_worker(args, env):
 async def run(args):
     task = TASKS[args.task]
     review_morning = getattr(args, "review_morning_final", False)
+    compact_context = getattr(args, "compact_final_context", False)
     policy = MorningReviewPolicy() if args.enforce_dependencies else None
     env = dict(os.environ)
     env.update(
@@ -210,6 +212,7 @@ async def run(args):
         "enforce_dependencies": args.enforce_dependencies,
         "constrain_actions": args.constrain_actions,
         "review_morning_final": review_morning,
+        "compact_final_context": compact_context,
         "steps": [],
         "status": "initializing",
         "final": None,
@@ -271,6 +274,7 @@ async def run(args):
                 ).hexdigest()
                 trace["status"] = "running"
                 save()
+                policy_message_indexes = []
                 for number in range(1, args.max_steps + 1):
                     policy_message = None
                     final_contract_message = None
@@ -287,6 +291,7 @@ async def run(args):
                             "The whole batch is rejected if any action is not pending. "
                             + json.dumps(policy.snapshot(), ensure_ascii=False),
                         }
+                        policy_message_indexes.append(len(messages))
                         messages.append(policy_message)
                     if review_morning and not policy.pending:
                         final_contract_message = {
@@ -294,7 +299,13 @@ async def run(args):
                             "content": MORNING_FINAL_GUIDANCE,
                         }
                         messages.append(final_contract_message)
-                    request = {"messages": messages}
+                    context_reduction = None
+                    request_messages = messages
+                    if compact_context and final_contract_message:
+                        request_messages, context_reduction = compact_final_messages(
+                            messages, policy_message_indexes
+                        )
+                    request = {"messages": request_messages}
                     if args.constrain_actions:
                         request["json_schema"] = (
                             morning_final_schema()
@@ -319,6 +330,8 @@ async def run(args):
                         step["policy_message"] = policy_message
                     if final_contract_message:
                         step["final_contract_message"] = final_contract_message
+                    if context_reduction:
+                        step["context_reduction"] = context_reduction
                     if "json_schema" in request:
                         step["generation_schema"] = request["json_schema"]
                     trace["steps"].append(step)
@@ -485,6 +498,11 @@ def main():
     )
     parser.add_argument("--repair-attempts", type=int, choices=(0, 1, 2), default=0)
     parser.add_argument(
+        "--compact-final-context",
+        action="store_true",
+        help="Require --review-morning-final; omit superseded host policy messages only from final requests, retaining an exact audit",
+    )
+    parser.add_argument(
         "--review-morning-final",
         action="store_true",
         help="Require --enforce-dependencies; request and review structured morning-final fields while leaving prose unverified",
@@ -516,6 +534,8 @@ def main():
         parser.error("--response-timeout-seconds must be 1..600")
     if args.constrain_actions and not args.enforce_dependencies:
         parser.error("--constrain-actions requires --enforce-dependencies")
+    if args.compact_final_context and not args.review_morning_final:
+        parser.error("--compact-final-context requires --review-morning-final")
     if args.review_morning_final and not args.enforce_dependencies:
         parser.error("--review-morning-final requires --enforce-dependencies")
     if args.enforce_dependencies and (args.task != "morning_review" or args.protocol != "batch"):

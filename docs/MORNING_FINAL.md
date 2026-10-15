@@ -41,6 +41,18 @@ python scripts/run_local_host.py \
 
 The recorded result is a rejected final answer, not a passing field review. The larger output cap explicitly changes the preceding run's 768-token condition; it is not a measured optimum, and the returned 314-token response does not reach either cap. Timeouts and incomplete JSON must also remain visible in future attempts. See [local model setup and provenance](LOCAL_MODEL.md) for the optional environment and decoder dependency.
 
+## Optional final context reduction
+
+The sixteenth attempt's final generation took 405.461 seconds. The optional `--compact-final-context` flag prepares a narrower input for a future latency experiment. It requires `--review-morning-final` and applies only after all tool work is complete. Existing defaults and all sixteen saved model recordings are unchanged; no model recording uses the reduction yet.
+
+The host records the position of each workflow-policy message when it creates that message. For a final request, it omits earlier policy messages and retains the latest policy, initial instructions, task, every model response and tool-result message, final contracts and any correction feedback. Selection uses these host-owned positions rather than matching customer text. The canonical conversation remains intact; a later correction builds its request from that full history again.
+
+Each reduced request saves `context_reduction`: the method, original and retained message counts, retained positions, and every omitted message with its original position. Combining that audit with the exact saved worker request reconstructs the complete pre-reduction history. Request fingerprints continue to cover the bytes actually sent. The browser exposes the reduction separately from the model's proposal. This omission record is retained even when the worker times out before answering.
+
+An authored check replays the sixteenth recording's final input through this helper: **18 of 25 messages remain**, with seven superseded policy messages omitted and every tool result unchanged. This is a mechanical transformation of a saved request, not new inference or a measured speedup. Scripted real-MCP tests cover a matched answer, a rejected answer followed by explicitly budgeted correction, and a final-response timeout. The same field checker and prose-review boundary still apply.
+
+Add `--compact-final-context` to the command above for a new experiment with a fresh output path. Compare recorded input tokens, generation time, field review and explanation quality; a shorter input alone establishes none of the latter outcomes. See [the helper](../src/csm_copilot/host_context.py), [preservation checks](../tests/test_host_context.py) and [integration checks](../tests/test_host_dependency_integration.py).
+
 ## Checked summary versus model prose
 
 On agreement, the host renders a separate summary from the actual queue, readiness, follow-up and handoff results. It preserves unknown versus failed checks, citations and distinct next actions. The model's own explanation remains separate, and the browser identifies the final-contract message as host assistance.

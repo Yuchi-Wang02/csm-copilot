@@ -59,6 +59,7 @@
     return `<li><details class="model-turn"><summary>Turn ${esc(step.number)} — ${esc(outcome(step))}</summary>` +
       `<p class="boundary">Recorded source: steps[${index}]. These are results from this attempt; current tools may differ.</p>` +
       requestHTML(step, index) +
+      (step.context_reduction ? `<div class="turn-host"><h4>Final context reduction</h4><p>The host retained ${esc(step.context_reduction.retained_message_count)} of ${esc(step.context_reduction.original_message_count)} messages in this worker request.</p><p class="boundary">${esc(step.context_reduction.boundary)}</p><details><summary>Inspect omitted host messages and original positions</summary><p class="boundary">Recorded source: steps[${index}].context_reduction</p><pre>${json(step.context_reduction)}</pre></details></div>` : "") +
       policyInputHTML(step, index) +
       (step.final_contract_message ? `<div class="turn-host"><h4>Host final-answer contract</h4><p>The host supplied the required final fields after tool work. These instructions are assistance, not model-written reasoning.</p><details><summary>Read the exact final contract message</summary><p class="boundary">Recorded source: steps[${index}].final_contract_message</p><pre>${esc(step.final_contract_message.content)}</pre></details></div>` : "") +
       generationSchemaHTML(step, index) +

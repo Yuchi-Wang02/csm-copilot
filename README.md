@@ -48,6 +48,8 @@ The host now [saves requests before dispatch and records specific timeout causes
 
 An [optional morning final-answer checker](docs/MORNING_FINAL.md) now requests separate unknown/failed checks, follow-up purposes, selected-account facts and handoff gaps. It compares those fields with observed calls and renders a separate summary on agreement. The [first actual run with this mode](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-field-review#model-runs) separates the evidence states but is rejected for including an issue report among readiness citations. The ID is real and correctly scoped; its evidentiary purpose is wrong for that field. No correction is attempted, and free prose still requires review.
 
+An [optional final-context reduction](docs/MORNING_FINAL.md#optional-final-context-reduction) removes superseded host planning messages while preserving every tool result and an exact omission audit. Scripted checks verify content preservation and interrupted requests; no new model run or speedup is claimed yet.
+
 [![Two saved model claims compared with recorded tool results: iOS full compliance overstates a scoped checklist, and Android missing evidence omits a recorded unmet device check.](docs/assets/ai-claim-review-0ea4b88.jpg)](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs)
 
 Comparison screenshot from the same source revision. The assessment is an AI-assisted review of a saved attempt; open the replay to locate each field in its raw trace.

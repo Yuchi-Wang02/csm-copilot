@@ -1,5 +1,13 @@
 # Development notes
 
+## Reduce the final request while preserving its complete history
+
+The sixteenth model attempt spent 405.461 seconds generating its final response. An optional `--compact-final-context` flag now prepares a narrower request for a future experiment: only superseded host policy messages are omitted after tool work completes. The host records message positions as it creates them, retains the latest policy and every task, model, tool-result, contract and correction message, and keeps the canonical conversation intact. Each request saves retained positions and the exact omitted messages so the original history can be reconstructed. Default requests and all sixteen historical recordings remain unchanged.
+
+Replaying the saved sixteenth final input through the helper retains 18 of 25 messages while preserving every tool result. Unit checks cover full reconstruction, detached output, untracked identical text, current-policy retention and invalid tracked positions. Real-MCP scripted checks cover one-action and batched completion, correction and an interrupted final response, including exact transmitted request fingerprints and omission records after timeout. The correction case retains the previous rejected answer and expected-value feedback. These are software checks, not a new inference result or evidence of faster or better answers.
+
+All 511 Python tests, 110 JavaScript tests and Ruff checks passed. Local Edge QA opened a deliberately injected final timeout and verified the 18-of-25 summary, omitted positions, complete current policy and explicit absence of a model response. That temporary trace is labeled as scripted QA and is not published as a model recording. The [mode documentation](MORNING_FINAL.md#optional-final-context-reduction) explains its audit and how to test latency and answer quality separately. This implementation postdates the fixed v0.29.8 bundle; no personal practice response was completed.
+
 ## Record a real rejection for a citation with the wrong purpose
 
 One Qwen3-4B attempt used committed host `a982c15ed6fd23e5bbb480ca8628afbca9d71e03` with the optional morning final review, constrained actions, eight turns, a 600-second response budget and no corrections. The output cap changed to 1536; other recorded runtime settings and all seven tool-stage requests, actions and returns match the preceding longer-budget run. The final request adds the new system contract and schema. All fifteen earlier raw recordings remain unchanged.
