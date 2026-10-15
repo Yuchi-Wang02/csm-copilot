@@ -18,27 +18,37 @@ from scripts import run_local_host
 
 
 @pytest.mark.parametrize(
-    "mode,expected_status,compact",
+    "mode,expected_status,compact,explain",
     [
-        ("match", "structured_fields_match", False),
-        ("conflation", "rejected", False),
-        ("wrong_action", "rejected", False),
-        ("missing_field", "rejected", False),
-        ("corrected", "structured_fields_match", False),
-        ("unsupported_prose", "structured_fields_match", False),
-        ("unconstrained", "structured_fields_match", False),
-        ("match", "structured_fields_match", True),
-        ("unconstrained", "structured_fields_match", True),
-        ("corrected", "structured_fields_match", True),
-        ("timeout", "response_timeout", True),
+        ("match", "structured_fields_match", False, False),
+        ("conflation", "rejected", False, False),
+        ("wrong_action", "rejected", False, False),
+        ("missing_field", "rejected", False, False),
+        ("corrected", "structured_fields_match", False, False),
+        ("unsupported_prose", "structured_fields_match", False, False),
+        ("unconstrained", "structured_fields_match", False, False),
+        ("match", "structured_fields_match", True, False),
+        ("unconstrained", "structured_fields_match", True, False),
+        ("corrected", "structured_fields_match", True, False),
+        ("timeout", "response_timeout", True, False),
+        ("match", "structured_fields_match", False, True),
+        ("match", "structured_fields_match", True, True),
+        ("unconstrained", "structured_fields_match", True, True),
+        ("corrected", "structured_fields_match", True, True),
+        ("unsupported_prose", "structured_fields_match", True, True),
+        ("timeout", "response_timeout", True, True),
     ],
 )
 def test_morning_final_contract_through_real_mcp(
-    tmp_path, monkeypatch, mode, expected_status, compact
+    tmp_path, monkeypatch, mode, expected_status, compact, explain
 ):
     from test_morning_final import morning_example
 
-    from csm_copilot.morning_review import MORNING_FINAL_GUIDANCE, morning_final_schema
+    from csm_copilot.morning_review import (
+        MORNING_EXPLANATION_GUIDANCE,
+        MORNING_FINAL_GUIDANCE,
+        morning_final_schema,
+    )
 
     correct, _ = morning_example()
 
@@ -95,6 +105,7 @@ def test_morning_final_contract_through_real_mcp(
         constrain_final=False,
         review_morning_final=True,
         compact_final_context=compact,
+        explanation_checklist=explain,
         max_new_tokens=768,
         output=tmp_path / "review.json",
     )
@@ -105,10 +116,13 @@ def test_morning_final_contract_through_real_mcp(
     assert trace["coverage"]["observed"] == 7 and trace["review_morning_final"] is True
     assert worker.returncode == 0
     assert trace["compact_final_context"] is compact
+    assert trace["explanation_checklist"] is explain
     history, positions = deepcopy(trace["initial_messages"]), []
     for step in trace["steps"]:
         positions.append(len(history))
         history.append(step["policy_message"])
+        if "explanation_guidance_message" in step:
+            history.append(step["explanation_guidance_message"])
         if "final_contract_message" in step:
             history.append(step["final_contract_message"])
         if compact and "final_contract_message" in step:
@@ -132,7 +146,16 @@ def test_morning_final_contract_through_real_mcp(
             history.append(step["correction_feedback"])
     tool_turns = 4 if mode == "unconstrained" else 7
     assert all("final_contract_message" not in step for step in trace["steps"][:tool_turns])
+    assert all("explanation_guidance_message" not in step for step in trace["steps"][:tool_turns])
     for step in trace["steps"][tool_turns:]:
+        if explain:
+            assert step["explanation_guidance_message"] == {
+                "role": "system",
+                "content": MORNING_EXPLANATION_GUIDANCE,
+            }
+            assert step["worker_request"]["messages"][-2] == step["explanation_guidance_message"]
+        else:
+            assert "explanation_guidance_message" not in step
         assert step["final_contract_message"] == step["worker_request"]["messages"][-1]
         assert step["final_contract_message"]["content"] == MORNING_FINAL_GUIDANCE
         assert step["final_contract_message"]["role"] == "system"
@@ -166,6 +189,7 @@ def test_morning_final_contract_through_real_mcp(
         monkeypatch.setattr(run_local_host, "start_worker", baseline_start)
         args.review_morning_final = False
         args.compact_final_context = False
+        args.explanation_checklist = False
         args.output = tmp_path / "baseline.json"
         asyncio.run(asyncio.wait_for(run_local_host.run(args), timeout=45))
         assert worker.requests[:7] == baseline.requests[:7], "No new instructions before final work"
@@ -214,7 +238,10 @@ def test_morning_final_cli_requires_policy_and_fails_on_rejected_fields(
 
 
 @pytest.mark.parametrize("with_review", [False, True])
-def test_compact_final_cli_requires_the_morning_contract(tmp_path, monkeypatch, with_review):
+@pytest.mark.parametrize("option", ["compact-final-context", "explanation-checklist"])
+def test_optional_final_guidance_cli_requires_the_morning_contract(
+    tmp_path, monkeypatch, with_review, option
+):
     argv = [
         "host",
         "--model-path",
@@ -225,7 +252,7 @@ def test_compact_final_cli_requires_the_morning_contract(tmp_path, monkeypatch, 
         "test",
         "--output",
         str(tmp_path / "new.json"),
-        "--compact-final-context",
+        "--" + option,
     ]
     if with_review:
         argv += ["--review-morning-final", "--enforce-dependencies", "--task", "morning_review"]
@@ -233,7 +260,7 @@ def test_compact_final_cli_requires_the_morning_contract(tmp_path, monkeypatch, 
     calls = []
 
     async def fake_run(args):
-        calls.append(args.compact_final_context)
+        calls.append(getattr(args, option.replace("-", "_")))
         return "structured_fields_match"
 
     monkeypatch.setattr(run_local_host, "run", fake_run)

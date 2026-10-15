@@ -23,6 +23,7 @@ from csm_copilot.host_protocol import (
     trace_coverage,
 )
 from csm_copilot.morning_review import (
+    MORNING_EXPLANATION_GUIDANCE,
     MORNING_FINAL_GUIDANCE,
     morning_final_schema,
     review_morning_final,
@@ -176,6 +177,7 @@ async def run(args):
     task = TASKS[args.task]
     review_morning = getattr(args, "review_morning_final", False)
     compact_context = getattr(args, "compact_final_context", False)
+    explanation_checklist = getattr(args, "explanation_checklist", False)
     policy = MorningReviewPolicy() if args.enforce_dependencies else None
     env = dict(os.environ)
     env.update(
@@ -213,6 +215,7 @@ async def run(args):
         "constrain_actions": args.constrain_actions,
         "review_morning_final": review_morning,
         "compact_final_context": compact_context,
+        "explanation_checklist": explanation_checklist,
         "steps": [],
         "status": "initializing",
         "final": None,
@@ -278,6 +281,7 @@ async def run(args):
                 for number in range(1, args.max_steps + 1):
                     policy_message = None
                     final_contract_message = None
+                    explanation_guidance_message = None
                     if policy:
                         policy_message = {
                             "role": "user",
@@ -294,6 +298,12 @@ async def run(args):
                         policy_message_indexes.append(len(messages))
                         messages.append(policy_message)
                     if review_morning and not policy.pending:
+                        if explanation_checklist:
+                            explanation_guidance_message = {
+                                "role": "system",
+                                "content": MORNING_EXPLANATION_GUIDANCE,
+                            }
+                            messages.append(explanation_guidance_message)
                         final_contract_message = {
                             "role": "system",
                             "content": MORNING_FINAL_GUIDANCE,
@@ -330,6 +340,8 @@ async def run(args):
                         step["policy_message"] = policy_message
                     if final_contract_message:
                         step["final_contract_message"] = final_contract_message
+                    if explanation_guidance_message:
+                        step["explanation_guidance_message"] = explanation_guidance_message
                     if context_reduction:
                         step["context_reduction"] = context_reduction
                     if "json_schema" in request:
@@ -498,6 +510,11 @@ def main():
     )
     parser.add_argument("--repair-attempts", type=int, choices=(0, 1, 2), default=0)
     parser.add_argument(
+        "--explanation-checklist",
+        action="store_true",
+        help="Require --review-morning-final; add a recorded explanation checklist after tool work",
+    )
+    parser.add_argument(
         "--compact-final-context",
         action="store_true",
         help="Require --review-morning-final; omit superseded host policy messages only from final requests, retaining an exact audit",
@@ -536,6 +553,8 @@ def main():
         parser.error("--constrain-actions requires --enforce-dependencies")
     if args.compact_final_context and not args.review_morning_final:
         parser.error("--compact-final-context requires --review-morning-final")
+    if args.explanation_checklist and not args.review_morning_final:
+        parser.error("--explanation-checklist requires --review-morning-final")
     if args.review_morning_final and not args.enforce_dependencies:
         parser.error("--review-morning-final requires --enforce-dependencies")
     if args.enforce_dependencies and (args.task != "morning_review" or args.protocol != "batch"):

@@ -6,6 +6,27 @@ const api = require("../demo/model-turns.js");
 const directory = path.join(__dirname, "../evidence/model-runs");
 const trace = (id) => JSON.parse(fs.readFileSync(path.join(directory, id + ".json"), "utf8"));
 
+test("optional explanation guidance is separate host assistance with escaped content", () => {
+  const input = trace("qwen4-morning-correction");
+  assert.doesNotMatch(api.render(input), /Host explanation checklist/);
+  input.steps[7].explanation_guidance_message = {role: "system", content: "QA-only authored guidance <img src=x>"};
+  const before = JSON.stringify(input), html = api.render(input);
+  assert.match(html, /Host explanation checklist/);
+  assert.match(html, /prompt assistance, not model reasoning or verification/);
+  assert.match(html, /steps\[7\].explanation_guidance_message/);
+  assert.match(html, /QA-only authored guidance &lt;img src=x&gt;/);
+  assert.doesNotMatch(html, /<img/);
+  assert.match(html, /Turn 8 — Host rejected the structured response/);
+  assert.equal(JSON.stringify(input), before);
+});
+
+test("morning comparison distinguishes absent, disabled and enabled explanation guidance", () => {
+  for (const [value, label] of [[undefined, "Not recorded"], [false, "Disabled"], [true, "Enabled"]]) {
+    const html = api.renderMorningComparison([{id: "qa-guidance", label: "Authored QA", trace: {task_id: "morning_review", explanation_checklist: value}}]);
+    assert.ok(html.includes(`Explanation checklist</dt><dd>${label}`));
+  }
+});
+
 test("correction comparison displays the actual removed citation and unchanged explanation once", () => {
   const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../demo/model-runs.js"), "utf8").replace(/^window.CSM_MODEL_RUNS = /, "").replace(/;\s*$/, ""));
   const comparison = data.runs.find(r => r.id === "qwen4-morning-correction").correction_comparison;

@@ -57,6 +57,18 @@ Add `--compact-final-context` to the command above for a new experiment with a f
 
 The [eighteenth attempt](LOCAL_MODEL.md#one-correction-matching-fields-unchanged-explanation) permits one correction and a ninth turn. Its first eight requests and response texts reproduce the reduced-context attempt exactly. The host supplies the expected readiness source list; the model removes the extra issue citation, retains its handoff use and matches the checked fields. The explanation remains identical. The saved ninth request includes the rejected answer, feedback and every tool result, with its own context-omission audit. This is an observed recovery with expected-value assistance, not independent self-correction.
 
+## Optional explanation checklist
+
+`--explanation-checklist` requires `--review-morning-final` and defaults off. It adds a separate system-role writing checklist immediately before each final-answer contract, after the dependency policy reports that tool work is complete. The tool-stage inputs and existing structured schema remain unchanged.
+
+The checklist asks the model to explain queue qualification and ordering, propose a concrete next action for each platform, distinguish unknown evidence from recorded failures, name missing handoff fields, attach appropriate source IDs, and preserve the nothing-sent and no-launch-approval boundaries within 220 words. It contains no fixture account/integration/issue identifiers or expected answer values. It is additional prompt assistance, not a semantic checker or an authored replacement answer.
+
+The trace records the top-level `explanation_checklist` setting and each `explanation_guidance_message`. Exact worker inputs and fingerprints include the message. Context reduction retains it, including earlier copies and correction feedback, while still omitting only superseded policy messages. The browser identifies the checklist separately as host assistance. Older recordings without the setting display **Not recorded**, rather than an inferred disabled value.
+
+Scripted workers through real MCP verify final-only insertion, unchanged tool-stage requests, complete request reconstruction, full and reduced context, unconstrained actions, correction and timeout retention. A scripted answer with matching fields and an unsupported launch/revenue claim still matches the field checker with `free_text_verification=not_performed`; adding guidance does not certify the prose. These are software tests. None of the eighteen published model recordings uses this option yet, so no improvement in model explanation quality is claimed.
+
+For the next local experiment, add `--explanation-checklist` to the [one-correction configuration](LOCAL_MODEL.md#one-correction-matching-fields-unchanged-explanation) and choose a new output path. Keep the baseline, exact guidance, first answer, any feedback and final answer. Review whether the requested information is actually present and supported; a longer explanation or a matching field report alone is insufficient.
+
 ## Checked summary versus model prose
 
 On agreement, the host renders a separate summary from the actual queue, readiness, follow-up and handoff results. It preserves unknown versus failed checks, citations and distinct next actions. The model's own explanation remains separate, and the browser identifies the final-contract message as host assistance.

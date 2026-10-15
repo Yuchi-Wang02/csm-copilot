@@ -61,6 +61,7 @@
       requestHTML(step, index) +
       (step.context_reduction ? `<div class="turn-host"><h4>Final context reduction</h4><p>The host retained ${esc(step.context_reduction.retained_message_count)} of ${esc(step.context_reduction.original_message_count)} messages in this worker request.</p><p class="boundary">${esc(step.context_reduction.boundary)}</p><details><summary>Inspect omitted host messages and original positions</summary><p class="boundary">Recorded source: steps[${index}].context_reduction</p><pre>${json(step.context_reduction)}</pre></details></div>` : "") +
       policyInputHTML(step, index) +
+      (step.explanation_guidance_message ? `<div class="turn-host"><h4>Host explanation checklist</h4><p>The host supplied an optional writing checklist after tool work. This is prompt assistance, not model reasoning or verification of its explanation.</p><details><summary>Read the exact explanation guidance</summary><p class="boundary">Recorded source: steps[${index}].explanation_guidance_message</p><pre>${esc(step.explanation_guidance_message.content)}</pre></details></div>` : "") +
       (step.final_contract_message ? `<div class="turn-host"><h4>Host final-answer contract</h4><p>The host supplied the required final fields after tool work. These instructions are assistance, not model-written reasoning.</p><details><summary>Read the exact final contract message</summary><p class="boundary">Recorded source: steps[${index}].final_contract_message</p><pre>${esc(step.final_contract_message.content)}</pre></details></div>` : "") +
       generationSchemaHTML(step, index) +
       (step.model_response ? `<h4>Model proposal</h4>` : `<h4>No model response recorded</h4>`) +
@@ -122,6 +123,7 @@
         ["Constrained actions", flag(t.constrain_actions)],
         ["Morning final-field review", flag(t.review_morning_final)],
         ["Reduced final context", flag(t.compact_final_context)],
+        ["Explanation checklist", flag(t.explanation_checklist)],
         ["Output-token cap", recorded(t.runtime?.max_new_tokens)],
         ["Response wait budget", recorded(t.response_timeout_seconds, " seconds")],
         ["Correction budget", recorded(t.repair_budget)],

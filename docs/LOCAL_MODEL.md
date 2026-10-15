@@ -328,3 +328,10 @@ python scripts/run_local_host.py --model-python <local-model-python> --model-pat
 ```
 
 [Open the correction replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-correction#model-runs), [inspect the raw trace](../evidence/model-runs/qwen4-morning-correction.json), or review the [recording audit](../tests/test_morning_correction_recording.py). SHA-256: `30e84bfb72ba5b9918a74c64137403c421149889119179da82cb284e07347e50`. All seventeen earlier raw traces and their review entries remain unchanged. This recording postdates the fixed v0.30.1 package. It adds a concrete example of a repaired structured claim alongside an unchanged, incomplete explanation; no customer outcome or personal mastery is inferred.
+
+
+## Next configuration: an explicit explanation checklist
+
+The [optional explanation checklist](MORNING_FINAL.md#optional-explanation-checklist) targets the omissions retained by the eighteenth attempt. Add `--explanation-checklist` to its command with a fresh output path. It appends fixture-independent writing guidance only after tool completion, before the unchanged final contract. The schema, field checker, task and model settings need not change.
+
+This is a prepared, software-tested configuration; the eighteen published recordings predate it. A future result must be compared against the preserved one-correction baseline, with the new guidance disclosed as assistance. Inspect selection rationale, distinct platform next actions, missing handoff fields, source citations, unknown-versus-failed distinctions and boundary statements separately. Retain failures and unchanged wording rather than calling a field match an explanation-quality improvement.

@@ -12,6 +12,17 @@ from csm_copilot.engine import Copilot
 from csm_copilot.morning_review import morning_final_schema, review_morning_final
 
 
+def test_explanation_checklist_supplies_no_fixture_identifiers_or_expected_answers():
+    from csm_copilot.morning_review import MORNING_EXPLANATION_GUIDANCE
+
+    engine = Copilot()
+    for identifier in [*engine.accounts, *engine.integrations, *engine.issues]:
+        assert identifier not in MORNING_EXPLANATION_GUIDANCE
+    for fixture_answer in ("Lantern Games", "sdk_version", "redacted_logs", "contact_acc_014"):
+        assert fixture_answer not in MORNING_EXPLANATION_GUIDANCE
+    assert "does not verify your prose" in MORNING_EXPLANATION_GUIDANCE
+
+
 def morning_example(engine=None):
     engine = engine or Copilot()
     calls = []

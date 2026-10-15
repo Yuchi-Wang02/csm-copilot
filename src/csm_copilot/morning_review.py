@@ -72,6 +72,25 @@ MORNING_FINAL_GUIDANCE = (
 )
 
 
+MORNING_EXPLANATION_GUIDANCE = (
+    "Host explanation checklist (not customer data): apply this only to the explanation field; "
+    "keep the structured final contract unchanged. Write a concise CSM review in this order. "
+    "First, explain why the first returned account qualifies for the queue and comes first under "
+    "its ordering, using the returned timing values and contact source IDs where available. "
+    "Next, give each platform a concrete proposed next action from its follow-up and explain why "
+    "that action fits its evidence. Keep missing records separate from recorded failed checks; "
+    "attach the appropriate readiness source IDs to supported platform claims. "
+    "Then name every missing handoff field and the proposed next step for each recorded issue, "
+    "citing its issue evidence and preserving an unconfirmed cause. "
+    "Close by stating that nothing was sent or submitted and that checklist completion does not "
+    "grant launch approval. Use plain English and at most 220 whitespace-separated words. "
+    "Use only source IDs returned by tools, next to the claims they support; do not invent a "
+    "citation for missing evidence. If the queue is empty or a value is unavailable, say so "
+    "without inventing an account, issue or timing value. Correct fields elsewhere in the JSON "
+    "do not replace these explanations. This guidance does not verify your prose."
+)
+
+
 def morning_final_schema():
     """Structure and type constraints, with no fixture-specific IDs or expected states."""
     schema = MorningClaims.model_json_schema()

@@ -1,5 +1,13 @@
 # Development notes
 
+## Prepare an explicit explanation checklist without claiming a model improvement
+
+The eighteenth recording fixes a readiness citation while retaining its incomplete explanation. An optional `--explanation-checklist` now adds fixture-independent writing guidance after tool work, immediately before the existing morning final contract. It requires `--review-morning-final`, defaults off and records both its setting and exact system-role message. The checklist covers queue selection, per-platform next actions, missing handoff fields, source citations and the nothing-sent/no-approval boundaries. It does not supply fixture identifiers or expected values and does not alter the structured schema or semantic-review boundary.
+
+Six additional scripted real-MCP configurations cover full/reduced context, unconstrained actions, correction, timeout and unsupported prose. Request reconstruction and byte fingerprints include the message; the first seven tool-stage requests remain unchanged in the baseline comparison. Two added CLI cases cover the required contract, and a source check excludes fixture identifiers and selected expected answers from the checklist. Two JavaScript checks expose escaped host guidance and distinguish missing, disabled and enabled settings. All 533 Python and 122 JavaScript checks pass locally, with Ruff clean.
+
+The browser renderer labels the optional message as prompt assistance, separately from model reasoning and field review. Older recordings show the setting as Not recorded. All eighteen raw model recordings and their reviews remain unchanged. This is a prepared experiment configuration, not a new model result, a prose verifier or evidence of better explanation quality. The next actual run must preserve the baseline and new guidance for inspection. The fixed v0.30.1 package predates this option.
+
 ## Make the recorded correction legible before opening the full transcript
 
 A source-backed comparison now appears above the eighteenth attempt's turn history. It places the original and corrected Android readiness lists side by side and labels the removed issue citation in text. The retained handoff citation and identical model explanation each appear once as unchanged. Expandable sections show the exact transmitted feedback and both source paths for every displayed value. The full original transcript remains below.
