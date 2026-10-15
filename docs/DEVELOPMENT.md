@@ -1,5 +1,11 @@
 # Development notes
 
+## Make recorded evidence arrays easier to read
+
+The excerpt-to-field comparisons now render each array item as a separate list entry instead of dense inline JSON. Source IDs and missing intake fields retain their exact values and raw-trace locations. Empty arrays display "Empty list in the recorded result"; scalar states and booleans retain their literal values. All values remain escaped, and neither recordings nor generated comparison data change.
+
+All 126 existing JavaScript tests pass, including escaped comparison content and non-mutation checks. Edge inspection covered the nineteenth attempt's source/intake lists on desktop and at a 390-pixel viewport, with equal 375-pixel document/scroll widths. The older long-budget attempt retains an explicit empty currency-evidence list beside its failed-device source, and its handoff still displays sent=false. The viewport was restored and no browser errors were recorded. This is a presentation change after the fixed v0.30.2 package, not new inference or evidence of improved model quality.
+
 ## Link a recorded omission to the current customer action
 
 The nineteenth recording's three excerpt comparisons now link to the current scoped Android follow-up, iOS follow-up and Android handoff. The links preserve the selected recording ID, open English original-snapshot views and use the existing in-page routing. A visible boundary distinguishes current case data from the historical tool result. The renderer withholds links when scope is absent or ambiguous, or the requested view/recording identifier is invalid. The fixed v0.30.2 package and all raw recordings remain unchanged.

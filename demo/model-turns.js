@@ -101,12 +101,17 @@
     return `<p><a class="text-link" data-review-link href="?${esc(query.toString())}#workspace">Open current ${esc(readiness.platform)} ${label} →</a></p>` +
       `<p class="boundary">Opens this site's current case snapshot. The historical tool result above stays unchanged; current records may differ. Browser Back returns to this recording.</p>`;
   }
+  function comparisonFieldValue(value) {
+    if (!Array.isArray(value)) return esc(typeof value === "string" ? value : JSON.stringify(value));
+    if (!value.length) return `<span class="boundary">Empty list in the recorded result.</span>`;
+    return `<ul class="claim-field-values">${value.map(item => `<li><code>${esc(typeof item === "string" ? item : JSON.stringify(item))}</code></li>`).join("")}</ul>`;
+  }
   function renderComparisons(rows, navigation) {
     if (!rows?.length) return "";
     return `<section class="claim-comparison"><h3>Check the claim against the recorded result</h3>` +
       `<p>Excerpts from this attempt's final answer, paired with the tool fields available to the model.</p>` +
       rows.map((row) => `<div class="claim-pair"><div><span class="small-label">MODEL EXCERPT · UNVERIFIED</span><blockquote>${esc(row.claim)}</blockquote><p>${esc(row.assessment)}</p></div>` +
-        `<div><span class="small-label">RECORDED TOOL FIELDS</span><p class="claim-source">${esc(row.source_label)}</p><dl>${row.fields.map((field) => `<dt>${esc(field.label)}</dt><dd>${esc(typeof field.value === "string" ? field.value : JSON.stringify(field.value))}</dd>`).join("")}</dl>` +
+          `<div><span class="small-label">RECORDED TOOL FIELDS</span><p class="claim-source">${esc(row.source_label)}</p><dl>${row.fields.map((field) => `<dt>${esc(field.label)}</dt><dd>${comparisonFieldValue(field.value)}</dd>`).join("")}</dl>` +
           `<details><summary>Locate these fields in the raw trace</summary>${row.fields.map((field) => `<p>${esc(field.label)}<br><code>${esc(field.path)}</code></p>`).join("")}</details>${comparisonCaseLink(row.review_target, navigation)}</div></div>`).join("") +
       `<p class="boundary">AI-assisted review of a saved attempt, not an automated semantic verdict. These are historical tool returns; current tools and the underlying source truth are separate questions.</p></section>`;
   }
