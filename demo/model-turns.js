@@ -95,7 +95,35 @@
         `<details><summary>Locate these fields in the raw trace</summary>${row.fields.map((field) => `<p>${esc(field.label)}<br><code>${esc(field.path)}</code></p>`).join("")}</details></div></div>`).join("") +
       `<p class="boundary">AI-assisted review of a saved attempt, not an automated semantic verdict. These are historical tool returns; current tools and the underlying source truth are separate questions.</p></section>`;
   }
-  const api = { render, renderComparisons };
+  function renderMorningComparison(runs) {
+    const morning = runs.filter((run) => run.trace?.task_id === "morning_review");
+    if (!morning.length) return "";
+    const flag = (value) => value === true ? "Enabled" : value === false ? "Disabled" : "Not recorded";
+    const recorded = (value, unit = "") => value === undefined || value === null ? "Not recorded" : `${esc(value)}${unit}`;
+    const rows = morning.map((run) => {
+      const t = run.trace, c = t.coverage || {};
+      const settings = [
+        ["Dependency policy", flag(t.enforce_dependencies)],
+        ["Constrained actions", flag(t.constrain_actions)],
+        ["Morning final-field review", flag(t.review_morning_final)],
+        ["Reduced final context", flag(t.compact_final_context)],
+        ["Output-token cap", recorded(t.runtime?.max_new_tokens)],
+        ["Response wait budget", recorded(t.response_timeout_seconds, " seconds")],
+        ["Correction budget", recorded(t.repair_budget)],
+      ];
+      const final = c.final_response_present === true ? "Final response recorded" : c.final_response_present === false ? "No final response recorded" : "Final-response presence not recorded";
+      const unique = typeof run.id === "string" && /^[a-z0-9-]+$/.test(run.id) && runs.filter((r) => r.id === run.id).length === 1;
+      const link = unique ? `<a data-review-link href="?run=${encodeURIComponent(run.id)}#model-result" aria-label="Inspect recording: ${esc(run.label)}">Inspect recording →</a>` : "Recording link unavailable";
+      return `<tr><th scope="row">${esc(run.label)}<details><summary>Recorded setup</summary><dl>${settings.map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`).join("")}</dl><p class="disclosure">Absent fields are not treated as disabled. Inspect the original instructions and schemas in the recording.</p></details></th>` +
+        `<td><strong>${recorded(c.observed)} / ${recorded(c.required)} requested actions observed</strong><p>${final}</p><p>Host status: <code>${esc(t.status ?? "Not recorded")}</code><br>Field review: <code>${esc(t.response_review?.status ?? "Not recorded")}</code></p></td>` +
+        `<td><p>${esc(run.verdict)}</p>${link}</td></tr>`;
+    }).join("");
+    return `<p>Follow the development sequence. Expand a setup to inspect recorded assistance and budgets, then open the original attempt.</p>` +
+      `<p class="boundary">Task wording, host assistance and budgets changed across these attempts. This is not a controlled benchmark. Completed tool work, a returned response and faithful explanation are separate outcomes. Review findings are AI-assisted, not independent human evaluation.</p>` +
+      `<p class="morning-scroll-hint">On a narrow screen, scroll the table sideways to reach the review and recording links.</p>` +
+      `<div class="morning-table-scroll" role="region" aria-label="Morning-review attempt comparison" tabindex="0"><table><caption>Morning-review development sequence · ${morning.length} recordings</caption><thead><tr><th scope="col">Attempt and setup</th><th scope="col">Recorded result</th><th scope="col">Review finding · AI-assisted</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+  const api = { render, renderComparisons, renderMorningComparison };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_MODEL_TURNS = api;
 })(typeof window !== "undefined" ? window : this);

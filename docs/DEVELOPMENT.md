@@ -1,5 +1,13 @@
 # Development notes
 
+## Compare morning attempts without combining execution and fidelity
+
+The explorer's queue-first overview was a long paragraph with seven links. A collapsed comparison now reads the existing morning-task traces and their authored review verdicts into three columns: attempt/setup, recorded execution and AI-assisted review finding. It preserves the distinction between zero tool coverage, seven calls without a final response, and returned final fields rejected by the host. Setup disclosures show recorded assistance flags, token and response budgets, and correction budgets. Missing fields stay unavailable rather than inheriting current defaults. No raw trace or review finding changes.
+
+Two added JavaScript checks cover the seven actual recordings, missing versus false/zero values, unavailable final-response metadata, escaped content, ambiguous recording links and non-mutation. All 113 JavaScript checks pass. Local Edge inspection confirms setup disclosures, navigation to the matching result with keyboard focus, and browser Back restoring the prior recording URL. At a 390-pixel viewport the table scrolls within its own region without horizontal page overflow; a focused Right Arrow advances its scroll position by 40 pixels. The viewport was restored afterward. No screen-reader assessment, inference or personal practice response was added.
+
+The [interview guide](INTERVIEW.md) explains how to use this optional overview after the main customer story. The existing seven attempts remain exploratory development evidence with changing controls, not a benchmark. The fixed v0.30.0 ZIP predates this presentation change.
+
 ## Publish a reproducible v0.30.0 take-away
 
 The new fixed interview package is pinned to `d899e2625bb3aaf5cb9a8d8b3ee67a2794c338da`. It contains seventeen recorded attempts and both PDFs. All 26 static source files match that Git tree; the generated guide matches its manifest hash. Downloaded Windows and Ubuntu CI archives match the local ZIP byte-for-byte, as do the public ZIP and checksum downloads. The [package guide](INTERVIEW_BUNDLE.md) records the source, 2,134,863-byte size and full checksum. Earlier releases remain intact.

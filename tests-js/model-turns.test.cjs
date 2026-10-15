@@ -6,6 +6,46 @@ const api = require("../demo/model-turns.js");
 const directory = path.join(__dirname, "../evidence/model-runs");
 const trace = (id) => JSON.parse(fs.readFileSync(path.join(directory, id + ".json"), "utf8"));
 
+test("morning comparison separates recorded coverage, missing finals and field rejection", () => {
+  const review = JSON.parse(fs.readFileSync(path.join(directory, "review.json"), "utf8"));
+  const runs = review.runs.map((entry) => ({...entry, trace: trace(entry.id)}));
+  const before = JSON.stringify(runs), html = api.renderMorningComparison(runs);
+  assert.equal((html.match(/<th scope="row">/g) || []).length, 7);
+  assert.equal((html.match(/0 \/ 7 requested actions observed/g) || []).length, 3);
+  assert.equal((html.match(/7 \/ 7 requested actions observed/g) || []).length, 4);
+  assert.equal((html.match(/No final response recorded/g) || []).length, 4);
+  assert.equal((html.match(/<p>Final response recorded<\/p>/g) || []).length, 3);
+  assert.equal((html.match(/Field review: <code>rejected/g) || []).length, 2);
+  assert.match(html, /Host status: <code>host_error/);
+  assert.match(html, /Response wait budget<\/dt><dd>Not recorded/);
+  assert.match(html, /Response wait budget<\/dt><dd>600 seconds/);
+  assert.match(html, /Output-token cap<\/dt><dd>1536/);
+  assert.match(html, /Correction budget<\/dt><dd>0/);
+  assert.match(html, /Review finding · AI-assisted/);
+  assert.match(html, /not a controlled benchmark/);
+  assert.match(html, /\?run=qwen4-morning-compact-context#model-result/);
+  assert.doesNotMatch(html, /\?run=qwen4-batch/);
+  assert.equal(JSON.stringify(runs), before);
+});
+
+test("comparison preserves unknown settings, escapes data and withholds ambiguous recording links", () => {
+  assert.equal(api.renderMorningComparison([]), "");
+  const entry = {id: "qa", label: '<img src=x>', verdict: '<script>review</script>',
+    trace: {task_id: "morning_review", enforce_dependencies: false, repair_budget: 0,
+      status: '<iframe>', coverage: {observed: 0, required: 7}}};
+  const runs = [entry], before = JSON.stringify(runs);
+  const html = api.renderMorningComparison(runs);
+  assert.match(html, /Dependency policy<\/dt><dd>Disabled/);
+  assert.match(html, /Constrained actions<\/dt><dd>Not recorded/);
+  assert.match(html, /Final-response presence not recorded/);
+  assert.match(html, /&lt;img src=x&gt;/);
+  assert.match(html, /&lt;script&gt;review/);
+  assert.doesNotMatch(html, /<img|<script|<iframe/);
+  assert.equal(JSON.stringify(runs), before);
+  assert.doesNotMatch(api.renderMorningComparison([entry, structuredClone(entry)]), /data-review-link/);
+  assert.match(api.renderMorningComparison([{...entry, id: 'qa" onclick="bad'}]), /Recording link unavailable/);
+});
+
 test("optional context reduction exposes omissions without claiming inference improvement", () => {
   const input = trace("qwen4-morning-field-review");
   input.steps[7].context_reduction = {

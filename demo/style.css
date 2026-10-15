@@ -51,7 +51,8 @@ button {
 button:focus-visible,
 a:focus-visible,
 select:focus-visible,
-summary:focus-visible {
+summary:focus-visible,
+.morning-table-scroll:focus-visible {
   outline: 3px solid #448eec;
   outline-offset: 4px;
 }
@@ -1628,7 +1629,17 @@ button:disabled {
   gap: 12px;
   flex-wrap: wrap;
 }
+.morning-table-scroll { overflow-x: auto; }
+.morning-comparison table { min-width: 720px; }
+.morning-comparison th[scope="row"] { font-weight: 600; }
+.morning-comparison details { margin-top: 12px; font-weight: 400; }
+.morning-comparison td p { margin: 8px 0 12px; }
+.morning-comparison dl { font-size: 12px; margin: 12px 0; }
+.morning-comparison dt { font-weight: 600; }
+.morning-comparison dd { margin: 0 0 8px; }
+.morning-scroll-hint { display: none; }
 @media (max-width: 700px) {
+  .morning-scroll-hint { display: block; font-size: 13px; color: var(--muted); }
   .model-comparison {
     padding: 12px;
   }

@@ -345,6 +345,8 @@ function selectModelRun(id) {
 $("model-run").addEventListener("change", (event) => selectModelRun(event.target.value));
 renderModelRun();
 
+$("morning-comparison").innerHTML = window.CSM_MODEL_TURNS.renderMorningComparison(modelRuns.runs);
+
 function renderHandoffComparison() {
   const comparison = modelRuns.handoff_comparison;
   const [before, after] = comparison.attempts;

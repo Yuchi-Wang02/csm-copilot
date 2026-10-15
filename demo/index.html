@@ -8,17 +8,17 @@
       content="Explore an evidence-grounded customer onboarding workflow by Yuchi Wang. Synthetic cases, traceable decisions, honest evaluations."
     />
     <title>CSM Copilot · Evidence before confidence</title>
-    <link rel="stylesheet" href="style.css?v=0.30.0" />
+    <link rel="stylesheet" href="style.css?v=0.30.0-morning-comparison" />
     <script defer src="data.js?v=0.30.0"></script>
     <script defer src="model-runs.js?v=0.30.0"></script>
-    <script defer src="model-turns.js?v=0.30.0"></script>
+    <script defer src="model-turns.js?v=0.30.0-morning-comparison"></script>
     <script defer src="review-links.js?v=0.30.0"></script>
     <script defer src="case-review.js?v=0.30.0"></script>
     <script defer src="triage-review.js?v=0.30.0"></script>
     <script defer src="practice-core.js?v=0.30.0"></script>
     <script defer src="practice-session.js?v=0.30.0"></script>
     <script defer src="copy-feedback.js?v=0.30.0"></script>
-    <script defer src="app.js?v=0.30.0"></script>
+    <script defer src="app.js?v=0.30.0-morning-comparison"></script>
     <script defer src="practice.js?v=0.30.0"></script>
   </head>
   <body>
@@ -272,16 +272,10 @@
           Recorded local inference · synthetic customer data · no model runs in
           your browser · exploratory development attempts, not a benchmark.
         </p>
-        <p class="disclosure">Queue-first comparison:
-          <a data-review-link href="?run=qwen4-morning-review#model-runs">Original request</a>
-          · <a data-review-link href="?run=qwen4-morning-sequenced#model-runs">With dependency instruction</a>
-          · <a data-review-link href="?run=qwen4-morning-enforced#model-runs">With host policy</a>
-          · <a data-review-link href="?run=qwen4-morning-constrained#model-runs">With constrained generation</a>
-          · <a data-review-link href="?run=qwen4-morning-long-budget#model-runs">With a longer response budget</a>
-          · <a data-review-link href="?run=qwen4-morning-field-review#model-runs">With final-field review</a>
-          · <a data-review-link href="?run=qwen4-morning-compact-context#model-runs">With reduced final context</a>.
-          The first three stopped at parsing. Constrained generation completed all seven calls but timed out before an explanation. The longer-budget run returned an answer with an evidence-state error. Final-field review distinguishes those states but rejects an issue report used as readiness evidence. The reduced-context run returns sooner in this observed pair with the same field error; inspect both inputs and outcomes.
-        </p>
+        <details class="model-comparison morning-comparison">
+          <summary>Compare the morning-review attempts</summary>
+          <div id="morning-comparison"></div>
+        </details>
         <div class="integrity-controls">
           <label for="model-run">Inspect a recorded attempt</label
           ><select id="model-run"></select>
