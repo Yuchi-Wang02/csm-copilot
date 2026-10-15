@@ -1,5 +1,9 @@
 # Development notes
 
+## Prepare the v0.30.2 interview snapshot
+
+The next fixed package includes nineteen recorded attempts, the one-citation correction comparison, explicit final-answer guidance, and the three excerpt-to-action comparisons. The portable presenter guide adds an optional discussion of a correct status that omits a useful next action. The package version and browser asset keys now identify v0.30.2. Customer records and raw model outputs remain unchanged; this preparation adds no inference or personal learning response.
+
 ## Put omitted CSM actions beside the model's actual words
 
 The nineteenth attempt's prose review now has three excerpt-to-field comparisons above the full transcript. Android's status statement is paired with the recorded evidence request and fresh non-test-device check; iOS's checklist statement is paired with launch-plan review; the intake sentence is paired with the redacted-log request, unconfirmed cause and handoff next action. Every displayed field has a raw-trace location. The original explanation, tool results and review entries remain unchanged, and the display labels the assessment as AI-assisted rather than an automated semantic verdict.

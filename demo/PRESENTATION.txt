@@ -88,6 +88,18 @@ Compatible five-decision files add the sixth decision blank in this release.
 Six-decision files cannot be resumed in the older v0.30.0 application. Files
 remain editable and do not authenticate authorship or personal mastery.
 
+OPTIONAL FOLLOW-UP: A CORRECT STATUS WITHOUT A USEFUL NEXT ACTION
+
+Open ?run=qwen4-morning-explanation-checklist#model-runs. The three excerpt-to-
+field comparisons pair the model's words with the returned drafts: a fresh
+Android device check, an iOS launch-plan review, and redacted handoff logs.
+Expand a field-location disclosure and trace one action to its saved result.
+The model used host planning and writing guidance; supplied feedback repaired
+a citation, but its 48-word explanation remained unchanged. Matching final
+fields did not make the explanation complete. Discuss the difference between
+reporting a status and helping the CSM move the case forward. This is an
+AI-assisted review of one development attempt, not an independent quality score.
+
 KEEP THE TAKE-AWAY SIMPLE
 
 Share project-brief.pdf for the overview, the ZIP for a fixed interactive
