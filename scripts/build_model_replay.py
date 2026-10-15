@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from copy import deepcopy
 from pathlib import Path
 
 from csm_copilot.brief import text
@@ -11,6 +12,89 @@ from csm_copilot.morning_review import review_morning_final
 from csm_copilot.response_review import review_final
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def compare_morning_correction(trace):
+    """Describe this recorded one-citation repair only when its provenance agrees."""
+    steps = trace["steps"]
+    indexes = [i for i, step in enumerate(steps) if "correction_feedback" in step]
+    if len(indexes) != 1 or indexes[0] + 1 != len(steps) - 1:
+        raise ValueError("Correction comparison requires one correction and its final response")
+    before_index = indexes[0]
+    pair = steps[before_index:]
+    finals = []
+    for step, status in zip(pair, ("rejected", "structured_fields_match"), strict=True):
+        actions = step.get("actions", [])
+        if len(actions) != 1 or not isinstance(actions[0].get("final"), dict):
+            raise ValueError("Correction comparison requires structured final actions")
+        if json.loads(step["model_response"]["text"]) != actions[0]:
+            raise ValueError("Correction comparison requires the original model output")
+        final = actions[0]["final"]
+        review = review_morning_final(final, trace)
+        if review != step.get("response_review") or review["status"] != status:
+            raise ValueError("Correction comparison requires reproducible field reviews")
+        finals.append(final)
+    before, after = finals
+    if trace["final"] != after or trace["response_review"] != pair[1]["response_review"]:
+        raise ValueError("Correction comparison requires the recorded terminal result")
+    feedback = pair[0]["correction_feedback"]
+    if (
+        feedback not in pair[1]["worker_request"]["messages"]
+        or json.dumps(pair[0]["response_review"]["issues"], ensure_ascii=False)
+        not in feedback["content"]
+    ):
+        raise ValueError("Correction comparison requires the transmitted expected-value feedback")
+
+    def scoped(final, collection, key, identifier):
+        matches = [(i, item) for i, item in enumerate(final[collection]) if item[key] == identifier]
+        if len(matches) != 1:
+            raise ValueError("Correction comparison requires unique scoped fields")
+        return matches[0]
+
+    platforms = [scoped(f, "platforms", "integration_id", "lantern_android") for f in finals]
+    handoffs = [scoped(f, "handoffs", "issue_id", "issue_blank") for f in finals]
+    expected = deepcopy(before)
+    sources = expected["platforms"][platforms[0][0]]["evidence_ids"]
+    if sources.count("msg_issue_blank") != 1:
+        raise ValueError("Correction comparison requires one extra readiness citation")
+    sources.remove("msg_issue_blank")
+    if expected != after:
+        raise ValueError("Correction comparison requires only the recorded citation change")
+    if any(item["evidence_ids"] != ["msg_issue_blank"] for _, item in handoffs):
+        raise ValueError("Correction comparison requires the retained handoff citation")
+    prefixes = [f"steps[{i}].actions[0].final" for i in (before_index, before_index + 1)]
+    rows = []
+    for label, collection, located in (
+        ("Android readiness citations", "platforms", platforms),
+        ("Issue handoff citations", "handoffs", handoffs),
+    ):
+        rows.append(
+            {
+                "label": label,
+                "before": deepcopy(located[0][1]["evidence_ids"]),
+                "after": deepcopy(located[1][1]["evidence_ids"]),
+                "paths": [
+                    f"{prefix}.{collection}[{item[0]}].evidence_ids"
+                    for prefix, item in zip(prefixes, located, strict=True)
+                ],
+            }
+        )
+    rows.append(
+        {
+            "label": "Model explanation",
+            "before": before["explanation"],
+            "after": after["explanation"],
+            "paths": [prefix + ".explanation" for prefix in prefixes],
+        }
+    )
+    return {
+        "before_turn": pair[0]["number"],
+        "after_turn": pair[1]["number"],
+        "rows": rows,
+        "feedback": deepcopy(feedback),
+        "feedback_path": f"steps[{before_index}].correction_feedback",
+        "boundary": "Only the extra readiness citation changes. The feedback supplied expected values; the unchanged explanation remains unverified. Matching fields do not verify source truth or approve a customer message.",
+    }
 
 
 def compare_batch_claims(trace, findings):
@@ -221,6 +305,9 @@ def build():
                 "sha256": hashlib.sha256(raw.encode()).hexdigest(),
                 "promise_lint": lint,
                 "display_final": display_final,
+                "correction_comparison": compare_morning_correction(trace)
+                if entry["id"] == "qwen4-morning-correction"
+                else None,
                 "claim_comparisons": compare_batch_claims(trace, entry["findings"])
                 if entry["id"] == "qwen4-batch"
                 else compare_morning_claims(trace, entry["findings"])

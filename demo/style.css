@@ -920,7 +920,8 @@ details pre {
 .empty h3 {
   font-size: 19px;
 }
-.claim-comparison {
+.claim-comparison,
+.correction-comparison {
   margin: 24px 0;
   padding: 24px;
   background: white;
@@ -946,8 +947,18 @@ details pre {
 .claim-pair dt { font-weight: 600; }
 .claim-pair dd { margin: 4px 0 12px; }
 .claim-source { margin: 10px 0; color: var(--muted); font-size: 12px; }
+.correction-row { padding: 16px 0; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.correction-row h4 { margin: 0 0 10px; font-size: 15px; }
+.correction-values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.correction-row ul { padding-left: 20px; margin: 10px 0 0; }
+.correction-row li { margin: 5px 0; }
+.removed-citation { display: block; color: var(--amber); font-size: 11px; }
+.correction-prose { margin: 10px 0 0; }
+.correction-comparison details { margin-top: 12px; overflow-wrap: anywhere; }
+.correction-comparison pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 @media (max-width: 700px) {
-  .claim-comparison { padding: 18px; }
+.claim-comparison, .correction-comparison { padding: 18px; }
+  .correction-values { grid-template-columns: 1fr; gap: 16px; }
   .claim-pair { grid-template-columns: 1fr; gap: 12px; }
 }
 @media (max-width: 1000px) {

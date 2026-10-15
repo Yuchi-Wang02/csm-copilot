@@ -86,6 +86,7 @@ window.CSM_MODEL_RUNS = {
       "sha256": "d318eef2110fc2853ddcd82f154c61c049a2a19c20e80016debf3236ef490fcb",
       "promise_lint": null,
       "display_final": null,
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -169,6 +170,7 @@ window.CSM_MODEL_RUNS = {
       "sha256": "06ad27e1756fe929a815803f1a3bde2b82e66d7e484628c3ebf8a0ac3fe27c97",
       "promise_lint": null,
       "display_final": null,
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -646,6 +648,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "Lantern Android requires confirmation on currency approval, Test Only status, and a non-test device check, along with a callback example. Lantern iOS has a complete checklist but needs confirmation of no changes and current launch plans. The differences arise from Android's missing evidence and iOS's full compliance. No evidence IDs are missing for Android, while iOS has all required evidence. Nothing was sent.",
+      "correction_comparison": null,
       "claim_comparisons": [
         {
           "claim": "iOS's full compliance",
@@ -1136,6 +1139,7 @@ window.CSM_MODEL_RUNS = {
       "sha256": "05395199c5a5d348351b6960e5f4f2cecfcfe51c318f83992b19c36ea1bdd8f0",
       "promise_lint": null,
       "display_final": null,
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -1622,6 +1626,7 @@ window.CSM_MODEL_RUNS = {
       "sha256": "51bb842a48834dd3d33c71fcf39d8801b1b24dff06a0a17c14826f6eddd2433b",
       "promise_lint": null,
       "display_final": null,
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -3372,6 +3377,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "Lantern Android requires evidence for currency approval, Test Only status, and callback verification, with a failed device verification. Lantern iOS has a complete checklist but no unknown checks. The follow-ups differ because Android needs additional evidence while iOS is ready for launch review.",
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -3893,6 +3899,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "Harbor Studio (acc_006) reported a reward callback issue with HTTP 405 in Japan. The callback_verified status is unconfirmed. Missing fields include reproduction steps and redacted logs. The issue is unconfirmed, and no ticket was submitted. Next action: request missing evidence and review the handoff. Evidence ID: msg_issue_callback.",
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -4400,6 +4407,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "Harbor Studio (acc_006) has a recorded issue (issue_callback) with Android's reward callback returning HTTP 405. The issue was observed in Japan with SDK synthetic-version-1 between 08:30–09:00 UTC on 2026-10-10. Evidence shows callback_verified is not_met, but other checks like currency_approved, device_verified, and sdk_connected are met. The root cause remains unconfirmed, and missing fields include reproduction_steps and redacted_logs. A draft ticket (ticket-issue_callback) was prepared but not sent. Next action: request missing evidence and review the handoff before submitting a ticket. Nothing was sent.",
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -4620,6 +4628,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "For Message A: The triage identified 'unknown' category, requiring clarification on the affected app/platform. Next action: Request details on the app and platform. Clarification questions: What app and platform is this for? What was expected vs. what happened? For Message B: The triage identified 'no_offers' category, suggesting potential issues with currency approval or placement. Next action: Collect evidence on currency settings and device comparison. Clarification questions: Confirm the affected app and platform. Share currency approval and Test Only settings for that platform. Nothing was sent.",
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -4841,6 +4850,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "For Message A: The candidate is 'unknown' and requires clarification on the account or product involved. Next action: Request details about the account or product. Questions: 'Which account or product does this request concern?', 'What specific information or outcome do you need, and which relevant details should we review?' For Message B: The candidate is 'no_offers' with sources. Next action: Collect evidence on currency approval, Test Only settings, placement, SDK connection, and device verification. Questions: 'Confirm the affected app and platform.', 'Share currency approval and Test Only settings for that platform.' Nothing was sent.",
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -4949,6 +4959,7 @@ window.CSM_MODEL_RUNS = {
       "sha256": "31314f78a3b14604473b80e9e3d950007ae602e7b269bf54ab2db6f455896405",
       "promise_lint": null,
       "display_final": null,
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -5058,6 +5069,7 @@ window.CSM_MODEL_RUNS = {
       "sha256": "247be9a71ee43d8f1e925d38d411281dfa341afa4f700ed5f81668d13469de1a",
       "promise_lint": null,
       "display_final": null,
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -5208,6 +5220,7 @@ window.CSM_MODEL_RUNS = {
       "sha256": "bf65fa466c0f3acd72bb43fe0e0bfbe72ad22986b07e6ff9a477f832ee2e6c84",
       "promise_lint": null,
       "display_final": null,
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -7570,6 +7583,7 @@ window.CSM_MODEL_RUNS = {
       "sha256": "6f87257d6c6eda7fdc7bf836f6f435a98d086dc0d163d813563a703d9e662b97",
       "promise_lint": null,
       "display_final": null,
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -11148,6 +11162,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "The account 'Lantern Games' (acc_014) was selected due to its planned launch on 2026-10-16 and being non-live with 5 days since contact. Its platform-specific next steps differ as Android integration is blocked due to missing currency approval and device verification, while iOS is checklist-complete. Handoffs for the recorded issue 'issue_blank' are pending missing evidence like SDK version, time window, and redacted logs. No evidence was sent or submitted. Source IDs: 'msg_issue_blank' for the issue, 'lantern_android_device_verified' for the Android verification status.",
+      "correction_comparison": null,
       "claim_comparisons": [
         {
           "claim": "missing currency approval and device verification",
@@ -15438,6 +15453,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "Account acc_014 was selected due to being non-live and over three days since contact. Lantern Android is blocked due to unknown currency approval, Test Only status, and callback verification, with device verification failed. Lantern iOS is checklist complete. The issue_blank requires additional evidence. Nothing was sent.",
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -19717,6 +19733,7 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "Account acc_014 (Lantern Games) was selected due to its recorded contact and planned launch. Android platform is blocked due to unknown currency approval, Test Only status, and callback verification, along with a failed device verification. iOS platform is checklist complete. The issue on Android requires missing evidence. Nothing was sent or submitted.",
+      "correction_comparison": null,
       "claim_comparisons": []
     },
     {
@@ -24806,6 +24823,58 @@ window.CSM_MODEL_RUNS = {
         "boundary": "A regex lint. No flags does not prove factual support or safety."
       },
       "display_final": "Account acc_014 (Lantern Games) was selected due to its recorded contact and planned launch. Android platform is blocked due to unknown currency approval, Test Only status, and callback verification, along with a failed device verification. iOS platform is checklist complete. The issue on Android requires missing evidence. Nothing was sent or submitted.",
+      "correction_comparison": {
+        "before_turn": 8,
+        "after_turn": 9,
+        "rows": [
+          {
+            "label": "Android readiness citations",
+            "before": [
+              "lantern_android_device_verified",
+              "lantern_android_placement_linked",
+              "lantern_android_sdk_connected",
+              "msg_issue_blank"
+            ],
+            "after": [
+              "lantern_android_device_verified",
+              "lantern_android_placement_linked",
+              "lantern_android_sdk_connected"
+            ],
+            "paths": [
+              "steps[7].actions[0].final.platforms[0].evidence_ids",
+              "steps[8].actions[0].final.platforms[0].evidence_ids"
+            ]
+          },
+          {
+            "label": "Issue handoff citations",
+            "before": [
+              "msg_issue_blank"
+            ],
+            "after": [
+              "msg_issue_blank"
+            ],
+            "paths": [
+              "steps[7].actions[0].final.handoffs[0].evidence_ids",
+              "steps[8].actions[0].final.handoffs[0].evidence_ids"
+            ]
+          },
+          {
+            "label": "Model explanation",
+            "before": "Account acc_014 (Lantern Games) was selected due to its recorded contact and planned launch. Android platform is blocked due to unknown currency approval, Test Only status, and callback verification, along with a failed device verification. iOS platform is checklist complete. The issue on Android requires missing evidence. Nothing was sent or submitted.",
+            "after": "Account acc_014 (Lantern Games) was selected due to its recorded contact and planned launch. Android platform is blocked due to unknown currency approval, Test Only status, and callback verification, along with a failed device verification. iOS platform is checklist complete. The issue on Android requires missing evidence. Nothing was sent or submitted.",
+            "paths": [
+              "steps[7].actions[0].final.explanation",
+              "steps[8].actions[0].final.explanation"
+            ]
+          }
+        ],
+        "feedback": {
+          "role": "user",
+          "content": "Host validation feedback (correction request): Structured final fields disagree with observed tool results: [{\"field\": \"lantern_android.evidence_ids\", \"code\": \"mismatch\", \"expected\": [\"lantern_android_device_verified\", \"lantern_android_placement_linked\", \"lantern_android_sdk_connected\"], \"observed\": [\"lantern_android_device_verified\", \"lantern_android_placement_linked\", \"lantern_android_sdk_connected\", \"msg_issue_blank\"]}] Return a corrected response under the same contract. Do not repeat completed tool calls unless you need their data again."
+        },
+        "feedback_path": "steps[7].correction_feedback",
+        "boundary": "Only the extra readiness citation changes. The feedback supplied expected values; the unchanged explanation remains unverified. Matching fields do not verify source truth or approve a customer message."
+      },
       "claim_comparisons": []
     }
   ],

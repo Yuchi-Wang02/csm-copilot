@@ -6,6 +6,33 @@ const api = require("../demo/model-turns.js");
 const directory = path.join(__dirname, "../evidence/model-runs");
 const trace = (id) => JSON.parse(fs.readFileSync(path.join(directory, id + ".json"), "utf8"));
 
+test("correction comparison displays the actual removed citation and unchanged explanation once", () => {
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../demo/model-runs.js"), "utf8").replace(/^window.CSM_MODEL_RUNS = /, "").replace(/;\s*$/, ""));
+  const comparison = data.runs.find(r => r.id === "qwen4-morning-correction").correction_comparison;
+  const before = JSON.stringify(comparison), html = api.renderCorrectionComparison(comparison);
+  assert.match(html, /What changed after the correction/);
+  assert.equal((html.match(/Removed in correction/g) || []).length, 1);
+  assert.equal((html.match(/UNCHANGED IN BOTH ANSWERS/g) || []).length, 2);
+  assert.equal(html.split(comparison.rows[2].before).length - 1, 1);
+  assert.match(html, /steps\[7\].actions\[0\].final.platforms\[0\].evidence_ids/);
+  assert.match(html, /steps\[8\].actions\[0\].final.handoffs\[0\].evidence_ids/);
+  assert.match(html, /expected values/);
+  assert.equal(JSON.stringify(comparison), before);
+});
+
+test("correction comparison escapes saved values, feedback and source paths", () => {
+  assert.equal(api.renderCorrectionComparison(null), "");
+  const html = api.renderCorrectionComparison({
+    before_turn: 8, after_turn: 9,
+    rows: [{label: "<script>", before: ['<img src=x>'], after: [], paths: ['<svg>']}],
+    feedback: {content: '<iframe>'}, feedback_path: '<source>', boundary: '<object>',
+  });
+  assert.match(html, /&lt;img src=x&gt;/);
+  assert.match(html, /&lt;iframe&gt;/);
+  assert.match(html, /&lt;svg&gt;/);
+  assert.doesNotMatch(html, /<script>|<img|<iframe|<svg|<object>/);
+});
+
 test("morning correction keeps the rejected answer, supplied feedback and unverified prose distinct", () => {
   const input = trace("qwen4-morning-correction"), before = JSON.stringify(input);
   const html = api.render(input);

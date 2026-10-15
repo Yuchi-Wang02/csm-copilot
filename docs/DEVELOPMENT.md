@@ -1,5 +1,13 @@
 # Development notes
 
+## Make the recorded correction legible before opening the full transcript
+
+A source-backed comparison now appears above the eighteenth attempt's turn history. It places the original and corrected Android readiness lists side by side and labels the removed issue citation in text. The retained handoff citation and identical model explanation each appear once as unchanged. Expandable sections show the exact transmitted feedback and both source paths for every displayed value. The full original transcript remains below.
+
+The builder requires one recorded correction followed by its final response, agreement between raw model text and parsed actions, reproducible rejected/matching field reviews, transmitted expected-value feedback, and exactly the single citation change. It locates the platform and issue by ID and checks that their scope is unambiguous. Seven checks cover the actual values, reordered platform positions and altered feedback, raw output, reviews, scope, extra changes and missing correction. Two JavaScript checks verify the display and escaped data. All 524 Python and 120 JavaScript tests pass locally, alongside Ruff.
+
+Edge inspection confirms the before/after values, feedback and field-location disclosures. At a 390-pixel viewport, the two columns stack and document/scroll widths both measure 375 pixels; the removed citation has a text label rather than color alone. The viewport was restored. No browser errors were recorded. This comparison does not semantically verify the explanation, rerun inference, change any raw recording or claim personal learning. It postdates the fixed v0.30.1 package.
+
 ## Record a bounded correction that fixes fields but leaves prose unchanged
 
 The eighteenth actual Qwen3-4B attempt uses the existing reduced-context morning host with one correction and a nine-turn cap. Its first eight requests and model texts reproduce the preceding attempt exactly. All seven calls complete, then the same extra Android readiness citation is rejected. The host supplies the expected source list. The ninth response removes only that citation, retains its handoff use and reaches structured_fields_match. Every other field, including the 52-word explanation, stays unchanged. The original failure, expected-value feedback and corrected answer remain in one trace; no repeated tool call or hidden retry occurred.

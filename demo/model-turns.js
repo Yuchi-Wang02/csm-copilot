@@ -95,6 +95,21 @@
         `<details><summary>Locate these fields in the raw trace</summary>${row.fields.map((field) => `<p>${esc(field.label)}<br><code>${esc(field.path)}</code></p>`).join("")}</details></div></div>`).join("") +
       `<p class="boundary">AI-assisted review of a saved attempt, not an automated semantic verdict. These are historical tool returns; current tools and the underlying source truth are separate questions.</p></section>`;
   }
+  function renderCorrectionComparison(comparison) {
+    if (!comparison) return "";
+    const same = (row) => JSON.stringify(row.before) === JSON.stringify(row.after);
+    const value = (data, other) => Array.isArray(data)
+      ? `<ul>${data.map((item) => `<li><code>${esc(item)}</code>${other && !other.includes(item) ? ' <strong class="removed-citation">Removed in correction</strong>' : ""}</li>`).join("")}</ul>`
+      : `<p class="correction-prose">${esc(data)}</p>`;
+    return `<section class="correction-comparison"><h3>What changed after the correction?</h3>` +
+      `<p>Compare the saved model answers: turn ${esc(comparison.before_turn)} was rejected; turn ${esc(comparison.after_turn)} matched the checked fields. The host supplied expected values between them.</p>` +
+      comparison.rows.map((row) => `<div class="correction-row"><h4>${esc(row.label)}</h4>` +
+        (same(row) ? `<span class="small-label">UNCHANGED IN BOTH ANSWERS</span>${value(row.before)}` :
+          `<div class="correction-values"><div><span class="small-label">BEFORE · TURN ${esc(comparison.before_turn)}</span>${value(row.before, row.after)}</div><div><span class="small-label">AFTER · TURN ${esc(comparison.after_turn)}</span>${value(row.after)}</div></div>`) + `</div>`).join("") +
+      `<details><summary>Read the exact correction feedback</summary><p class="claim-source">${esc(comparison.feedback_path)}</p><pre>${esc(comparison.feedback.content)}</pre></details>` +
+      `<details><summary>Locate the compared fields in the raw trace</summary>${comparison.rows.map((row) => `<h4>${esc(row.label)}</h4>${row.paths.map((path) => `<p><code>${esc(path)}</code></p>`).join("")}`).join("")}</details>` +
+      `<p class="boundary">${esc(comparison.boundary)}</p></section>`;
+  }
   function renderMorningComparison(runs) {
     const morning = runs.filter((run) => run.trace?.task_id === "morning_review");
     if (!morning.length) return "";
@@ -123,7 +138,7 @@
       `<p class="morning-scroll-hint">On a narrow screen, scroll the table sideways to reach the review and recording links.</p>` +
       `<div class="morning-table-scroll" role="region" aria-label="Morning-review attempt comparison" tabindex="0"><table><caption>Morning-review development sequence · ${morning.length} recordings</caption><thead><tr><th scope="col">Attempt and setup</th><th scope="col">Recorded result</th><th scope="col">Review finding · AI-assisted</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   }
-  const api = { render, renderComparisons, renderMorningComparison };
+  const api = { render, renderComparisons, renderMorningComparison, renderCorrectionComparison };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CSM_MODEL_TURNS = api;
 })(typeof window !== "undefined" ? window : this);
