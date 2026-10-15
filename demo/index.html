@@ -10,15 +10,15 @@
     <title>CSM Copilot · Evidence before confidence</title>
     <link rel="stylesheet" href="style.css?v=0.29.8" />
     <script defer src="data.js?v=0.29.8"></script>
-    <script defer src="model-runs.js?v=0.29.8-action-schema"></script>
-    <script defer src="model-turns.js?v=0.29.8-request-lifecycle"></script>
+    <script defer src="model-runs.js?v=0.29.8-long-budget"></script>
+    <script defer src="model-turns.js?v=0.29.8-long-budget"></script>
     <script defer src="review-links.js?v=0.29.8"></script>
     <script defer src="case-review.js?v=0.29.8"></script>
     <script defer src="triage-review.js?v=0.29.8"></script>
     <script defer src="practice-core.js?v=0.29.8"></script>
     <script defer src="practice-session.js?v=0.29.8"></script>
     <script defer src="copy-feedback.js?v=0.29.8"></script>
-    <script defer src="app.js?v=0.29.8-action-schema"></script>
+    <script defer src="app.js?v=0.29.8-long-budget"></script>
     <script defer src="practice.js?v=0.29.8"></script>
   </head>
   <body>
@@ -276,8 +276,9 @@
           <a data-review-link href="?run=qwen4-morning-review#model-runs">Original request</a>
           · <a data-review-link href="?run=qwen4-morning-sequenced#model-runs">With dependency instruction</a>
           · <a data-review-link href="?run=qwen4-morning-enforced#model-runs">With host policy</a>
-          · <a data-review-link href="?run=qwen4-morning-constrained#model-runs">With constrained generation</a>.
-          The first three stopped at parsing. The constrained run completed all seven tool calls, then timed out before a final explanation.
+          · <a data-review-link href="?run=qwen4-morning-constrained#model-runs">With constrained generation</a>
+          · <a data-review-link href="?run=qwen4-morning-long-budget#model-runs">With a longer response budget</a>.
+          The first three stopped at parsing. Constrained generation completed all seven calls but timed out before an explanation. The longer-budget run returned an answer with a visible evidence-state error; inspect its excerpts beside the recorded fields.
         </p>
         <div class="integrity-controls">
           <label for="model-run">Inspect a recorded attempt</label

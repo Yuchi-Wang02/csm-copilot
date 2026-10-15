@@ -48,7 +48,7 @@ test("claim comparison keeps quoted source fields and review separate and escape
 
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
-  assert.equal(names.length, 14);
+  assert.equal(names.length, 15);
   for (const name of names) {
     const input = trace(name.slice(0, -5)), before = JSON.stringify(input);
     const html = api.render(input);
@@ -176,6 +176,19 @@ test("a constrained workflow ending in a host error keeps seven calls separate f
   assert.equal(JSON.stringify(input), before);
   input.error_type = '<img src=x>';
   assert.doesNotMatch(api.render(input), /<img/);
+});
+
+test("the longer-budget recording exposes eight exact requests and its unedited final answer", () => {
+  const input = trace("qwen4-morning-long-budget"), before = JSON.stringify(input);
+  const html = api.render(input);
+  assert.equal((html.match(/<h4>Recorded worker request<\/h4>/g) || []).length, 8);
+  assert.equal((html.match(/1 recorded tool call · results received/g) || []).length, 7);
+  assert.match(html, /Turn 8 — Model supplied a final response; prose unverified/);
+  assert.match(html, /Response budget: 600 seconds/);
+  assert.match(html, /missing currency approval and device verification/);
+  assert.match(html, /not_met/);
+  assert.doesNotMatch(html, /No model response recorded|Worker response timed out|Recorded host error type/);
+  assert.equal(JSON.stringify(input), before);
 });
 test("exhausted parse corrections do not imply a later accepted answer", () => {
   const html = api.render(trace("qwen4-grounded-corrections"));

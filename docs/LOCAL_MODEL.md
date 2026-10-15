@@ -1,6 +1,6 @@
 # An actual model run, including the failures
 
-The project contains fourteen exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
+The project contains fifteen exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
 
 The newest attempt adds constrained decoding to the host dependency policy. It completes the queue, selected account context, both readiness checks, both English drafts and the issue handoff in seven turns. The host then times out waiting for the final explanation. This is completed tool work under host assistance, not a complete model-written answer. The preceding three morning attempts remain unchanged with zero executed calls. Each returned turn exposes its host state, decoding schema, model proposal and actual tool result.
 
@@ -63,7 +63,7 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 Since v0.26, the browser also renders the existing trace as a turn-by-turn conversation. It distinguishes parsed model proposals, recorded tool calls and errors, parser rejection, structured-field checks, and host correction requests. A model proposal is not counted as an executed call. Correction feedback is labeled as host-supplied assistance, including when it provides expected values. Final prose remains unverified even after fields match. The view retains initial messages, unedited model output and the full raw steps; no historical file is rewritten.
 
-Browser-logic tests cover all fourteen recordings, the four-call unsupported answer, parser rejection with no execution, host state and decoding schemas, seven successful calls ending in a host error without final prose, distinct dependency-rejection and result-failure displays, a tool error beside successful calls, field-review corrections and escaped data. These are presentation and provenance checks, not model-quality scores. Dependency rejection and result-failure display tests use constructed cases; the policy-enabled model recording stops earlier, at parsing.
+Browser-logic tests cover all fifteen recordings, the four-call unsupported answer, parser rejection with no execution, host state and decoding schemas, seven successful calls ending in a host error without final prose, distinct dependency-rejection and result-failure displays, a tool error beside successful calls, field-review corrections and escaped data. These are presentation and provenance checks, not model-quality scores. Dependency rejection and result-failure display tests use constructed cases; the policy-enabled model recording stops earlier, at parsing.
 
 The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, two exact-message triage calls for inbound scope review, and seven fixed-fixture calls for morning review. Coverage does not check dependency order or prove that IDs were discovered from tool results; inspect the sequence separately. The separate source review examines final prose when present. Do not combine these into one unqualified accuracy number.
 
@@ -219,4 +219,33 @@ Successful replies become `response_received`. A timeout records `response_timeo
 
 Use `--response-timeout-seconds 300` to explicitly allow up to 300 seconds per response. The default remains **180 seconds**, the CLI accepts integers from 1 to 600, and the worker startup budget stays 180 seconds. The chosen response budget is recorded at run and request level. Changing it changes the experiment conditions; it does not demonstrate that the earlier timeout is fixed. Response timeouts, worker-response errors and worker-reported model errors exit with code 1. Existing output paths are still rejected before launch.
 
-The replay renderer can show saved requests, failure causes and absent responses without labeling them as model proposals. The fourteen historical recordings remain byte-for-byte unchanged and have no new request fields retroactively inserted. These lifecycle changes have been tested with scripted workers through the real MCP server, including a timeout after seven calls, but have not yet produced a new model recording. See `test_request_lifecycle_survives_worker_failures` in [the integration checks](../tests/test_host_dependency_integration.py).
+The replay renderer can show saved requests, failure causes and absent responses without labeling them as model proposals. The fourteen historical recordings remain byte-for-byte unchanged and have no new request fields retroactively inserted. The lifecycle changes were first checked with scripted workers through the real MCP server, including a timeout after seven calls. The subsequent actual model recording below uses this trace format. See `test_request_lifecycle_survives_worker_failures` in [the integration checks](../tests/test_host_dependency_integration.py).
+
+## Longer response budget: a returned answer with reasoning gaps
+
+The fifteenth recording uses host source `d5c9f289203da935a3250cd9a125475b4c070f8b` and the same constrained morning-review command with `--response-timeout-seconds 600`. Its model revision, recorded runtime settings, initial messages, task, tool schemas, eight-turn cap and zero-correction budget match the preceding attempt. The new host also persists requests and failure causes. The seven actions and returned tool results match the earlier constrained run exactly; timing is not controlled, so this is not a speed benchmark or an estimate of general reliability.
+
+**Observed:** all seven calls complete, then the eighth turn returns an 80-word final explanation. The process exits 0 with `status=final_response`, and the policy is complete. The final generation takes **272.986 seconds**, exceeding the previous 180-second cutoff but staying within this run's explicit budget. No correction, retry or output-cap hit occurs. Every request includes its complete messages, decoder schema, byte fingerprint and lifecycle timestamps.
+
+| Turn | Action | Input tokens | Generated tokens | Generation seconds |
+|---|---|---:|---:|---:|
+| 1 | Snapshot queue | 1,338 | 11 | 4.755 |
+| 2 | Returned-account context | 2,007 | 19 | 4.763 |
+| 3 | Android readiness | 3,986 | 17 | 6.444 |
+| 4 | iOS readiness | 5,277 | 17 | 34.662 |
+| 5 | English Android follow-up | 6,588 | 21 | 48.105 |
+| 6 | English iOS follow-up | 7,467 | 21 | 80.211 |
+| 7 | Recorded-issue handoff | 8,069 | 15 | 102.349 |
+| 8 | Final explanation | 9,018 | 134 | 272.986 |
+
+The unedited answer and an AI-assisted claim review are available in the [replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs). Its strengths and gaps are distinct:
+
+- Account name, planned October 16 launch, non-live state, five-day contact age and iOS `checklist_complete` match the returned records. It does not explicitly explain the first-account ordering relative to the other queued accounts.
+- The phrase **"missing currency approval and device verification"** merges `currency_approved=unknown` with `device_verified=not_met`. The latter has a cited failed test record; it is not missing evidence. The wording does not preserve the task's required distinction.
+- **"SDK version, time window, and redacted logs"** correctly lists all three missing handoff fields. The underlying draft remains `needs_information`, `root_cause=unconfirmed` and `sent=false`.
+- It names two real evidence IDs, but omits the available contact and iOS sources. It describes platform states without explicitly contrasting the Android evidence request with the iOS launch-plan review.
+- It says **"No evidence was sent or submitted."** The trace independently records unsent drafts. The answer makes no launch-approval, issue-resolution or confirmed-root-cause claim. Its 80 whitespace-separated words are within the requested 220-word limit; length is a mechanical check, not a fidelity score.
+
+The browser pairs the problematic state wording and the correct handoff list with exact historical fields. Comparison generation requires matching excerpts, unambiguous scoped calls and checks, successful results and one authored review per excerpt. Request-history checks reconstruct each message sequence and fingerprint, validate the saved schemas against policy state, and compare all tool outputs with the unchanged engine. These are provenance and software checks; the prose assessment remains AI-assisted, not independent human validation.
+
+[Raw trace](../evidence/model-runs/qwen4-morning-long-budget.json), SHA-256 `aead6eaa015718e276ded9ff568281d5e418b8aadbb01fb10cfd749b6c1fc3e6`. All fourteen earlier raw recordings remain unchanged. The fixed v0.29.8 package predates this recording. The next substantive gap is faithful explanation of evidence states and next actions, not obtaining another syntactically valid final string.

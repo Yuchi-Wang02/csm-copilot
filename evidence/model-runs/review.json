@@ -362,9 +362,48 @@
           "assessment": "Recorded input length grew from 1,338 to 8,069 tokens across the seven returned turns; generation times ranged from 6.434 to 141.776 seconds. These observations are not a controlled performance benchmark or a causal diagnosis. The decoder and state policy supplied strong assistance. The earlier thirteen raw recordings remain unchanged; this run demonstrates prepared artifacts under constraints, not a successful end-to-end model answer or general reliability."
         }
       ]
+    },
+    {
+      "id": "qwen4-morning-long-budget",
+      "label": "Qwen3-4B · morning workflow with longer response budget",
+      "protocol": "batch + one-action decoding + 600-second response budget",
+      "verdict": "Seven calls and a final answer; evidence states conflated",
+      "summary": "The model completed all seven calls and returned an 80-word explanation. Its final generation took 272.986 seconds under an explicit 600-second response budget. The answer names the three missing handoff fields correctly, but groups an unknown currency-approval state and a recorded failed device check as missing verification. A returned answer is progress, not evidence that the task's reasoning requirements are fully met.",
+      "findings": [
+        {
+          "kind": "control",
+          "claim": "Longer response budget and durable request tracing",
+          "assessment": "Host source d5c9f289203da935a3250cd9a125475b4c070f8b adds trace lifecycle persistence and uses --response-timeout-seconds 600 instead of the earlier 180-second default. Model revision, runtime settings, initial messages, task, constrained-action policy, eight-turn cap and zero-correction budget match the preceding constrained attempt. Its seven actions and returned tool results also match. This is one development run, not a controlled speed benchmark or general reliability estimate."
+        },
+        {
+          "kind": "execution",
+          "claim": "Seven scoped calls and a returned final response",
+          "assessment": "Queue, returned-account context, two readiness checks, two English follow-up drafts and the issue handoff all returned without tool errors. The eighth turn produced a final string after 272.986 seconds, with 9,018 input tokens and 134 generated tokens; no output-cap hit, retries or corrections occurred. The process exited 0. Every request, its SHA-256, lifecycle timestamps and decoder schema are saved in the immutable trace."
+        },
+        {
+          "kind": "state_conflation",
+          "claim": "missing currency approval and device verification",
+          "assessment": "The Android result records currency_approved=unknown with no evidence ID, but device_verified=not_met with source lantern_android_device_verified. Grouping both as missing fails to preserve missing evidence versus a recorded failed check. The follow-up explicitly requests a fresh device test and separates that from confirmation of unknown settings. Citing the device record does not make the wording faithful to it."
+        },
+        {
+          "kind": "supported",
+          "claim": "SDK version, time window, and redacted logs",
+          "assessment": "These correspond exactly to the handoff's missing_fields: sdk_version, time_window and redacted_logs. The draft remains needs_information with an unconfirmed cause and sent=false. This is a correct part of the model explanation, not independent verification of the underlying customer records."
+        },
+        {
+          "kind": "incomplete",
+          "claim": "Selection, platform next steps and source coverage",
+          "assessment": "The account name, October 16 planned date, non-live stage, five-day contact age and iOS checklist-complete status match returned records. The answer does not explicitly explain why this account comes first in the queue or distinguish the Android evidence-request action from the iOS launch-plan-review action. It cites two real IDs, msg_issue_blank and lantern_android_device_verified, but omits the available contact and iOS sources. It says 'No evidence was sent or submitted'; the trace separately shows drafts remained unsent. There is no launch-approval, resolved-issue or confirmed-root-cause claim."
+        },
+        {
+          "kind": "boundary",
+          "claim": "Format and execution checks do not validate free prose",
+          "assessment": "The explanation contains 80 whitespace-separated words, within the requested 220-word limit. The schema permits a nonempty final string and does not check factual support or task completeness. The comparisons are AI-assisted review of one saved response, not independent human validation. No customer outcome, time-saving claim or personal mastery is established; all fourteen earlier recordings remain unchanged."
+        }
+      ]
     }
   ],
-  "boundary": "Fourteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Fifteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

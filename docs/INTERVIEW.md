@@ -54,6 +54,8 @@ Use Tab to move between controls; the blue outline shows the focused control, in
 
 This path was checked in Edge on Windows. It is a presentation aid, not a screen-reader or cross-browser accessibility assessment. The current [fixed interview package](INTERVIEW_BUNDLE.md) includes the disclosure outline; older packages may predate it.
 
+For a deeper engineering question, open the [longer-budget morning run](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-long-budget#model-runs). It completes seven calls and returns an answer, but the excerpt comparison shows a recorded failed device check described together with missing approval evidence. Explain why the schema and dependency policy permit that wording, identify the correct handoff fields in the adjacent comparison, and distinguish a runtime improvement from a faithful answer. The final generation took 272.986 seconds; this is a recorded development observation, not a production performance claim.
+
 ## Optional deeper walkthrough
 
 Open this only after the short story, or use it to prepare for a longer conversation. Choose one customer, AI or evaluation branch relevant to the interviewer's question; it is not part of the three-minute pacing plan.

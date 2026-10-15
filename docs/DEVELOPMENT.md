@@ -1,5 +1,15 @@
 # Development notes
 
+## Complete the morning run, then inspect the explanation
+
+One new Qwen3-4B run used source `d5c9f289203da935a3250cd9a125475b4c070f8b`, constrained morning actions and an explicit 600-second response budget. Recorded model/runtime controls, task, initial messages, seven tool actions and results match the earlier constrained attempt. All seven calls completed, and an eighth turn returned an 80-word explanation after 272.986 seconds of final generation. The process exited 0. No correction or retry was used. The raw file is preserved with SHA-256 `aead6eaa015718e276ded9ff568281d5e418b8aadbb01fb10cfd749b6c1fc3e6`; all fourteen earlier raw recordings remain unchanged.
+
+The answer correctly names the missing SDK version, time window and redacted logs. It also groups unknown currency approval and a recorded failed device check as "missing" verification, omits available contact/iOS citations, and describes platform states without explaining their distinct next actions. The replay pairs both the problematic wording and the correct intake list with exact historical fields. This is a completed assisted execution with visible reasoning gaps, not a fully faithful answer or a general model-quality result.
+
+New checks reconstruct all eight request histories and fingerprints, validate policy/schema state and scoped tool results, and reject ambiguous comparison sources. All 432 Python tests, 107 JavaScript tests and Ruff checks passed. Local Edge checks confirmed fifteen attempts, two claim comparisons, eight turns and the final request's recorded 600-second budget. The comparison stacks at a 390-pixel viewport without horizontal page overflow. The refreshed two-page brief retains seven links; both rendered pages were inspected. These checks do not establish independent semantic validation or personal mastery.
+
+The [experiment notes](LOCAL_MODEL.md#longer-response-budget-a-returned-answer-with-reasoning-gaps), interview branch and prediction exercise preserve the observed success and limitations together. This source and recording postdate the fixed v0.29.8 package. The next useful improvement is preserving evidence-state distinctions and actionable platform reasoning in the final answer.
+
 ## Preserve the request when a worker fails to answer
 
 The previous model run completed seven tool calls but lost its final in-flight input when the worker timed out. The host now persists the complete request and its byte fingerprint before dispatch, saves the pipe-write state before waiting, and records specific timeout or response failures. Atomic snapshot replacement retains the prior readable file if replacement fails. The response budget remains 180 seconds by default and can be explicitly set from 1 to 600 seconds; the trace records the choice. These changes do not recover the older missing input or establish that a longer wait will produce a faithful answer.

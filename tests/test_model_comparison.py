@@ -10,6 +10,64 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 compare = runpy.run_path(str(ROOT / "scripts/build_model_replay.py"))["compare_handoffs"]
 compare_claims = runpy.run_path(str(ROOT / "scripts/build_model_replay.py"))["compare_batch_claims"]
+compare_morning = runpy.run_path(str(ROOT / "scripts/build_model_replay.py"))[
+    "compare_morning_claims"
+]
+
+
+def morning_recording():
+    directory = ROOT / "evidence/model-runs"
+    trace = json.loads((directory / "qwen4-morning-long-budget.json").read_text(encoding="utf-8"))
+    review = json.loads((directory / "review.json").read_text(encoding="utf-8"))
+    findings = next(
+        run["findings"] for run in review["runs"] if run["id"] == "qwen4-morning-long-budget"
+    )
+    return trace, findings
+
+
+def test_morning_claim_comparison_preserves_unknown_failure_and_correct_intake_list():
+    trace, findings = morning_recording()
+    original = deepcopy((trace, findings))
+    rows = compare_morning(trace, findings)
+    assert [field["value"] for field in rows[0]["fields"]] == [
+        "unknown",
+        [],
+        "not_met",
+        ["lantern_android_device_verified"],
+    ]
+    assert rows[1]["fields"][0]["value"] == ["sdk_version", "time_window", "redacted_logs"]
+    assert rows[1]["fields"][-1]["value"] is False
+    assert (trace, findings) == original
+    # Source positions follow the recording rather than an assumed array order.
+    trace["steps"][2], trace["steps"][3] = trace["steps"][3], trace["steps"][2]
+    reordered = compare_morning(trace, findings)
+    assert reordered[0]["fields"][0]["path"].startswith("steps[3].")
+    assert reordered[0]["fields"][0]["value"] == "unknown"
+
+
+@pytest.mark.parametrize(
+    "fault",
+    ["quote", "review", "duplicate_call", "error", "scope", "missing_check", "duplicate_check"],
+)
+def test_morning_claim_comparison_rejects_ambiguous_or_mismatched_sources(fault):
+    trace, findings = morning_recording()
+    call = trace["steps"][2]["tool_calls"][0]
+    if fault == "quote":
+        trace["final"] = "A different answer"
+    elif fault == "review":
+        findings.append(deepcopy(next(f for f in findings if f["kind"] == "state_conflation")))
+    elif fault == "duplicate_call":
+        trace["steps"][2]["tool_calls"].append(deepcopy(call))
+    elif fault == "error":
+        call["tool_error"] = True
+    elif fault == "scope":
+        call["tool_result"]["integration_id"] = "lantern_ios"
+    elif fault == "missing_check":
+        call["tool_result"]["checks"] = []
+    elif fault == "duplicate_check":
+        call["tool_result"]["checks"].append(deepcopy(call["tool_result"]["checks"][0]))
+    with pytest.raises(ValueError):
+        compare_morning(trace, findings)
 
 
 def recordings():

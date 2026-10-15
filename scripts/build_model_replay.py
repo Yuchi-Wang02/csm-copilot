@@ -69,6 +69,82 @@ def compare_batch_claims(trace, findings):
     return comparisons
 
 
+def compare_morning_claims(trace, findings):
+    """Pair an incorrect distinction and a correct intake list with their recorded fields."""
+    specs = (
+        (
+            "missing currency approval and device verification",
+            "check_readiness",
+            "integration_id",
+            "lantern_android",
+        ),
+        ("SDK version, time window, and redacted logs", "draft_ticket", "issue_id", "issue_blank"),
+    )
+    rows = []
+    for claim, tool, argument, identifier in specs:
+        reviews = [finding for finding in findings if finding["claim"] == claim]
+        if not isinstance(trace["final"], str) or claim not in trace["final"] or len(reviews) != 1:
+            raise ValueError("Morning comparison requires an exact excerpt and one authored review")
+        calls = [
+            (s, c, call)
+            for s, step in enumerate(trace["steps"])
+            for c, call in enumerate(step.get("tool_calls", []))
+            if call["action"]["tool"] == tool
+            and call["action"]["arguments"].get(argument) == identifier
+        ]
+        if len(calls) != 1:
+            raise ValueError("Morning comparison requires one scoped recorded call")
+        s, c, call = calls[0]
+        result = call["tool_result"]
+        expected_scope = (
+            result.get("integration_id") if tool == "check_readiness" else result.get("draft_id")
+        )
+        if call["tool_error"] or expected_scope != (
+            identifier if tool == "check_readiness" else "ticket-" + identifier
+        ):
+            raise ValueError(
+                "Morning comparison requires a successful result in the requested scope"
+            )
+        prefix = f"steps[{s}].tool_calls[{c}].tool_result"
+        fields = []
+        if tool == "check_readiness":
+            for check_id in ("currency_approved", "device_verified"):
+                checks = [
+                    (i, check)
+                    for i, check in enumerate(result["checks"])
+                    if check["id"] == check_id
+                ]
+                if len(checks) != 1:
+                    raise ValueError("Morning comparison requires one recorded check per ID")
+                index, check = checks[0]
+                fields += [
+                    {
+                        "label": check_id + " status",
+                        "path": f"{prefix}.checks[{index}].status",
+                        "value": check["status"],
+                    },
+                    {
+                        "label": check_id + " evidence",
+                        "path": f"{prefix}.checks[{index}].evidence_ids",
+                        "value": check["evidence_ids"],
+                    },
+                ]
+        else:
+            fields = [
+                {"label": key, "path": f"{prefix}.{key}", "value": result[key]}
+                for key in ("missing_fields", "handoff_state", "root_cause", "sent")
+            ]
+        rows.append(
+            {
+                "claim": claim,
+                "assessment": reviews[0]["assessment"],
+                "source_label": f"Turn {trace['steps'][s]['number']} · call {c + 1} · {identifier}",
+                "fields": fields,
+            }
+        )
+    return rows
+
+
 def compare_handoffs(runs):
     """Describe two existing traces; do not infer an accuracy gain from their differences."""
     ids = ("qwen4-callback-handoff", "qwen4-callback-input-guard")
@@ -145,6 +221,8 @@ def build():
                 "display_final": display_final,
                 "claim_comparisons": compare_batch_claims(trace, entry["findings"])
                 if entry["id"] == "qwen4-batch"
+                else compare_morning_claims(trace, entry["findings"])
+                if entry["id"] == "qwen4-morning-long-budget"
                 else [],
             }
         )

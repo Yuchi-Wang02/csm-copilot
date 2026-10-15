@@ -60,6 +60,7 @@ def assert_historical_callback_result(engine, action, recorded):
         "qwen4-morning-sequenced",
         "qwen4-morning-enforced",
         "qwen4-morning-constrained",
+        "qwen4-morning-long-budget",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):
@@ -94,6 +95,94 @@ def test_morning_recording_preserves_rejected_proposals_without_execution():
     assert proposals[2]["arguments"]["integration_id"] not in engine.integrations
     assert proposals[4]["arguments"]["issue_id"] not in engine.issues
     assert trace["coverage"]["observed"] == 0 and trace["coverage"]["required"] == 7
+
+
+def test_long_budget_recording_retains_exact_request_history_and_scoped_results():
+    from datetime import datetime
+
+    from jsonschema import Draft202012Validator
+
+    from csm_copilot.dependency_policy import MorningReviewPolicy
+
+    prior = json.loads((DIRECTORY / "qwen4-morning-constrained.json").read_text(encoding="utf-8"))
+    trace = json.loads((DIRECTORY / "qwen4-morning-long-budget.json").read_text(encoding="utf-8"))
+    for key in (
+        "initial_messages",
+        "prompt_sha256",
+        "runtime",
+        "task",
+        "task_id",
+        "model_id",
+        "revision",
+        "protocol_version",
+        "max_steps",
+        "repair_budget",
+        "constrain_final",
+        "sequence_dependencies",
+        "enforce_dependencies",
+        "constrain_actions",
+    ):
+        assert trace[key] == prior[key], key
+    assert trace["trace_schema_version"] == 2
+    assert trace["response_timeout_seconds"] == 600
+    assert trace["worker_ready_timeout_seconds"] == 180
+    policy, engine = MorningReviewPolicy(), Copilot()
+    messages = deepcopy(trace["initial_messages"])
+    for step in trace["steps"]:
+        assert "correction_feedback" not in step
+        assert step["policy_before"] == policy.snapshot()
+        assert step["generation_schema"] == policy.next_action_schema()
+        messages.append(step["policy_message"])
+        assert step["worker_request"] == {
+            "messages": messages,
+            "json_schema": step["generation_schema"],
+        }
+        payload = (json.dumps(step["worker_request"], ensure_ascii=False) + "\n").encode("utf-8")
+        assert hashlib.sha256(payload).hexdigest() == step["request_sha256"]
+        assert step["request_encoding"] == "UTF-8 JSON followed by LF"
+        assert step["response_timeout_seconds"] == 600
+        assert datetime.fromisoformat(step["prepared_at"]) <= datetime.fromisoformat(
+            step["sent_at"]
+        )
+        if "model_response" not in step:
+            assert step is trace["steps"][-1]
+            assert step["request_state"] == "response_timeout"
+            assert step["response_error"]["type"] == "TimeoutError"
+            assert step["response_error"]["partial_output_captured"] is False
+            continue
+        assert step["request_state"] == "response_received"
+        assert datetime.fromisoformat(step["sent_at"]) <= datetime.fromisoformat(
+            step["received_at"]
+        )
+        response = step["model_response"]
+        assert response["schema_constrained"] is True
+        proposal = json.loads(response["text"])
+        Draft202012Validator(step["generation_schema"]).validate(proposal)
+        assert step["actions"] == [proposal]
+        policy.validate_batch([proposal])
+        messages.append({"role": "assistant", "content": response["text"]})
+        if "final" in proposal:
+            assert trace["final"] == proposal["final"]
+            assert step is trace["steps"][-1]
+            continue
+        assert len(step["tool_calls"]) == 1
+        call = step["tool_calls"][0]
+        assert call["action"] == proposal and call["tool_error"] is False
+        assert call["tool_result"] == getattr(engine, proposal["tool"])(**proposal["arguments"])
+        policy.observe(proposal, call["tool_result"])
+        assert call["policy_after"] == policy.snapshot()
+        messages.append(call["result_message"])
+    assert trace["dependency_policy"] == policy.snapshot()
+
+    assert trace["status"] == "final_response" and len(trace["steps"]) == 8
+    assert trace["coverage"]["observed"] == trace["coverage"]["required"] == 7
+    assert policy.stage == "complete" and not policy.pending
+    assert trace["steps"][-1]["model_response"]["seconds"] == 272.986
+    assert all(step["model_response"]["token_limit_reached"] is False for step in trace["steps"])
+    assert len(trace["final"].split()) == 80  # Mechanical length check, not a prose-quality score.
+    for earlier, current in zip(prior["steps"], trace["steps"][:7], strict=True):
+        assert earlier["actions"] == current["actions"]
+        assert earlier["tool_calls"] == current["tool_calls"]
 
 
 def test_morning_instruction_pair_preserves_controls_and_failed_execution():
