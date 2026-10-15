@@ -1,5 +1,5 @@
 {
-  "project_version": "0.30.0",
+  "project_version": "0.30.1",
   "before_commit": "a3ddd2997b014830b5da5ef7fbedae0977735a05",
   "inputs_sha256": "ce8661580659989974d2b95e91b72f662ee99ab944e7918eb18386843ffd13bd",
   "boundary": "AI-assisted development probes authored for this repair, including two known failures reused from the original diagnostic set. Not an independent test or a general accuracy estimate.",

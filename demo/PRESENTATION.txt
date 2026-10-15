@@ -1,0 +1,100 @@
+CSM COPILOT — PRESENTER GUIDE
+
+Purpose: show one useful customer decision, one recorded AI mistake, and a
+learning step you can explain yourself. This is a rehearsal aid, not evidence
+that you have completed the practice. Suggested pacing has not been measured.
+
+BEFORE THE CONVERSATION
+
+Extract the whole package. Follow START_HERE.txt to serve it over localhost.
+Keep project-brief.pdf open as a backup. The static demo replays saved outputs;
+it does not run a model or contact customer systems. The customer records are
+synthetic. External sources and hosted sharing links require internet access.
+
+At http://127.0.0.1:8000/ open these routes in separate tabs:
+  ?case=lantern_android&view=evidence&lang=en#workspace
+  ?run=qwen4-batch#model-runs
+The paths above belong after the trailing slash. On the hosted portfolio, use
+the same paths after https://yuchi-wang02.github.io/csm-copilot/ instead.
+
+THREE-MINUTE CUSTOMER STORY
+
+0:00–0:30 — Frame the problem.
+Show Lantern Games and the snapshot label. Explain that a publisher wants to
+launch but Android evidence is incomplete. State what decision the CSM needs
+to move forward. Do not claim this is a real customer or measured business gain.
+
+0:30–1:10 — Trace the decision.
+In Evidence, expand "Trace checklist decisions to source records" and inspect
+"Non-test device verification". Contrast its recorded failure with unknown
+currency approval. Explain why a fresh device test and a missing approval
+confirmation are different requests. An iOS check does not establish Android
+readiness, and a complete scoped checklist is not launch authorization.
+
+1:10–1:50 — Prepare the next action.
+Open Follow-up, then Handoff. Show a concrete request and a missing intake
+field. The handoff needs SDK version, time window and redacted logs; it retains
+the customer's recorded region and reproduction details. Explain which owner
+needs which information. A generated draft sends nothing and does not count
+as a new customer contact.
+
+1:50–2:30 — Inspect an AI mistake.
+In the qwen4-batch recording, open "Check the claim against the recorded result".
+Contrast the model's "iOS's full compliance" with the scoped checklist result.
+The model completed four calls, but its wording overstated what they proved.
+Explain the division of work: deterministic tools produce workflow results;
+an optional model selects tools and writes an explanation that still needs review.
+
+2:30–3:00 — Explain your contribution and learning.
+Describe the project direction you selected and the substantial AI assistance
+used for implementation. Give one decision or code path you can explain in
+your own words. If you have completed a practice or source-change experiment,
+show your actual prediction, observation and reflection. Otherwise describe
+the next exercise as planned work. End here and invite a question.
+
+OPTIONAL FOLLOW-UP: A REAL CITATION USED FOR THE WRONG CLAIM
+
+Open ?practice=citation_purpose#practice. This sixth exercise shows a customer
+report used in both an Android readiness citation list and a technical handoff.
+Write your own reasoning before revealing guidance. Ask: what exact claim does
+the report support, and what evidence supports the failed device check?
+
+Then inspect ?run=qwen4-morning-field-review#model-runs. The host rejected one
+readiness citation even though its source ID and platform were real. The same
+report legitimately supplied handoff details. Source existence, scope and
+claim support are separate questions. The original failure remains recorded.
+
+For a broader engineering question, expand "Compare the morning-review
+attempts". Separate recorded setup, tool execution and answer review. Seven
+calls without a final answer differs from a returned but rejected answer.
+The attempts changed several controls and are not a controlled model benchmark.
+
+YOUR PREPARATION — LEAVE BLANK UNTIL YOU DO THE WORK
+
+The customer decision I can explain:
+
+The source record that supports it, and its limit:
+
+My prediction before changing one input in a separate working copy:
+
+What I actually observed, and what surprised me:
+
+What I would investigate next:
+
+The Practice section keeps initial reasoning separate from later reflection.
+Save progress JSON before leaving; readable Markdown notes are a separate
+download. Resume previews earlier work before replacing the current session.
+Compatible five-decision files add the sixth decision blank in this release.
+Six-decision files cannot be resumed in the older v0.30.0 application. Files
+remain editable and do not authenticate authorship or personal mastery.
+
+KEEP THE TAKE-AWAY SIMPLE
+
+Share project-brief.pdf for the overview, the ZIP for a fixed interactive
+snapshot, or the hosted portfolio for the evolving version. Both PDFs and this
+guide can be read without running Python. Share-link buttons in the local app
+point to the public site, which may have advanced beyond this package.
+
+Independent, AI-assisted portfolio project by Yuchi Wang. No affiliation with
+Unity. Tests and recorded failures support inspectable engineering claims;
+they do not establish independent model reliability or production impact.

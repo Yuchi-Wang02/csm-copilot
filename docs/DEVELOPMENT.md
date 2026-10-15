@@ -1,5 +1,11 @@
 # Development notes
 
+## Package the comparison and six practice decisions for presentation
+
+The v0.30.1 source includes a portable English `PRESENTATION.txt` alongside the demo and PDFs. It provides a proposed three-minute customer story, routes into the original AI failure and citation-purpose exercise, and blank preparation prompts. It distinguishes a presentation aid from personal learning evidence and explains that local share links lead to the evolving public site. The hero exposes the text download. The bundle start guide mentions it only when that file exists in the selected committed tree, preserving appropriate instructions for older revisions.
+
+The fixed package brings the morning-attempt comparison and sixth practice decision together. Earlier five-decision progress files can resume with the new decision blank; the prior v0.30.0 application cannot load a six-decision export. Raw model recordings, review findings, both PDFs and the first five practice decisions are unchanged. No new inference or personal response was produced. Six packaging checks pass, including conditional presenter instructions for old and new committed trees; release identity and browser observations are recorded in the package guide after publication.
+
 ## Practice citation purpose while preserving earlier saved work
 
 A sixth decision uses the preserved morning field-review attempt to distinguish a source's identity and platform scope from the claim it supports. Before guidance, it shows the original report, model citation list, recorded readiness sources, failed-device source and handoff attribution. It does not include the checker verdict. The learner chooses a next action and keeps initial reasoning separate from later reflection. The first five decisions and all recorded model outputs remain unchanged.

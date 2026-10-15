@@ -50,7 +50,13 @@ def validate_references(files):
                 raise ValueError(f"Missing packaged link: {name}: {reference}")
 
 
-def start_guide(version, commit, *, can_resume=False):
+def start_guide(version, commit, *, can_resume=False, has_presenter_guide=False):
+    presenter = (
+        "Read PRESENTATION.txt for a short speaking route, an optional AI-failure\n"
+        "discussion and blank prompts for your own preparation.\n"
+        if has_presenter_guide
+        else ""
+    )
     practice = (
         "Use Save or resume practice progress to download a local JSON progress file.\n"
         "On a later visit, choose that file, inspect the preview, then explicitly\n"
@@ -65,6 +71,7 @@ def start_guide(version, commit, *, can_resume=False):
 
 Extract the entire ZIP and read this guide before opening index.html.
 Start with the three-minute review route, or open project-brief.pdf.
+{presenter}
 
 Discuss one customer decision, one recorded AI mistake and one next learning
 step. Write your own reasoning in Practice before revealing the guidance.
@@ -125,7 +132,10 @@ def build_bundle(root=ROOT, ref="HEAD"):
     validate_references(files)
     source_hashes = {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}
     files["START_HERE.txt"] = start_guide(
-        version, commit, can_resume="practice-session.js" in files
+        version,
+        commit,
+        can_resume="practice-session.js" in files,
+        has_presenter_guide="PRESENTATION.txt" in files,
     )
     manifest = {
         "bundle_format": FORMAT,
