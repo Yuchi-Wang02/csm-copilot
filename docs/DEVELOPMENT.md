@@ -1,5 +1,11 @@
 # Development notes
 
+## Prepare the v0.30.0 interview snapshot
+
+The portable v0.29.8 package contains ten model recordings. This version prepares a fresh snapshot of the current seventeen-attempt explorer, including the queue-first workflow, explicit request lifecycle, optional dependency and final-field checks, and inspectable context reduction. The Python package version and browser asset keys now identify v0.30.0. The fixed dataset, model outputs and review judgments are unchanged.
+
+The archive builder still reads a committed Git tree and includes only static demo assets, both PDFs and its generated guide and manifest. The tagged Python implementation and full Markdown guides remain separate. Package identity and browser observations will be recorded in the package guide after the archive has been built and checked; this preparation does not itself establish publication or a new model result.
+
 ## Record reduced input and unchanged citation failure separately
 
 One Qwen3-4B attempt used committed host `f87b540911c5bb6e0a8c5cf9516789cfcd088c9e` with optional final-context reduction. Runtime settings, initial messages, all seven tool-stage requests and returned model text match the preceding field-review attempt. The final request retains 18 of 25 messages and every tool result. Combining the saved omitted messages and retained positions reconstructs the preceding final history exactly. All sixteen earlier raw recordings remain unchanged.
