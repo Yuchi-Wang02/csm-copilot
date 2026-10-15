@@ -409,3 +409,39 @@ test("explanation omissions are paired with three actual draft actions without c
   assert.doesNotMatch(html, /Two excerpts/);
   assert.equal(JSON.stringify(rows), before);
 });
+
+
+test("comparison links target current scoped cases while retaining the selected recording", () => {
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../demo/data.js"), "utf8").replace(/^window.CSM_DATA = /, "").replace(/;\s*$/, ""));
+  const models = JSON.parse(fs.readFileSync(path.join(__dirname, "../demo/model-runs.js"), "utf8").replace(/^window.CSM_MODEL_RUNS = /, "").replace(/;\s*$/, ""));
+  const run = models.runs.find(r => r.id === "qwen4-morning-explanation-checklist");
+  const html = api.renderComparisons(run.claim_comparisons, {workflow:data.workflow, runId:run.id});
+  const links = [...html.matchAll(/data-review-link href="([^"]+)"/g)].map(m => new URL(m[1].replaceAll("&amp;", "&"), "https://example.test/"));
+  assert.equal(links.length, 3);
+  assert.deepEqual(links.map(u => [u.searchParams.get("case"), u.searchParams.get("view")]), [["lantern_android","followup"],["lantern_ios","followup"],["lantern_android","handoff"]]);
+  for (const link of links) {
+    assert.equal(link.searchParams.get("run"), run.id);
+    assert.equal(link.searchParams.get("lang"), "en");
+    assert.equal(link.hash, "#workspace");
+    assert.deepEqual([...link.searchParams.keys()], ["case","view","lang","run"]);
+  }
+  assert.match(html, /historical tool result above stays unchanged/);
+  assert.match(html, /current records may differ/);
+});
+
+test("comparison links withhold unavailable scope and reject arbitrary navigation targets", () => {
+  const row = {claim:"Recorded text", assessment:"Authored review", source_label:"Saved draft", fields:[], review_target:{integration_id:"android",view:"followup"}};
+  const item = {readiness:{integration_id:"android",platform:"Android"}};
+  const nav = {workflow:{packets:[{integrations:[item]}]},runId:"saved-run"};
+  for (const candidate of [undefined, {...nav,runId:"javascript:alert(1)"}, {...nav,workflow:{packets:[]}}, {...nav,workflow:{packets:[{integrations:[item,item]}]}}]) {
+    const html = api.renderComparisons([row], candidate);
+    assert.match(html, /Current case link unavailable/);
+    assert.doesNotMatch(html, /data-review-link/);
+  }
+  const html = api.renderComparisons([{...row,review_target:{...row.review_target,view:"https://example.test"}}], nav);
+  assert.doesNotMatch(html, /data-review-link|href="https/);
+  assert.match(html, /Recorded text/);
+  const escaped = api.renderComparisons([row], {...nav,workflow:{packets:[{integrations:[{readiness:{integration_id:"android",platform:"<img src=x>"}}]}]}});
+  assert.match(escaped, /Open current &lt;img src=x&gt; follow-up/);
+  assert.doesNotMatch(escaped, /<img/);
+});

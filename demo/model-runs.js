@@ -30020,7 +30020,11 @@ window.CSM_MODEL_RUNS = {
               "path": "steps[4].tool_calls[0].tool_result.requests[2].request",
               "value": "Share a fresh non-test-device check with region, time and observed result."
             }
-          ]
+          ],
+          "review_target": {
+            "integration_id": "lantern_android",
+            "view": "followup"
+          }
         },
         {
           "claim": "iOS is checklist-complete.",
@@ -30049,7 +30053,11 @@ window.CSM_MODEL_RUNS = {
                 "lantern_ios_test_only_off"
               ]
             }
-          ]
+          ],
+          "review_target": {
+            "integration_id": "lantern_ios",
+            "view": "followup"
+          }
         },
         {
           "claim": "The Android issue lacks SDK version, time window, and logs.",
@@ -30087,7 +30095,11 @@ window.CSM_MODEL_RUNS = {
               "path": "steps[6].tool_calls[0].tool_result.collection_requests[2].request",
               "value": "Share relevant logs with credentials, tokens, personal data and other secrets removed."
             }
-          ]
+          ],
+          "review_target": {
+            "integration_id": "lantern_android",
+            "view": "handoff"
+          }
         }
       ]
     }

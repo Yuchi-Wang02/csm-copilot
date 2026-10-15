@@ -326,6 +326,10 @@ def compare_explanation_actions(trace):
                 "assessment": assessment,
                 "source_label": f"Turn {trace['steps'][s]['number']} · call {c + 1} · {draft_id}",
                 "fields": deepcopy(fields),
+                "review_target": {
+                    "integration_id": arguments.get("integration_id", "lantern_android"),
+                    "view": "followup" if tool == "draft_followup" else "handoff",
+                },
             }
         )
     return rows

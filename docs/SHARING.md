@@ -33,6 +33,12 @@ The iOS practice evidence link opens the iOS follow-up; the Android practice lin
 
 The comparison toggle applies only to the separate counterfactual section. The account workspace always shows the original snapshot, with its original drafts and handoffs. This prevents the comparison from silently altering the evidence being reviewed.
 
+## Move from a recorded finding to the current case
+
+The explanation-checklist recording has three **Open current** links beneath its excerpt-to-field comparisons. They open the matching English Android follow-up, iOS follow-up or Android handoff. The link retains the selected recording in the URL, and in-page navigation preserves this page's practice notes. Browser Back returns to the recording. Opening in a new tab starts a separate page session.
+
+The destination is the site's current original case snapshot. The historical tool result stays unchanged and may differ from current records; the link does not establish that the two are identical. Links are withheld if the current integration is unavailable or ambiguous. The separate copied recording link still shares only its recording ID and never includes practice notes.
+
 ## Share the triage learning trail
 
 The triage explorer has a **Copy this triage link** button and a selectable **View triage link** fallback. Each link opens one published message, its preserved before-change categories, current result and project expectation.
@@ -67,7 +73,7 @@ Copied case links include four allowlisted display settings: `case`, `view`, `la
 
 Copied links always use the project's public website address, including when the demo is run locally. They contain no local filesystem path, practice note, drafted free text, identity token, or private account information. Copying prepares a URL; the application does not send it to another person.
 
-These are links to the current published demo, not immutable snapshots. Future fixture changes may change what a link displays. For a fixed historical record, cite the Git commit and its checked-in evidence files. The [v0.30.0 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.30.0) provides a tagged demo ZIP with both the project brief and teaching PDF; the [package guide](INTERVIEW_BUNDLE.md) identifies its exact source and checksum.
+These are links to the current published demo, not immutable snapshots. Future fixture changes may change what a link displays. For a fixed historical record, cite the Git commit and its checked-in evidence files. The [v0.30.2 interview package](https://github.com/Yuchi-Wang02/csm-copilot/releases/tag/v0.30.2) provides a tagged demo ZIP with both the project brief and teaching PDF; the [package guide](INTERVIEW_BUNDLE.md) identifies its exact source and checksum.
 
 ## Verification
 

@@ -175,3 +175,6 @@ For a performance follow-up, compare the [full-history and reduced-history final
 
 
 For a communication-quality follow-up, open the [explanation-checklist recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-explanation-checklist#model-runs). Its three excerpt-to-field comparisons show Android's omitted fresh-device request, iOS's omitted launch-plan review, and the handoff's omitted redaction instruction. Expand a source-location disclosure and explain how the proposed next action follows from the returned draft. The model's final fields match after supplied feedback, but the prose remains incomplete. Use this to distinguish status reporting from moving a customer case forward; the assessment is AI-assisted and does not establish personal mastery or a customer outcome.
+
+
+To connect an AI finding to customer work, use **Open current iOS follow-up** or **Open current Android handoff** below the latest excerpt comparison. Show the actual proposed next step, then use Browser Back to return to the selected recording. Explain that the case explorer shows the current bundled snapshot while the comparison quotes a historical tool return; those sources can differ. In-page navigation keeps practice notes in memory, but a new tab or reload does not restore them. These navigation links postdate the fixed v0.30.2 package.

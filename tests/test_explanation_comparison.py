@@ -22,6 +22,11 @@ def test_explanation_comparison_quotes_actual_drafts_and_resolvable_locations():
     original = deepcopy(trace)
     rows = compare_explanation_actions(trace)
     assert len(rows) == 3
+    assert [row["review_target"] for row in rows] == [
+        {"integration_id": "lantern_android", "view": "followup"},
+        {"integration_id": "lantern_ios", "view": "followup"},
+        {"integration_id": "lantern_android", "view": "handoff"},
+    ]
     for row in rows:
         assert row["claim"] in trace["final"]["explanation"]
         for field in row["fields"]:

@@ -1,5 +1,11 @@
 # Development notes
 
+## Link a recorded omission to the current customer action
+
+The nineteenth recording's three excerpt comparisons now link to the current scoped Android follow-up, iOS follow-up and Android handoff. The links preserve the selected recording ID, open English original-snapshot views and use the existing in-page routing. A visible boundary distinguishes current case data from the historical tool result. The renderer withholds links when scope is absent or ambiguous, or the requested view/recording identifier is invalid. The fixed v0.30.2 package and all raw recordings remain unchanged.
+
+Two JavaScript checks cover actual targets, retained recording IDs, parameter boundaries, unavailable/duplicate scope and escaped labels. The existing Python comparison check verifies its three explicit targets. All 543 Python and 126 JavaScript tests pass locally, alongside Ruff. In Edge, the links opened the expected iOS launch-plan review, Android evidence request and Android intake handoff. Focus moved to the workspace; Back restored the selected recording and a temporary QA note remained intact through navigation. The note was then cleared and the notes download became disabled. No browser errors were recorded. This was navigation QA, not personal learning work or new model inference.
+
 ## Publish the verified v0.30.2 interview package
 
 The fixed package is pinned to `322da4407bdbdae6308d3a4a959189fe6d0c681b`. Its 3,078,260-byte ZIP has SHA-256 `575477b27cca21439aa3d9bb166a59a55be7ac8fb529e29801fcbebc704bc9ad`. All 27 committed demo files match the selected Git tree; the generated start guide matches its manifest hash. Downloaded Windows and Ubuntu CI archives and the public release ZIP match the local archive byte-for-byte. The public checksum sidecar also matches. Previous releases remain intact.
