@@ -1,0 +1,19 @@
+{
+  "observation_type": "agent_recorded_process_exit",
+  "recorded_at": "2026-10-15T00:14:17.609760+00:00",
+  "source": "Process exit status and stderr observed during this local inference run; separate from the immutable model trace",
+  "trace_file": "model-runs/qwen4-morning-constrained.json",
+  "trace_sha256": "6f87257d6c6eda7fdc7bf836f6f435a98d086dc0d163d813563a703d9e662b97",
+  "host_commit": "0ab07e8af6f5c213e0ebc2217b80e08fa0949e02",
+  "exit_code": 1,
+  "trace_error_type": "ExceptionGroup",
+  "stderr_leaf_error": "TimeoutError",
+  "response_timeout_seconds": 180,
+  "stderr_excerpt_whitespace_trimmed": [
+    "response = await readline(worker, 180)",
+    "TimeoutError"
+  ],
+  "observed_tool_calls": 7,
+  "final_response_captured": false,
+  "boundary": "Agent-authored observation of the actual failed process, not independent review. The raw trace stores ExceptionGroup, not its nested timeout detail. No final model text or eighth-turn request was persisted by this host version; do not reconstruct either as observed output."
+}

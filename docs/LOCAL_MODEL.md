@@ -1,8 +1,8 @@
 # An actual model run, including the failures
 
-The project contains thirteen exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
+The project contains fourteen exploratory local model attempts across four synthetic CSM tasks. Unlike the scripted MCP smoke test, a language model proposed the tool names and arguments. The host executed accepted calls through the real MCP stdio transport and returned their full results to the model. Rejected proposals are retained without being counted as executed calls.
 
-The newest attempt enables the host dependency policy and receives a state message allowing only the snapshot queue lookup. It still proposes five actions and unsupported identifiers before reading any result. The unchanged four-action parser rejects the response before dependency validation. None of the three morning attempts demonstrates account discovery. The input changes and outcomes are preserved below, including the per-turn host state message.
+The newest attempt adds constrained decoding to the host dependency policy. It completes the queue, selected account context, both readiness checks, both English drafts and the issue handoff in seven turns. The host then times out waiting for the final explanation. This is completed tool work under host assistance, not a complete model-written answer. The preceding three morning attempts remain unchanged with zero executed calls. Each returned turn exposes its host state, decoding schema, model proposal and actual tool result.
 
 **The initial batch attempt completed four requested tool actions but overstated the evidence. The constrained platform-follow-up run matched structured fields after two corrections; its prose remains unverified.** That distinction is the point of this experiment: tool completion does not establish answer fidelity.
 
@@ -63,7 +63,7 @@ The worker loads local files only, disables Hugging Face network access, and doe
 
 Since v0.26, the browser also renders the existing trace as a turn-by-turn conversation. It distinguishes parsed model proposals, recorded tool calls and errors, parser rejection, structured-field checks, and host correction requests. A model proposal is not counted as an executed call. Correction feedback is labeled as host-supplied assistance, including when it provides expected values. Final prose remains unverified even after fields match. The view retains initial messages, unedited model output and the full raw steps; no historical file is rewritten.
 
-Browser-logic tests cover all thirteen recordings, the four-call unsupported answer, parser rejection with no execution, per-turn host state input, distinct dependency-rejection and result-failure displays, a tool error beside successful calls, two field-review corrections, exhausted parse corrections, and escaping model/host/tool text. These are presentation and provenance checks, not model-quality scores. Dependency rejection and result-failure display tests use constructed cases; the policy-enabled model recording stops earlier, at parsing.
+Browser-logic tests cover all fourteen recordings, the four-call unsupported answer, parser rejection with no execution, host state and decoding schemas, seven successful calls ending in a host error without final prose, distinct dependency-rejection and result-failure displays, a tool error beside successful calls, field-review corrections and escaped data. These are presentation and provenance checks, not model-quality scores. Dependency rejection and result-failure display tests use constructed cases; the policy-enabled model recording stops earlier, at parsing.
 
 The automated coverage check asks whether the task-specific requested actions occurred: four for platform follow-ups, two for the callback handoff, two exact-message triage calls for inbound scope review, and seven fixed-fixture calls for morning review. Coverage does not check dependency order or prove that IDs were discovered from tool results; inspect the sequence separately. The separate source review examines final prose when present. Do not combine these into one unqualified accuracy number.
 
@@ -184,3 +184,29 @@ The initial-message fingerprint matches the original recording because `prompt_s
 This attempt shows no execution improvement from supplying pending-action state under these settings. It does not estimate a general failure rate or invalidate the separate software tests of enforcement. A future constrained-generation attempt must be labeled as additional decoding assistance and preserved separately. Successful tool use and a faithful explanation remain unproven for this morning-review model task.
 
 [Raw recording](../evidence/model-runs/qwen4-morning-enforced.json) · [Policy-enabled replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-enforced#model-runs). SHA-256: `bf65fa466c0f3acd72bb43fe0e0bfbe72ad22986b07e6ff9a477f832ee2e6c84`. All twelve earlier raw traces remain unchanged. Review annotations are AI-assisted, not independent human validation; this source and recording postdate the fixed v0.29.8 release.
+
+## Constrained morning workflow: seven calls, then a response timeout
+
+The fourteenth attempt uses host commit `0ab07e8af6f5c213e0ebc2217b80e08fa0949e02`. Add `--constrain-actions` to the preceding command with `--enforce-dependencies`, keeping `--task morning_review --protocol batch --max-steps 8 --max-new-tokens 768` and a fresh output path. No correction attempts or hidden retries are used. The cached model revision, recorded runtime settings, original task and initial system/tool input match the preceding policy-enabled recording.
+
+Two things change: the host asks for exactly one pending action per turn, and the worker uses a host-derived JSON schema to constrain generation. The schema supplies permitted tool/ID combinations from prior successful results. The first queue call uses an empty argument object to invoke the fixed defaults. After completed work, the host's schema permits a final string. This is strong planning and decoding assistance; it cannot be presented as unaided model orchestration or an isolated one-factor experiment.
+
+| Returned turn | Actual action | Input tokens | Generated tokens | Recorded generation seconds |
+|---|---|---:|---:|---:|
+| 1 | Snapshot queue | 1,338 | 11 | 6.492 |
+| 2 | Context for returned first account `acc_014` | 2,007 | 19 | 6.434 |
+| 3 | Android readiness | 3,986 | 17 | 8.255 |
+| 4 | iOS readiness | 5,277 | 17 | 40.244 |
+| 5 | English Android follow-up | 6,588 | 21 | 59.657 |
+| 6 | English iOS follow-up | 7,467 | 21 | 92.796 |
+| 7 | `issue_blank` handoff | 8,069 | 15 | 141.776 |
+
+All seven MCP calls returned without tool errors, and every returned model response reports `schema_constrained=true`. The final policy state is `complete`, with no pending actions, and fixed-fixture coverage is **7/7**. Android remains blocked with three unknown checks and a recorded failed device check; iOS remains `checklist_complete` with a launch-plan-review draft. The handoff remains `needs_information`, missing SDK version, observation time window and redacted logs. These drafts and findings are deterministic tool outputs; the model selected permitted calls rather than composing the customer drafts.
+
+**The answer is incomplete.** The process exited with code 1 while waiting for the next worker response. The raw trace stores `status=host_error`, `error_type=ExceptionGroup` and `final=null`. Captured stderr identifies the nested `TimeoutError` at `readline(worker, 180)`. A separate [agent-authored terminal observation](../evidence/host-observations/qwen4-morning-constrained.json) records that detail and binds it to the raw trace's SHA-256. The raw file has not been augmented with a reconstructed response or error message.
+
+This host version persists a step only after receiving a worker response. Consequently, the eighth in-flight request and any partial model output are not in the saved trace. The seven returned schemas and results are inspectable; there is no final wording to assess for citations, selection rationale, word limit or unsupported promises. The observed latency increases alongside input length, but this single run does not establish a causal performance diagnosis or controlled benchmark.
+
+Regression checks reconstruct the policy from the recorded results, verify each saved schema against that state, validate each model action, and compare every tool return with the current unchanged engine. They also check the separately recorded terminal observation's trace hash. These establish provenance and software consistency, not general model quality or independent human validation.
+
+[Raw recording](../evidence/model-runs/qwen4-morning-constrained.json) · [Constrained-workflow replay](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-constrained#model-runs). SHA-256: `6f87257d6c6eda7fdc7bf836f6f435a98d086dc0d163d813563a703d9e662b97`. All thirteen earlier raw traces remain unchanged. This source and recording postdate the fixed v0.29.8 bundle. Next work is to retain in-flight inputs and specific failure causes, then investigate context cost and response budgets without overwriting this attempt.

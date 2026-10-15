@@ -105,6 +105,8 @@ For a customer-communication alternative, open [the original inbound-message rec
 
 For an engineering follow-up, open [the policy-enabled morning attempt](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-enforced#model-runs). Expand Turn 1 and **Read the exact host state message**. The host permits one queue call; the model proposes five actions anyway. Explain why the parser stops first, why the dependency policy has not been exercised by this particular proposal, and why passing the separate software tests does not mean the model completes the task. This is a concrete fix-and-retest story with an unresolved outcome, not a successful autonomous-agent demonstration.
 
+Then open [the constrained morning workflow](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-morning-constrained#model-runs). Show the seven actual calls, expand a returned turn's generation schema, and inspect the handoff's three missing fields. Explain that the host restricted the available choices and the tools prepared the drafts. The final answer timed out, so the 7/7 count establishes completed tool work rather than a complete or faithful model-written explanation. The separate terminal-observation link preserves what the process reported without rewriting the raw trace.
+
 
 ### More detail: Explain the learning direction honestly
 

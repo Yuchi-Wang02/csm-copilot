@@ -1,5 +1,15 @@
 # Development notes
 
+## Reach the handoff with constrained decoding, then preserve the final-response timeout
+
+One fresh Qwen3-4B attempt used committed host `0ab07e8af6f5c213e0ebc2217b80e08fa0949e02` with both `--enforce-dependencies` and `--constrain-actions`. It completed all seven requested calls in dependency order: queue, selected context, both readiness checks, both English drafts and the recorded issue handoff. Every returned turn reports constrained generation. There were no correction requests, retries or tool errors. The host's allowed plan and IDs are visible alongside each model choice.
+
+The next response wait reached the existing 180-second timeout. The process exited with code 1; the trace records `host_error`, `ExceptionGroup`, seven returned turns and no final answer. Captured stderr identifies the nested `TimeoutError`. A separate [terminal observation](../evidence/host-observations/qwen4-morning-constrained.json) binds that observation to raw-trace SHA-256 `6f87257d6c6eda7fdc7bf836f6f435a98d086dc0d163d813563a703d9e662b97`. The host did not persist its eighth in-flight request before awaiting the response; neither that input nor missing model text is reconstructed as observed output. The preceding thirteen raw traces remain unchanged.
+
+The replay exposes decoding schemas and the terminal error, plus a separate link to the host observation. Regression checks reconstruct policy state from actual returns, validate each recorded action against its saved schema and compare all seven tool results with the unchanged engine. The prepared handoff still needs SDK version, observation time window and redacted logs. This establishes tool-work completion under assistance, not a completed model-written explanation. See the [per-turn timings, results and limits](LOCAL_MODEL.md#constrained-morning-workflow-seven-calls-then-a-response-timeout).
+
+All 409 Python tests, 105 JavaScript tests and Ruff checks passed. Local browser checks confirmed seven separate returned turns, the queue-only decoding schema, the handoff's missing fields and the separate terminal-observation link. The fourteen-attempt project brief retains two pages and seven links; both rendered pages were visually inspected. These verify the replay and evidence consistency, not model reliability, customer outcomes or personal mastery.
+
 ## Constrain the next action without certifying the final explanation
 
 The optional `--constrain-actions` mode derives a JSON schema from the morning policy's current pending work and sends it to the existing local model worker. It allows one action per turn, with IDs learned from successful results, then a final string only after all requested work. The state message explicitly asks for one action. The earlier unconstrained mode and recordings are unchanged. Parser and runtime policy validation remain in place.

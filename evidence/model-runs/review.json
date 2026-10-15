@@ -327,9 +327,44 @@
           "assessment": "The policy's real-MCP scripted integration tests verify call-sequencing boundaries. This separate model run shows that presenting pending actions did not produce a valid first proposal in this attempt. The original twelve raw traces remain unchanged. This is a development observation, not a general failure rate or evidence of autonomous CSM task completion."
         }
       ]
+    },
+    {
+      "id": "qwen4-morning-constrained",
+      "label": "Qwen3-4B · constrained morning workflow",
+      "protocol": "batch + one-action decoding",
+      "verdict": "Seven tool calls completed; final response timed out",
+      "summary": "With host-derived schemas restricting each turn to one pending action, the model completed the snapshot queue, selected account context, both readiness checks, both English drafts and the issue handoff. The host then timed out waiting for the final response. Coverage is 7/7, but no model-written explanation was captured or reviewed.",
+      "host_observation": "host-observations/qwen4-morning-constrained.json",
+      "findings": [
+        {
+          "kind": "control",
+          "claim": "The host constrained the action space on every returned turn",
+          "assessment": "The model revision, runtime sampling settings, task, initial system input and schemas, eight-turn cap and zero-correction budget match the preceding policy-enabled run. This attempt adds constrained decoding and changes the state instruction to exactly one pending action. The host supplies allowed tool/ID combinations and removes completed work. This is assisted orchestration, not unaided model planning or a clean measurement of one isolated factor."
+        },
+        {
+          "kind": "execution",
+          "claim": "Seven requested calls completed in dependency order",
+          "assessment": "The model first requested list_accounts with default arguments, then context for the returned first account acc_014. It checked Android and iOS, prepared one English follow-up for each, and drafted the recorded issue_blank handoff. All seven MCP calls returned without tool errors. The final policy state is complete with no pending actions. Each returned response records schema_constrained=true; no corrections, retries or silently repaired actions were used."
+        },
+        {
+          "kind": "evidence",
+          "claim": "The prepared artifacts retain distinct platform next steps and missing handoff fields",
+          "assessment": "Android is blocked with three unknown checks and a recorded failed device check; its English draft requests evidence and a fresh device test. iOS has a scoped checklist_complete result and a launch-plan review draft, with no approval claim. The handoff remains needs_information with sdk_version, time_window and redacted_logs missing. These are deterministic tool outputs the model requested, not model-authored final reasoning or verified customer outcomes."
+        },
+        {
+          "kind": "incomplete",
+          "claim": "No final explanation was captured",
+          "assessment": "The raw trace ends with host_error and error_type=ExceptionGroup after seven returned turns, with final=null. Captured process stderr identifies the nested TimeoutError at the existing 180-second worker-response wait; that terminal observation is saved separately. This host version did not persist the eighth-turn request before awaiting its response. There is no final wording to grade for source citations, selection rationale, word limit or unsupported promises."
+        },
+        {
+          "kind": "boundary",
+          "claim": "Completion of tool work is not completion of the answer",
+          "assessment": "Recorded input length grew from 1,338 to 8,069 tokens across the seven returned turns; generation times ranged from 6.434 to 141.776 seconds. These observations are not a controlled performance benchmark or a causal diagnosis. The decoder and state policy supplied strong assistance. The earlier thirteen raw recordings remain unchanged; this run demonstrates prepared artifacts under constraints, not a successful end-to-end model answer or general reliability."
+        }
+      ]
     }
   ],
-  "boundary": "Thirteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
+  "boundary": "Fourteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.",
   "handoff_comparison": {
     "boundary": "Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.",
     "review_rows": [

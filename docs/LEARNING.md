@@ -8,6 +8,8 @@ Inspect the two failed [morning-review recordings](LOCAL_MODEL.md#queue-first-mo
 
 With the current Python checkout, run `python -m pytest -q tests/test_host_dependency_integration.py -k dependent_batch`. Find the assertion that no tool calls executed. Then predict how a failed readiness call should affect the pending work, and run the `tool_error` case in the same file. These use scripted responses and a real MCP server, with no language model. Explain why passing them cannot establish model reliability or accurate final prose. Record your own prediction, observed result and revised explanation; this exercise is not marked completed for you.
 
+For the constrained-generation extension, predict whether a final JSON object containing the sentence "All launches are approved" can satisfy an output schema after the tool work is complete. Run `python -m pytest -q tests/test_action_schema.py -k final_schema` and inspect that test. Explain what the schema checks and what evidence a reviewer would still need. Compare this with the [actual constrained run](LOCAL_MODEL.md#constrained-morning-workflow-seven-calls-then-a-response-timeout), which completed the calls but captured no final explanation. Keep your prediction and explanation as your own work; passing the supplied test is not evidence that you have completed the exercise.
+
 ## Start here: three things to explain
 
 Use this route before the longer exercises. The time estimates are planning suggestions, not measured completion times. The first two steps work in the hosted portfolio without installing Python or connecting a model.

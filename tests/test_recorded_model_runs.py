@@ -59,6 +59,7 @@ def assert_historical_callback_result(engine, action, recorded):
         "qwen4-morning-review",
         "qwen4-morning-sequenced",
         "qwen4-morning-enforced",
+        "qwen4-morning-constrained",
     ],
 )
 def test_recorded_prompt_and_coverage_match_trace(name):
@@ -178,6 +179,75 @@ def test_enforced_morning_run_retains_host_input_and_parser_first_rejection():
         step["model_response"]["input_tokens"]
         > original["steps"][0]["model_response"]["input_tokens"]
     )
+
+
+def test_constrained_morning_recording_preserves_each_schema_scope_and_returned_result():
+    from jsonschema import Draft202012Validator
+
+    from csm_copilot.dependency_policy import MorningReviewPolicy
+
+    original = json.loads((DIRECTORY / "qwen4-morning-enforced.json").read_text(encoding="utf-8"))
+    trace = json.loads((DIRECTORY / "qwen4-morning-constrained.json").read_text(encoding="utf-8"))
+    for key in (
+        "initial_messages",
+        "task",
+        "task_id",
+        "model_id",
+        "revision",
+        "protocol_version",
+        "max_steps",
+        "repair_budget",
+        "constrain_final",
+        "runtime",
+        "sequence_dependencies",
+        "enforce_dependencies",
+        "prompt_sha256",
+    ):
+        assert trace[key] == original[key], key
+    assert trace["constrain_actions"] is True
+    assert len(trace["steps"]) == 7
+    assert trace["coverage"]["observed"] == trace["coverage"]["required"] == 7
+    policy, engine = MorningReviewPolicy(), Copilot()
+    for step in trace["steps"]:
+        assert step["policy_before"] == policy.snapshot()
+        assert step["generation_schema"] == policy.next_action_schema()
+        assert "choose exactly one pending action" in step["policy_message"]["content"]
+        assert step["model_response"]["schema_constrained"] is True
+        assert step["model_response"]["token_limit_reached"] is False
+        assert "correction_feedback" not in step
+        proposal = json.loads(step["model_response"]["text"])
+        Draft202012Validator(step["generation_schema"]).validate(proposal)
+        assert step["actions"] == [proposal]
+        assert len(step["tool_calls"]) == 1
+        call = step["tool_calls"][0]
+        assert call["action"] == proposal and call["tool_error"] is False
+        assert call["tool_result"] == getattr(engine, proposal["tool"])(**proposal["arguments"])
+        policy.validate_batch([proposal])
+        policy.observe(proposal, call["tool_result"])
+        assert call["policy_after"] == policy.snapshot()
+    assert trace["dependency_policy"] == policy.snapshot()
+    assert policy.stage == "complete" and not policy.pending
+    assert trace["final"] is None
+    assert trace["status"] == "host_error" and trace["error_type"] == "ExceptionGroup"
+
+
+def test_constrained_morning_terminal_observation_is_separate_and_trace_bound():
+    raw = (DIRECTORY / "qwen4-morning-constrained.json").read_bytes()
+    trace = json.loads(raw)
+    observation = json.loads(
+        (DIRECTORY.parent / "host-observations/qwen4-morning-constrained.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert observation["trace_sha256"] == hashlib.sha256(raw).hexdigest()
+    assert observation["trace_error_type"] == trace["error_type"] == "ExceptionGroup"
+    assert observation["exit_code"] == 1
+    assert observation["stderr_leaf_error"] == "TimeoutError"
+    assert observation["response_timeout_seconds"] == 180
+    assert observation["final_response_captured"] is False and trace["final"] is None
+    assert observation["observed_tool_calls"] == 7
+    assert "eighth-turn request" in observation["boundary"]
+    assert "Agent-authored" in observation["boundary"]
 
 
 def test_published_tool_results_match_except_documented_followup_wording():

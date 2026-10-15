@@ -10,15 +10,15 @@
     <title>CSM Copilot · Evidence before confidence</title>
     <link rel="stylesheet" href="style.css?v=0.29.8" />
     <script defer src="data.js?v=0.29.8"></script>
-    <script defer src="model-runs.js?v=0.29.8-policy"></script>
-    <script defer src="model-turns.js?v=0.29.8-policy"></script>
+    <script defer src="model-runs.js?v=0.29.8-action-schema"></script>
+    <script defer src="model-turns.js?v=0.29.8-action-schema"></script>
     <script defer src="review-links.js?v=0.29.8"></script>
     <script defer src="case-review.js?v=0.29.8"></script>
     <script defer src="triage-review.js?v=0.29.8"></script>
     <script defer src="practice-core.js?v=0.29.8"></script>
     <script defer src="practice-session.js?v=0.29.8"></script>
     <script defer src="copy-feedback.js?v=0.29.8"></script>
-    <script defer src="app.js?v=0.29.8"></script>
+    <script defer src="app.js?v=0.29.8-action-schema"></script>
     <script defer src="practice.js?v=0.29.8"></script>
   </head>
   <body>
@@ -275,8 +275,9 @@
         <p class="disclosure">Queue-first comparison:
           <a data-review-link href="?run=qwen4-morning-review#model-runs">Original request</a>
           · <a data-review-link href="?run=qwen4-morning-sequenced#model-runs">With dependency instruction</a>
-          · <a data-review-link href="?run=qwen4-morning-enforced#model-runs">With host policy</a>.
-          All three stopped at batch parsing before tool execution. Inspect the changed inputs and retained proposals.
+          · <a data-review-link href="?run=qwen4-morning-enforced#model-runs">With host policy</a>
+          · <a data-review-link href="?run=qwen4-morning-constrained#model-runs">With constrained generation</a>.
+          The first three stopped at parsing. The constrained run completed all seven tool calls, then timed out before a final explanation.
         </p>
         <div class="integrity-controls">
           <label for="model-run">Inspect a recorded attempt</label

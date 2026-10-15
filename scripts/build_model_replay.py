@@ -160,6 +160,8 @@ def build():
             f"[Complete trace](model-runs/{entry['id']}.json). Model revision: `{trace['revision']}`.",
             "",
         ]
+        if entry.get("host_observation"):
+            lines += [f"[Separate host terminal observation]({entry['host_observation']}).", ""]
         for finding in entry["findings"]:
             lines += [
                 f"- **{text(finding['kind'])}: {text(finding['claim'])}.** {text(finding['assessment'])}"

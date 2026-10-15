@@ -26,7 +26,7 @@ test("claim comparison keeps quoted source fields and review separate and escape
 
 test("every recording retains its model turns, initial messages and raw audit view without mutation", () => {
   const names = fs.readdirSync(directory).filter((n) => n !== "review.json" && n.endsWith(".json"));
-  assert.equal(names.length, 13);
+  assert.equal(names.length, 14);
   for (const name of names) {
     const input = trace(name.slice(0, -5)), before = JSON.stringify(input);
     const html = api.render(input);
@@ -121,6 +121,39 @@ test("host corrections and field matching are tied to their actual turns without
   assert.match(html, /this is assisted recovery/);
   assert.match(html, /Free-text verification: <code>not_performed<\/code>/);
   assert.match(html, /msg_issue_blank/);
+});
+
+test("generation constraints are visible as host assistance rather than factual verification", () => {
+  const input = trace("qwen4-constrained"), before = JSON.stringify(input);
+  const html = api.render(input);
+  const constrained = input.steps.filter((step) => step.generation_schema);
+  assert.ok(constrained.length > 0);
+  assert.equal((html.match(/<h4>Host requested constrained generation<\/h4>/g) || []).length, constrained.length);
+  assert.match(html, /decoding assistance; it does not verify factual claims/);
+  assert.match(html, /model worker reported schema-constrained generation/);
+  assert.match(html, /Inspect the generation schema/);
+  assert.equal(JSON.stringify(input), before);
+  assert.doesNotMatch(api.render(trace("qwen4-morning-enforced")), /Host requested constrained generation/);
+  input.steps[0].generation_schema = {description: '<script>untrusted</script>'};
+  input.steps[0].model_response.schema_constrained = false;
+  const altered = api.render(input);
+  assert.match(altered, /does not confirm that the decoding constraint was active/);
+  assert.match(altered, /&lt;script&gt;/);
+  assert.doesNotMatch(altered, /<script>/);
+});
+
+test("a constrained workflow ending in a host error keeps seven calls separate from a missing final", () => {
+  const input = trace("qwen4-morning-constrained"), before = JSON.stringify(input);
+  const html = api.render(input);
+  assert.equal((html.match(/1 recorded tool call · results received/g) || []).length, 7);
+  assert.equal((html.match(/<h4>Host requested constrained generation<\/h4>/g) || []).length, 7);
+  assert.match(html, /Recorded terminal status: <code>host_error/);
+  assert.match(html, /Recorded host error type: <code>ExceptionGroup/);
+  assert.match(html, /ticket-issue_blank/);
+  assert.doesNotMatch(html, /Model supplied a final response|Model-written explanation from the parsed final response/);
+  assert.equal(JSON.stringify(input), before);
+  input.error_type = '<img src=x>';
+  assert.doesNotMatch(api.render(input), /<img/);
 });
 test("exhausted parse corrections do not imply a later accepted answer", () => {
   const html = api.render(trace("qwen4-grounded-corrections"));

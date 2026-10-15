@@ -12,7 +12,7 @@
     if (step.response_review?.status === "structured_fields_match") return "Structured fields matched; prose still needs review";
     if (step.tool_calls?.length) {
       const errors = step.tool_calls.filter((c) => c.tool_error).length;
-      return `${step.tool_calls.length} recorded tool calls${errors ? ` · ${errors} tool ${errors === 1 ? "error" : "errors"}` : " · results received"}`;
+      return `${step.tool_calls.length} recorded tool ${step.tool_calls.length === 1 ? "call" : "calls"}${errors ? ` · ${errors} tool ${errors === 1 ? "error" : "errors"}` : " · results received"}`;
     }
     if (step.actions?.some((a) => Object.hasOwn(a, "final"))) return "Model supplied a final response; prose unverified";
     return "Recorded model response";
@@ -27,6 +27,13 @@
       `<p>Stage: <code>${esc(state.stage)}</code> · ${esc(pending ?? "unknown")} pending ${pending === 1 ? "action" : "actions"} · Final response ${finalState}.</p>` +
       `<details><summary>Read the exact host state message</summary><p class="boundary">Recorded source: steps[${index}].policy_message</p><pre>${esc(step.policy_message.content)}</pre></details></div>`;
   }
+  function generationSchemaHTML(step, index) {
+    if (!step.generation_schema) return "";
+    return `<div class="turn-host"><h4>Host requested constrained generation</h4>` +
+      `<p>The host supplied a JSON schema to restrict generated output. This is decoding assistance; it does not verify factual claims.</p>` +
+      (step.model_response?.schema_constrained === true ? `<p>The model worker reported schema-constrained generation for this turn.</p>` : `<p>The recorded response does not confirm that the decoding constraint was active.</p>`) +
+      `<details><summary>Inspect the generation schema</summary><p class="boundary">Recorded source: steps[${index}].generation_schema</p><pre>${json(step.generation_schema)}</pre></details></div>`;
+  }
   function turnHTML(step, index) {
     const calls = step.tool_calls || [];
     const actions = step.actions || [];
@@ -37,6 +44,7 @@
     return `<li><details class="model-turn"><summary>Turn ${esc(step.number)} — ${esc(outcome(step))}</summary>` +
       `<p class="boundary">Recorded source: steps[${index}]. These are results from this attempt; current tools may differ.</p>` +
       policyInputHTML(step, index) +
+      generationSchemaHTML(step, index) +
       `<h4>Model proposal</h4>` +
       (proposed.length ? `<p>${proposed.length} proposed tool ${proposed.length === 1 ? "action" : "actions"}: ${proposed.map((a) => `<code>${esc(a.tool)}</code>`).join(", ")}.</p>` : "") +
       (typeof explanation === "string" ? `<p class="model-output">${esc(explanation)}</p><p class="boundary">Model-written explanation from the parsed final response; not verified.</p>` : "") +
@@ -54,6 +62,7 @@
     return `<section class="model-conversation"><h3>How this recorded AI run unfolded</h3>` +
       `<p>The <strong>model</strong> proposes tool calls and writes a response. The <strong>host</strong> validates actions and can request corrections. The <strong>MCP tools</strong> return scoped evidence and drafts. A <strong>human</strong> still reviews the result.</p>` +
       `<p class="boundary">Recorded terminal status: <code>${esc(trace.status)}</code>. This view reads the saved conversation; it performs no inference or tool calls.</p>` +
+      (trace.error_type ? `<p class="boundary">Recorded host error type: <code>${esc(trace.error_type)}</code>. See the attempt review for the terminal observation and limits of the saved trace.</p>` : "") +
       `<details><summary>Read the initial model instructions and task</summary>${(trace.initial_messages || []).map((m) => `<h4>Recorded ${esc(m.role)} message</h4><pre>${esc(m.content)}</pre>`).join("")}</details>` +
       `<ol class="model-turns">${trace.steps.map(turnHTML).join("")}</ol>` +
       `<details><summary>Inspect raw model turns and tool results</summary><pre>${json(trace.steps)}</pre></details></section>`;

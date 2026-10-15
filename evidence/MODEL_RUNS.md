@@ -2,7 +2,7 @@
 
 AI-assisted comparison with recorded tool results; not independent human review
 
-Thirteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
+Fourteen exploratory attempts across four prescribed tasks, with changed prompts, response contracts, output caps and generation settings. This is not an independent benchmark or a fair model ranking. Tool coverage and matching structured fields do not establish the truth of source records or correctness of free prose. No output is approved for customer use.
 
 ## Qwen3-0.6B · single-action smoke
 
@@ -240,6 +240,23 @@ Observed requested tool actions: 0/7. Final response present: False.
 - **format: The same batch-size error occurred before policy validation.** The model proposed five actions in one array, including account\_12345, integration\_67890 and issue\_12345 before any result. The parser stopped at 'An action batch must contain 1..4 actions'. There is no policy\_error or tool call. It would be incorrect to describe this recording as an observed ID rejection by the new policy.
 - **incomplete: The policy remained at awaiting\_queue.** The final policy state matches the state supplied before generation: one pending queue call, no completed actions, no selected account, final\_allowed=false. The 110-token response did not reach the 768-token cap. No correction, retry, queue discovery or final explanation followed.
 - **boundary: Software enforcement does not establish successful model use.** The policy's real-MCP scripted integration tests verify call-sequencing boundaries. This separate model run shows that presenting pending actions did not produce a valid first proposal in this attempt. The original twelve raw traces remain unchanged. This is a development observation, not a general failure rate or evidence of autonomous CSM task completion.
+## Qwen3-4B · constrained morning workflow
+
+**Review verdict:** Seven tool calls completed; final response timed out.
+With host-derived schemas restricting each turn to one pending action, the model completed the snapshot queue, selected account context, both readiness checks, both English drafts and the issue handoff. The host then timed out waiting for the final response. Coverage is 7/7, but no model-written explanation was captured or reviewed.
+
+**Task:** Use the fixed synthetic snapshot to find non-live accounts strictly more than three days since recorded contact, including unknown contact history. From the returned queue, select the first account under its planned-launch ordering. Retrieve that account's context, check each of its integrations and prepare an English follow-up for each. Prepare a handoff for each recorded issue on that account. Then explain in at most 220 words why it was selected, how its platform next steps differ, and what is missing from its handoffs. Cite source IDs for recorded facts. Keep missing evidence separate from recorded failures; do not imply launch approval, a confirmed cause or issue resolution. State that nothing was sent or submitted.
+
+Observed requested tool actions: 7/7. Final response present: False.
+[Complete trace](model-runs/qwen4-morning-constrained.json). Model revision: `1cfa9a7208912126459214e8b04321603b3df60c`.
+
+[Separate host terminal observation](host-observations/qwen4-morning-constrained.json).
+
+- **control: The host constrained the action space on every returned turn.** The model revision, runtime sampling settings, task, initial system input and schemas, eight-turn cap and zero-correction budget match the preceding policy-enabled run. This attempt adds constrained decoding and changes the state instruction to exactly one pending action. The host supplies allowed tool/ID combinations and removes completed work. This is assisted orchestration, not unaided model planning or a clean measurement of one isolated factor.
+- **execution: Seven requested calls completed in dependency order.** The model first requested list\_accounts with default arguments, then context for the returned first account acc\_014. It checked Android and iOS, prepared one English follow-up for each, and drafted the recorded issue\_blank handoff. All seven MCP calls returned without tool errors. The final policy state is complete with no pending actions. Each returned response records schema\_constrained=true; no corrections, retries or silently repaired actions were used.
+- **evidence: The prepared artifacts retain distinct platform next steps and missing handoff fields.** Android is blocked with three unknown checks and a recorded failed device check; its English draft requests evidence and a fresh device test. iOS has a scoped checklist\_complete result and a launch-plan review draft, with no approval claim. The handoff remains needs\_information with sdk\_version, time\_window and redacted\_logs missing. These are deterministic tool outputs the model requested, not model-authored final reasoning or verified customer outcomes.
+- **incomplete: No final explanation was captured.** The raw trace ends with host\_error and error\_type=ExceptionGroup after seven returned turns, with final=null. Captured process stderr identifies the nested TimeoutError at the existing 180-second worker-response wait; that terminal observation is saved separately. This host version did not persist the eighth-turn request before awaiting its response. There is no final wording to grade for source citations, selection rationale, word limit or unsupported promises.
+- **boundary: Completion of tool work is not completion of the answer.** Recorded input length grew from 1,338 to 8,069 tokens across the seven returned turns; generation times ranged from 6.434 to 141.776 seconds. These observations are not a controlled performance benchmark or a causal diagnosis. The decoder and state policy supplied strong assistance. The earlier thirteen raw recordings remain unchanged; this run demonstrates prepared artifacts under constraints, not a successful end-to-end model answer or general reliability.
 ## Compare the callback handoff attempts
 
 Two development runs of the same task. The tool description and validation behavior changed. These observations are not a causal improvement estimate, benchmark score or independent human review.
