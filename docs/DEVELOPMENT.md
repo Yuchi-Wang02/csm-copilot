@@ -1,5 +1,11 @@
 # Development notes
 
+## Publish the verified v0.30.2 interview package
+
+The fixed package is pinned to `322da4407bdbdae6308d3a4a959189fe6d0c681b`. Its 3,078,260-byte ZIP has SHA-256 `575477b27cca21439aa3d9bb166a59a55be7ac8fb529e29801fcbebc704bc9ad`. All 27 committed demo files match the selected Git tree; the generated start guide matches its manifest hash. Downloaded Windows and Ubuntu CI archives and the public release ZIP match the local archive byte-for-byte. The public checksum sidecar also matches. Previous releases remain intact.
+
+Both source CI jobs passed 543 Python and 124 JavaScript tests, lint, generated-artifact checks, package builds and isolated installed CLI/MCP checks. Edge inspection of the extracted package covered the v0.30.2 banner, nineteen recordings, nine morning attempts, three excerpt-to-action comparisons and handoff source locations, blank six-decision practice and presenter link. The opening screen was visually inspected; no browser errors were recorded. This packaging pass did not repeat every earlier browser interaction. Both PDFs and all model recordings/review entries are unchanged. No inference or personal learning response was added.
+
 ## Prepare the v0.30.2 interview snapshot
 
 The next fixed package includes nineteen recorded attempts, the one-citation correction comparison, explicit final-answer guidance, and the three excerpt-to-action comparisons. The portable presenter guide adds an optional discussion of a correct status that omits a useful next action. The package version and browser asset keys now identify v0.30.2. Customer records and raw model outputs remain unchanged; this preparation adds no inference or personal learning response.

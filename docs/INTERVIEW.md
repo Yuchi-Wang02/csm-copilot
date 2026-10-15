@@ -2,7 +2,7 @@
 
 **One customer decision, one AI mistake, one next learning step.** Use the five short speaking blocks below as a rehearsal draft. The timings are a proposed pacing plan, not a measured presentation duration or evidence that personal practice is complete. Adapt the first-person wording to what you can explain yourself.
 
-Before presenting, open [Android evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace) and [the original AI recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) in separate tabs. Keep the [two-page PDF brief](../demo/project-brief.pdf) available as a backup. The [portable presenter guide](../demo/PRESENTATION.txt) includes this short route and blank preparation prompts inside the v0.30.1 ZIP. The [on-page review route](https://yuchi-wang02.github.io/csm-copilot/#start) lets the interviewer explore independently afterward.
+Before presenting, open [Android evidence](https://yuchi-wang02.github.io/csm-copilot/?case=lantern_android&view=evidence&lang=en#workspace) and [the original AI recording](https://yuchi-wang02.github.io/csm-copilot/?run=qwen4-batch#model-runs) in separate tabs. Keep the [two-page PDF brief](../demo/project-brief.pdf) available as a backup. The [portable presenter guide](../demo/PRESENTATION.txt) includes this short route and blank preparation prompts inside the v0.30.2 ZIP. The [on-page review route](https://yuchi-wang02.github.io/csm-copilot/#start) lets the interviewer explore independently afterward.
 
 ## 0:00–0:30 — Explain the customer problem
 
